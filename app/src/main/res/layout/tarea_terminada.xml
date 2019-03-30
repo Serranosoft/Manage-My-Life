@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="50dp"
     android:layout_margin="8dp"
-    android:id="@+id/cardview_gasto" >
+    android:id="@+id/cardview_tarea_terminada" >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_gravity="center"
-            android:background="@mipmap/coins"
+            android:background="@mipmap/checked"
             android:textAlignment="center"
             android:textColor="#FFF" />
 
@@ -30,22 +30,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
-            android:text="Regalos de Navidad"
+            android:text="Ejemplo de una tarea terminada"
             android:textColor="#000000"
             android:textSize="16dp"
             android:textStyle="bold" />
-
-        <TextView
-            android:text="150€"
-            android:textColor="#000000"
-            android:id="@+id/checkboxTarea"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginRight="8dp"
-            android:layout_alignParentRight="true"
-
-            />
 
     </RelativeLayout>
 

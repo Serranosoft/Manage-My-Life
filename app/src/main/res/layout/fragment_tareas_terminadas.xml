@@ -1,14 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.fragmentTareasTerminadas">
 
-    <!-- TODO: Update blank fragment layout -->
+
     <TextView
+
+        android:id="@+id/tareas_terminadas_text"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Tareas Terminadas :"
+        android:textSize="16dp"
+        android:textColor="#000"
+        />
+
+    <TextView
+        android:id="@+id/tareas_terminadas_done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@+id/tareas_terminadas_text"
+        android:text="5"
+        android:textSize="16dp"
+        android:textColor="#000"
+        />
+    <android.support.v7.widget.RecyclerView
+        android:layout_marginTop="16dp"
+        android:layout_below="@id/tareas_terminadas_done"
+        android:id="@+id/lista"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="TAREAS TERMINADAS" />
+        tools:listitem="@layout/tarea_terminada"
+        />
 
-</FrameLayout>
+</RelativeLayout>
