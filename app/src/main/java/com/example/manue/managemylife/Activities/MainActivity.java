@@ -13,6 +13,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.manue.managemylife.Fragments.fragmentCalendario;
+import com.example.manue.managemylife.Fragments.fragmentFinanzas;
+import com.example.manue.managemylife.Fragments.fragmentPerfil;
+import com.example.manue.managemylife.Fragments.fragmentTareas;
+import com.example.manue.managemylife.Fragments.fragmentTareasTerminadas;
 import com.example.manue.managemylife.R;
 
 public class MainActivity extends AppCompatActivity
@@ -34,6 +39,9 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_actual,
+                new fragmentTareas()).commit();
     }
 
     @Override
@@ -72,24 +80,33 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        /*if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }*/
+        switch (item.getItemId()){
+            case R.id.item_menu_tareas:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_actual,
+                        new fragmentTareas()).commit();
+                break;
+            case R.id.item_menu_perfil:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_actual,
+                        new fragmentPerfil()).commit();
+                break;
+            case R.id.item_menu_tareas_terminadas:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_actual,
+                        new fragmentTareasTerminadas()).commit();
+                break;
+            case R.id.item_menu_calendario:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_actual,
+                        new fragmentCalendario()).commit();
+            case R.id.item_menu_gastos:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_actual,
+                        new fragmentFinanzas()).commit();
+            case R.id.item_menu_informes:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_actual,
+                        new fragmentFinanzas()).commit();
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+
         return true;
     }
 }

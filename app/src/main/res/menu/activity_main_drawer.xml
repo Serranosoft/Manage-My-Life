@@ -23,20 +23,20 @@
             android:icon="@mipmap/calendar"
             android:title="Calendario" />
 
-
+        <item android:title="Finanzas">
+            <menu>
+                <item
+                    android:id="@+id/item_menu_gastos"
+                    android:icon="@mipmap/hand"
+                    android:title="Control de Gastos" />
+                <item
+                    android:id="@+id/item_menu_informes"
+                    android:icon="@mipmap/graphic"
+                    android:title="Informes" />
+            </menu>
+        </item>
     </group>
 
-    <item android:title="Finanzas">
-        <menu>
-            <item
-                android:id="@+id/item_menu_gastos"
-                android:icon="@mipmap/hand"
-                android:title="Control de Gastos" />
-            <item
-                android:id="@+id/item_menu_informes"
-                android:icon="@mipmap/graphic"
-                android:title="Informes" />
-        </menu>
-    </item>
+
 
 </menu>

@@ -8,10 +8,16 @@
     tools:context=".Activities.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <fragment
+    <!--<fragment
         android:id="@+id/recetasFragment"
         android:name="com.example.manue.managemylife.Fragments.fragmentTareas"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent" />-->
+
+    <FrameLayout android:id="@+id/fragment_actual"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context=".Fragments.fragmentTareas" />
 
 </android.support.constraint.ConstraintLayout>
