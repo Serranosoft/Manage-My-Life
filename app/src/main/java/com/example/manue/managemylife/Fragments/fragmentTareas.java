@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.example.manue.managemylife.Adapters.TareasAdapter;
 import com.example.manue.managemylife.R;
+import com.example.manue.managemylife.Util.SwipeableRecyclerViewTouchListener;
 import com.example.manue.managemylife.Vo.Tarea;
 
 import java.util.ArrayList;
@@ -50,6 +51,42 @@ public class fragmentTareas extends Fragment {
 
         adapter = new TareasAdapter(listaTarea, getActivity().getApplicationContext());
         rList.setAdapter(adapter);
+
+        // Método que permite eliminar deslizando cada elemento del CardView
+        SwipeableRecyclerViewTouchListener swipeTouchListener =
+                new SwipeableRecyclerViewTouchListener(rList,
+                        new SwipeableRecyclerViewTouchListener.SwipeListener() {
+
+                            @Override
+                            public boolean canSwipeLeft(int position) {
+                                return false;
+                            }
+
+                            @Override
+                            public boolean canSwipeRight(int position) {
+                                return true;
+                            }
+
+                            @Override
+                            public void onDismissedBySwipeLeft(RecyclerView recyclerView, int[] reverseSortedPositions) {
+                                for (int position : reverseSortedPositions) {
+                                    listaTarea.remove(position);
+                                    adapter.notifyItemRemoved(position);
+                                }
+                                adapter.notifyDataSetChanged();
+                            }
+
+                            @Override
+                            public void onDismissedBySwipeRight(RecyclerView recyclerView, int[] reverseSortedPositions) {
+                                for (int position : reverseSortedPositions) {
+                                    listaTarea.remove(position);
+                                    adapter.notifyItemRemoved(position);
+                                }
+                                adapter.notifyDataSetChanged();
+                            }
+                        });
+
+        rList.addOnItemTouchListener(swipeTouchListener);
         return view;
     }
 
