@@ -1,14 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.fragmentFinanzas">
+    tools:context=".Fragments.fragmentFinanzas"
+    android:background="@color/background">
 
-    <!-- TODO: Update blank fragment layout -->
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imagenPerfil"
+        android:layout_width="90dp"
+        android:layout_marginLeft="16dp"
+        android:layout_height="90dp"
+        android:paddingTop="@dimen/nav_header_vertical_spacing"
+        android:src="@mipmap/perfil_ejemplo"
+        />
     <TextView
+
+        android:id="@+id/finanzas_text_usuario"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Usuario :"
+        android:textSize="16dp"
+        android:textColor="#000"
+        />
+
+    <TextView
+        android:id="@+id/finanzas_usuario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@+id/finanzas_text_usuario"
+        android:text="Manu333"
+        android:textSize="16dp"
+        android:textColor="#000"
+        />
+    <TextView
+        android:id="@+id/finanzas_text_cant_productos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/finanzas_text_usuario"
+        android:layout_centerHorizontal="true"
+        android:text="Productos :"
+        android:textSize="16dp"
+        android:layout_marginLeft="8dp"
+        android:textColor="#000"
+        />
+
+    <TextView
+        android:id="@+id/finanzas_cantidad_productos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@+id/finanzas_text_cant_productos"
+        android:layout_below="@+id/finanzas_usuario"
+        android:text="15"
+        android:textSize="16dp"
+        android:textColor="#000"
+        />
+
+
+    <TextView
+        android:id="@+id/finanzas_text_salario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/finanzas_text_cant_productos"
+        android:layout_centerHorizontal="true"
+        android:text="Salario :"
+        android:textSize="16dp"
+        android:layout_marginLeft="8dp"
+        android:textColor="#000"
+        />
+
+    <TextView
+        android:id="@+id/finanzas_salario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@+id/finanzas_text_salario"
+        android:layout_below="@+id/finanzas_cantidad_productos"
+        android:text="2250€"
+        android:textSize="16dp"
+        android:textColor="#000"
+        />
+
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_below="@+id/imagenPerfil"
+        android:layout_marginTop="16dp"
+        android:id="@+id/lista"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="FINANZAS" />
+        tools:listitem="@layout/gasto"
+        />
 
-</FrameLayout>
+</RelativeLayout>
