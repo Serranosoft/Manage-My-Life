@@ -60,8 +60,8 @@ public class TareasAdapter extends RecyclerView.Adapter<TareasAdapter.ViewHolder
         public ViewHolder(View itemView) {
             super(itemView);
 
-            checkBox = (CheckBox) itemView.findViewById(R.id.checkbox_meat);
-            nombreTarea = itemView.findViewById(R.id.nombreReceta);
+            checkBox = (CheckBox) itemView.findViewById(R.id.checkboxTarea);
+            nombreTarea = itemView.findViewById(R.id.nombreTarea);
 
         }
     }

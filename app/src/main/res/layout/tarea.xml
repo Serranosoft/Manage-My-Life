@@ -15,7 +15,7 @@
         <ImageView
             android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
-            android:id="@+id/imagenReceta"
+            android:id="@+id/imagenTarea"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_gravity="center"
@@ -25,8 +25,8 @@
 
         <TextView
             android:layout_marginTop="16dp"
-            android:layout_toRightOf="@+id/imagenReceta"
-            android:id="@+id/nombreReceta"
+            android:layout_toRightOf="@+id/imagenTarea"
+            android:id="@+id/nombreTarea"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
@@ -36,7 +36,7 @@
             android:textStyle="bold" />
 
         <android.widget.CheckBox
-            android:id="@+id/checkbox_meat"
+            android:id="@+id/checkboxTarea"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
