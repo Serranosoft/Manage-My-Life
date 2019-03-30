@@ -4,34 +4,38 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
+
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:id="@+id/item_menu_perfil"
+            android:icon="@mipmap/user"
+            android:title="Perfil" />
+
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:id="@+id/item_menu_tareas"
+            android:icon="@mipmap/tareas"
+            android:title="Tareas" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:id="@+id/item_menu_tareas_terminadas"
+            android:icon="@mipmap/task_complete"
+            android:title="Tareas Terminadas" />
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/item_menu_calendario"
+            android:icon="@mipmap/calendar"
+            android:title="Calendario" />
+
+
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Finanzas">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:id="@+id/item_menu_gastos"
+                android:icon="@mipmap/hand"
+                android:title="Control de Gastos" />
             <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:id="@+id/item_menu_informes"
+                android:icon="@mipmap/graphic"
+                android:title="Informes" />
         </menu>
     </item>
 
