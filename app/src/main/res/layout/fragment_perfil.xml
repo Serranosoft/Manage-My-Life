@@ -177,6 +177,7 @@
             android:text="MODIFICAR PERFIL"
             android:background="@color/colorElements"/>
         <Button
+            android:id="@+id/cerrar_sesion"
             android:layout_margin="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
