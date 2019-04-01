@@ -4,4 +4,5 @@
     <color name="colorElements">#4e68ce</color>
     <color name="colorSelected">#ffffff</color>
     <color name="background">#aaaeb5</color>
+    <color name="buttons">#575a5e</color>
 </resources>

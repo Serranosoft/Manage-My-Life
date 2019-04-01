@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.manue.managemylife.Activities.LoginActivity;
+import com.example.manue.managemylife.Activities.SliderActivity;
 import com.example.manue.managemylife.R;
 
 /**
