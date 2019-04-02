@@ -5,4 +5,5 @@
     <color name="colorSelected">#ffffff</color>
     <color name="background">#aaaeb5</color>
     <color name="buttons">#575a5e</color>
+    <color name="black">#000</color>
 </resources>

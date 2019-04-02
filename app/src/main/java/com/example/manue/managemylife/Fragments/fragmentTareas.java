@@ -3,12 +3,17 @@ package com.example.manue.managemylife.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.TextView;
 
+import com.example.manue.managemylife.Activities.MainActivity;
 import com.example.manue.managemylife.Adapters.TareasAdapter;
 import com.example.manue.managemylife.R;
 import com.example.manue.managemylife.Util.SwipeableRecyclerViewTouchListener;
@@ -25,6 +30,8 @@ public class fragmentTareas extends Fragment {
     private RecyclerView rList;
     private List<Tarea> listaTarea;
     private RecyclerView.Adapter adapter;
+    private AlertDialog.Builder builder;
+    private AlertDialog dialog;
 
     public fragmentTareas() {
         // Required empty public constructor
@@ -41,16 +48,35 @@ public class fragmentTareas extends Fragment {
         rList.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
 
         listaTarea = new ArrayList<>();
-        listaTarea.add(new Tarea("Estudiar", true));
-        listaTarea.add(new Tarea("Trabajar", false));
-        listaTarea.add(new Tarea("Estudiar2",false));
-        listaTarea.add(new Tarea("Trabajar2", false));
-        listaTarea.add(new Tarea("Estudiar", true));
-        listaTarea.add(new Tarea("Trabajar", false));
-        listaTarea.add(new Tarea("Estudiar2",false));
+        listaTarea.add(new Tarea("Estudiar para acceso a datos", true));
+        listaTarea.add(new Tarea("Hacer la compra", false));
+        listaTarea.add(new Tarea("Presentar exposición de Inglés",true));
+        listaTarea.add(new Tarea("Llamar a Miguel", false));
+        listaTarea.add(new Tarea("Imprimir documento de identidad", true));
+        listaTarea.add(new Tarea("Entregar documentación a José", false));
+        listaTarea.add(new Tarea("Felicitar a Miguel por su cumpleaños",false));
 
-        adapter = new TareasAdapter(listaTarea, getActivity().getApplicationContext());
+        adapter = new TareasAdapter(listaTarea, getActivity().getApplicationContext(), new TareasAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Tarea tarea, int position) {
+
+                builder = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.myDialog));
+                View view_popup = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.popup_subtarea, null);
+
+                builder.setView(view_popup);
+
+                dialog = builder.create();
+                dialog.show();
+
+                final TextView nombre_tarea = view_popup.findViewById(R.id.tarea_tarea);
+                nombre_tarea.setText(tarea.getNombre());
+                /*final TextView descripcion_tarea = view_popup.findViewById(R.id.tarea_descripcion);
+                descripcion_tarea.setText(tarea.get);*/
+            }
+        });
         rList.setAdapter(adapter);
+
+
 
         // Método que permite eliminar deslizando cada elemento del CardView
         SwipeableRecyclerViewTouchListener swipeTouchListener =

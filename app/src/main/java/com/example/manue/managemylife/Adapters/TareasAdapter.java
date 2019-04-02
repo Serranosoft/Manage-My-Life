@@ -1,6 +1,7 @@
 package com.example.manue.managemylife.Adapters;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,10 +19,12 @@ public class TareasAdapter extends RecyclerView.Adapter<TareasAdapter.ViewHolder
 
     private List<Tarea> tareas;
     private Context context;
+    private OnItemClickListener listener;
 
-    public TareasAdapter(List<Tarea> tareas, Context context) {
+    public TareasAdapter(List<Tarea> tareas, Context context, OnItemClickListener listener) {
         this.tareas = tareas;
         this.context = context;
+        this.listener = listener;
     }
 
     @NonNull
@@ -37,13 +40,25 @@ public class TareasAdapter extends RecyclerView.Adapter<TareasAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
         final Tarea tarea = tareas.get(i);
 
-        viewHolder.nombreTarea.setText(tarea.getNombre());
+        if(tarea.getNombre().length() > 30){
+            viewHolder.nombreTarea.setText(tarea.getNombre().substring(0,30)+"...");
+        }else{
+            viewHolder.nombreTarea.setText(tarea.getNombre());
+        }
+
 
         if(tarea.isEstado()){
             viewHolder.checkBox.setChecked(true);
         }else{
             viewHolder.checkBox.setChecked(false);
         }
+
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onItemClick(tarea, i);
+            }
+        });
 
     }
 
@@ -64,5 +79,8 @@ public class TareasAdapter extends RecyclerView.Adapter<TareasAdapter.ViewHolder
             nombreTarea = itemView.findViewById(R.id.nombreTarea);
 
         }
+    }
+    public interface OnItemClickListener {
+        void onItemClick(Tarea tarea, int position);
     }
 }
