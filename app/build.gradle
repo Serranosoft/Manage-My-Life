@@ -34,5 +34,9 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.0.0'
     // Librería que permite utilizar y customizar un calendario
     implementation 'com.squareup:android-times-square:1.6.5@aar'
+    // Alerters custom
+    implementation 'com.tapadoo.android:alerter:2.0.4'
+
+
 
 }

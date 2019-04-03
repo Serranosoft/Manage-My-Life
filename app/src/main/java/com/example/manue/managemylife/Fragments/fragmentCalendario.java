@@ -12,6 +12,9 @@ import android.widget.Toast;
 import com.example.manue.managemylife.Activities.MainActivity;
 import com.example.manue.managemylife.R;
 import com.squareup.timessquare.CalendarPickerView;
+import com.tapadoo.alerter.Alerter;
+import com.tapadoo.alerter.OnHideAlertListener;
+import com.tapadoo.alerter.OnShowAlertListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -35,7 +38,7 @@ public class fragmentCalendario extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_calendario, container, false);
+        final View view = inflater.inflate(R.layout.fragment_calendario, container, false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Calendario");
 
         Date today = new Date();
@@ -77,10 +80,9 @@ public class fragmentCalendario extends Fragment {
                 String month = calSelected.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
 
                 String selectedDate = "Día " + calSelected.get(Calendar.DAY_OF_MONTH)
-                        + " de " + month
-                        + " tienes 5 tareas por entregar";
+                        + " de " + month;
 
-                Toast.makeText(getActivity().getApplicationContext(), selectedDate, Toast.LENGTH_LONG).show();
+                showAlerter(selectedDate, "Tienes 5 tareas por entregar");
             }
 
             @Override
@@ -91,5 +93,37 @@ public class fragmentCalendario extends Fragment {
 
         return view;
     }
+
+    public void showAlerter(String mensaje1, String mensaje2) {
+        Alerter.create(getActivity())
+                .setTitle(mensaje1)
+                .setText(mensaje2)
+                .setIcon(R.drawable.alerter_ic_face)
+                .setBackgroundColorRes(R.color.alerter1)
+                .setDuration(2650)
+                .enableSwipeToDismiss() //seems to not work well with OnClickListener
+                .enableProgress(true)
+                .setProgressColorRes(R.color.black)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //do something when Alerter message was clicked
+                    }
+                })
+                .setOnShowListener(new OnShowAlertListener() {
+                    @Override
+                    public void onShow() {
+                        //do something when Alerter message shows
+                    }
+                })
+                .setOnHideListener(new OnHideAlertListener() {
+                    @Override
+                    public void onHide() {
+                        //do something when Alerter message hides
+                    }
+                })
+                .show();
+    }
+
 
 }

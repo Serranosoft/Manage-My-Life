@@ -6,4 +6,7 @@
     <color name="background">#aaaeb5</color>
     <color name="buttons">#575a5e</color>
     <color name="black">#000</color>
+    <color name="background_profile">#21447c</color>
+
+    <color name="alerter1">#77abff</color>
 </resources>

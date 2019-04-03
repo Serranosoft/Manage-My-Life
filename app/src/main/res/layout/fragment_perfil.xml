@@ -9,7 +9,7 @@
         android:id="@+id/cont1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorElements"
+        android:background="@color/background_profile"
         android:paddingBottom="20dp">
 
 
@@ -51,9 +51,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/cont1"
         android:orientation="horizontal"
-        android:layout_marginBottom="24dp">
+        android:layout_marginBottom="48dp">
 
         <RelativeLayout
+            android:id="@+id/cont_perfil_tareas_pendientes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -90,6 +91,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/cont_perfil_tareas_terminadas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -125,6 +127,7 @@
 
         </RelativeLayout>
         <RelativeLayout
+            android:id="@+id/cont_perfil_balance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

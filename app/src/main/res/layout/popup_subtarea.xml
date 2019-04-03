@@ -3,15 +3,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="350dp"
-    android:layout_height="455dp"
+    android:layout_height="405dp"
     android:background="#2A3D45"
     android:padding="5dp"
     android:layout_gravity="center"
     >
     <TextView
         android:id="@+id/tarea_close"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:textColor="@color/colorSelected"
         android:textStyle="bold"
         android:layout_gravity="end"
@@ -33,7 +33,6 @@
             android:layout_gravity="center"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginTop="5dp"
             android:layout_marginBottom="16dp"
             android:textSize="24sp"/>
     </LinearLayout>
@@ -134,27 +133,13 @@
         </LinearLayout>
 
     </LinearLayout>
-
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="SUBTAREAS"
             android:textSize="18sp"
             android:textColor="@color/colorSelected"
-            android:background="#556F7A"/>
-
-
-    <Button
-        android:id="@+id/notification"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="48dp"
-        android:layout_marginRight="8dp"
-        android:textColor="@color/colorSelected"
-        android:textStyle="bold"
-        android:layout_gravity="bottom|end"
-        android:layout_marginBottom="8dp"
-        android:gravity="center"
-        android:background="@mipmap/bell"/>
+            android:background="#556F7A"
+            android:layout_marginBottom="16dp"/>
 
 </LinearLayout>

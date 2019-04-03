@@ -90,11 +90,11 @@ public class fragmentTareas extends Fragment {
 
                     }
                 });
-                final Button notificacion = view_popup.findViewById(R.id.notification);
-                notificacion.setOnClickListener(new View.OnClickListener() {
+                final TextView close_tarea = view_popup.findViewById(R.id.tarea_close);
+                close_tarea.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(getActivity().getApplicationContext(), "Notificaciones activadas!", Toast.LENGTH_LONG).show();
+                        dialog.dismiss();
                     }
                 });
                 /*final TextView descripcion_tarea = view_popup.findViewById(R.id.tarea_descripcion);

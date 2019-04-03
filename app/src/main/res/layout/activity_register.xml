@@ -12,9 +12,9 @@
     tools:context=".Activities.LoginActivity">
 
     <ImageView android:src="@mipmap/logo_2"
-        android:layout_width="430dp"
-        android:layout_height="165dp"
-        android:layout_marginBottom="16dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginBottom="48dp"
         android:layout_gravity="center_horizontal" />
 
     <android.support.design.widget.TextInputLayout
