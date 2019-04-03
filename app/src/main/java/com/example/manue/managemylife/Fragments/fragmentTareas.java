@@ -4,14 +4,21 @@ package com.example.manue.managemylife.Fragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.manue.managemylife.Activities.MainActivity;
 import com.example.manue.managemylife.Adapters.TareasAdapter;
@@ -32,7 +39,6 @@ public class fragmentTareas extends Fragment {
     private RecyclerView.Adapter adapter;
     private AlertDialog.Builder builder;
     private AlertDialog dialog;
-
     public fragmentTareas() {
         // Required empty public constructor
     }
@@ -43,6 +49,8 @@ public class fragmentTareas extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tareas, container, false);
+
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Tareas");
         rList = view.findViewById(R.id.lista);
         rList.setHasFixedSize(true);
         rList.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
@@ -70,12 +78,30 @@ public class fragmentTareas extends Fragment {
 
                 final TextView nombre_tarea = view_popup.findViewById(R.id.tarea_tarea);
                 nombre_tarea.setText(tarea.getNombre());
+                final ImageView prioritario_tarea = view_popup.findViewById(R.id.tarea_prioritario);
+                prioritario_tarea.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(prioritario_tarea.getDrawable().getConstantState() == getResources().getDrawable(R.mipmap.no_prioritario).getConstantState()){
+                            prioritario_tarea.setImageResource(R.mipmap.prioritario);
+                        }else{
+                            prioritario_tarea.setImageResource(R.mipmap.no_prioritario);
+                        }
+
+                    }
+                });
+                final Button notificacion = view_popup.findViewById(R.id.notification);
+                notificacion.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(getActivity().getApplicationContext(), "Notificaciones activadas!", Toast.LENGTH_LONG).show();
+                    }
+                });
                 /*final TextView descripcion_tarea = view_popup.findViewById(R.id.tarea_descripcion);
                 descripcion_tarea.setText(tarea.get);*/
             }
         });
         rList.setAdapter(adapter);
-
 
 
         // Método que permite eliminar deslizando cada elemento del CardView
@@ -115,5 +141,4 @@ public class fragmentTareas extends Fragment {
         rList.addOnItemTouchListener(swipeTouchListener);
         return view;
     }
-
 }

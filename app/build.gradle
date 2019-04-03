@@ -28,6 +28,11 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
+    // Librerias externas
 
+    // Librería que permite insertar imagenes de forma circular
     implementation 'de.hdodenhof:circleimageview:3.0.0'
+    // Librería que permite utilizar y customizar un calendario
+    implementation 'com.squareup:android-times-square:1.6.5@aar'
+
 }

@@ -93,12 +93,15 @@ public class MainActivity extends AppCompatActivity
             case R.id.item_menu_calendario:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_actual,
                         new fragmentCalendario()).commit();
+                break;
             case R.id.item_menu_gastos:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_actual,
                         new fragmentFinanzas()).commit();
+                break;
             case R.id.item_menu_informes:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_actual,
                         new fragmentFinanzas()).commit();
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

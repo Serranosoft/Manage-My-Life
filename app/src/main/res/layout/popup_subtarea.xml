@@ -3,13 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="350dp"
-    android:layout_height="475dp"
+    android:layout_height="455dp"
     android:background="#2A3D45"
     android:padding="5dp"
     android:layout_gravity="center"
     >
-    <Button
-        android:id="@+id/txtclose"
+    <TextView
+        android:id="@+id/tarea_close"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:textColor="@color/colorSelected"
@@ -17,7 +17,7 @@
         android:layout_gravity="end"
         android:layout_marginBottom="8dp"
         android:gravity="center"
-        android:background="@mipmap/notification"/>
+        android:text="X"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,6 +31,8 @@
             android:textStyle="bold"
             android:textColor="@color/colorSelected"
             android:layout_gravity="center"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="16dp"
             android:textSize="24sp"/>
@@ -99,18 +101,11 @@
                 android:orientation="vertical"
                 android:gravity="center"
                 android:background="#7A9B76">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Estado"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="8dp"
-                    android:textColor="@color/colorSelected"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Sin terminar"
-                    android:textColor="@color/colorSelected"/>
+                <ImageView
+                    android:id="@+id/tarea_prioritario"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@mipmap/no_prioritario"/>
             </LinearLayout>
 
             <LinearLayout
@@ -138,34 +133,28 @@
             </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:background="#556F7A"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:layout_weight="0"
-            android:layout_width="match_parent"
-            android:layout_height="60dp">
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="SUBTAREAS"
-                android:textSize="18sp"
-                android:textColor="@color/colorSelected" />
-
-        </LinearLayout>
     </LinearLayout>
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SUBTAREAS"
+            android:textSize="18sp"
+            android:textColor="@color/colorSelected"
+            android:background="#556F7A"/>
+
+
     <Button
-        android:id="@+id/btnfollow"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="SALIR"
-        android:layout_marginTop="25dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_gravity="center_horizontal"
+        android:id="@+id/notification"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginRight="8dp"
         android:textColor="@color/colorSelected"
-        android:background="#2A3D45"/>
+        android:textStyle="bold"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:background="@mipmap/bell"/>
 
 </LinearLayout>
