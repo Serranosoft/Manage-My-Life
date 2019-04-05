@@ -13,8 +13,6 @@
         android:orientation="horizontal"
         android:layout_marginBottom="24dp">
 
-
-
         <RelativeLayout
 
             android:layout_width="match_parent"
