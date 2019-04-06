@@ -7,8 +7,6 @@ import java.awt.Color;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
 /**
  *
  * @author manue
@@ -19,8 +17,8 @@ public class PerfilUI extends javax.swing.JFrame {
      * Creates new form Perfil
      */
     public PerfilUI() {
-        this.setLocationRelativeTo(null);
         initComponents();
+        this.setLocationRelativeTo(null);
         btn_1.setBackground(Color.CYAN);
         text_btn1.setForeground(Color.BLACK);
     }
@@ -38,19 +36,19 @@ public class PerfilUI extends javax.swing.JFrame {
         btn_1 = new javax.swing.JPanel();
         ind_1 = new javax.swing.JPanel();
         text_btn1 = new javax.swing.JLabel();
-        btn_2 = new javax.swing.JPanel();
+        btn_5 = new javax.swing.JPanel();
         ind_2 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
-        btn_3 = new javax.swing.JPanel();
+        btn_2 = new javax.swing.JPanel();
         ind_3 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
-        btn_4 = new javax.swing.JPanel();
+        btn_6 = new javax.swing.JPanel();
         ind_4 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
-        btn_5 = new javax.swing.JPanel();
+        btn_4 = new javax.swing.JPanel();
         ind_5 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
-        btn_6 = new javax.swing.JPanel();
+        btn_3 = new javax.swing.JPanel();
         ind_6 = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -74,11 +72,6 @@ public class PerfilUI extends javax.swing.JFrame {
         side_pane.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btn_1.setBackground(new java.awt.Color(0, 51, 153));
-        btn_1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                btn_1MousePressed(evt);
-            }
-        });
 
         ind_1.setOpaque(false);
         ind_1.setPreferredSize(new java.awt.Dimension(3, 43));
@@ -121,10 +114,10 @@ public class PerfilUI extends javax.swing.JFrame {
 
         side_pane.add(btn_1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 150, -1));
 
-        btn_2.setBackground(new java.awt.Color(0, 51, 153));
-        btn_2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                btn_2MouseReleased(evt);
+        btn_5.setBackground(new java.awt.Color(0, 51, 153));
+        btn_5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_5MouseClicked(evt);
             }
         });
 
@@ -146,33 +139,33 @@ public class PerfilUI extends javax.swing.JFrame {
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Control de Gastos");
 
-        javax.swing.GroupLayout btn_2Layout = new javax.swing.GroupLayout(btn_2);
-        btn_2.setLayout(btn_2Layout);
-        btn_2Layout.setHorizontalGroup(
-            btn_2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btn_2Layout.createSequentialGroup()
+        javax.swing.GroupLayout btn_5Layout = new javax.swing.GroupLayout(btn_5);
+        btn_5.setLayout(btn_5Layout);
+        btn_5Layout.setHorizontalGroup(
+            btn_5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btn_5Layout.createSequentialGroup()
                 .addComponent(ind_2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel9)
                 .addGap(0, 35, Short.MAX_VALUE))
         );
-        btn_2Layout.setVerticalGroup(
-            btn_2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btn_2Layout.createSequentialGroup()
+        btn_5Layout.setVerticalGroup(
+            btn_5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btn_5Layout.createSequentialGroup()
                 .addComponent(ind_2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(btn_2Layout.createSequentialGroup()
+            .addGroup(btn_5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        side_pane.add(btn_2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 150, -1));
+        side_pane.add(btn_5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 150, -1));
 
-        btn_3.setBackground(new java.awt.Color(0, 51, 153));
-        btn_3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                btn_3MousePressed(evt);
+        btn_2.setBackground(new java.awt.Color(0, 51, 153));
+        btn_2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_2MouseClicked1(evt);
             }
         });
 
@@ -194,35 +187,30 @@ public class PerfilUI extends javax.swing.JFrame {
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("Tareas");
 
-        javax.swing.GroupLayout btn_3Layout = new javax.swing.GroupLayout(btn_3);
-        btn_3.setLayout(btn_3Layout);
-        btn_3Layout.setHorizontalGroup(
-            btn_3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btn_3Layout.createSequentialGroup()
+        javax.swing.GroupLayout btn_2Layout = new javax.swing.GroupLayout(btn_2);
+        btn_2.setLayout(btn_2Layout);
+        btn_2Layout.setHorizontalGroup(
+            btn_2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btn_2Layout.createSequentialGroup()
                 .addComponent(ind_3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel10)
                 .addGap(0, 96, Short.MAX_VALUE))
         );
-        btn_3Layout.setVerticalGroup(
-            btn_3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btn_3Layout.createSequentialGroup()
+        btn_2Layout.setVerticalGroup(
+            btn_2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btn_2Layout.createSequentialGroup()
                 .addComponent(ind_3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(btn_3Layout.createSequentialGroup()
+            .addGroup(btn_2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        side_pane.add(btn_3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 150, -1));
+        side_pane.add(btn_2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 150, -1));
 
-        btn_4.setBackground(new java.awt.Color(0, 51, 153));
-        btn_4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                btn_4MousePressed(evt);
-            }
-        });
+        btn_6.setBackground(new java.awt.Color(0, 51, 153));
 
         ind_4.setOpaque(false);
         ind_4.setPreferredSize(new java.awt.Dimension(3, 43));
@@ -242,33 +230,33 @@ public class PerfilUI extends javax.swing.JFrame {
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setText("Informes");
 
-        javax.swing.GroupLayout btn_4Layout = new javax.swing.GroupLayout(btn_4);
-        btn_4.setLayout(btn_4Layout);
-        btn_4Layout.setHorizontalGroup(
-            btn_4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btn_4Layout.createSequentialGroup()
+        javax.swing.GroupLayout btn_6Layout = new javax.swing.GroupLayout(btn_6);
+        btn_6.setLayout(btn_6Layout);
+        btn_6Layout.setHorizontalGroup(
+            btn_6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btn_6Layout.createSequentialGroup()
                 .addComponent(ind_4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel11)
                 .addGap(0, 82, Short.MAX_VALUE))
         );
-        btn_4Layout.setVerticalGroup(
-            btn_4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btn_4Layout.createSequentialGroup()
+        btn_6Layout.setVerticalGroup(
+            btn_6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btn_6Layout.createSequentialGroup()
                 .addComponent(ind_4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(btn_4Layout.createSequentialGroup()
+            .addGroup(btn_6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        side_pane.add(btn_4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 150, -1));
+        side_pane.add(btn_6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 150, -1));
 
-        btn_5.setBackground(new java.awt.Color(0, 51, 153));
-        btn_5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                btn_5MousePressed(evt);
+        btn_4.setBackground(new java.awt.Color(0, 51, 153));
+        btn_4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_4MouseClicked(evt);
             }
         });
 
@@ -290,33 +278,33 @@ public class PerfilUI extends javax.swing.JFrame {
         jLabel14.setForeground(new java.awt.Color(255, 255, 255));
         jLabel14.setText("Calendario");
 
-        javax.swing.GroupLayout btn_5Layout = new javax.swing.GroupLayout(btn_5);
-        btn_5.setLayout(btn_5Layout);
-        btn_5Layout.setHorizontalGroup(
-            btn_5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btn_5Layout.createSequentialGroup()
+        javax.swing.GroupLayout btn_4Layout = new javax.swing.GroupLayout(btn_4);
+        btn_4.setLayout(btn_4Layout);
+        btn_4Layout.setHorizontalGroup(
+            btn_4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btn_4Layout.createSequentialGroup()
                 .addComponent(ind_5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel14)
                 .addGap(0, 72, Short.MAX_VALUE))
         );
-        btn_5Layout.setVerticalGroup(
-            btn_5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btn_5Layout.createSequentialGroup()
+        btn_4Layout.setVerticalGroup(
+            btn_4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btn_4Layout.createSequentialGroup()
                 .addComponent(ind_5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(btn_5Layout.createSequentialGroup()
+            .addGroup(btn_4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        side_pane.add(btn_5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 160, 150, -1));
+        side_pane.add(btn_4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 160, 150, -1));
 
-        btn_6.setBackground(new java.awt.Color(0, 51, 153));
-        btn_6.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                btn_6MousePressed(evt);
+        btn_3.setBackground(new java.awt.Color(0, 51, 153));
+        btn_3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_3MouseClicked(evt);
             }
         });
 
@@ -338,28 +326,28 @@ public class PerfilUI extends javax.swing.JFrame {
         jLabel17.setForeground(new java.awt.Color(255, 255, 255));
         jLabel17.setText("Tareas Terminadas");
 
-        javax.swing.GroupLayout btn_6Layout = new javax.swing.GroupLayout(btn_6);
-        btn_6.setLayout(btn_6Layout);
-        btn_6Layout.setHorizontalGroup(
-            btn_6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btn_6Layout.createSequentialGroup()
+        javax.swing.GroupLayout btn_3Layout = new javax.swing.GroupLayout(btn_3);
+        btn_3.setLayout(btn_3Layout);
+        btn_3Layout.setHorizontalGroup(
+            btn_3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btn_3Layout.createSequentialGroup()
                 .addComponent(ind_6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel17)
                 .addGap(0, 32, Short.MAX_VALUE))
         );
-        btn_6Layout.setVerticalGroup(
-            btn_6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btn_6Layout.createSequentialGroup()
+        btn_3Layout.setVerticalGroup(
+            btn_3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btn_3Layout.createSequentialGroup()
                 .addComponent(ind_6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(btn_6Layout.createSequentialGroup()
+            .addGroup(btn_3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        side_pane.add(btn_6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 150, -1));
+        side_pane.add(btn_3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 150, -1));
 
         jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\manue\\Downloads\\logo.png")); // NOI18N
         side_pane.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 440, -1, 100));
@@ -507,26 +495,6 @@ public class PerfilUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btn_1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_1MousePressed
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_btn_1MousePressed
-
-    private void btn_2MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_2MouseReleased
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_btn_2MouseReleased
-
-    private void btn_3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_3MousePressed
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_btn_3MousePressed
-
-    private void btn_4MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_4MousePressed
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_btn_4MousePressed
-
     private void jPanel2MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MouseDragged
 
     }//GEN-LAST:event_jPanel2MouseDragged
@@ -535,13 +503,29 @@ public class PerfilUI extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jPanel2MousePressed
 
-    private void btn_5MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_5MousePressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_5MousePressed
+    private void btn_5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_5MouseClicked
+        FinanzasUI finanzas = new FinanzasUI();
+        finanzas.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btn_5MouseClicked
 
-    private void btn_6MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_6MousePressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_6MousePressed
+    private void btn_4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_4MouseClicked
+        CalendarioUI calendario = new CalendarioUI();
+        calendario.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btn_4MouseClicked
+
+    private void btn_3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_3MouseClicked
+        TareasTerminadasUI tareasTerminadasUI = new TareasTerminadasUI();
+        tareasTerminadasUI.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btn_3MouseClicked
+
+    private void btn_2MouseClicked1(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_2MouseClicked1
+        TareasUI tareasUI = new TareasUI();
+        tareasUI.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btn_2MouseClicked1
 
     /**
      * @param args the command line arguments

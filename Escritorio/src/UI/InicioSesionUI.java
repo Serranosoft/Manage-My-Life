@@ -1,5 +1,7 @@
 package UI;
 
+
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -18,6 +20,7 @@ public class InicioSesionUI extends javax.swing.JFrame {
      */
     public InicioSesionUI() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -188,7 +191,9 @@ public class InicioSesionUI extends javax.swing.JFrame {
     }//GEN-LAST:event_inicio_registrarse_btnMouseClicked
 
     private void inicio_iniciarSesion_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inicio_iniciarSesion_btnMouseClicked
-        
+        PerfilUI perfilUI = new PerfilUI();
+        perfilUI.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_inicio_iniciarSesion_btnMouseClicked
 
     /**

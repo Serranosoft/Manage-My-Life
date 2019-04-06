@@ -18,6 +18,7 @@ public class RegistroUI extends javax.swing.JFrame {
      */
     public RegistroUI() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -91,13 +92,13 @@ public class RegistroUI extends javax.swing.JFrame {
         registro_password_field.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         registro_password_field.setForeground(new java.awt.Color(102, 102, 102));
         registro_password_field.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(12, 91, 160)));
-        registro_password_field.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                registro_password_fieldActionPerformed(evt);
-            }
-        });
 
         registrar_boton.setkStartColor(new java.awt.Color(0, 153, 153));
+        registrar_boton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                registrar_botonMouseClicked(evt);
+            }
+        });
         registrar_boton.setLayout(null);
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -203,9 +204,11 @@ public class RegistroUI extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_registrar_inicioSesion_btnMouseClicked
 
-    private void registro_password_fieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registro_password_fieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_registro_password_fieldActionPerformed
+    private void registrar_botonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registrar_botonMouseClicked
+        PerfilUI perfilUI = new PerfilUI();
+        perfilUI.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_registrar_botonMouseClicked
 
     /**
      * @param args the command line arguments

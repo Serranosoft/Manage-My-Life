@@ -244,9 +244,6 @@
                   </Border>
                 </Property>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="registro_password_fieldActionPerformed"/>
-              </Events>
             </Component>
             <Container class="keeptoo.KGradientPanel" name="registrar_boton">
               <Properties>
@@ -254,6 +251,9 @@
                   <Color blue="99" green="99" red="0" type="rgb"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="registrar_botonMouseClicked"/>
+              </Events>
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
                 <Property name="useNullLayout" type="boolean" value="true"/>
