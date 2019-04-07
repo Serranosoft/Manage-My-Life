@@ -5,70 +5,86 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="32dp"
+    android:paddingTop="24dp"
     android:paddingLeft="24dp"
     android:paddingRight="24dp"
-    android:background="@mipmap/login_background7"
+    android:background="@mipmap/login_background2"
     tools:context=".Activities.LoginActivity">
 
     <ImageView android:src="@mipmap/logo_2"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:layout_marginBottom="48dp"
+        android:layout_marginBottom="8dp"
         android:layout_gravity="center_horizontal" />
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:textColor="@color/colorSelected">
-
+        android:textColorHint="@color/black">
         <EditText android:id="@+id/register_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
             android:hint="Usuario / Email"
-            android:textColorHint="@color/colorSelected"/>
+            android:textColorHint="@color/black"
+            android:textColor="@color/black"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:textColor="@color/colorSelected">
+        android:textColorHint="@color/black">
         <EditText android:id="@+id/register_pass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:hint="Contraseña"
-            android:textColorHint="@color/colorSelected"/>
+            android:textColorHint="@color/black"
+            android:textColor="@color/black"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:textColor="@color/colorSelected">
+        android:textColorHint="@color/black">
         <EditText android:id="@+id/register_nombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
             android:hint="Nombre"
-            android:textColorHint="@color/colorSelected"/>
+            android:textColorHint="@color/black"
+            android:textColor="@color/black"/>
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:textColorHint="@color/black">
+        <EditText android:id="@+id/register_salario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:hint="Salario"
+            android:textColorHint="@color/black"
+            android:textColor="@color/black"/>
     </android.support.design.widget.TextInputLayout>
 
     <Button
         android:id="@+id/register_boton"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="16dp"
-        android:padding="12dp"
+        android:background="@color/background_profile"
+        android:textColor="@color/colorSelected"
         android:text="REGISTRARSE"/>
 
     <TextView android:id="@+id/register_iniciar_sesion"
-        android:textColor="@color/colorSelected"
+        android:textColor="@color/black"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Ya tienes una cuenta? Inicia Sesión"

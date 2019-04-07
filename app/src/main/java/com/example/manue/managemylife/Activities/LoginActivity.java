@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -38,6 +39,15 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 view.getContext().startActivity(intent);}
+        });
+
+        ImageView information_slider = (ImageView) findViewById(R.id.information_slider);
+        information_slider.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, SliderActivity.class);
+                view.getContext().startActivity(intent);
+            }
         });
 
     }

@@ -1,12 +1,16 @@
 package com.example.manue.managemylife.Fragments;
 
 
+import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -56,13 +60,13 @@ public class fragmentTareas extends Fragment {
         rList.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
 
         listaTarea = new ArrayList<>();
-        listaTarea.add(new Tarea("Estudiar para acceso a datos", true));
-        listaTarea.add(new Tarea("Hacer la compra", false));
-        listaTarea.add(new Tarea("Presentar exposición de Inglés",true));
-        listaTarea.add(new Tarea("Llamar a Miguel", false));
-        listaTarea.add(new Tarea("Imprimir documento de identidad", true));
-        listaTarea.add(new Tarea("Entregar documentación a José", false));
-        listaTarea.add(new Tarea("Felicitar a Miguel por su cumpleaños",false));
+        listaTarea.add(new Tarea("Estudiar para acceso a datos", true, false));
+        listaTarea.add(new Tarea("Hacer la compra", false, true));
+        listaTarea.add(new Tarea("Presentar exposición de Inglés",true, false));
+        listaTarea.add(new Tarea("Llamar a Miguel", false, false));
+        listaTarea.add(new Tarea("Imprimir documento de identidad", true, false));
+        listaTarea.add(new Tarea("Entregar documentación a José", false, true));
+        listaTarea.add(new Tarea("Felicitar a Miguel por su cumpleaños",false, false));
 
         adapter = new TareasAdapter(listaTarea, getActivity().getApplicationContext(), new TareasAdapter.OnItemClickListener() {
             @Override
@@ -130,9 +134,25 @@ public class fragmentTareas extends Fragment {
 
                             @Override
                             public void onDismissedBySwipeRight(RecyclerView recyclerView, int[] reverseSortedPositions) {
-                                for (int position : reverseSortedPositions) {
-                                    listaTarea.remove(position);
-                                    adapter.notifyItemRemoved(position);
+                                for (final int position : reverseSortedPositions) {
+                                    final AlertDialog.Builder alert = new AlertDialog.Builder(getContext(), R.style.AlertDialog);
+                                    alert.setTitle("Aviso");
+                                    alert.setMessage("¿Quieres eliminar la tarea permanentemente?");
+                                    alert.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            listaTarea.remove(position);
+                                            adapter.notifyItemRemoved(position);
+                                        }
+                                    });
+                                    alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            dialogInterface.dismiss();
+                                        }
+                                    });
+                                    alert.create().show();
+
                                 }
                                 adapter.notifyDataSetChanged();
                             }

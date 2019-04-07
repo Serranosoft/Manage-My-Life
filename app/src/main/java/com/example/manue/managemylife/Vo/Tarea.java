@@ -4,10 +4,12 @@ public class Tarea {
 
     private String nombre;
     private boolean estado;
+    private boolean prioritario;
 
-    public Tarea(String nombre, boolean estado) {
+    public Tarea(String nombre, boolean estado, boolean prioritario) {
         this.nombre = nombre;
         this.estado = estado;
+        this.prioritario = prioritario;
     }
 
     public String getNombre() {
@@ -24,5 +26,13 @@ public class Tarea {
 
     public void setEstado(boolean estado) {
         this.estado = estado;
+    }
+
+    public boolean isPrioritario() {
+        return prioritario;
+    }
+
+    public void setPrioritario(boolean prioritario) {
+        this.prioritario = prioritario;
     }
 }
