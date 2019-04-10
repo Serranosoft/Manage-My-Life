@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="350dp"
+    android:layout_height="260dp"
+    android:background="#5f7ae2"
+    android:padding="5dp"
+    android:layout_gravity="center">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            android:layout_marginTop="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Crear Gasto"
+            android:layout_marginLeft="8dp"
+            android:textColor="@color/colorSelected"/>
+
+        <TextView
+            android:id="@+id/insertar_gasto_close"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:textColor="@color/colorSelected"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:text="X"/>
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="8dp">
+        <EditText
+            android:id="@+id/insertar_gasto_nombre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nombre del gasto..."
+            android:textStyle="bold"
+            android:textColor="@color/colorSelected"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:textSize="24sp"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+
+            android:background="@color/colorElements"
+            android:orientation="horizontal"
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <LinearLayout
+                android:id="@+id/insertar_gasto_tipo"
+                android:layout_width="210dp"
+                android:layout_height="65dp"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="#6793db">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tipo de gasto"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:id="@+id/insertar_gasto_tipo_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="x"
+                    android:textColor="@color/black"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/insertar_gasto_aceptar"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:layout_gravity="center"
+        android:src="@mipmap/checked"/>
+
+</LinearLayout>

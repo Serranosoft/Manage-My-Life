@@ -66,7 +66,7 @@ public class FinanzasUI extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        añadirGasto_btn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -440,8 +440,13 @@ public class FinanzasUI extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(51, 51, 51));
         jLabel6.setText("2275€");
 
-        jButton1.setForeground(new java.awt.Color(0, 0, 0));
-        jButton1.setText("AÑADIR GASTO");
+        añadirGasto_btn.setForeground(new java.awt.Color(0, 0, 0));
+        añadirGasto_btn.setText("AÑADIR GASTO");
+        añadirGasto_btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                añadirGasto_btnMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -466,7 +471,7 @@ public class FinanzasUI extends javax.swing.JFrame {
                 .addComponent(jSeparator2))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(añadirGasto_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(60, 60, 60)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -495,7 +500,7 @@ public class FinanzasUI extends javax.swing.JFrame {
                             .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(25, 25, 25))))
                 .addGap(21, 21, 21)
-                .addComponent(jButton1)
+                .addComponent(añadirGasto_btn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21))
@@ -579,6 +584,11 @@ public class FinanzasUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_6MouseClicked
 
+    private void añadirGasto_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_añadirGasto_btnMouseClicked
+        insertarGasto insertarGasto = new insertarGasto(this, false);
+        insertarGasto.setVisible(true);
+    }//GEN-LAST:event_añadirGasto_btnMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -615,6 +625,7 @@ public class FinanzasUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton añadirGasto_btn;
     private javax.swing.JPanel btn_1;
     private javax.swing.JPanel btn_2;
     private javax.swing.JPanel btn_3;
@@ -627,7 +638,6 @@ public class FinanzasUI extends javax.swing.JFrame {
     private javax.swing.JPanel ind_4;
     private javax.swing.JPanel ind_5;
     private javax.swing.JPanel ind_6;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

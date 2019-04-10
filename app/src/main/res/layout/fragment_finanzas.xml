@@ -35,14 +35,14 @@
                     android:id="@+id/finanzas_productos"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="13"
+                    android:text="3"
                     android:textColor="#fff"
                     android:textSize="24sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="productos"
+                    android:text="gastos"
                     android:textAllCaps="true"
                     android:textColor="#fff"
                     android:textSize="10sp" />
