@@ -1,12 +1,19 @@
 package UI;
 
+import Compartir.Peticion;
+import Compartir.Usuarios;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
 /**
  *
  * @author manue
@@ -16,8 +23,21 @@ public class RegistroUI extends javax.swing.JFrame {
     /**
      * Creates new form RegistroUI
      */
+    Socket cliente = null;
+    ObjectOutputStream salida = null;
+    ObjectInputStream entrada = null;
+    Usuarios usuarios = new Usuarios();
+    Peticion peticion = new Peticion();
+
     public RegistroUI() {
         initComponents();
+        try {
+            cliente = new Socket("localhost", 4444);
+            salida = new ObjectOutputStream(cliente.getOutputStream());
+            entrada = new ObjectInputStream(cliente.getInputStream());
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
         this.setLocationRelativeTo(null);
     }
 
@@ -205,9 +225,27 @@ public class RegistroUI extends javax.swing.JFrame {
     }//GEN-LAST:event_registrar_inicioSesion_btnMouseClicked
 
     private void registrar_botonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registrar_botonMouseClicked
-        PerfilUI perfilUI = new PerfilUI();
-        perfilUI.setVisible(true);
-        this.setVisible(false);
+        try {
+            /*PerfilUI perfilUI = new PerfilUI();
+            perfilUI.setVisible(true);
+            this.setVisible(false);*/
+            
+            usuarios.setUsuario(registro_email_field.getText());
+            usuarios.setNombre(registro_nombre_field.getText());
+            usuarios.setSalario(Integer.valueOf(registro_salario_field.getText()));
+            String contraseña = registro_password_field.getPassword().toString();
+            System.out.println(contraseña);
+            usuarios.setContraseña(contraseña);
+            /*MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(contraseña.getBytes(StandardCharsets.UTF_8));*/
+            // Le envio la consulta al servidor
+            peticion.setConsulta(20);
+            salida.writeObject(peticion);
+            // Le envio el objeto usuarios con los datos al servidor
+            salida.writeObject(usuarios);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }//GEN-LAST:event_registrar_botonMouseClicked
 
     /**

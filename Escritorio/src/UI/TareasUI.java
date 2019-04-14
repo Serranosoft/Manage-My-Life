@@ -1,13 +1,21 @@
 package UI;
 
+import Compartir.Peticion;
+import Compartir.Tareas;
 import java.awt.Color;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import vo.Tarea;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author manue
@@ -17,11 +25,30 @@ public class TareasUI extends javax.swing.JFrame {
     /**
      * Creates new form TareasUI
      */
+    Socket cliente = null;
+    ObjectOutputStream salida = null;
+    ObjectInputStream entrada = null;
+    Tareas tareas = new Tareas();
+    Peticion peticion = new Peticion();
+
     public TareasUI() {
+        System.out.println("HACE EL INIT");
         initComponents();
+
+        try {
+            System.out.println("bucle no porfavor");
+            cliente = new Socket("localhost", 4444);
+            salida = new ObjectOutputStream(cliente.getOutputStream());
+            entrada = new ObjectInputStream(cliente.getInputStream());
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
         this.setLocationRelativeTo(null);
+        rellenarTareas();
         btn_2.setBackground(Color.CYAN);
         text_btn2.setForeground(Color.BLACK);
+        System.out.println("fin constructor");
     }
 
     /**
@@ -58,7 +85,7 @@ public class TareasUI extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabla_tareas = new javax.swing.JTable();
         añadirTarea_btn = new javax.swing.JButton();
 
         jCheckBox1.setText("jCheckBox1");
@@ -385,22 +412,22 @@ public class TareasUI extends javax.swing.JFrame {
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabla_tareas.setBackground(new java.awt.Color(187, 187, 187));
+        tabla_tareas.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        tabla_tareas.setForeground(new java.awt.Color(0, 0, 0));
+        tabla_tareas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"Estudiar Acceso a Datos",  new Boolean(true)},
-                {"Entregar Documentación del Proyecto", null},
-                {"Felicitar a Miguel por su cumpleaños", null},
-                {"Imprimir Informes",  new Boolean(true)}
+
             },
             new String [] {
-                "Nombre", "Terminado"
+                "Nombre"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Boolean.class
+                java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true
+                false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -411,18 +438,14 @@ public class TareasUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.setBackground(new java.awt.Color(187, 187, 187));
-        jTable1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        jTable1.setForeground(new java.awt.Color(0, 0, 0));
-        jTable1.setGridColor(new java.awt.Color(102, 102, 102));
-        jTable1.setRowHeight(22);
-        jTable1.setSelectionBackground(new java.awt.Color(51, 102, 255));
-        jTable1.setSelectionForeground(new java.awt.Color(0, 0, 102));
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(500);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
+        tabla_tareas.setGridColor(new java.awt.Color(102, 102, 102));
+        tabla_tareas.setRowHeight(22);
+        tabla_tareas.setSelectionBackground(new java.awt.Color(51, 102, 255));
+        tabla_tareas.setSelectionForeground(new java.awt.Color(0, 0, 102));
+        jScrollPane1.setViewportView(tabla_tareas);
+        if (tabla_tareas.getColumnModel().getColumnCount() > 0) {
+            tabla_tareas.getColumnModel().getColumn(0).setResizable(false);
+            tabla_tareas.getColumnModel().getColumn(0).setPreferredWidth(500);
         }
 
         añadirTarea_btn.setIcon(new javax.swing.ImageIcon("C:\\Users\\manue\\Downloads\\add.png")); // NOI18N
@@ -516,10 +539,35 @@ public class TareasUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_5MouseClicked
 
     private void añadirTarea_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_añadirTarea_btnMouseClicked
-        
+
         insertarTarea insertarTarea = new insertarTarea(this, false);
         insertarTarea.setVisible(true);
     }//GEN-LAST:event_añadirTarea_btnMouseClicked
+    DefaultTableModel m;
+
+    public void rellenarTareas() {
+        m = (DefaultTableModel) tabla_tareas.getModel();
+        m.setRowCount(0);
+
+        try {
+            peticion.setConsulta(10);
+            salida.writeObject(peticion);
+            tareas = (Tareas) entrada.readObject();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
+
+        ArrayList<Tarea> listado_tareas = tareas.getResultados_tareas();
+        for (int i = 0; i < listado_tareas.size(); i++) {
+            Tarea tareas = listado_tareas.get(i);
+            Object[] array = {tareas.getNombre()};
+            System.out.println(tareas.getNombre());
+            m.addRow(array);
+
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -580,8 +628,8 @@ public class TareasUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JPanel side_pane;
+    private javax.swing.JTable tabla_tareas;
     private javax.swing.JLabel text_btn1;
     private javax.swing.JLabel text_btn2;
     // End of variables declaration//GEN-END:variables
