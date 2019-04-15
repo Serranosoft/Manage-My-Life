@@ -17,18 +17,25 @@ import vo.Tarea;
  */
 public class Tareas implements Serializable{
     private String nombre_tarea;
-    private boolean estado_tarea;
-    private int consulta;
+    private int estado_tarea;
     private ArrayList<Tarea> resultados_tareas;
+    private int idUsuario;
 
     public Tareas() {
     }
 
-    public Tareas(String nombre_tarea, boolean estado_tarea, int consulta, ArrayList<Tarea> resultados_tareas) {
+    public Tareas(String nombre_tarea, int estado_tarea, ArrayList<Tarea> resultados_tareas, int idUsuario) {
         this.nombre_tarea = nombre_tarea;
         this.estado_tarea = estado_tarea;
-        this.consulta = consulta;
         this.resultados_tareas = resultados_tareas;
+        this.idUsuario = idUsuario;
+    }
+    public int getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     public String getNombre_tarea() {
@@ -39,20 +46,12 @@ public class Tareas implements Serializable{
         this.nombre_tarea = nombre_tarea;
     }
 
-    public boolean isEstado_tarea() {
+    public int getEstado_tarea() {
         return estado_tarea;
     }
 
-    public void setEstado_tarea(boolean estado_tarea) {
+    public void setEstado_tarea(int estado_tarea) {
         this.estado_tarea = estado_tarea;
-    }
-
-    public int getConsulta() {
-        return consulta;
-    }
-
-    public void setConsulta(int consulta) {
-        this.consulta = consulta;
     }
 
     public ArrayList<Tarea> getResultados_tareas() {

@@ -495,15 +495,15 @@ public class TareasTerminadasUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel2MousePressed
 
     private void btn_1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_1MouseClicked
-        PerfilUI perfilUI = new PerfilUI();
+        /*PerfilUI perfilUI = new PerfilUI();
         perfilUI.setVisible(true);
-        this.setVisible(false);
+        this.setVisible(false);*/
     }//GEN-LAST:event_btn_1MouseClicked
 
     private void btn_2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_2MouseClicked
-        TareasUI tareasUI = new TareasUI();
+        /*TareasUI tareasUI = new TareasUI();
         tareasUI.setVisible(true);
-        this.setVisible(false);
+        this.setVisible(false);*/
     }//GEN-LAST:event_btn_2MouseClicked
 
     private void btn_4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_4MouseClicked

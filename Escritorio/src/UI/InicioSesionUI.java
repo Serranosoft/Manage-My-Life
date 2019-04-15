@@ -1,14 +1,20 @@
 package UI;
 
-
+import Compartir.Peticion;
+import Compartir.Usuarios;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
 /**
  *
  * @author manue
@@ -18,6 +24,12 @@ public class InicioSesionUI extends javax.swing.JFrame {
     /**
      * Creates new form InicioSesionUI
      */
+    Socket cliente = null;
+    ObjectOutputStream salida = null;
+    ObjectInputStream entrada = null;
+    Usuarios usuarios = new Usuarios();
+    Peticion peticion = new Peticion();
+
     public InicioSesionUI() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -191,9 +203,46 @@ public class InicioSesionUI extends javax.swing.JFrame {
     }//GEN-LAST:event_inicio_registrarse_btnMouseClicked
 
     private void inicio_iniciarSesion_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inicio_iniciarSesion_btnMouseClicked
-        PerfilUI perfilUI = new PerfilUI();
-        perfilUI.setVisible(true);
-        this.setVisible(false);
+        try {
+            /* Configuración del socket y flujos (En este caso no lo configuro en el propio constructor ya que debo cerrar los flujos en el caso de que la comprobación de
+            credenciales sea incorrecta para poder realizar tantas consultas como el usuario vea conveniente
+             */
+            cliente = new Socket("localhost", 4444);
+            salida = new ObjectOutputStream(cliente.getOutputStream());
+            entrada = new ObjectInputStream(cliente.getInputStream());
+
+            String usuario = inicio_email_field.getText();
+            String password = inicio_password_field.getText();
+            peticion.setConsulta(2);
+            salida.writeObject(peticion);
+            usuarios.setUsuario(usuario);
+            usuarios.setContraseña(password);
+            System.out.println("Envio el objeto usuarios con la información del usuario");
+            salida.writeObject(usuarios);
+            System.out.println("Leo el resultado de la consulta");
+            usuarios = (Usuarios) entrada.readObject();
+
+            if (usuarios.isExiste()) {
+                JOptionPane.showMessageDialog(this, "Usuario / Contraseña existe" + usuarios.getId());
+                PerfilUI perfilUI = new PerfilUI(usuarios);
+                perfilUI.setVisible(true);
+                this.setVisible(false);
+            } else {
+                JOptionPane.showMessageDialog(this, "Usuario / Contraseña incorrecta");
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                salida.close();
+                entrada.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+
     }//GEN-LAST:event_inicio_iniciarSesion_btnMouseClicked
 
     /**

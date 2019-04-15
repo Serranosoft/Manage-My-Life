@@ -2,6 +2,7 @@ package UI;
 
 import Compartir.Peticion;
 import Compartir.Tareas;
+import Compartir.Usuarios;
 import java.awt.Color;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -30,14 +31,15 @@ public class TareasUI extends javax.swing.JFrame {
     ObjectInputStream entrada = null;
     Tareas tareas = new Tareas();
     Peticion peticion = new Peticion();
-
-    public TareasUI() {
+    Usuarios usuarios = new Usuarios();
+    public TareasUI(Usuarios usuario) {
         System.out.println("HACE EL INIT");
         initComponents();
 
         try {
             System.out.println("bucle no porfavor");
             cliente = new Socket("localhost", 4444);
+            System.out.println("configuro flujos");
             salida = new ObjectOutputStream(cliente.getOutputStream());
             entrada = new ObjectInputStream(cliente.getInputStream());
         } catch (IOException ex) {
@@ -45,7 +47,9 @@ public class TareasUI extends javax.swing.JFrame {
         }
 
         this.setLocationRelativeTo(null);
-        rellenarTareas();
+        System.out.println("llamo al metodo para rellenar tabla");
+        this.usuarios = usuario;
+        rellenarTareas(usuarios);
         btn_2.setBackground(Color.CYAN);
         text_btn2.setForeground(Color.BLACK);
         System.out.println("fin constructor");
@@ -515,7 +519,7 @@ public class TareasUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel2MousePressed
 
     private void btn_1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_1MouseClicked
-        PerfilUI perfilUI = new PerfilUI();
+        PerfilUI perfilUI = new PerfilUI(usuarios);
         perfilUI.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btn_1MouseClicked
@@ -545,13 +549,16 @@ public class TareasUI extends javax.swing.JFrame {
     }//GEN-LAST:event_añadirTarea_btnMouseClicked
     DefaultTableModel m;
 
-    public void rellenarTareas() {
+    public void rellenarTareas(Usuarios usuarios) {
         m = (DefaultTableModel) tabla_tareas.getModel();
         m.setRowCount(0);
 
         try {
-            peticion.setConsulta(10);
+            System.out.println("Envio la peticion");
+            peticion.setConsulta(3);
             salida.writeObject(peticion);
+            tareas.setIdUsuario(usuarios.getId());
+            salida.writeObject(tareas);
             tareas = (Tareas) entrada.readObject();
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -599,7 +606,7 @@ public class TareasUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TareasUI().setVisible(true);
+                new TareasUI(new Usuarios()).setVisible(true);
             }
         });
     }

@@ -229,7 +229,7 @@ public class RegistroUI extends javax.swing.JFrame {
             /*PerfilUI perfilUI = new PerfilUI();
             perfilUI.setVisible(true);
             this.setVisible(false);*/
-            
+
             usuarios.setUsuario(registro_email_field.getText());
             usuarios.setNombre(registro_nombre_field.getText());
             usuarios.setSalario(Integer.valueOf(registro_salario_field.getText()));
@@ -239,10 +239,15 @@ public class RegistroUI extends javax.swing.JFrame {
             /*MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(contraseña.getBytes(StandardCharsets.UTF_8));*/
             // Le envio la consulta al servidor
-            peticion.setConsulta(20);
+            peticion.setConsulta(1);
             salida.writeObject(peticion);
             // Le envio el objeto usuarios con los datos al servidor
             salida.writeObject(usuarios);
+
+            // Envio al usuario a la pantalla de inicio de sesión
+            InicioSesionUI inicio_panel = new InicioSesionUI();
+            inicio_panel.setVisible(true);
+            this.setVisible(false);
         } catch (IOException ex) {
             ex.printStackTrace();
         }

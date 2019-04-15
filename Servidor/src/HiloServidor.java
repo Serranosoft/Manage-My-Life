@@ -57,13 +57,19 @@ class HiloServidor extends Thread {
             peticion = (Peticion) entrada.readObject();
             consulta = peticion.getConsulta();
             switch (consulta) {
-                case 10:
-                    obtenerTareas(tareas);
-                    salida.writeObject(tareas);
-                    break;
-                case 20:
+                case 1:
                     usuarios = (Usuarios) entrada.readObject();
                     insertarUsuario(usuarios);
+                    break;
+                case 2:
+                    usuarios = (Usuarios) entrada.readObject();
+                    comprobarUsuario(usuarios);
+                    salida.writeObject(usuarios);
+                    break;
+                case 3:
+                    tareas = (Tareas) entrada.readObject();
+                    obtenerTareas(tareas);
+                    salida.writeObject(tareas);
                     break;
                     
             }
@@ -81,7 +87,7 @@ class HiloServidor extends Thread {
         try {
 
             TareasOP top = new TareasOP();
-            listado_tareas = top.selectTareas();
+            listado_tareas = top.selectTareas(tareas);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -92,8 +98,14 @@ class HiloServidor extends Thread {
     private void insertarUsuario(Usuarios usuarios) {
         
         UsuariosOP uop = new UsuariosOP();
-        
         uop.insertarUsuario(usuarios);
+    }
+
+    private void comprobarUsuario(Usuarios usuarios) {
+        
+        UsuariosOP uop = new UsuariosOP();
+        System.out.println("Llamo al metodo comprobar usuario");
+        usuarios = uop.comprobarUsuario(usuarios);
     }
 
 }

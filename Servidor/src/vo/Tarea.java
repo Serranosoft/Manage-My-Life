@@ -13,9 +13,9 @@ public class Tarea {
     
     private int id;
     private String nombre;
-    private boolean estado;
+    private int estado;
 
-    public Tarea(int id, String nombre, boolean estado) {
+    public Tarea(int id, String nombre, int estado) {
         this.id = id;
         this.nombre = nombre;
         this.estado = estado;
@@ -40,15 +40,12 @@ public class Tarea {
         this.nombre = nombre;
     }
 
-    public boolean isEstado() {
+    public int getEstado() {
         return estado;
     }
 
-    public void setEstado(boolean estado) {
+    public void setEstado(int estado) {
         this.estado = estado;
     }
-    
-    
-    
-    
+  
 }

@@ -15,19 +15,23 @@ import vo.Tarea;
  */
 public class Usuarios implements Serializable {
 
+    private int id;
     private String usuario;
     private String nombre;
     private String contraseña;
     private int salario;
+    private boolean existe;
 
     public Usuarios() {
     }
 
-    public Usuarios(String usuario, String nombre, String contraseña, int salario) {
+    public Usuarios(int id, String usuario, String nombre, String contraseña, int salario, boolean existe) {
+        this.id = id;
         this.usuario = usuario;
         this.nombre = nombre;
         this.contraseña = contraseña;
         this.salario = salario;
+        this.existe = existe;
     }
 
     public String getUsuario() {
@@ -61,5 +65,24 @@ public class Usuarios implements Serializable {
     public void setSalario(int salario) {
         this.salario = salario;
     }
+
+    public boolean isExiste() {
+        return existe;
+    }
+
+    public void setExiste(boolean existe) {
+        this.existe = existe;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    
+    
 
 }

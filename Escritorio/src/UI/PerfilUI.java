@@ -1,6 +1,15 @@
 package UI;
 
+import Compartir.Peticion;
+import Compartir.Tareas;
+import Compartir.Usuarios;
 import java.awt.Color;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -16,9 +25,25 @@ public class PerfilUI extends javax.swing.JFrame {
     /**
      * Creates new form Perfil
      */
-    public PerfilUI() {
+    Socket cliente = null;
+    ObjectOutputStream salida = null;
+    ObjectInputStream entrada = null;
+    Usuarios usuarios = new Usuarios();
+    Peticion peticion = new Peticion();
+    Tareas tareas = new Tareas();
+
+    public PerfilUI(Usuarios usuario) {
         initComponents();
+        try {
+            cliente = new Socket("localhost", 4444);
+            salida = new ObjectOutputStream(cliente.getOutputStream());
+            entrada = new ObjectInputStream(cliente.getInputStream());
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
         this.setLocationRelativeTo(null);
+        usuarios = usuario;
+        rellenarDatos(usuarios.getId());
         btn_1.setBackground(Color.CYAN);
         text_btn1.setForeground(Color.BLACK);
     }
@@ -58,9 +83,9 @@ public class PerfilUI extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         perfil_imagen = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
+        perfil_balance = new javax.swing.JLabel();
+        perfil_tareas_pendientes = new javax.swing.JLabel();
+        perfil_tareas_terminadas = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -398,17 +423,17 @@ public class PerfilUI extends javax.swing.JFrame {
         perfil_imagen.setIcon(new javax.swing.ImageIcon("C:\\Users\\manue\\Downloads\\YO - copia.jpg")); // NOI18N
         jPanel4.add(perfil_imagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 20, 150, 140));
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel6.setText("2500€");
+        perfil_balance.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        perfil_balance.setForeground(new java.awt.Color(0, 0, 0));
+        perfil_balance.setText("2500€");
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel7.setText("4");
+        perfil_tareas_pendientes.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        perfil_tareas_pendientes.setForeground(new java.awt.Color(0, 0, 0));
+        perfil_tareas_pendientes.setText("4");
 
-        jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel13.setText("15");
+        perfil_tareas_terminadas.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        perfil_tareas_terminadas.setForeground(new java.awt.Color(0, 0, 0));
+        perfil_tareas_terminadas.setText("15");
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
@@ -441,12 +466,12 @@ public class PerfilUI extends javax.swing.JFrame {
                         .addGap(69, 69, 69))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
                         .addGap(115, 115, 115)
-                        .addComponent(jLabel7)
+                        .addComponent(perfil_tareas_pendientes)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel13)
-                        .addGap(186, 186, 186)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(17, 17, 17)))
+                        .addComponent(perfil_tareas_terminadas)
+                        .addGap(191, 191, 191)
+                        .addComponent(perfil_balance, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)))
                 .addGap(37, 37, 37))
         );
         jPanel3Layout.setVerticalGroup(
@@ -454,12 +479,17 @@ public class PerfilUI extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel13)
-                    .addComponent(jLabel6))
-                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(perfil_tareas_pendientes)
+                            .addComponent(perfil_tareas_terminadas))
+                        .addGap(18, 18, 18))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(perfil_balance)
+                        .addGap(8, 8, 8)))
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel3)
@@ -522,10 +552,43 @@ public class PerfilUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_3MouseClicked
 
     private void btn_2MouseClicked1(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_2MouseClicked1
-        TareasUI tareasUI = new TareasUI();
+        TareasUI tareasUI = new TareasUI(usuarios);
         tareasUI.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btn_2MouseClicked1
+
+    private void rellenarDatos(int idUsuario) {
+
+        int tareas_pendientes = 0;
+        int tareas_terminadas = 0;
+        try {
+            peticion.setConsulta(3);
+            salida.writeObject(peticion);
+            tareas.setIdUsuario(idUsuario);
+            salida.writeObject(tareas);
+
+            tareas = (Tareas) entrada.readObject();
+
+            for (int i = 0; i < tareas.getResultados_tareas().size(); i++) {
+                System.out.println(tareas.getResultados_tareas().get(i).getNombre());
+                if (tareas.getResultados_tareas().get(i).getEstado() == 1) {
+                    tareas_terminadas++;
+                    System.out.println("true");
+                } else {
+                    tareas_pendientes++;
+                    System.out.println("false");
+                }
+            }
+            System.out.println("terminadas: " + tareas_terminadas + " pendientes: " + tareas_pendientes);
+            perfil_tareas_pendientes.setText(tareas_pendientes + "");
+            perfil_tareas_terminadas.setText(tareas_terminadas + "");
+            perfil_balance.setText(usuarios.getSalario() + " €");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -558,7 +621,7 @@ public class PerfilUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PerfilUI().setVisible(true);
+                new PerfilUI(new Usuarios()).setVisible(true);
             }
         });
     }
@@ -580,21 +643,22 @@ public class PerfilUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JLabel perfil_balance;
     private javax.swing.JLabel perfil_imagen;
+    private javax.swing.JLabel perfil_tareas_pendientes;
+    private javax.swing.JLabel perfil_tareas_terminadas;
     private javax.swing.JPanel side_pane;
     private javax.swing.JLabel text_btn1;
     // End of variables declaration//GEN-END:variables
+
 }
