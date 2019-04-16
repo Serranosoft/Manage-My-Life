@@ -1,7 +1,6 @@
 package com.example.manue.managemylife.Adapters;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.example.manue.managemylife.Vo.Tarea;
+import vo.Tarea;
 import com.example.manue.managemylife.R;
 
 import java.util.List;
@@ -47,7 +46,7 @@ public class TareasAdapter extends RecyclerView.Adapter<TareasAdapter.ViewHolder
         }
 
 
-        if(tarea.isEstado()){
+        if(tarea.getEstado() == 1){
             viewHolder.checkBox.setChecked(true);
         }else{
             viewHolder.checkBox.setChecked(false);

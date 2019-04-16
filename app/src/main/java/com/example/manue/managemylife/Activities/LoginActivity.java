@@ -1,17 +1,32 @@
 package com.example.manue.managemylife.Activities;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 
 import com.example.manue.managemylife.R;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+
+import Compartir.Peticion;
+import Compartir.Usuarios;
 
 
 /**
@@ -19,6 +34,10 @@ import com.example.manue.managemylife.R;
  */
 public class LoginActivity extends AppCompatActivity {
 
+    EditText usuario = null;
+    EditText contraseña = null;
+    Usuarios usuarios = new Usuarios();
+    Peticion peticion = new Peticion();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,8 +48,8 @@ public class LoginActivity extends AppCompatActivity {
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                view.getContext().startActivity(intent);}
+                login();
+            }
         });
 
         TextView registrarse = (TextView) findViewById(R.id.login_registrarse);
@@ -50,6 +69,76 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        usuario = (EditText) findViewById(R.id.login_email);
+        contraseña = (EditText) findViewById(R.id.login_pass);
+    }
+
+    public void login() {
+
+        loginTask loginTask = new loginTask();
+        loginTask.execute();
+
+    }
+
+    public class loginTask extends AsyncTask<String, Void, Void> {
+
+        Socket cliente = null;
+        ObjectOutputStream salida = null;
+        ObjectInputStream entrada = null;
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            try {
+                System.out.println("AAA");
+                cliente = new Socket("192.168.0.162", 4444);
+                System.out.println("BBB");
+                salida = new ObjectOutputStream(cliente.getOutputStream());
+                entrada = new ObjectInputStream(cliente.getInputStream());
+
+                peticion.setConsulta(2);
+                salida.writeObject(peticion);
+                System.out.println("USUARIO : "+usuario.getText().toString());
+                System.out.println("CONTRASEÑA : "+contraseña.getText().toString());
+                usuarios.setUsuario(usuario.getText().toString());
+                usuarios.setContraseña(contraseña.getText().toString());
+                System.out.println("Envio el objeto usuarios con la información del usuario");
+                salida.writeObject(usuarios);
+                System.out.println("Leo el resultado de la consulta");
+                usuarios = (Usuarios) entrada.readObject();
+                System.out.println("Lo ha leido");
+                Handler handler =  new Handler(Looper.getMainLooper());
+                handler.post( new Runnable(){
+                    public void run(){
+                        if (usuarios.isExiste()) {
+
+                            System.out.println("Dentro del if");
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            intent.putExtra("login", usuarios);
+                            startActivity(intent);
+                            System.out.println("Ha hecho el intent");
+                        }else{
+                            final AlertDialog.Builder alert = new AlertDialog.Builder(LoginActivity.this, R.style.AlertDialog);
+
+                            alert.setTitle("Aviso");
+                            alert.setMessage("Usuario / Contraseña incorrecto! ");
+                            alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            });
+
+                            alert.create().show();
+                        }
+                    }
+                });
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 }
 

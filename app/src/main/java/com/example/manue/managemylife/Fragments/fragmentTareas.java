@@ -25,7 +25,7 @@ import android.widget.TextView;
 import com.example.manue.managemylife.Adapters.TareasAdapter;
 import com.example.manue.managemylife.R;
 import com.example.manue.managemylife.Util.SwipeableRecyclerViewTouchListener;
-import com.example.manue.managemylife.Vo.Tarea;
+import vo.Tarea;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -64,13 +64,6 @@ public class fragmentTareas extends Fragment{
         rList.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
 
         listaTarea = new ArrayList<>();
-        listaTarea.add(new Tarea("Estudiar para acceso a datos", true, false));
-        listaTarea.add(new Tarea("Hacer la compra", false, true));
-        listaTarea.add(new Tarea("Presentar exposición de Inglés",true, false));
-        listaTarea.add(new Tarea("Llamar a Miguel", false, false));
-        listaTarea.add(new Tarea("Imprimir documento de identidad", true, false));
-        listaTarea.add(new Tarea("Entregar documentación a José", false, true));
-        listaTarea.add(new Tarea("Felicitar a Miguel por su cumpleaños",false, false));
 
         // Adapter + ClickListener para cada ver información de cada tarea.
         adapter = new TareasAdapter(listaTarea, getActivity().getApplicationContext(), new TareasAdapter.OnItemClickListener() {
