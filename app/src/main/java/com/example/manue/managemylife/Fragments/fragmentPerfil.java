@@ -62,6 +62,7 @@ public class fragmentPerfil extends Fragment {
 
         MainActivity mainActivity = (MainActivity) getActivity();
 
+        System.out.println("Se recoge el objeto usuarios");
         usuarios = mainActivity.informacionUsuario();
 
         Button cerrar_sesion = (Button) view.findViewById(R.id.cerrar_sesion);
@@ -103,6 +104,7 @@ public class fragmentPerfil extends Fragment {
         perfil_nombre = (TextView) view.findViewById(R.id.perfil_nombre);
         perfil_usuario = (TextView) view.findViewById(R.id.perfil_usuario);
 
+        System.out.println("Se ejecuta el task");
         executeTareasTask();
         return view;
 
@@ -122,19 +124,23 @@ public class fragmentPerfil extends Fragment {
         @Override
         protected Tareas doInBackground(Tareas... strings) {
             try {
+                System.out.println("Establece conexion");
                 cliente = new Socket("192.168.0.162", 4444);
-
+                System.out.println("Configura flujos");
                 salida = new ObjectOutputStream(cliente.getOutputStream());
                 entrada = new ObjectInputStream(cliente.getInputStream());
 
+                System.out.println("Envia consulta");
                 peticion.setConsulta(3);
 
                 salida.writeObject(peticion);
 
                 tareas.setIdUsuario(usuarios.getId());
+                System.out.println("Envia tareas");
                 salida.writeObject(tareas);
 
 
+                System.out.println("Lee tareas");
                 tareas = (Tareas) entrada.readObject();
 
                 for (int i = 0; i < tareas.getResultados_tareas().size(); i++) {
@@ -156,6 +162,7 @@ public class fragmentPerfil extends Fragment {
         @Override
         protected void onPostExecute(Tareas tareas) {
             super.onPostExecute(tareas);
+            System.out.println("Se muestra");
             perfil_tareas_pendientes.setText(tareas_pendientes+"");
             perfil_tareas_terminadas.setText(tareas_terminadas+"");
             perfil_balance.setText(usuarios.getSalario()+"");

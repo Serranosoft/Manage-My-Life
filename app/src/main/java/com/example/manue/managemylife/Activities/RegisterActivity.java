@@ -3,9 +3,14 @@ package com.example.manue.managemylife.Activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -29,10 +34,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.example.manue.managemylife.R;
+
+import Compartir.Peticion;
+import Compartir.Usuarios;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -41,12 +53,71 @@ import static android.Manifest.permission.READ_CONTACTS;
  */
 public class RegisterActivity extends AppCompatActivity{
 
+    Usuarios usuarios = new Usuarios();
+    Peticion peticion = new Peticion();
+    EditText usuario = null;
+    EditText contraseña = null;
+    EditText nombre = null;
+    EditText salario = null;
+    Button registrar_usuario = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        usuario = (EditText) findViewById(R.id.register_email);
+        contraseña = (EditText) findViewById(R.id.register_pass);
+        nombre = (EditText) findViewById(R.id.register_nombre);
+        salario = (EditText) findViewById(R.id.register_salario);
+        registrar_usuario = (Button) findViewById(R.id.register_boton);
+        registrar_usuario.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                registrar();
+                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    public void registrar() {
+
+        registerTask registerTask = new registerTask();
+        registerTask.execute();
+
+    }
+
+    public class registerTask extends AsyncTask<String, Void, Void> {
+
+        Socket cliente = null;
+        ObjectOutputStream salida = null;
+        ObjectInputStream entrada = null;
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            try {
+                System.out.println("AAA");
+                cliente = new Socket("192.168.0.162", 4444);
+                System.out.println("BBB");
+                salida = new ObjectOutputStream(cliente.getOutputStream());
+                entrada = new ObjectInputStream(cliente.getInputStream());
+
+                peticion.setConsulta(1);
+                salida.writeObject(peticion);
+
+                usuarios.setUsuario(usuario.getText().toString());
+                usuarios.setContraseña(contraseña.getText().toString());
+                usuarios.setNombre(nombre.getText().toString());
+                usuarios.setSalario(Integer.valueOf(salario.getText().toString()));
+
+                System.out.println("Envio el objeto usuarios con la información del usuario para registrarlo");
+                salida.writeObject(usuarios);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            return null;
+        }
     }
 
 }

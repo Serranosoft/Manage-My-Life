@@ -13,6 +13,7 @@ public class Tareas implements Serializable {
     private int idUsuario;
 
     public Tareas() {
+        resultados_tareas = new ArrayList<Tarea>();
     }
 
     public Tareas(String nombre_tarea, int estado_tarea, ArrayList<Tarea> resultados_tareas, int idUsuario) {

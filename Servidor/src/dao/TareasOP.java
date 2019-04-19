@@ -45,7 +45,6 @@ public class TareasOP {
                 tarea.setEstado(Integer.valueOf(rs.getString("Estado")));
 
                 listado_tareas.add(tarea);
-                System.out.println(tarea.getNombre());
             }
         } catch (Exception e) {
             e.printStackTrace();
