@@ -61,5 +61,34 @@ public class TareasOP {
         return listado_tareas;
 
     }
+    
+    public void insertarTarea(Tareas tareas) {
+
+        Connection conexion = null;
+        PreparedStatement ps = null;
+
+        String sql = "INSERT INTO Tarea (Nombre, Categoria, Fecha_Inscrita, Fecha_Realizar, Descripcion, Estado, Prioritario, Id_Usuario) VALUES (?,?,?,?,?,?,?,?)";
+
+        try {
+            conexion = DriverManager.getConnection(cadcon, user, password);
+            ps = conexion.prepareCall(sql);
+
+            ps.setString(1, tareas.getNombre());
+            ps.setString(2, tareas.getCategoria());
+            ps.setDate(3, tareas.getFecha_inscrita());
+            ps.setDate(4, tareas.getFecha_realizar());
+            ps.setString(5, tareas.getDescripcion());
+            ps.setInt(6, tareas.getEstado());
+            ps.setInt(7, tareas.getPrioritario());
+            ps.setInt(8, tareas.getIdUsuario());
+
+            ps.executeUpdate();
+
+            System.out.println("Tarea introducida");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
 }

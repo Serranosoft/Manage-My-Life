@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
-            android:hint="Usuario / Email"
+            android:hint="Usuario / Correo Electrónico"
             android:textColorHint="@color/black"
             android:textColor="@color/black"/>
     </android.support.design.widget.TextInputLayout>

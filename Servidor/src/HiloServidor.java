@@ -71,6 +71,10 @@ class HiloServidor extends Thread {
                     obtenerTareas(tareas);
                     salida.writeObject(tareas);
                     break;
+                case 4:
+                    tareas = (Tareas) entrada.readObject();
+                    insertarTarea(tareas);
+                    break;
                     
             }
         } catch (IOException ex) {
@@ -106,6 +110,13 @@ class HiloServidor extends Thread {
         UsuariosOP uop = new UsuariosOP();
         System.out.println("Llamo al metodo comprobar usuario");
         usuarios = uop.comprobarUsuario(usuarios);
+    }
+    
+    private void insertarTarea (Tareas tareas) {
+        TareasOP top = new TareasOP();
+        top.insertarTarea(tareas);
+        
+        
     }
 
 }

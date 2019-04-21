@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -233,11 +236,18 @@ public class RegistroUI extends javax.swing.JFrame {
             usuarios.setUsuario(registro_email_field.getText());
             usuarios.setNombre(registro_nombre_field.getText());
             usuarios.setSalario(Integer.valueOf(registro_salario_field.getText()));
-            String contraseña = registro_password_field.getPassword().toString();
+            //String contraseña = registro_password_field.getPassword().toString();
+            String contraseña = new String(registro_password_field.getPassword());
             System.out.println(contraseña);
-            usuarios.setContraseña(contraseña);
-            /*MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(contraseña.getBytes(StandardCharsets.UTF_8));*/
+            
+            MessageDigest digest = MessageDigest.getInstance("MD5");
+            byte[] hash = digest.digest(contraseña.getBytes(StandardCharsets.UTF_8));
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < hash.length; i++) {
+                sb.append(Integer.toString((hash[i] & 0xff) + 0x100,16).substring(1));
+            }
+            System.out.println("Contraseña cifrada: " +sb.toString());
+            usuarios.setContraseña(sb.toString());
             // Le envio la consulta al servidor
             peticion.setConsulta(1);
             salida.writeObject(peticion);
@@ -250,6 +260,8 @@ public class RegistroUI extends javax.swing.JFrame {
             this.setVisible(false);
         } catch (IOException ex) {
             ex.printStackTrace();
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(RegistroUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_registrar_botonMouseClicked
 

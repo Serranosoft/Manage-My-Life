@@ -81,8 +81,10 @@ public class PerfilUI extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jLabel12 = new javax.swing.JLabel();
+        perfil_nombre = new javax.swing.JLabel();
         perfil_imagen = new javax.swing.JLabel();
+        perfil_modificar = new javax.swing.JLabel();
+        perfil_cerrar_sesion = new javax.swing.JLabel();
         perfil_balance = new javax.swing.JLabel();
         perfil_tareas_pendientes = new javax.swing.JLabel();
         perfil_tareas_terminadas = new javax.swing.JLabel();
@@ -415,25 +417,36 @@ public class PerfilUI extends javax.swing.JFrame {
         jPanel4.setBackground(new java.awt.Color(153, 153, 153));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel12.setText("Manuel Serrano Scholz");
-        jPanel4.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 170, -1, 30));
+        perfil_nombre.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        perfil_nombre.setForeground(new java.awt.Color(255, 255, 255));
+        perfil_nombre.setText("xxxxxxxx");
+        jPanel4.add(perfil_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 170, -1, 30));
 
         perfil_imagen.setIcon(new javax.swing.ImageIcon("C:\\Users\\manue\\Downloads\\YO - copia.jpg")); // NOI18N
         jPanel4.add(perfil_imagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 20, 150, 140));
 
+        perfil_modificar.setIcon(new javax.swing.ImageIcon("F:\\ManuelSerranoScholz\\AndroidStudio\\ProyectoFinal\\Escritorio\\imagenes\\ajustes.png")); // NOI18N
+        perfil_modificar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                perfil_modificarMouseClicked(evt);
+            }
+        });
+        jPanel4.add(perfil_modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 50, -1, -1));
+
+        perfil_cerrar_sesion.setIcon(new javax.swing.ImageIcon("F:\\ManuelSerranoScholz\\AndroidStudio\\ProyectoFinal\\Escritorio\\imagenes\\lock.png")); // NOI18N
+        jPanel4.add(perfil_cerrar_sesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 120, -1, -1));
+
         perfil_balance.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         perfil_balance.setForeground(new java.awt.Color(0, 0, 0));
-        perfil_balance.setText("2500€");
+        perfil_balance.setText("x");
 
         perfil_tareas_pendientes.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         perfil_tareas_pendientes.setForeground(new java.awt.Color(0, 0, 0));
-        perfil_tareas_pendientes.setText("4");
+        perfil_tareas_pendientes.setText("x");
 
         perfil_tareas_terminadas.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         perfil_tareas_terminadas.setForeground(new java.awt.Color(0, 0, 0));
-        perfil_tareas_terminadas.setText("15");
+        perfil_tareas_terminadas.setText("x");
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
@@ -557,6 +570,10 @@ public class PerfilUI extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_btn_2MouseClicked1
 
+    private void perfil_modificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_perfil_modificarMouseClicked
+        
+    }//GEN-LAST:event_perfil_modificarMouseClicked
+
     private void rellenarDatos(int idUsuario) {
 
         int tareas_pendientes = 0;
@@ -583,6 +600,7 @@ public class PerfilUI extends javax.swing.JFrame {
             perfil_tareas_pendientes.setText(tareas_pendientes + "");
             perfil_tareas_terminadas.setText(tareas_terminadas + "");
             perfil_balance.setText(usuarios.getSalario() + " €");
+            perfil_nombre.setText(usuarios.getNombre());
         } catch (IOException ex) {
             ex.printStackTrace();
         } catch (ClassNotFoundException ex) {
@@ -642,7 +660,6 @@ public class PerfilUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
@@ -654,7 +671,10 @@ public class PerfilUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JLabel perfil_balance;
+    private javax.swing.JLabel perfil_cerrar_sesion;
     private javax.swing.JLabel perfil_imagen;
+    private javax.swing.JLabel perfil_modificar;
+    private javax.swing.JLabel perfil_nombre;
     private javax.swing.JLabel perfil_tareas_pendientes;
     private javax.swing.JLabel perfil_tareas_terminadas;
     private javax.swing.JPanel side_pane;

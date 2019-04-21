@@ -1,5 +1,17 @@
 package UI;
 
+import Compartir.Peticion;
+import Compartir.Tareas;
+import Compartir.Usuarios;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -15,9 +27,25 @@ public class insertarTarea extends javax.swing.JDialog {
     /**
      * Creates new form insertarTarea
      */
-    public insertarTarea(java.awt.Frame parent, boolean modal) {
+    Socket cliente = null;
+    ObjectOutputStream salida = null;
+    ObjectInputStream entrada = null;
+    Tareas tareas = new Tareas();
+    Peticion peticion = new Peticion();
+    Usuarios usuarios = new Usuarios();
+    public insertarTarea(java.awt.Frame parent, boolean modal, Tareas tareas) {
         super(parent, modal);
         initComponents();
+        try {
+            System.out.println("bucle no porfavor");
+            cliente = new Socket("localhost", 4444);
+            System.out.println("configuro flujos");
+            salida = new ObjectOutputStream(cliente.getOutputStream());
+            entrada = new ObjectInputStream(cliente.getInputStream());
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        this.tareas = tareas;
         this.setLocationRelativeTo(null);
     }
 
@@ -33,22 +61,22 @@ public class insertarTarea extends javax.swing.JDialog {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        tarea_nombre = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        tarea_descripcion = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        datePicker1 = new com.github.lgooddatepicker.components.DatePicker();
-        jPanel3 = new javax.swing.JPanel();
+        tarea_categoria = new javax.swing.JComboBox<>();
+        tarea_terminar = new com.github.lgooddatepicker.components.DatePicker();
+        insertar_tarea = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel2.setBackground(new java.awt.Color(0, 102, 153));
 
-        jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel1.setText("INSERTAR TAREA");
+        jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -75,25 +103,30 @@ public class insertarTarea extends javax.swing.JDialog {
 
         jLabel5.setText("Categoría");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ocio", "Trabajo", "Estudios", "Otros" }));
+        tarea_categoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ocio", "Trabajo", "Estudios", "Otros" }));
 
-        jPanel3.setBackground(new java.awt.Color(0, 102, 153));
+        insertar_tarea.setBackground(new java.awt.Color(0, 102, 153));
+        insertar_tarea.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                insertar_tareaMouseClicked(evt);
+            }
+        });
 
         jLabel6.setText("AGREGAR");
         jLabel6.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+        javax.swing.GroupLayout insertar_tareaLayout = new javax.swing.GroupLayout(insertar_tarea);
+        insertar_tarea.setLayout(insertar_tareaLayout);
+        insertar_tareaLayout.setHorizontalGroup(
+            insertar_tareaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, insertar_tareaLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel6)
                 .addGap(99, 99, 99))
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        insertar_tareaLayout.setVerticalGroup(
+            insertar_tareaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(insertar_tareaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel6)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -109,13 +142,13 @@ public class insertarTarea extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel5)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE)
+                    .addComponent(tarea_descripcion, javax.swing.GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField2)
+                    .addComponent(tarea_nombre)
                     .addComponent(jLabel4)
-                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(datePicker1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(tarea_categoria, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tarea_terminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(insertar_tarea, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -125,26 +158,51 @@ public class insertarTarea extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tarea_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tarea_descripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel5)
                 .addGap(18, 18, 18)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tarea_categoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(datePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tarea_terminar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(insertar_tarea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void insertar_tareaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_insertar_tareaMouseClicked
+        
+        try {
+            peticion.setConsulta(4);
+            salida.writeObject(peticion);
+            tareas.setNombre(tarea_nombre.getText());
+            tareas.setDescripcion(tarea_descripcion.getText());
+            tareas.setCategoria(tarea_categoria.getSelectedItem().toString());
+            Date terminar = java.sql.Date.valueOf(tarea_terminar.getDate());
+            tareas.setFecha_realizar(terminar);
+            java.sql.Date inscrita = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+            tareas.setFecha_inscrita(inscrita);
+            tareas.setEstado(0);
+            tareas.setPrioritario(0);
+            
+            System.out.println("insertar tarea al usuario : " +tareas.getIdUsuario());
+            
+            salida.writeObject(tareas);
+            this.setVisible(false);
+        } catch (IOException ex) {
+            Logger.getLogger(insertarTarea.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_insertar_tareaMouseClicked
 
     /**
      * @param args the command line arguments
@@ -176,7 +234,7 @@ public class insertarTarea extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                insertarTarea dialog = new insertarTarea(new javax.swing.JFrame(), true);
+                insertarTarea dialog = new insertarTarea(new javax.swing.JFrame(), true, new Tareas());
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -189,8 +247,7 @@ public class insertarTarea extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.github.lgooddatepicker.components.DatePicker datePicker1;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JPanel insertar_tarea;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -198,8 +255,9 @@ public class insertarTarea extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JComboBox<String> tarea_categoria;
+    private javax.swing.JTextField tarea_descripcion;
+    private javax.swing.JTextField tarea_nombre;
+    private com.github.lgooddatepicker.components.DatePicker tarea_terminar;
     // End of variables declaration//GEN-END:variables
 }

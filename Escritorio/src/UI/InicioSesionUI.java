@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -213,10 +216,18 @@ public class InicioSesionUI extends javax.swing.JFrame {
 
             String usuario = inicio_email_field.getText();
             String password = inicio_password_field.getText();
+            MessageDigest digest = MessageDigest.getInstance("MD5");
+            byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < hash.length; i++) {
+                sb.append(Integer.toString((hash[i] & 0xff) + 0x100,16).substring(1));
+            }
+            System.out.println("Contraseña cifrada: " +sb.toString());
+            
             peticion.setConsulta(2);
             salida.writeObject(peticion);
             usuarios.setUsuario(usuario);
-            usuarios.setContraseña(password);
+            usuarios.setContraseña(sb.toString());
             System.out.println("Envio el objeto usuarios con la información del usuario");
             salida.writeObject(usuarios);
             System.out.println("Leo el resultado de la consulta");
@@ -234,6 +245,8 @@ public class InicioSesionUI extends javax.swing.JFrame {
             ex.printStackTrace();
         } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(InicioSesionUI.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 salida.close();

@@ -24,6 +24,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import Compartir.Peticion;
 import Compartir.Usuarios;
@@ -90,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
         protected Void doInBackground(String... strings) {
             try {
                 System.out.println("AAA");
-                cliente = new Socket("192.168.0.162", 4444);
+                cliente = new Socket("172.16.1.17", 4444);
                 System.out.println("BBB");
                 salida = new ObjectOutputStream(cliente.getOutputStream());
                 entrada = new ObjectInputStream(cliente.getInputStream());
@@ -99,8 +102,16 @@ public class LoginActivity extends AppCompatActivity {
                 salida.writeObject(peticion);
                 System.out.println("USUARIO : "+usuario.getText().toString());
                 System.out.println("CONTRASEÑA : "+contraseña.getText().toString());
+
+                MessageDigest digest = MessageDigest.getInstance("MD5");
+                byte[] hash = digest.digest(contraseña.getText().toString().getBytes(StandardCharsets.UTF_8));
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < hash.length; i++) {
+                    sb.append(Integer.toString((hash[i] & 0xff) + 0x100,16).substring(1));
+                }
                 usuarios.setUsuario(usuario.getText().toString());
-                usuarios.setContraseña(contraseña.getText().toString());
+                usuarios.setContraseña(sb.toString());
+
                 System.out.println("Envio el objeto usuarios con la información del usuario");
                 salida.writeObject(usuarios);
                 System.out.println("Leo el resultado de la consulta");
@@ -135,6 +146,8 @@ public class LoginActivity extends AppCompatActivity {
             } catch (IOException ex) {
                 ex.printStackTrace();
             } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (NoSuchAlgorithmException e) {
                 e.printStackTrace();
             }
             return null;

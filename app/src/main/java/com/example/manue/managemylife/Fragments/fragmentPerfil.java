@@ -125,7 +125,7 @@ public class fragmentPerfil extends Fragment {
         protected Tareas doInBackground(Tareas... strings) {
             try {
                 System.out.println("Establece conexion");
-                cliente = new Socket("192.168.0.162", 4444);
+                cliente = new Socket("172.16.1.17", 4444);
                 System.out.println("Configura flujos");
                 salida = new ObjectOutputStream(cliente.getOutputStream());
                 entrada = new ObjectInputStream(cliente.getInputStream());

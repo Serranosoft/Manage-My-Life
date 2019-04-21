@@ -544,8 +544,10 @@ public class TareasUI extends javax.swing.JFrame {
 
     private void añadirTarea_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_añadirTarea_btnMouseClicked
 
-        insertarTarea insertarTarea = new insertarTarea(this, false);
+        tareas.setIdUsuario(usuarios.getId());
+        insertarTarea insertarTarea = new insertarTarea(this, false, tareas);
         insertarTarea.setVisible(true);
+        // pendiente: actualizar tabla automaticamente tras insertar tarea
     }//GEN-LAST:event_añadirTarea_btnMouseClicked
     DefaultTableModel m;
 

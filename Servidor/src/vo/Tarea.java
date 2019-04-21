@@ -21,7 +21,7 @@ public class Tarea implements Serializable {
         this.nombre = nombre;
         this.estado = estado;
     }
-
+    
     public Tarea() {
     }
 
@@ -48,5 +48,5 @@ public class Tarea implements Serializable {
     public void setEstado(int estado) {
         this.estado = estado;
     }
-  
+     
 }
