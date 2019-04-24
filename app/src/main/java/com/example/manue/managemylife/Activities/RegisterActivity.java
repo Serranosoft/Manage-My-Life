@@ -101,7 +101,7 @@ public class RegisterActivity extends AppCompatActivity{
         protected Void doInBackground(String... strings) {
             try {
                 System.out.println("AAA");
-                cliente = new Socket("172.16.1.17", 4444);
+                cliente = new Socket("192.168.0.158", 4444);
                 System.out.println("BBB");
                 salida = new ObjectOutputStream(cliente.getOutputStream());
                 entrada = new ObjectInputStream(cliente.getInputStream());

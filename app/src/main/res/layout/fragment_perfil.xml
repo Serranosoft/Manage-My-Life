@@ -21,6 +21,7 @@
             android:src="@mipmap/perfil_ejemplo"
             android:layout_centerHorizontal="true"
             />
+
         <TextView
             android:id="@+id/perfil_nombre"
             android:layout_width="wrap_content"
@@ -28,7 +29,7 @@
             android:layout_below="@+id/imagenPerfil"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15sp"
-            android:text="Manuel"
+            android:text="XXXXX"
             android:textColor="#fff"
             android:textSize="32sp" />
 
@@ -39,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/perfil_nombre"
             android:layout_centerHorizontal="true"
-            android:text="Manu333"
+            android:text="XXXXXX"
             android:textColor="#fff"
             android:textSize="14sp"
             android:layout_marginBottom="16dp"/>
@@ -74,7 +75,7 @@
                     android:id="@+id/perfil_tareas_pendientes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="7"
+                    android:text="X"
                     android:textColor="#fff"
                     android:textSize="24sp" />
 
@@ -111,7 +112,7 @@
                     android:id="@+id/perfil_tareas_terminadas"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="15"
+                    android:text="X"
                     android:textColor="#fff"
                     android:textSize="24sp" />
 
@@ -147,7 +148,7 @@
                     android:id="@+id/perfil_balance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="2500€"
+                    android:text="XXXX€"
                     android:textColor="#fff"
                     android:textSize="24sp" />
 

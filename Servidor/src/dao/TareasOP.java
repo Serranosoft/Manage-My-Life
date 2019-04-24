@@ -134,5 +134,28 @@ public class TareasOP {
         }
 
     }
+    
+    public void eliminarTarea(Tareas tareas) {
+
+        Connection conexion = null;
+        PreparedStatement ps = null;
+
+        String sql = "DELETE FROM Tarea WHERE ID = ?";
+
+        try {
+            conexion = DriverManager.getConnection(cadcon, user, password);
+            ps = conexion.prepareCall(sql);
+
+            ps.setInt(1, tareas.getId());
+            ps.executeUpdate();
+
+            System.out.println("Tarea eliminada");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+    
+    
 
 }

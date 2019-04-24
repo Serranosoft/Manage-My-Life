@@ -114,7 +114,7 @@
                 android:gravity="center"
                 android:background="#1282A2">
                 <ImageView
-                    android:id="@+id/tarea_prioritario"
+                    android:id="@+id/insertar_tarea_prioritario"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:src="@mipmap/no_prioritario"/>

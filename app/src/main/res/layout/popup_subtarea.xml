@@ -114,6 +114,7 @@
                     android:textColor="#E3E4DB"/>
 
                 <TextView
+                    android:id="@+id/tarea_categoria"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="ESTUDIOS"
@@ -150,6 +151,7 @@
                     android:textColor="@color/colorSelected"/>
 
                 <TextView
+                    android:id="@+id/tarea_fecha"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="25/05/2019"
@@ -160,6 +162,7 @@
 
     </LinearLayout>
         <Button
+            android:id="@+id/tarea_subtareas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="SUBTAREAS"

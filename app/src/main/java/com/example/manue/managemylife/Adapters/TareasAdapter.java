@@ -12,11 +12,12 @@ import android.widget.TextView;
 import vo.Tarea;
 import com.example.manue.managemylife.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TareasAdapter extends RecyclerView.Adapter<TareasAdapter.ViewHolder> {
 
-    private List<Tarea> tareas;
+    private List<Tarea> tareas = new ArrayList<>();
     private Context context;
     private OnItemClickListener listener;
 

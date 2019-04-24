@@ -125,7 +125,7 @@ public class fragmentPerfil extends Fragment {
         protected Tareas doInBackground(Tareas... strings) {
             try {
                 System.out.println("Establece conexion");
-                cliente = new Socket("172.16.1.17", 4444);
+                cliente = new Socket("192.168.0.158", 4444);
                 System.out.println("Configura flujos");
                 salida = new ObjectOutputStream(cliente.getOutputStream());
                 entrada = new ObjectInputStream(cliente.getInputStream());
@@ -164,6 +164,7 @@ public class fragmentPerfil extends Fragment {
             super.onPostExecute(tareas);
             System.out.println("Se muestra");
             perfil_tareas_pendientes.setText(tareas_pendientes+"");
+            System.out.println("TAREAS PENDIENTES: "+tareas_pendientes);
             perfil_tareas_terminadas.setText(tareas_terminadas+"");
             perfil_balance.setText(usuarios.getSalario()+"");
             perfil_nombre.setText(usuarios.getNombre());
