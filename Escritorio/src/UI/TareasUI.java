@@ -9,6 +9,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import vo.Tarea;
 
@@ -32,6 +34,7 @@ public class TareasUI extends javax.swing.JFrame {
     Tareas tareas = new Tareas();
     Peticion peticion = new Peticion();
     Usuarios usuarios = new Usuarios();
+
     public TareasUI(Usuarios usuario) {
         System.out.println("HACE EL INIT");
         initComponents();
@@ -53,6 +56,7 @@ public class TareasUI extends javax.swing.JFrame {
         btn_2.setBackground(Color.CYAN);
         text_btn2.setForeground(Color.BLACK);
         System.out.println("fin constructor");
+        informacionTareas();
     }
 
     /**
@@ -578,6 +582,21 @@ public class TareasUI extends javax.swing.JFrame {
         }
     }
 
+    private void informacionTareas() {
+
+        tabla_tareas.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    int idTareaSeleccionada = tareas.getResultados_tareas().get(tabla_tareas.getSelectedRow()).getId();
+                    informacionTarea informacionTarea = new informacionTarea(TareasUI.this, false, idTareaSeleccionada);
+                    informacionTarea.setVisible(true);
+                }
+
+            }
+        });
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -642,4 +661,5 @@ public class TareasUI extends javax.swing.JFrame {
     private javax.swing.JLabel text_btn1;
     private javax.swing.JLabel text_btn2;
     // End of variables declaration//GEN-END:variables
+
 }

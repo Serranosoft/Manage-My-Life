@@ -75,6 +75,11 @@ class HiloServidor extends Thread {
                     tareas = (Tareas) entrada.readObject();
                     insertarTarea(tareas);
                     break;
+                case 5:
+                    tareas = (Tareas) entrada.readObject();
+                    obtenerTarea(tareas);
+                    salida.writeObject(tareas);
+                    break; 
                     
             }
         } catch (IOException ex) {
@@ -115,8 +120,19 @@ class HiloServidor extends Thread {
     private void insertarTarea (Tareas tareas) {
         TareasOP top = new TareasOP();
         top.insertarTarea(tareas);
+    }
+    
+    private void obtenerTarea(Tareas tareas) {
+
         
-        
+        try {
+
+            TareasOP top = new TareasOP();
+            tareas = top.selectTarea(tareas);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

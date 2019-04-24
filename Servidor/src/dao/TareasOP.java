@@ -7,6 +7,7 @@ package dao;
 
 import Compartir.Tareas;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -41,8 +42,14 @@ public class TareasOP {
             rs = ps.executeQuery();
             while (rs.next()) {
                 Tarea tarea = new Tarea();
+                tarea.setId(Integer.valueOf(rs.getString("ID")));
                 tarea.setNombre(rs.getString("Nombre"));
+                tarea.setCategoria(rs.getString("Categoria"));
+                tarea.setFecha_inscrita(Date.valueOf(rs.getString("Fecha_inscrita")));
+                tarea.setFecha_realizar(Date.valueOf(rs.getString("Fecha_Realizar")));
+                tarea.setDescripcion(rs.getString("Descripcion"));
                 tarea.setEstado(Integer.valueOf(rs.getString("Estado")));
+                tarea.setPrioritario(Integer.valueOf(rs.getString("Prioritario")));
 
                 listado_tareas.add(tarea);
             }
@@ -59,6 +66,43 @@ public class TareasOP {
             }
         }
         return listado_tareas;
+
+    }
+    
+    public Tareas selectTarea(Tareas tareas) {
+
+        ResultSet rs = null;
+        Connection conexion = null;
+        PreparedStatement ps = null;
+        try {
+            String sql = "SELECT * FROM Tarea WHERE ID = ?";
+            conexion = DriverManager.getConnection(cadcon, user, password);
+            ps = conexion.prepareCall(sql);
+            ps.setInt(1, tareas.getId());
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                tareas.setNombre(rs.getString("Nombre"));
+                tareas.setCategoria(rs.getString("Categoria"));
+                tareas.setFecha_inscrita(Date.valueOf(rs.getString("Fecha_inscrita")));
+                tareas.setFecha_realizar(Date.valueOf(rs.getString("Fecha_Realizar")));
+                tareas.setDescripcion(rs.getString("Descripcion"));
+                tareas.setEstado(Integer.valueOf(rs.getString("Estado")));
+                tareas.setPrioritario(Integer.valueOf(rs.getString("Prioritario")));
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+
+            try {
+                rs.close();
+                conexion.close();
+                ps.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return tareas;
 
     }
     
