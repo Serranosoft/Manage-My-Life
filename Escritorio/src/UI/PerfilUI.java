@@ -25,6 +25,7 @@ public class PerfilUI extends javax.swing.JFrame {
     /**
      * Creates new form Perfil
      */
+    final String server = "192.168.0.158";
     Socket cliente = null;
     ObjectOutputStream salida = null;
     ObjectInputStream entrada = null;
@@ -35,7 +36,7 @@ public class PerfilUI extends javax.swing.JFrame {
     public PerfilUI(Usuarios usuario) {
         initComponents();
         try {
-            cliente = new Socket("localhost", 4444);
+            cliente = new Socket(server, 4444);
             salida = new ObjectOutputStream(cliente.getOutputStream());
             entrada = new ObjectInputStream(cliente.getInputStream());
         } catch (IOException ex) {

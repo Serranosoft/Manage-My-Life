@@ -15,6 +15,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.manue.managemylife.Fragments.fragmentCalendario;
@@ -60,6 +63,16 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View headerView = navigationView.getHeaderView(0);
+
+        //ImageView nav_imagen = (ImageView) headerView.findViewById(R.id.nav_imagenPerfil);
+        TextView nav_nombre = (TextView) headerView.findViewById(R.id.nav_nombreUsuario);
+        TextView nav_usuario = (TextView) headerView.findViewById(R.id.nav_usuario);
+
+        // Configuracion de parámetros del menú lateral
+        nav_nombre.setText(usuarios.getNombre());
+        nav_usuario.setText(usuarios.getUsuario());
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_actual,
                 new fragmentPerfil()).commit();

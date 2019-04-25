@@ -28,6 +28,7 @@ public class TareasUI extends javax.swing.JFrame {
     /**
      * Creates new form TareasUI
      */
+    final String server = "192.168.0.158";
     Socket cliente = null;
     ObjectOutputStream salida = null;
     ObjectInputStream entrada = null;
@@ -41,7 +42,7 @@ public class TareasUI extends javax.swing.JFrame {
 
         try {
             System.out.println("bucle no porfavor");
-            cliente = new Socket("localhost", 4444);
+            cliente = new Socket(server, 4444);
             System.out.println("configuro flujos");
             salida = new ObjectOutputStream(cliente.getOutputStream());
             entrada = new ObjectInputStream(cliente.getInputStream());

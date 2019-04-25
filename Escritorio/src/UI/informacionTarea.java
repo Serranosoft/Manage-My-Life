@@ -25,6 +25,7 @@ public class informacionTarea extends javax.swing.JDialog {
     /**
      * Creates new form insertarGasto
      */
+    final String server = "192.168.0.158";
     Socket cliente = null;
     ObjectOutputStream salida = null;
     ObjectInputStream entrada = null;
@@ -37,7 +38,7 @@ public class informacionTarea extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         try {
-            cliente = new Socket("localhost", 4444);
+            cliente = new Socket(server, 4444);
             salida = new ObjectOutputStream(cliente.getOutputStream());
             entrada = new ObjectInputStream(cliente.getInputStream());
         } catch (IOException ex) {

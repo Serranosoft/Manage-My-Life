@@ -27,6 +27,7 @@ public class InicioSesionUI extends javax.swing.JFrame {
     /**
      * Creates new form InicioSesionUI
      */
+    final String server = "192.168.0.158";
     Socket cliente = null;
     ObjectOutputStream salida = null;
     ObjectInputStream entrada = null;
@@ -210,7 +211,7 @@ public class InicioSesionUI extends javax.swing.JFrame {
             /* Configuración del socket y flujos (En este caso no lo configuro en el propio constructor ya que debo cerrar los flujos en el caso de que la comprobación de
             credenciales sea incorrecta para poder realizar tantas consultas como el usuario vea conveniente
              */
-            cliente = new Socket("localhost", 4444);
+            cliente = new Socket(server, 4444);
             salida = new ObjectOutputStream(cliente.getOutputStream());
             entrada = new ObjectInputStream(cliente.getInputStream());
 

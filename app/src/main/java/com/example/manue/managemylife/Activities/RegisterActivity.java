@@ -56,6 +56,8 @@ import static android.Manifest.permission.READ_CONTACTS;
  */
 public class RegisterActivity extends AppCompatActivity{
 
+    final String server = "192.168.0.158";
+
     Usuarios usuarios = new Usuarios();
     Peticion peticion = new Peticion();
     EditText usuario = null;
@@ -101,7 +103,7 @@ public class RegisterActivity extends AppCompatActivity{
         protected Void doInBackground(String... strings) {
             try {
                 System.out.println("AAA");
-                cliente = new Socket("192.168.0.158", 4444);
+                cliente = new Socket(server, 4444);
                 System.out.println("BBB");
                 salida = new ObjectOutputStream(cliente.getOutputStream());
                 entrada = new ObjectInputStream(cliente.getInputStream());
