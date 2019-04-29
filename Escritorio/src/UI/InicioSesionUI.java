@@ -223,15 +223,12 @@ public class InicioSesionUI extends javax.swing.JFrame {
             for (int i = 0; i < hash.length; i++) {
                 sb.append(Integer.toString((hash[i] & 0xff) + 0x100,16).substring(1));
             }
-            System.out.println("Contraseña cifrada: " +sb.toString());
             
             peticion.setConsulta(2);
             salida.writeObject(peticion);
             usuarios.setUsuario(usuario);
             usuarios.setContraseña(sb.toString());
-            System.out.println("Envio el objeto usuarios con la información del usuario");
             salida.writeObject(usuarios);
-            System.out.println("Leo el resultado de la consulta");
             usuarios = (Usuarios) entrada.readObject();
 
             if (usuarios.isExiste()) {

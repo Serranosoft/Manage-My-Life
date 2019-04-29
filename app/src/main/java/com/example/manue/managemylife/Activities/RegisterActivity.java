@@ -56,7 +56,7 @@ import static android.Manifest.permission.READ_CONTACTS;
  */
 public class RegisterActivity extends AppCompatActivity{
 
-    final String server = "192.168.0.158";
+    final String server = "192.168.137.1";
 
     Usuarios usuarios = new Usuarios();
     Peticion peticion = new Peticion();

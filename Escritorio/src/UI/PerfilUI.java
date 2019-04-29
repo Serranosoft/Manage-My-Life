@@ -435,6 +435,11 @@ public class PerfilUI extends javax.swing.JFrame {
         jPanel4.add(perfil_modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 50, -1, -1));
 
         perfil_cerrar_sesion.setIcon(new javax.swing.ImageIcon("F:\\ManuelSerranoScholz\\AndroidStudio\\ProyectoFinal\\Escritorio\\imagenes\\lock.png")); // NOI18N
+        perfil_cerrar_sesion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                perfil_cerrar_sesionMouseClicked(evt);
+            }
+        });
         jPanel4.add(perfil_cerrar_sesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 120, -1, -1));
 
         perfil_balance.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
@@ -574,6 +579,13 @@ public class PerfilUI extends javax.swing.JFrame {
     private void perfil_modificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_perfil_modificarMouseClicked
         
     }//GEN-LAST:event_perfil_modificarMouseClicked
+
+    private void perfil_cerrar_sesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_perfil_cerrar_sesionMouseClicked
+        
+        InicioSesionUI inicioSesionUI = new InicioSesionUI();
+        inicioSesionUI.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_perfil_cerrar_sesionMouseClicked
 
     private void rellenarDatos(int idUsuario) {
 

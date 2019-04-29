@@ -53,7 +53,7 @@ import java.util.List;
  */
 public class fragmentTareas extends Fragment {
 
-    final String server = "192.168.0.158";
+    final String server = "192.168.137.1";
 
     Usuarios usuarios = new Usuarios();
     Peticion peticion = new Peticion();

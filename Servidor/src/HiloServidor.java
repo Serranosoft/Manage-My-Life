@@ -1,5 +1,6 @@
 
 import Compartir.Peticion;
+import Compartir.Subtareas;
 import Compartir.Tareas;
 import Compartir.Usuarios;
 import dao.TareasOP;
@@ -16,6 +17,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import vo.Subtarea;
 import vo.Tarea;
 
 /*
@@ -37,6 +39,7 @@ class HiloServidor extends Thread {
     Tareas tareas = new Tareas();
     Usuarios usuarios = new Usuarios();
     Peticion peticion = new Peticion();
+    Subtareas subtareas = new Subtareas();
     int consulta = 0;
 
     HiloServidor(Socket usuario, ObjectOutputStream salida) {
@@ -50,12 +53,14 @@ class HiloServidor extends Thread {
             e.printStackTrace();
         }
     }
+
     public void run() {
 
         try {
             // Se queda esperando a que el cliente mande una consulta a traves del objeto peticion
             peticion = (Peticion) entrada.readObject();
             consulta = peticion.getConsulta();
+            System.out.println(consulta);
             switch (consulta) {
                 case 1:
                     usuarios = (Usuarios) entrada.readObject();
@@ -79,12 +84,29 @@ class HiloServidor extends Thread {
                     tareas = (Tareas) entrada.readObject();
                     obtenerTarea(tareas);
                     salida.writeObject(tareas);
-                    break; 
+                    break;
                 case 6:
                     tareas = (Tareas) entrada.readObject();
                     eliminarTarea(tareas);
                     break;
-                    
+                case 7:
+                    tareas = (Tareas) entrada.readObject();
+                    actualizarTarea(tareas);
+                    break;
+                case 8:
+                    tareas = (Tareas) entrada.readObject();
+                    obtenerSubtareas(tareas);
+                    salida.writeObject(tareas);
+                    break;
+                case 9:
+                    subtareas = (Subtareas) entrada.readObject();
+                    insertarSubtarea(subtareas);
+                    break;
+                case 10:
+                    subtareas = (Subtareas) entrada.readObject();
+                    eliminarSubtarea(subtareas);
+                    break;
+
             }
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -107,25 +129,24 @@ class HiloServidor extends Thread {
         }
         tareas.setResultados_tareas(listado_tareas);
     }
-    
+
     private void insertarUsuario(Usuarios usuarios) {
-        
+
         UsuariosOP uop = new UsuariosOP();
         uop.insertarUsuario(usuarios);
     }
 
     private void comprobarUsuario(Usuarios usuarios) {
-        
+
         UsuariosOP uop = new UsuariosOP();
-        System.out.println("Llamo al metodo comprobar usuario");
         usuarios = uop.comprobarUsuario(usuarios);
     }
-    
-    private void insertarTarea (Tareas tareas) {
+
+    private void insertarTarea(Tareas tareas) {
         TareasOP top = new TareasOP();
         top.insertarTarea(tareas);
     }
-    
+
     private void obtenerTarea(Tareas tareas) {
         try {
 
@@ -138,10 +159,53 @@ class HiloServidor extends Thread {
     }
 
     private void eliminarTarea(Tareas tareas) {
-        
+
         try {
             TareasOP top = new TareasOP();
             top.eliminarTarea(tareas);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void actualizarTarea(Tareas tareas) {
+
+        try {
+            TareasOP top = new TareasOP();
+            top.actualizarTarea(tareas);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void obtenerSubtareas(Tareas tareas) {
+
+        try {
+            ArrayList<Subtarea> listado_subtareas = null;
+            TareasOP top = new TareasOP();
+            listado_subtareas = top.obtenerSubtareas(tareas);
+            tareas.setSubtareas(listado_subtareas);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void insertarSubtarea(Subtareas subtareas) {
+
+        try {
+            TareasOP top = new TareasOP();
+            top.insertarSubtarea(subtareas);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void eliminarSubtarea(Subtareas subtareas) {
+
+        try {
+            TareasOP top = new TareasOP();
+            top.eliminarSubtarea(subtareas);
         } catch (Exception e) {
             e.printStackTrace();
         }

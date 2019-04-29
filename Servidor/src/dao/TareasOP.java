@@ -5,6 +5,7 @@
  */
 package dao;
 
+import Compartir.Subtareas;
 import Compartir.Tareas;
 import java.sql.Connection;
 import java.sql.Date;
@@ -15,6 +16,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import vo.Subtarea;
 import vo.Tarea;
 
 /**
@@ -68,7 +70,7 @@ public class TareasOP {
         return listado_tareas;
 
     }
-    
+
     public Tareas selectTarea(Tareas tareas) {
 
         ResultSet rs = null;
@@ -105,7 +107,7 @@ public class TareasOP {
         return tareas;
 
     }
-    
+
     public void insertarTarea(Tareas tareas) {
 
         Connection conexion = null;
@@ -134,7 +136,7 @@ public class TareasOP {
         }
 
     }
-    
+
     public void eliminarTarea(Tareas tareas) {
 
         Connection conexion = null;
@@ -155,7 +157,103 @@ public class TareasOP {
         }
 
     }
-    
-    
+
+    public void actualizarTarea(Tareas tareas) {
+        System.out.println("ENTRA");
+        Connection conexion = null;
+        PreparedStatement ps = null;
+
+        String sql = "UPDATE Tarea SET Nombre = ?, Categoria = ?, Fecha_Inscrita = ?, Fecha_Realizar = ?, Descripcion = ?, Estado = ?, Prioritario = ? WHERE ID = ?";
+
+        try {
+            conexion = DriverManager.getConnection(cadcon, user, password);
+            ps = conexion.prepareCall(sql);
+
+            ps.setString(1, tareas.getNombre());
+            ps.setString(2, tareas.getCategoria());
+            ps.setDate(3, tareas.getFecha_inscrita());
+            ps.setDate(4, tareas.getFecha_realizar());
+            ps.setString(5, tareas.getDescripcion());
+            ps.setInt(6, tareas.getEstado());
+            ps.setInt(7, tareas.getPrioritario());
+            ps.setInt(8, tareas.getId());
+            ps.executeUpdate();
+
+            System.out.println("Tarea actualizada");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public ArrayList obtenerSubtareas(Tareas tareas) {
+        ArrayList<Subtarea> listado_subtareas = new ArrayList<>();
+        ResultSet rs = null;
+        Connection conexion = null;
+        PreparedStatement ps = null;
+
+        try {
+            String sql = "SELECT * FROM Subtarea WHERE ID_Tarea = ?";
+            conexion = DriverManager.getConnection(cadcon, user, password);
+            ps = conexion.prepareCall(sql);
+            ps.setInt(1, tareas.getId());
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Subtarea subtarea = new Subtarea();
+                subtarea.setId(Integer.valueOf(rs.getString("ID")));
+                subtarea.setNombre(rs.getString("Nombre"));
+                subtarea.setEstado(Integer.valueOf(rs.getString("Estado")));
+
+                listado_subtareas.add(subtarea);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+
+            try {
+                rs.close();
+                conexion.close();
+                ps.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return listado_subtareas;
+    }
+
+    public void insertarSubtarea(Subtareas subtareas) {
+        Connection conexion = null;
+        PreparedStatement ps = null;
+
+        try {
+            String sql = "INSERT INTO Subtarea (Nombre, Estado, ID_Tarea) VALUES (?,?,?)";
+            conexion = DriverManager.getConnection(cadcon, user, password);
+            ps = conexion.prepareCall(sql);
+            ps.setString(1, subtareas.getNombre());
+            ps.setInt(2, subtareas.getEstado());
+            ps.setInt(3, subtareas.getID_Tarea());
+
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void eliminarSubtarea(Subtareas subtareas) {
+        Connection conexion = null;
+        PreparedStatement ps = null;
+
+        try {
+            String sql = "DELETE FROM Subtarea WHERE ID = ?";
+            conexion = DriverManager.getConnection(cadcon, user, password);
+            ps = conexion.prepareCall(sql);
+            ps.setInt(1, subtareas.getId());
+
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }

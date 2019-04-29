@@ -37,7 +37,7 @@ import Compartir.Usuarios;
  */
 public class LoginActivity extends AppCompatActivity {
 
-    final String server = "192.168.0.158";
+    final String server = "192.168.137.1";
 
     EditText usuario = null;
     EditText contraseña = null;

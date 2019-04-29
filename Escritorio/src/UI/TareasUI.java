@@ -37,13 +37,10 @@ public class TareasUI extends javax.swing.JFrame {
     Usuarios usuarios = new Usuarios();
 
     public TareasUI(Usuarios usuario) {
-        System.out.println("HACE EL INIT");
         initComponents();
 
         try {
-            System.out.println("bucle no porfavor");
             cliente = new Socket(server, 4444);
-            System.out.println("configuro flujos");
             salida = new ObjectOutputStream(cliente.getOutputStream());
             entrada = new ObjectInputStream(cliente.getInputStream());
         } catch (IOException ex) {
@@ -51,12 +48,10 @@ public class TareasUI extends javax.swing.JFrame {
         }
 
         this.setLocationRelativeTo(null);
-        System.out.println("llamo al metodo para rellenar tabla");
         this.usuarios = usuario;
         rellenarTareas(usuarios);
         btn_2.setBackground(Color.CYAN);
         text_btn2.setForeground(Color.BLACK);
-        System.out.println("fin constructor");
         informacionTareas();
     }
 
@@ -96,6 +91,7 @@ public class TareasUI extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla_tareas = new javax.swing.JTable();
         añadirTarea_btn = new javax.swing.JButton();
+        actualizar_tabla = new javax.swing.JButton();
 
         jCheckBox1.setText("jCheckBox1");
 
@@ -111,8 +107,8 @@ public class TareasUI extends javax.swing.JFrame {
             }
         });
 
-        ind_1.setPreferredSize(new java.awt.Dimension(3, 43));
         ind_1.setOpaque(false);
+        ind_1.setPreferredSize(new java.awt.Dimension(3, 43));
 
         javax.swing.GroupLayout ind_1Layout = new javax.swing.GroupLayout(ind_1);
         ind_1.setLayout(ind_1Layout);
@@ -125,9 +121,9 @@ public class TareasUI extends javax.swing.JFrame {
             .addGap(0, 43, Short.MAX_VALUE)
         );
 
-        text_btn1.setText("Perfil");
         text_btn1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         text_btn1.setForeground(new java.awt.Color(255, 255, 255));
+        text_btn1.setText("Perfil");
 
         javax.swing.GroupLayout btn_1Layout = new javax.swing.GroupLayout(btn_1);
         btn_1.setLayout(btn_1Layout);
@@ -159,8 +155,8 @@ public class TareasUI extends javax.swing.JFrame {
             }
         });
 
-        ind_2.setPreferredSize(new java.awt.Dimension(3, 43));
         ind_2.setOpaque(false);
+        ind_2.setPreferredSize(new java.awt.Dimension(3, 43));
 
         javax.swing.GroupLayout ind_2Layout = new javax.swing.GroupLayout(ind_2);
         ind_2.setLayout(ind_2Layout);
@@ -173,9 +169,9 @@ public class TareasUI extends javax.swing.JFrame {
             .addGap(0, 43, Short.MAX_VALUE)
         );
 
-        jLabel9.setText("Control de Gastos");
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel9.setText("Control de Gastos");
 
         javax.swing.GroupLayout btn_5Layout = new javax.swing.GroupLayout(btn_5);
         btn_5.setLayout(btn_5Layout);
@@ -202,8 +198,8 @@ public class TareasUI extends javax.swing.JFrame {
 
         btn_2.setBackground(new java.awt.Color(0, 51, 153));
 
-        ind_3.setPreferredSize(new java.awt.Dimension(3, 43));
         ind_3.setOpaque(false);
+        ind_3.setPreferredSize(new java.awt.Dimension(3, 43));
 
         javax.swing.GroupLayout ind_3Layout = new javax.swing.GroupLayout(ind_3);
         ind_3.setLayout(ind_3Layout);
@@ -216,9 +212,9 @@ public class TareasUI extends javax.swing.JFrame {
             .addGap(0, 43, Short.MAX_VALUE)
         );
 
-        text_btn2.setText("Tareas");
         text_btn2.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         text_btn2.setForeground(new java.awt.Color(255, 255, 255));
+        text_btn2.setText("Tareas");
 
         javax.swing.GroupLayout btn_2Layout = new javax.swing.GroupLayout(btn_2);
         btn_2.setLayout(btn_2Layout);
@@ -245,8 +241,8 @@ public class TareasUI extends javax.swing.JFrame {
 
         btn_6.setBackground(new java.awt.Color(0, 51, 153));
 
-        ind_4.setPreferredSize(new java.awt.Dimension(3, 43));
         ind_4.setOpaque(false);
+        ind_4.setPreferredSize(new java.awt.Dimension(3, 43));
 
         javax.swing.GroupLayout ind_4Layout = new javax.swing.GroupLayout(ind_4);
         ind_4.setLayout(ind_4Layout);
@@ -259,9 +255,9 @@ public class TareasUI extends javax.swing.JFrame {
             .addGap(0, 43, Short.MAX_VALUE)
         );
 
-        jLabel11.setText("Informes");
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel11.setText("Informes");
 
         javax.swing.GroupLayout btn_6Layout = new javax.swing.GroupLayout(btn_6);
         btn_6.setLayout(btn_6Layout);
@@ -293,8 +289,8 @@ public class TareasUI extends javax.swing.JFrame {
             }
         });
 
-        ind_5.setPreferredSize(new java.awt.Dimension(3, 43));
         ind_5.setOpaque(false);
+        ind_5.setPreferredSize(new java.awt.Dimension(3, 43));
 
         javax.swing.GroupLayout ind_5Layout = new javax.swing.GroupLayout(ind_5);
         ind_5.setLayout(ind_5Layout);
@@ -307,9 +303,9 @@ public class TareasUI extends javax.swing.JFrame {
             .addGap(0, 43, Short.MAX_VALUE)
         );
 
-        jLabel14.setText("Calendario");
         jLabel14.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel14.setText("Calendario");
 
         javax.swing.GroupLayout btn_4Layout = new javax.swing.GroupLayout(btn_4);
         btn_4.setLayout(btn_4Layout);
@@ -341,8 +337,8 @@ public class TareasUI extends javax.swing.JFrame {
             }
         });
 
-        ind_6.setPreferredSize(new java.awt.Dimension(3, 43));
         ind_6.setOpaque(false);
+        ind_6.setPreferredSize(new java.awt.Dimension(3, 43));
 
         javax.swing.GroupLayout ind_6Layout = new javax.swing.GroupLayout(ind_6);
         ind_6.setLayout(ind_6Layout);
@@ -355,9 +351,9 @@ public class TareasUI extends javax.swing.JFrame {
             .addGap(0, 43, Short.MAX_VALUE)
         );
 
-        jLabel17.setText("Tareas Terminadas");
         jLabel17.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel17.setText("Tareas Terminadas");
 
         javax.swing.GroupLayout btn_3Layout = new javax.swing.GroupLayout(btn_3);
         btn_3.setLayout(btn_3Layout);
@@ -397,8 +393,8 @@ public class TareasUI extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("TAREAS");
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel1.setText("TAREAS");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -429,14 +425,14 @@ public class TareasUI extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nombre"
+                "Nombre", "Estado"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class
+                java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false
+                false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -455,12 +451,21 @@ public class TareasUI extends javax.swing.JFrame {
         if (tabla_tareas.getColumnModel().getColumnCount() > 0) {
             tabla_tareas.getColumnModel().getColumn(0).setResizable(false);
             tabla_tareas.getColumnModel().getColumn(0).setPreferredWidth(500);
+            tabla_tareas.getColumnModel().getColumn(1).setResizable(false);
+            tabla_tareas.getColumnModel().getColumn(1).setPreferredWidth(20);
         }
 
         añadirTarea_btn.setIcon(new javax.swing.ImageIcon("C:\\Users\\manue\\Downloads\\add.png")); // NOI18N
         añadirTarea_btn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 añadirTarea_btnMouseClicked(evt);
+            }
+        });
+
+        actualizar_tabla.setIcon(new javax.swing.ImageIcon("F:\\ManuelSerranoScholz\\AndroidStudio\\ProyectoFinal\\Escritorio\\imagenes\\reload (1).png")); // NOI18N
+        actualizar_tabla.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                actualizar_tablaMouseClicked(evt);
             }
         });
 
@@ -474,6 +479,8 @@ public class TareasUI extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 781, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(actualizar_tabla, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(añadirTarea_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -481,7 +488,9 @@ public class TareasUI extends javax.swing.JFrame {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(añadirTarea_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(añadirTarea_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(actualizar_tabla, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27))
@@ -554,6 +563,10 @@ public class TareasUI extends javax.swing.JFrame {
         insertarTarea.setVisible(true);
         // pendiente: actualizar tabla automaticamente tras insertar tarea
     }//GEN-LAST:event_añadirTarea_btnMouseClicked
+
+    private void actualizar_tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_actualizar_tablaMouseClicked
+        //rellenarTareas(this.usuarios);
+    }//GEN-LAST:event_actualizar_tablaMouseClicked
     DefaultTableModel m;
 
     public void rellenarTareas(Usuarios usuarios) {
@@ -561,23 +574,28 @@ public class TareasUI extends javax.swing.JFrame {
         m.setRowCount(0);
 
         try {
-            System.out.println("Envio la peticion");
             peticion.setConsulta(3);
             salida.writeObject(peticion);
             tareas.setIdUsuario(usuarios.getId());
             salida.writeObject(tareas);
+            salida.flush();
             tareas = (Tareas) entrada.readObject();
         } catch (IOException ex) {
             ex.printStackTrace();
         } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
         }
-
+        String estado = "Pendiente";
         ArrayList<Tarea> listado_tareas = tareas.getResultados_tareas();
         for (int i = 0; i < listado_tareas.size(); i++) {
-            Tarea tareas = listado_tareas.get(i);
-            Object[] array = {tareas.getNombre()};
-            System.out.println(tareas.getNombre());
+            Tarea tarea = listado_tareas.get(i);
+            System.out.println(tarea.getEstado());
+            if(tarea.getEstado() == 1) {
+                estado = "Terminado";
+            }
+            System.out.println(tarea.getNombre() + tarea.getEstado() +estado);
+            
+            Object[] array = {tarea.getNombre(), estado};
             m.addRow(array);
 
         }
@@ -592,6 +610,7 @@ public class TareasUI extends javax.swing.JFrame {
                     int idTareaSeleccionada = tareas.getResultados_tareas().get(tabla_tareas.getSelectedRow()).getId();
                     informacionTarea informacionTarea = new informacionTarea(TareasUI.this, false, idTareaSeleccionada);
                     informacionTarea.setVisible(true);
+                    tabla_tareas.clearSelection();
                 }
 
             }
@@ -634,6 +653,7 @@ public class TareasUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton actualizar_tabla;
     private javax.swing.JButton añadirTarea_btn;
     private javax.swing.JPanel btn_1;
     private javax.swing.JPanel btn_2;
