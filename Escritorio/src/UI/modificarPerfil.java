@@ -47,18 +47,19 @@ public class modificarPerfil extends javax.swing.JDialog {
     Usuarios usuarios = new Usuarios();
     ImageIcon photo = null;
 
-    public modificarPerfil(java.awt.Frame parent, boolean modal) {
+    public modificarPerfil(java.awt.Frame parent, boolean modal, Usuarios usuarios) {
         super(parent, modal);
         initComponents();
-        /*try {
+        try {
             cliente = new Socket(server, 4444);
             salida = new ObjectOutputStream(cliente.getOutputStream());
             entrada = new ObjectInputStream(cliente.getInputStream());
         } catch (IOException ex) {
             ex.printStackTrace();
-        }*/
+        }
         this.setLocationRelativeTo(null);
-
+        this.usuarios = usuarios;
+        cargaDatos();
         buscar_imagen.addActionListener(new ActionListener() {
 
             @Override
@@ -116,7 +117,7 @@ public class modificarPerfil extends javax.swing.JDialog {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(50, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(48, 48, 48))
         );
@@ -161,7 +162,7 @@ public class modificarPerfil extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
-        imagen_perfil.setText("jLabel7");
+        imagen_perfil.setIcon(new javax.swing.ImageIcon("F:\\ManuelSerranoScholz\\AndroidStudio\\ProyectoFinal\\Escritorio\\src\\imagenes\\user.png")); // NOI18N
 
         buscar_imagen.setText("Buscar");
 
@@ -191,13 +192,12 @@ public class modificarPerfil extends javax.swing.JDialog {
                 .addContainerGap(47, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(prueba)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(imagen_perfil, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(43, 43, 43))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(buscar_imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(60, 60, 60)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(buscar_imagen, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
+                            .addComponent(imagen_perfil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(60, 60, 60))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -231,11 +231,25 @@ public class modificarPerfil extends javax.swing.JDialog {
 
     private void modificar_perfilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_modificar_perfilMouseClicked
         try {
-            BufferedImage image = new BufferedImage(photo.getIconWidth(),
-            photo.getIconHeight(),BufferedImage.TYPE_INT_RGB);
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            ImageIO.write(image, "jpg", bos);
-            byte[] data = bos.toByteArray();
+            
+            usuarios.setNombre(usuario_nombre.getText());
+            usuarios.setUsuario(usuario_usuario.getText());
+            usuarios.setSalario(Integer.valueOf(usuario_salario.getText()));
+            
+            if(photo != null) {
+                BufferedImage image = new BufferedImage(photo.getIconWidth(),
+                photo.getIconHeight(),BufferedImage.TYPE_INT_RGB);
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                ImageIO.write(image, "jpg", bos);
+                byte[] data = bos.toByteArray();
+            }
+            
+            
+            //usuarios.setImagen(data);
+            peticion.setConsulta(11);
+            salida.writeObject(peticion);
+            salida.writeObject(usuarios);
+            this.setVisible(false);
             
             // enviar array de bytes al servidor con la demás informacion del usuario
             
@@ -252,6 +266,21 @@ public class modificarPerfil extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_modificar_perfilMouseClicked
 
+    public void cargaDatos() {
+        usuario_nombre.setText(usuarios.getNombre());
+        usuario_usuario.setText(usuarios.getUsuario());
+        usuario_salario.setText(usuarios.getSalario()+"");
+        
+        /*try {
+            BufferedImage img = ImageIO.read(new ByteArrayInputStream(usuarios.getImagen()));
+            ImageIcon p1 = new ImageIcon(img);
+            prueba.setIcon(p1);
+            
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }*/
+
+    }
     public ImageIcon ResizeImage(String ImagePath) {
         ImageIcon MyImage = new ImageIcon(ImagePath);
         Image img = MyImage.getImage();
@@ -294,7 +323,7 @@ public class modificarPerfil extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                modificarPerfil dialog = new modificarPerfil(new javax.swing.JFrame(), true);
+                modificarPerfil dialog = new modificarPerfil(new javax.swing.JFrame(), true, new Usuarios());
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

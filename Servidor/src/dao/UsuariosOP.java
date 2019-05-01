@@ -67,6 +67,7 @@ public class UsuariosOP {
                 usuario.setUsuario(rs.getString("Usuario"));
                 usuario.setNombre(rs.getString("Nombre"));
                 usuario.setSalario(Integer.valueOf(rs.getString("Salario")));
+                usuario.setImagen(rs.getString("Imagen").getBytes());
             }
 
         } catch (Exception e) {
@@ -88,7 +89,7 @@ public class UsuariosOP {
         Connection conexion = null;
         PreparedStatement ps = null;
 
-        String sql = "UPDATE Uuarios SET Usuario = ?, Nombre = ?, Salario = ?, Imagen = ? ";
+        String sql = "UPDATE Usuario SET Usuario = ?, Nombre = ?, Salario = ?, Imagen = ? WHERE ID = ?";
 
         try {
             conexion = DriverManager.getConnection(cadcon, user, password);
@@ -98,6 +99,7 @@ public class UsuariosOP {
             ps.setString(2, usuario.getNombre());
             ps.setInt(3, usuario.getSalario());
             ps.setBytes(4, usuario.getImagen());
+            ps.setInt(5, usuario.getId());
             
             ps.executeUpdate();
 

@@ -423,7 +423,7 @@ public class PerfilUI extends javax.swing.JFrame {
         perfil_nombre.setText("xxxxxxxx");
         jPanel4.add(perfil_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 170, -1, 30));
 
-        perfil_imagen.setIcon(new javax.swing.ImageIcon("C:\\Users\\manue\\Downloads\\YO - copia.jpg")); // NOI18N
+        perfil_imagen.setIcon(new javax.swing.ImageIcon("F:\\ManuelSerranoScholz\\AndroidStudio\\ProyectoFinal\\Escritorio\\src\\imagenes\\user.png")); // NOI18N
         jPanel4.add(perfil_imagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 20, 150, 140));
 
         perfil_modificar.setIcon(new javax.swing.ImageIcon("F:\\ManuelSerranoScholz\\AndroidStudio\\ProyectoFinal\\Escritorio\\imagenes\\ajustes.png")); // NOI18N
@@ -577,7 +577,8 @@ public class PerfilUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_2MouseClicked1
 
     private void perfil_modificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_perfil_modificarMouseClicked
-        
+        modificarPerfil moPerfil = new modificarPerfil(this, false, usuarios);
+        moPerfil.setVisible(true);
     }//GEN-LAST:event_perfil_modificarMouseClicked
 
     private void perfil_cerrar_sesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_perfil_cerrar_sesionMouseClicked
