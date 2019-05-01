@@ -37,7 +37,7 @@ import Compartir.Tareas;
 import Compartir.Usuarios;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener{
 
     Usuarios usuarios = new Usuarios();
     Peticion peticion = new Peticion();

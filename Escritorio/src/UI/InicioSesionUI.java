@@ -220,6 +220,7 @@ public class InicioSesionUI extends javax.swing.JFrame {
             MessageDigest digest = MessageDigest.getInstance("MD5");
             byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
             StringBuilder sb = new StringBuilder();
+            
             for (int i = 0; i < hash.length; i++) {
                 sb.append(Integer.toString((hash[i] & 0xff) + 0x100,16).substring(1));
             }

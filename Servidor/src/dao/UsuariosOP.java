@@ -82,5 +82,30 @@ public class UsuariosOP {
         }
         return usuario;
     }
+    
+    public void modificarUsuario(Usuarios usuario) {
+
+        Connection conexion = null;
+        PreparedStatement ps = null;
+
+        String sql = "UPDATE Uuarios SET Usuario = ?, Nombre = ?, Salario = ?, Imagen = ? ";
+
+        try {
+            conexion = DriverManager.getConnection(cadcon, user, password);
+            ps = conexion.prepareCall(sql);
+
+            ps.setString(1, usuario.getUsuario());
+            ps.setString(2, usuario.getNombre());
+            ps.setInt(3, usuario.getSalario());
+            ps.setBytes(4, usuario.getImagen());
+            
+            ps.executeUpdate();
+
+            System.out.println("Usuario actualizado");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
 }

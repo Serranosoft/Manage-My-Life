@@ -20,18 +20,28 @@ public class Usuarios implements Serializable {
     private String nombre;
     private String contraseña;
     private int salario;
+    private byte[] imagen;
     private boolean existe;
 
     public Usuarios() {
     }
 
-    public Usuarios(int id, String usuario, String nombre, String contraseña, int salario, boolean existe) {
+    public Usuarios(int id, String usuario, String nombre, String contraseña, int salario, byte[] imagen, boolean existe) {
         this.id = id;
         this.usuario = usuario;
         this.nombre = nombre;
         this.contraseña = contraseña;
         this.salario = salario;
+        this.imagen = imagen;
         this.existe = existe;
+    }
+
+    public byte[] getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(byte[] imagen) {
+        this.imagen = imagen;
     }
 
     public String getUsuario() {
@@ -81,7 +91,6 @@ public class Usuarios implements Serializable {
     public void setId(int id) {
         this.id = id;
     }
-    
     
     
 

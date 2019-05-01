@@ -60,7 +60,6 @@ class HiloServidor extends Thread {
             // Se queda esperando a que el cliente mande una consulta a traves del objeto peticion
             peticion = (Peticion) entrada.readObject();
             consulta = peticion.getConsulta();
-            System.out.println(consulta);
             switch (consulta) {
                 case 1:
                     usuarios = (Usuarios) entrada.readObject();
@@ -106,6 +105,15 @@ class HiloServidor extends Thread {
                     subtareas = (Subtareas) entrada.readObject();
                     eliminarSubtarea(subtareas);
                     break;
+                case 11:
+                    usuarios = (Usuarios) entrada.readObject();
+                    modificarUsuario(usuarios);
+                    break;
+                case 12:
+                    tareas = (Tareas) entrada.readObject();
+                    actualizarEstadoTarea(tareas);
+                    break;
+                   
 
             }
         } catch (IOException ex) {
@@ -211,4 +219,18 @@ class HiloServidor extends Thread {
         }
     }
 
+    private void modificarUsuario(Usuarios usuarios) {
+
+        UsuariosOP uop = new UsuariosOP();
+        uop.modificarUsuario(usuarios);
+    }
+    private void actualizarEstadoTarea(Tareas tareas) {
+        try {
+            TareasOP top = new TareasOP();
+            top.actualizarEstadoTarea(tareas);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

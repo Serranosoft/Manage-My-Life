@@ -159,7 +159,6 @@ public class TareasOP {
     }
 
     public void actualizarTarea(Tareas tareas) {
-        System.out.println("ENTRA");
         Connection conexion = null;
         PreparedStatement ps = null;
 
@@ -254,6 +253,26 @@ public class TareasOP {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    public void actualizarEstadoTarea(Tareas tareas) {
+        Connection conexion = null;
+        PreparedStatement ps = null;
+
+        String sql = "UPDATE Tarea SET Estado = ? WHERE ID = ?";
+
+        try {
+            conexion = DriverManager.getConnection(cadcon, user, password);
+            ps = conexion.prepareCall(sql);
+
+            ps.setInt(1, tareas.getEstado());
+            ps.setInt(2, tareas.getId());
+            ps.executeUpdate();
+
+            System.out.println("Estado de la tarea"+tareas.getId() +tareas.getNombre() +"actualizado");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
 }

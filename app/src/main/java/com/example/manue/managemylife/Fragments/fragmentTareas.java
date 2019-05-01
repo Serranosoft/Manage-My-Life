@@ -2,10 +2,13 @@ package com.example.manue.managemylife.Fragments;
 
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -25,7 +28,6 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.example.manue.managemylife.Activities.LoginActivity;
 import com.example.manue.managemylife.Activities.MainActivity;
 import com.example.manue.managemylife.Activities.SubtareasActivity;
 import com.example.manue.managemylife.Adapters.TareasAdapter;
@@ -41,19 +43,17 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class fragmentTareas extends Fragment {
 
-    final String server = "192.168.137.1";
+    final String server = "192.168.0.158";
 
     Usuarios usuarios = new Usuarios();
     Peticion peticion = new Peticion();
@@ -64,8 +64,12 @@ public class fragmentTareas extends Fragment {
     private RecyclerView.Adapter adapter;
     private AlertDialog.Builder builder_tarea;
     private AlertDialog dialog_tarea;
+    private AlertDialog.Builder builder_modificar_tarea;
+    private AlertDialog dialog_modificar_tarea;
     private AlertDialog.Builder builder_insertar_categoria;
     private AlertDialog dialog_insertar_categoria;
+
+
 
     private Calendar c;
     private DatePickerDialog dpd;
@@ -216,10 +220,8 @@ public class fragmentTareas extends Fragment {
 
                         try {
                             tareas.setNombre(nombre_tarea.getText().toString());
-                            System.out.println("NOMBRE DE LA TAREA A INSERTAR: "+tareas.getNombre());
                             tareas.setDescripcion(descripcion_tarea.getText().toString());
                             tareas.setCategoria(categoria_textview.getText().toString());
-                            System.out.println("NOMBRE DE LA CATEGORIA DE LA TAREA A INSERTAR: "+tareas.getCategoria());
                             tareas.setEstado(0);
                             tareas.setPrioritario(prioritario);
                             java.sql.Date inscrita = new java.sql.Date(Calendar.getInstance().getTime().getTime());
@@ -231,10 +233,10 @@ public class fragmentTareas extends Fragment {
                             tareas.setFecha_realizar(terminar);
 
                             executeInsertarTareasTask();
-                            adapter.notifyDataSetChanged();
-                            rList.setAdapter(adapter);
                             dialog_tarea.dismiss();
+                            adapter.notifyDataSetChanged();
                             executeTareasTask();
+
                         } catch (ParseException e) {
                             e.printStackTrace();
                             final AlertDialog.Builder alert = new AlertDialog.Builder(getContext(), R.style.AlertDialog);
@@ -261,7 +263,7 @@ public class fragmentTareas extends Fragment {
 
                             @Override
                             public boolean canSwipeLeft(int position) {
-                                return false;
+                                return true;
                             }
 
                             @Override
@@ -271,11 +273,21 @@ public class fragmentTareas extends Fragment {
 
                             @Override
                             public void onDismissedBySwipeLeft(RecyclerView recyclerView, int[] reverseSortedPositions) {
-                                for (int position : reverseSortedPositions) {
-                                    listaTarea.remove(position);
-                                    adapter.notifyItemRemoved(position);
+                                for (final int position : reverseSortedPositions) {
+                                    int idTarea = listaTarea.get(position).getId();
+                                    if(listaTarea.get(position).getEstado() == 1){
+                                        tareas.setId(idTarea);
+                                        tareas.setEstado(0);
+                                    }else{
+                                        tareas.setId(idTarea);
+                                        tareas.setEstado(1);
+                                    }
+                                    executeStatusTareasTask();
+                                    executeTareasTask();
+
                                 }
                                 adapter.notifyDataSetChanged();
+
                             }
 
                             @Override
@@ -326,6 +338,16 @@ public class fragmentTareas extends Fragment {
         eliminarTareasTask eliminarTareasTask = new eliminarTareasTask();
         eliminarTareasTask.execute();
     }
+    public void executeUpdateTareasTask() {
+        modificarTareasTask modificarTareasTask = new modificarTareasTask();
+        modificarTareasTask.execute();
+    }
+    public void executeStatusTareasTask() {
+
+        actualizarEstadoTarea actualizarEstadoTarea = new actualizarEstadoTarea();
+        actualizarEstadoTarea.execute();
+    }
+
 
     public class mostrarTareasTask extends AsyncTask<ArrayList<Tarea>, Void, ArrayList<Tarea>> {
 
@@ -336,9 +358,7 @@ public class fragmentTareas extends Fragment {
         @Override
         protected ArrayList<Tarea> doInBackground(ArrayList<Tarea>... arrayLists) {
             try {
-                System.out.println("AAA");
                 cliente = new Socket(server, 4444);
-                System.out.println("BBB");
                 salida = new ObjectOutputStream(cliente.getOutputStream());
                 entrada = new ObjectInputStream(cliente.getInputStream());
 
@@ -367,10 +387,10 @@ public class fragmentTareas extends Fragment {
             // Adapter + ClickListener para cada ver información de cada tarea.
             adapter = new TareasAdapter(listaTarea, getActivity().getApplicationContext(), new TareasAdapter.OnItemClickListener() {
                 @Override
-                public void onItemClick(Tarea tarea, int position) {
+                public void onItemClick(final Tarea tarea, int position) {
 
                     builder_tarea = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.myDialog));
-                    View view_popup = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.popup_subtarea, null);
+                    View view_popup = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.popup_infotarea, null);
 
                     builder_tarea.setView(view_popup);
 
@@ -415,15 +435,163 @@ public class fragmentTareas extends Fragment {
                     subtareas.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            tareas.setId(tarea.getId());
                             Intent intent = new Intent(getActivity(), SubtareasActivity.class);
-                            intent.putExtra("tarea_subtarea", usuarios);
+                            intent.putExtra("tarea_subtarea", tareas);
+                            startActivity(intent);
                         }
                     });
 
 
                 }
+
             });
             rList.setAdapter(adapter);
+            //rList.setAdapter(adapter);
+            /*adapter = new TareasAdapter(listaTarea, getActivity().getApplicationContext(), new TareasAdapter.OnItemLongClickListener() {
+                @Override
+                public void onItemLongClick(Tarea tarea, int position) {
+                    builder_tarea = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.myDialog));
+                    View view_modificar_tarea_popup = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.popup_modificar_tarea, null);
+
+                    builder_tarea.setView(view_modificar_tarea_popup);
+
+                    dialog_tarea = builder_tarea.create();
+                    dialog_tarea.show();
+
+                    final EditText nombre_tarea = view_modificar_tarea_popup.findViewById(R.id.modificar_tarea_nombre);
+                    nombre_tarea.setText(tarea.getNombre());
+                    final EditText descripcion_tarea = view_modificar_tarea_popup.findViewById(R.id.modificar_tarea_descripcion);
+                    descripcion_tarea.setText(tarea.getDescripcion());
+                    final ImageView prioritario_tarea = view_modificar_tarea_popup.findViewById(R.id.modificar_tarea_prioritario);
+
+                    if (tarea.getPrioritario() == 1) {
+                        prioritario_tarea.setImageResource(R.mipmap.prioritario);
+                    }
+
+                    prioritario_tarea.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (prioritario_tarea.getDrawable().getConstantState() == getResources().getDrawable(R.mipmap.no_prioritario).getConstantState()) {
+                                prioritario_tarea.setImageResource(R.mipmap.prioritario);
+                                prioritario = 1;
+                            } else {
+                                prioritario_tarea.setImageResource(R.mipmap.no_prioritario);
+                                prioritario = 0;
+                            }
+
+                        }
+                    });
+                    // fecha
+                    final TextView fecha_textview = (TextView) view_modificar_tarea_popup.findViewById(R.id.modificar_tarea_fecha_text);
+                    final LinearLayout fecha = (LinearLayout) view_modificar_tarea_popup.findViewById(R.id.modificar_tarea_fecha);
+                    fecha.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            c = Calendar.getInstance();
+                            int day = c.get(Calendar.DAY_OF_MONTH);
+                            int month = c.get(Calendar.MONTH);
+                            int year = c.get(Calendar.YEAR);
+
+                            dpd = new DatePickerDialog(getActivity(), R.style.AlertDialog, new DatePickerDialog.OnDateSetListener() {
+                                @Override
+                                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                                    fecha_textview.setText(dayOfMonth + "/" + month + 1 + "/" + year);
+                                }
+                            }, day, month, year);
+                            dpd.show();
+                        }
+                    });
+
+                    // Categoria
+                    final TextView categoria_textview = (TextView) view_modificar_tarea_popup.findViewById(R.id.modificar_tarea_categoria_text);
+                    final LinearLayout categoria = (LinearLayout) view_modificar_tarea_popup.findViewById(R.id.modificar_tarea_categoria);
+                    final View view_popup_categoria = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.popup_insertar_tarea_categoria, null);
+                    final Button categoria_aceptar = (Button) view_popup_categoria.findViewById(R.id.btnOk);
+                    radio_categoria = (RadioGroup) view_popup_categoria.findViewById(R.id.radioScreenMode);
+                    categoria.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            builder_insertar_categoria = new AlertDialog.Builder(getActivity(), R.style.AlertDialog);
+
+
+                            builder_insertar_categoria.setView(view_popup_categoria);
+                            dialog_insertar_categoria = builder_insertar_categoria.create();
+                            if (view_popup_categoria.getParent() != null) {
+                                ((ViewGroup) view_popup_categoria.getParent()).removeView(view_popup_categoria);
+                            }
+                            dialog_insertar_categoria.show();
+
+                            radio_categoria.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                                @Override
+                                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                                    switch (radio_categoria.getCheckedRadioButtonId()) {
+                                        case R.id.radio0:
+                                            categoria_textview.setText("Ocio");
+
+                                            break;
+                                        case R.id.radio1:
+                                            categoria_textview.setText("Trabajo");
+
+                                            break;
+                                        case R.id.radio2:
+                                            categoria_textview.setText("Estudios");
+
+                                            break;
+                                        case R.id.radio3:
+                                            categoria_textview.setText("Otros");
+                                            break;
+
+                                    }
+                                }
+                            });
+                            categoria_aceptar.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    dialog_insertar_categoria.dismiss();
+                                }
+                            });
+
+                        }
+                    });
+                    final TextView close_tarea = view_modificar_tarea_popup.findViewById(R.id.modificar_tarea_close);
+                    close_tarea.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog_tarea.dismiss();
+                        }
+                    });
+
+                    final ImageView modificar_tarea_aceptar = view_modificar_tarea_popup.findViewById(R.id.modificar_tarea_aceptar);
+                    modificar_tarea_aceptar.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            try {
+                                tareas.setNombre(nombre_tarea.getText().toString());
+                                tareas.setDescripcion(descripcion_tarea.getText().toString());
+                                tareas.setCategoria(categoria_textview.getText().toString());
+                                tareas.setEstado(0);
+                                tareas.setPrioritario(prioritario);
+                                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+                                java.util.Date terminar_temp = null;
+                                terminar_temp = simpleDateFormat.parse(fecha_textview.getText().toString());
+                                java.sql.Date terminar = new java.sql.Date(terminar_temp.getTime());
+                                tareas.setFecha_realizar(terminar);
+
+                                executeUpdateTareasTask();
+
+
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    });
+                }
+            });*/
+
 
         }
     }
@@ -437,9 +605,7 @@ public class fragmentTareas extends Fragment {
         @Override
         protected Void doInBackground(String... strings) {
             try {
-                System.out.println("AAA");
                 cliente = new Socket(server, 4444);
-                System.out.println("BBB");
                 salida = new ObjectOutputStream(cliente.getOutputStream());
                 entrada = new ObjectInputStream(cliente.getInputStream());
 
@@ -465,13 +631,62 @@ public class fragmentTareas extends Fragment {
         @Override
         protected Void doInBackground(String... strings) {
             try {
-                System.out.println("AAA");
                 cliente = new Socket(server, 4444);
-                System.out.println("BBB");
                 salida = new ObjectOutputStream(cliente.getOutputStream());
                 entrada = new ObjectInputStream(cliente.getInputStream());
 
                 peticion.setConsulta(6);
+                salida.writeObject(peticion);
+                salida.writeObject(tareas);
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
+            return null;
+        }
+    }
+
+    public class modificarTareasTask extends AsyncTask<String, Void, Void> {
+
+        Socket cliente = null;
+        ObjectOutputStream salida = null;
+        ObjectInputStream entrada = null;
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            try {
+                cliente = new Socket(server, 4444);
+                salida = new ObjectOutputStream(cliente.getOutputStream());
+                entrada = new ObjectInputStream(cliente.getInputStream());
+
+                tareas.setIdUsuario(usuarios.getId());
+
+                peticion.setConsulta(7);
+                salida.writeObject(peticion);
+                salida.writeObject(tareas);
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
+            return null;
+        }
+    }
+    public class actualizarEstadoTarea extends AsyncTask<String, Void, Void> {
+
+        Socket cliente = null;
+        ObjectOutputStream salida = null;
+        ObjectInputStream entrada = null;
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            try {
+                cliente = new Socket(server, 4444);
+                salida = new ObjectOutputStream(cliente.getOutputStream());
+                entrada = new ObjectInputStream(cliente.getInputStream());
+
+                peticion.setConsulta(12);
                 salida.writeObject(peticion);
                 salida.writeObject(tareas);
 

@@ -1,5 +1,6 @@
 package Compartir;
 
+import vo.Subtarea;
 import vo.Tarea;
 
 import java.io.Serializable;
@@ -17,11 +18,12 @@ public class Tareas implements Serializable{
     private int prioritario = 0;
     private int idUsuario;
     private ArrayList<Tarea> resultados_tareas;
+    private ArrayList<Subtarea> subtareas;
 
     public Tareas() {
     }
 
-    public Tareas(int id, String nombre, String categoria, Date fecha_inscrita, Date fecha_realizar, String descripcion, int idUsuario, ArrayList<Tarea> resultados_tareas) {
+    public Tareas(int id, String nombre, String categoria, Date fecha_inscrita, Date fecha_realizar, String descripcion, int idUsuario, ArrayList<Tarea> resultados_tareas, ArrayList<Subtarea> subtareas) {
         this.id = id;
         this.nombre = nombre;
         this.categoria = categoria;
@@ -30,10 +32,16 @@ public class Tareas implements Serializable{
         this.descripcion = descripcion;
         this.idUsuario = idUsuario;
         this.resultados_tareas = resultados_tareas;
+        this.subtareas = subtareas;
     }
 
+    public ArrayList<Subtarea> getSubtareas() {
+        return subtareas;
+    }
 
-
+    public void setSubtareas(ArrayList<Subtarea> subtareas) {
+        this.subtareas = subtareas;
+    }
     public int getIdUsuario() {
         return idUsuario;
     }

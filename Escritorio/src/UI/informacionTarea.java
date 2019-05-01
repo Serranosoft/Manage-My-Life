@@ -89,7 +89,6 @@ public class informacionTarea extends javax.swing.JDialog {
         modificar_informacion_tarea = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         añadir_subtarea = new javax.swing.JButton();
-        editar_subtarea = new javax.swing.JButton();
         categoria_tarea = new javax.swing.JComboBox<>();
         fecha_realizar_tarea = new com.github.lgooddatepicker.components.DatePicker();
         eliminar_tarea = new javax.swing.JLabel();
@@ -254,8 +253,6 @@ public class informacionTarea extends javax.swing.JDialog {
             }
         });
 
-        editar_subtarea.setIcon(new javax.swing.ImageIcon("F:\\ManuelSerranoScholz\\AndroidStudio\\ProyectoFinal\\Escritorio\\imagenes\\pencil-edit-button.png")); // NOI18N
-
         categoria_tarea.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ocio", "Trabajo", "Estudios", "Otros" }));
         categoria_tarea.setEnabled(false);
 
@@ -302,7 +299,7 @@ public class informacionTarea extends javax.swing.JDialog {
                                         .addComponent(modificar_informacion_tarea, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                 .addGap(0, 1, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addContainerGap(45, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(fecha_realizar_tarea, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -331,7 +328,6 @@ public class informacionTarea extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(eliminar_subtarea, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(editar_subtarea, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(añadir_subtarea, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(actualizar_tabla, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
@@ -344,8 +340,6 @@ public class informacionTarea extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(37, 37, 37)
                         .addComponent(añadir_subtarea)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(editar_subtarea)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(eliminar_subtarea)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -648,7 +642,6 @@ public class informacionTarea extends javax.swing.JDialog {
     private javax.swing.JButton añadir_subtarea;
     private javax.swing.JComboBox<String> categoria_tarea;
     private javax.swing.JTextField descripcion_tarea;
-    private javax.swing.JButton editar_subtarea;
     private javax.swing.JButton eliminar_subtarea;
     private javax.swing.JLabel eliminar_tarea;
     private javax.swing.JCheckBox estado_tarea;
