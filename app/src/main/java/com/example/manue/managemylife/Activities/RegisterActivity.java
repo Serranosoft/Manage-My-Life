@@ -45,6 +45,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.manue.managemylife.R;
+import com.example.manue.managemylife.ServerIP.ServerIP;
 
 import Compartir.Peticion;
 import Compartir.Usuarios;
@@ -54,9 +55,9 @@ import static android.Manifest.permission.READ_CONTACTS;
 /**
  * A login screen that offers login via email/password.
  */
-public class RegisterActivity extends AppCompatActivity{
+public class RegisterActivity extends AppCompatActivity implements ServerIP {
 
-    final String server = "192.168.0.158";
+    final String server = IP;
 
     Usuarios usuarios = new Usuarios();
     Peticion peticion = new Peticion();

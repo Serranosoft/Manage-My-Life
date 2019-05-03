@@ -21,6 +21,7 @@ import com.example.manue.managemylife.Activities.LoginActivity;
 import com.example.manue.managemylife.Activities.MainActivity;
 import com.example.manue.managemylife.Activities.SliderActivity;
 import com.example.manue.managemylife.R;
+import com.example.manue.managemylife.ServerIP.ServerIP;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -34,9 +35,9 @@ import Compartir.Usuarios;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class fragmentPerfil extends Fragment {
+public class fragmentPerfil extends Fragment implements ServerIP {
 
-    final String server = "192.168.0.158";
+    final String server = IP;
 
     Usuarios usuarios = new Usuarios();
     Peticion peticion = new Peticion();

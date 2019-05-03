@@ -3,6 +3,7 @@ package UI;
 import Compartir.Peticion;
 import Compartir.Tareas;
 import Compartir.Usuarios;
+import Conexion.Conexion;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,7 +40,8 @@ public class modificarPerfil extends javax.swing.JDialog {
     /**
      * Creates new form insertarTarea
      */
-    final String server = "192.168.0.158";
+    final Conexion conexion = new Conexion();
+    final String server = conexion.getServer();
     Socket cliente = null;
     ObjectOutputStream salida = null;
     ObjectInputStream entrada = null;

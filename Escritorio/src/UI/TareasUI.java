@@ -3,12 +3,15 @@ package UI;
 import Compartir.Peticion;
 import Compartir.Tareas;
 import Compartir.Usuarios;
+import Conexion.Conexion;
 import java.awt.Color;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -28,24 +31,18 @@ public class TareasUI extends javax.swing.JFrame {
     /**
      * Creates new form TareasUI
      */
-    final String server = "192.168.0.158";
+    final Conexion conexion = new Conexion();
+    final String server = conexion.getServer();
     Socket cliente = null;
     ObjectOutputStream salida = null;
     ObjectInputStream entrada = null;
     Tareas tareas = new Tareas();
     Peticion peticion = new Peticion();
     Usuarios usuarios = new Usuarios();
+    boolean dialog = false;
 
     public TareasUI(Usuarios usuario) {
         initComponents();
-
-        try {
-            cliente = new Socket(server, 4444);
-            salida = new ObjectOutputStream(cliente.getOutputStream());
-            entrada = new ObjectInputStream(cliente.getInputStream());
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
 
         this.setLocationRelativeTo(null);
         this.usuarios = usuario;
@@ -91,7 +88,6 @@ public class TareasUI extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla_tareas = new javax.swing.JTable();
         añadirTarea_btn = new javax.swing.JButton();
-        actualizar_tabla = new javax.swing.JButton();
 
         jCheckBox1.setText("jCheckBox1");
 
@@ -462,13 +458,6 @@ public class TareasUI extends javax.swing.JFrame {
             }
         });
 
-        actualizar_tabla.setIcon(new javax.swing.ImageIcon("F:\\ManuelSerranoScholz\\AndroidStudio\\ProyectoFinal\\Escritorio\\imagenes\\reload (1).png")); // NOI18N
-        actualizar_tabla.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                actualizar_tablaMouseClicked(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -479,8 +468,6 @@ public class TareasUI extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 781, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(actualizar_tabla, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(añadirTarea_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -488,9 +475,7 @@ public class TareasUI extends javax.swing.JFrame {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(añadirTarea_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(actualizar_tabla, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(añadirTarea_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27))
@@ -559,14 +544,47 @@ public class TareasUI extends javax.swing.JFrame {
     private void añadirTarea_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_añadirTarea_btnMouseClicked
 
         tareas.setIdUsuario(usuarios.getId());
-        insertarTarea insertarTarea = new insertarTarea(this, false, tareas);
+        insertarTarea insertarTarea = new insertarTarea(this, true, tareas);
         insertarTarea.setVisible(true);
-        // pendiente: actualizar tabla automaticamente tras insertar tarea
-    }//GEN-LAST:event_añadirTarea_btnMouseClicked
+        dialog = insertarTarea.cerrarDialog();
+        if (dialog) {
+            try {
+                cliente = new Socket(server, 4444);
+                salida = new ObjectOutputStream(cliente.getOutputStream());
+                entrada = new ObjectInputStream(cliente.getInputStream());
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            m.setRowCount(0);
 
-    private void actualizar_tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_actualizar_tablaMouseClicked
-        //rellenarTareas(this.usuarios);
-    }//GEN-LAST:event_actualizar_tablaMouseClicked
+            try {
+                peticion.setConsulta(3);
+                salida.writeObject(peticion);
+                tareas.setIdUsuario(usuarios.getId());
+                salida.writeObject(tareas);
+                salida.flush();
+                tareas = (Tareas) entrada.readObject();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+            String estado = "Pendiente";
+            ArrayList<Tarea> listado_tareas = tareas.getResultados_tareas();
+            for (int i = 0; i < listado_tareas.size(); i++) {
+                Tarea tarea = listado_tareas.get(i);
+
+                if (tarea.getEstado() == 1) {
+                    estado = "Terminado";
+                } else {
+                    estado = "Pendiente";
+                }
+                Object[] array = {tarea.getNombre(), estado};
+                m.addRow(array);
+            }
+
+        }
+    }//GEN-LAST:event_añadirTarea_btnMouseClicked
     DefaultTableModel m;
 
     public void rellenarTareas(Usuarios usuarios) {
@@ -574,31 +592,40 @@ public class TareasUI extends javax.swing.JFrame {
         m.setRowCount(0);
 
         try {
+
+            cliente = new Socket(server, 4444);
+            salida = new ObjectOutputStream(cliente.getOutputStream());
+            entrada = new ObjectInputStream(cliente.getInputStream());
+
             peticion.setConsulta(3);
             salida.writeObject(peticion);
+            salida.flush();
             tareas.setIdUsuario(usuarios.getId());
             salida.writeObject(tareas);
             salida.flush();
             tareas = (Tareas) entrada.readObject();
+
+            String estado = "Pendiente";
+            ArrayList<Tarea> listado_tareas = tareas.getResultados_tareas();
+            for (int i = 0; i < listado_tareas.size(); i++) {
+                Tarea tarea = listado_tareas.get(i);
+
+                if (tarea.getEstado() == 1) {
+                    estado = "Terminado";
+                } else {
+                    estado = "Pendiente";
+                }
+                Object[] array = {tarea.getNombre(), estado};
+                m.addRow(array);
+
+            }
+
         } catch (IOException ex) {
             ex.printStackTrace();
         } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
         }
-        String estado = "Pendiente";
-        ArrayList<Tarea> listado_tareas = tareas.getResultados_tareas();
-        for (int i = 0; i < listado_tareas.size(); i++) {
-            Tarea tarea = listado_tareas.get(i);
-            System.out.println(tarea.getEstado());
-            if(tarea.getEstado() == 1) {
-                estado = "Terminado";
-            }
-            System.out.println(tarea.getNombre() + tarea.getEstado() +estado);
-            
-            Object[] array = {tarea.getNombre(), estado};
-            m.addRow(array);
 
-        }
     }
 
     private void informacionTareas() {
@@ -607,10 +634,54 @@ public class TareasUI extends javax.swing.JFrame {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
-                    int idTareaSeleccionada = tareas.getResultados_tareas().get(tabla_tareas.getSelectedRow()).getId();
-                    informacionTarea informacionTarea = new informacionTarea(TareasUI.this, false, idTareaSeleccionada);
-                    informacionTarea.setVisible(true);
-                    tabla_tareas.clearSelection();
+                    System.out.println("Cuantas veces");
+                    //int idTareaSeleccionada = tareas.getResultados_tareas().get(tabla_tareas.getSelectedRow()).getId();
+                    if (tabla_tareas.getSelectedRow() == -1) {
+                        return;
+                    } else {
+                        informacionTarea informacionTarea = new informacionTarea(TareasUI.this, true, tareas.getResultados_tareas().get(tabla_tareas.getSelectedRow()).getId());
+                        tabla_tareas.getSelectionModel().setSelectionInterval(-1, -1);
+                        informacionTarea.setVisible(true);
+                        //tabla_tareas.clearSelection();
+                        dialog = informacionTarea.cerrarDialog();
+                        if (dialog) {
+                            try {
+                                cliente = new Socket(server, 4444);
+                                salida = new ObjectOutputStream(cliente.getOutputStream());
+                                entrada = new ObjectInputStream(cliente.getInputStream());
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                            m.setRowCount(0);
+
+                            try {
+                                peticion.setConsulta(3);
+                                salida.writeObject(peticion);
+                                tareas.setIdUsuario(usuarios.getId());
+                                salida.writeObject(tareas);
+                                salida.flush();
+                                tareas = (Tareas) entrada.readObject();
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            } catch (ClassNotFoundException ex) {
+                                ex.printStackTrace();
+                            }
+                            String estado = "Pendiente";
+                            ArrayList<Tarea> listado_tareas = tareas.getResultados_tareas();
+                            for (int i = 0; i < listado_tareas.size(); i++) {
+                                Tarea tarea = listado_tareas.get(i);
+
+                                if (tarea.getEstado() == 1) {
+                                    estado = "Terminado";
+                                } else {
+                                    estado = "Pendiente";
+                                }
+                                Object[] array = {tarea.getNombre(), estado};
+                                m.addRow(array);
+                            }
+                        }
+                    }
+
                 }
 
             }
@@ -653,7 +724,6 @@ public class TareasUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton actualizar_tabla;
     private javax.swing.JButton añadirTarea_btn;
     private javax.swing.JPanel btn_1;
     private javax.swing.JPanel btn_2;

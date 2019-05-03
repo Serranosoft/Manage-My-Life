@@ -3,6 +3,7 @@ package UI;
 import Compartir.Peticion;
 import Compartir.Tareas;
 import Compartir.Usuarios;
+import Conexion.Conexion;
 import java.awt.Color;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -25,7 +26,8 @@ public class PerfilUI extends javax.swing.JFrame {
     /**
      * Creates new form Perfil
      */
-    final String server = "192.168.0.158";
+    final Conexion conexion = new Conexion();
+    final String server = conexion.getServer();
     Socket cliente = null;
     ObjectOutputStream salida = null;
     ObjectInputStream entrada = null;
@@ -601,16 +603,13 @@ public class PerfilUI extends javax.swing.JFrame {
             tareas = (Tareas) entrada.readObject();
 
             for (int i = 0; i < tareas.getResultados_tareas().size(); i++) {
-                System.out.println(tareas.getResultados_tareas().get(i).getNombre());
                 if (tareas.getResultados_tareas().get(i).getEstado() == 1) {
                     tareas_terminadas++;
-                    System.out.println("true");
                 } else {
                     tareas_pendientes++;
-                    System.out.println("false");
                 }
             }
-            System.out.println("terminadas: " + tareas_terminadas + " pendientes: " + tareas_pendientes);
+            
             perfil_tareas_pendientes.setText(tareas_pendientes + "");
             perfil_tareas_terminadas.setText(tareas_terminadas + "");
             perfil_balance.setText(usuarios.getSalario() + " €");

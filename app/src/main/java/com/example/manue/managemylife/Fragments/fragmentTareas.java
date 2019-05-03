@@ -32,6 +32,7 @@ import com.example.manue.managemylife.Activities.MainActivity;
 import com.example.manue.managemylife.Activities.SubtareasActivity;
 import com.example.manue.managemylife.Adapters.TareasAdapter;
 import com.example.manue.managemylife.R;
+import com.example.manue.managemylife.ServerIP.ServerIP;
 import com.example.manue.managemylife.Util.SwipeableRecyclerViewTouchListener;
 
 import Compartir.Peticion;
@@ -51,9 +52,9 @@ import java.util.Calendar;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class fragmentTareas extends Fragment {
+public class fragmentTareas extends Fragment implements ServerIP {
 
-    final String server = "192.168.0.158";
+    final String server = IP;
 
     Usuarios usuarios = new Usuarios();
     Peticion peticion = new Peticion();

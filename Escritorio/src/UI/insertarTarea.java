@@ -3,14 +3,19 @@ package UI;
 import Compartir.Peticion;
 import Compartir.Tareas;
 import Compartir.Usuarios;
+import Conexion.Conexion;
+import com.github.lgooddatepicker.components.DatePicker;
+import com.github.lgooddatepicker.components.DatePickerSettings;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTable;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -27,26 +32,29 @@ public class insertarTarea extends javax.swing.JDialog {
     /**
      * Creates new form insertarTarea
      */
-    final String server = "192.168.0.158";
+    final Conexion conexion = new Conexion();
+    final String server = conexion.getServer();
     Socket cliente = null;
     ObjectOutputStream salida = null;
     ObjectInputStream entrada = null;
     Tareas tareas = new Tareas();
     Peticion peticion = new Peticion();
     Usuarios usuarios = new Usuarios();
+    DatePickerSettings settings;
     public insertarTarea(java.awt.Frame parent, boolean modal, Tareas tareas) {
         super(parent, modal);
         initComponents();
         try {
-            System.out.println("bucle no porfavor");
             cliente = new Socket(server, 4444);
-            System.out.println("configuro flujos");
             salida = new ObjectOutputStream(cliente.getOutputStream());
             entrada = new ObjectInputStream(cliente.getInputStream());
         } catch (IOException ex) {
             ex.printStackTrace();
         }
         this.tareas = tareas;
+        settings = new DatePickerSettings();
+        settings.setAllowKeyboardEditing(false);
+        tarea_terminar.setSettings(settings);
         this.setLocationRelativeTo(null);
     }
 
@@ -185,6 +193,7 @@ public class insertarTarea extends javax.swing.JDialog {
         try {
             peticion.setConsulta(4);
             salida.writeObject(peticion);
+            salida.flush();
             tareas.setNombre(tarea_nombre.getText());
             tareas.setDescripcion(tarea_descripcion.getText());
             tareas.setCategoria(tarea_categoria.getSelectedItem().toString());
@@ -194,17 +203,27 @@ public class insertarTarea extends javax.swing.JDialog {
             tareas.setFecha_inscrita(inscrita);
             tareas.setEstado(0);
             tareas.setPrioritario(0);
-            
-            System.out.println("insertar tarea al usuario : " +tareas.getIdUsuario());
-            
+                       
             salida.writeObject(tareas);
-            this.setVisible(false);
+            salida.flush();
+            cerrarDialog();
         } catch (IOException ex) {
             Logger.getLogger(insertarTarea.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                cliente.close();
+                salida.close();
+                entrada.close();
+            } catch (IOException ex) {
+                Logger.getLogger(insertarTarea.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        
     }//GEN-LAST:event_insertar_tareaMouseClicked
 
+    public boolean cerrarDialog() {
+        this.setVisible(false);
+        return true;
+    }
     /**
      * @param args the command line arguments
      */

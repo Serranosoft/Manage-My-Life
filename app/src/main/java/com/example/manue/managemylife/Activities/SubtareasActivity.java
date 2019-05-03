@@ -28,6 +28,7 @@ import com.example.manue.managemylife.Adapters.TareasAdapter;
 import com.example.manue.managemylife.Fragments.TimePickerFragment;
 import com.example.manue.managemylife.Fragments.fragmentTareas;
 import com.example.manue.managemylife.R;
+import com.example.manue.managemylife.ServerIP.ServerIP;
 import com.example.manue.managemylife.Util.SwipeableRecyclerViewTouchListener;
 
 import java.io.IOException;
@@ -46,9 +47,9 @@ import Compartir.Usuarios;
 import vo.Subtarea;
 import vo.Tarea;
 
-public class SubtareasActivity extends AppCompatActivity {
+public class SubtareasActivity extends AppCompatActivity implements ServerIP {
 
-    final String server = "192.168.0.158";
+    final String server = IP;
 
     Usuarios usuarios = new Usuarios();
     Peticion peticion = new Peticion();

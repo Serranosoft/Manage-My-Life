@@ -2,6 +2,7 @@ package UI;
 
 import Compartir.Peticion;
 import Compartir.Usuarios;
+import Conexion.Conexion;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -27,7 +28,8 @@ public class InicioSesionUI extends javax.swing.JFrame {
     /**
      * Creates new form InicioSesionUI
      */
-    final String server = "192.168.0.158";
+    final Conexion conexion = new Conexion();
+    final String server = conexion.getServer();
     Socket cliente = null;
     ObjectOutputStream salida = null;
     ObjectInputStream entrada = null;

@@ -4,6 +4,7 @@ import Compartir.Peticion;
 import Compartir.Subtareas;
 import Compartir.Tareas;
 import Compartir.Usuarios;
+import Conexion.Conexion;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -18,7 +19,6 @@ import java.util.logging.Logger;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author manue
@@ -28,7 +28,8 @@ public class insertarSubtarea extends javax.swing.JDialog {
     /**
      * Creates new form insertarTarea
      */
-    final String server = "192.168.0.158";
+    final Conexion conexion = new Conexion();
+    final String server = conexion.getServer();
     Socket cliente = null;
     ObjectOutputStream salida = null;
     ObjectInputStream entrada = null;
@@ -36,6 +37,7 @@ public class insertarSubtarea extends javax.swing.JDialog {
     Peticion peticion = new Peticion();
     Usuarios usuarios = new Usuarios();
     Subtareas subtareas = new Subtareas();
+
     public insertarSubtarea(java.awt.Dialog parent, boolean modal, Tareas tareas) {
         super(parent, modal);
         initComponents();
@@ -45,10 +47,11 @@ public class insertarSubtarea extends javax.swing.JDialog {
             System.out.println("configuro flujos");
             salida = new ObjectOutputStream(cliente.getOutputStream());
             entrada = new ObjectInputStream(cliente.getInputStream());
-            
+
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+
         this.tareas = tareas;
         this.setLocationRelativeTo(null);
     }
@@ -133,21 +136,28 @@ public class insertarSubtarea extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        
+
         try {
             peticion.setConsulta(9);
             salida.writeObject(peticion);
+            salida.flush();
             subtareas.setNombre(subtarea_nombre.getText());
             subtareas.setEstado(0);
             subtareas.setID_Tarea(tareas.getId());
-            
+
             salida.writeObject(subtareas);
-            this.setVisible(false);
-            
+            salida.flush();
+            cerrarDialog();
+
         } catch (IOException ex) {
             ex.printStackTrace();
         }
     }//GEN-LAST:event_jButton1MouseClicked
+
+    public boolean cerrarDialog() {
+        this.setVisible(false);
+        return true;
+    }
 
     /**
      * @param args the command line arguments

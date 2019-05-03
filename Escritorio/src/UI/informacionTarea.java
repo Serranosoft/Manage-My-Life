@@ -4,6 +4,7 @@ import Compartir.Peticion;
 import Compartir.Subtareas;
 import Compartir.Tareas;
 import Compartir.Usuarios;
+import Conexion.Conexion;
 import java.awt.Color;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -31,7 +32,8 @@ public class informacionTarea extends javax.swing.JDialog {
     /**
      * Creates new form insertarGasto
      */
-    final String server = "192.168.0.158";
+    final Conexion conexion = new Conexion();
+    final String server = conexion.getServer();
     Socket cliente = null;
     ObjectOutputStream salida = null;
     ObjectInputStream entrada = null;
@@ -54,7 +56,7 @@ public class informacionTarea extends javax.swing.JDialog {
         }
         this.setLocationRelativeTo(null);
 
-        obtenerTarea(id);
+        obtenerInfoTarea(id);
         obtenerSubtareas(id);
         this.id = id;
 
@@ -407,7 +409,6 @@ public class informacionTarea extends javax.swing.JDialog {
             prioritaria_tarea.setEnabled(true);
             fecha_realizar_tarea.setEnabled(true);
             fecha_realizar_tarea.setDateToToday();
-            
 
             System.out.println("Edicion activada");
         } else {
@@ -465,9 +466,9 @@ public class informacionTarea extends javax.swing.JDialog {
             entrada = new ObjectInputStream(cliente.getInputStream());
 
             peticion.setConsulta(6);
-            System.out.println("Envio peticion");
+            System.out.println("Envio peticion de eliminar tareas");
             salida.writeObject(peticion);
-            System.out.println("Envio tareas");
+            System.out.println("Envio objeto tareas para eliminar");
             salida.writeObject(tareas);
             this.setVisible(false);
 
@@ -475,12 +476,47 @@ public class informacionTarea extends javax.swing.JDialog {
             ex.printStackTrace();
         }
     }//GEN-LAST:event_eliminar_tareaMouseClicked
-
+    boolean insercion = false;
     private void añadir_subtareaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_añadir_subtareaMouseClicked
 
-        insertarSubtarea inSubtarea = new insertarSubtarea(this, false, tareas);
+        insertarSubtarea inSubtarea = new insertarSubtarea(this, true, tareas);
         inSubtarea.setVisible(true);
-        //obtenerSubtareas(id);
+        insercion = inSubtarea.cerrarDialog();
+        if (insercion) {
+            m.setRowCount(0);
+
+            try {
+                cliente = new Socket(server, 4444);
+                salida = new ObjectOutputStream(cliente.getOutputStream());
+                entrada = new ObjectInputStream(cliente.getInputStream());
+
+                System.out.println("Envio la peticion de añadir subtareas");
+                peticion.setConsulta(8);
+                salida.writeObject(peticion);
+                //salida.flush();
+                tareas.setId(id);
+                salida.writeObject(tareas);
+                //salida.flush();
+                tareas = (Tareas) entrada.readObject();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+            String estado = "Pendiente";
+            ArrayList<Subtarea> listado_subtareas = tareas.getSubtareas();
+            for (int i = 0; i < listado_subtareas.size(); i++) {
+                Subtarea subtarea = listado_subtareas.get(i);
+                if (subtarea.getEstado() == 1) {
+                    estado = "Terminado";
+                }
+                Object[] array = {subtarea.getNombre(), estado};
+                m.addRow(array);
+
+            }
+
+        }
+
 
     }//GEN-LAST:event_añadir_subtareaMouseClicked
 
@@ -493,34 +529,27 @@ public class informacionTarea extends javax.swing.JDialog {
             int id = tabla_subtareas.getSelectedRow();
             subtareas.setId(tareas.getSubtareas().get(id).getId());
             peticion.setConsulta(10);
-            System.out.println("Envio peticion");
+            System.out.println("Envio peticion de eliminar subtareas");
             salida.writeObject(peticion);
             salida.flush();
-            System.out.println("Envio subtareas");
             salida.writeObject(subtareas);
             salida.flush();
         } catch (IOException ex) {
             ex.printStackTrace();
-        } finally {
-            try {
-                cliente.close();
-                salida.close();
-                entrada.close();
-                obtenerSubtareas(this.id);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
         }
+        obtenerSubtareas(this.id);
+
+
     }//GEN-LAST:event_eliminar_subtareaMouseClicked
 
     private void actualizar_tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_actualizar_tablaMouseClicked
         obtenerSubtareas(id);
     }//GEN-LAST:event_actualizar_tablaMouseClicked
 
-    private void obtenerTarea(int id) {
+    private void obtenerInfoTarea(int id) {
 
         try {
-            System.out.println("Envio la peticion");
+            System.out.println("Envio la peticion de obtener info de tareas");
             peticion.setConsulta(5);
             salida.writeObject(peticion);
             tareas.setId(id);
@@ -564,6 +593,19 @@ public class informacionTarea extends javax.swing.JDialog {
             salida.writeObject(tareas);
             salida.flush();
             tareas = (Tareas) entrada.readObject();
+
+            String estado = "Pendiente";
+            ArrayList<Subtarea> listado_subtareas = tareas.getSubtareas();
+            for (int i = 0; i < listado_subtareas.size(); i++) {
+                Subtarea subtarea = listado_subtareas.get(i);
+                if (subtarea.getEstado() == 1) {
+                    estado = "Terminado";
+                }
+
+                Object[] array = {subtarea.getNombre(), estado};
+                m.addRow(array);
+
+            }
         } catch (IOException ex) {
             ex.printStackTrace();
         } catch (ClassNotFoundException ex) {
@@ -574,23 +616,16 @@ public class informacionTarea extends javax.swing.JDialog {
                 salida.close();
                 entrada.close();
 
-                String estado = "Pendiente";
-                ArrayList<Subtarea> listado_subtareas = tareas.getSubtareas();
-                for (int i = 0; i < listado_subtareas.size(); i++) {
-                    Subtarea subtarea = listado_subtareas.get(i);
-                    if (subtarea.getEstado() == 1) {
-                        estado = "Terminado";
-                    }
-                    
-                    Object[] array = {subtarea.getNombre(), estado};
-                    m.addRow(array);
-
-                }
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
         }
 
+    }
+
+    public boolean cerrarDialog() {
+        this.setVisible(false);
+        return true;
     }
 
     /**

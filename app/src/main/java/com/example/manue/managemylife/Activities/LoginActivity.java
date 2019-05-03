@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 
 import com.example.manue.managemylife.R;
+import com.example.manue.managemylife.ServerIP.ServerIP;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -35,9 +36,9 @@ import Compartir.Usuarios;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements ServerIP {
 
-    final String server = "192.168.0.158";
+    final String server = IP;
 
     EditText usuario = null;
     EditText contraseña = null;
