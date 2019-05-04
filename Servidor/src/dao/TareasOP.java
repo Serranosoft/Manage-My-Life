@@ -268,14 +268,14 @@ public class TareasOP {
             ps.setInt(2, tareas.getId());
             ps.executeUpdate();
 
-            System.out.println("Estado de la tarea "+tareas.getId() +tareas.getNombre() +" actualizado");
+            System.out.println("Estado de la tarea " + tareas.getId() + tareas.getNombre() + " actualizado");
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
-        public void actualizarEstadoSubtarea(Subtareas subtareas) {
+    public void actualizarEstadoSubtarea(Subtareas subtareas) {
         Connection conexion = null;
         PreparedStatement ps = null;
 
@@ -289,7 +289,7 @@ public class TareasOP {
             ps.setInt(2, subtareas.getId());
             ps.executeUpdate();
 
-            System.out.println("Estado de la subtarea "+subtareas.getId() +subtareas.getNombre() +" actualizado");
+            System.out.println("Estado de la subtarea " + subtareas.getId() + subtareas.getNombre() + " actualizado");
         } catch (Exception e) {
             e.printStackTrace();
         }

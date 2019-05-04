@@ -12,6 +12,8 @@ import java.awt.image.RenderedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -48,6 +50,7 @@ public class modificarPerfil extends javax.swing.JDialog {
     Peticion peticion = new Peticion();
     Usuarios usuarios = new Usuarios();
     ImageIcon photo = null;
+    String path = "";
 
     public modificarPerfil(java.awt.Frame parent, boolean modal, Usuarios usuarios) {
         super(parent, modal);
@@ -73,7 +76,7 @@ public class modificarPerfil extends javax.swing.JDialog {
                 int result = file.showSaveDialog(null);
                 if (result == JFileChooser.APPROVE_OPTION) {
                     File selectedFile = file.getSelectedFile();
-                    String path = selectedFile.getAbsolutePath();
+                    path = selectedFile.getAbsolutePath();
                     photo = ResizeImage(path);
                     imagen_perfil.setIcon(ResizeImage(path));
                 } else if (result == JFileChooser.CANCEL_OPTION) {
@@ -238,13 +241,8 @@ public class modificarPerfil extends javax.swing.JDialog {
             usuarios.setUsuario(usuario_usuario.getText());
             usuarios.setSalario(Integer.valueOf(usuario_salario.getText()));
             
-            if(photo != null) {
-                BufferedImage image = new BufferedImage(photo.getIconWidth(),
-                photo.getIconHeight(),BufferedImage.TYPE_INT_RGB);
-                ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                ImageIO.write(image, "jpg", bos);
-                byte[] data = bos.toByteArray();
-            }
+            //FileInputStream fis = new FileInputStream(path);
+            
             
             
             //usuarios.setImagen(data);
@@ -252,17 +250,6 @@ public class modificarPerfil extends javax.swing.JDialog {
             salida.writeObject(peticion);
             salida.writeObject(usuarios);
             this.setVisible(false);
-            
-            // enviar array de bytes al servidor con la demás informacion del usuario
-            
-            
-            // prueba para leer array y convertir a imagen
-            /*ByteArrayInputStream bis = new ByteArrayInputStream(data);
-            BufferedImage bImage2 = ImageIO.read(bis);
-            
-            ImageIcon prueba2 = new ImageIcon(bImage2);
-            
-            prueba.setIcon(prueba2);*/
         } catch (IOException ex) {
             Logger.getLogger(modificarPerfil.class.getName()).log(Level.SEVERE, null, ex);
         }

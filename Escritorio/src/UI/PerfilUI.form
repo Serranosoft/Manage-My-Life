@@ -670,19 +670,19 @@
             <Component class="javax.swing.JLabel" name="perfil_imagen">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="F:\ManuelSerranoScholz\AndroidStudio\ProyectoFinal\Escritorio\src\imagenes\user.png"/>
+                  <Image iconType="3" name="/imagenes/user.png"/>
                 </Property>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="280" y="20" width="150" height="140"/>
+                  <AbsoluteConstraints x="290" y="20" width="150" height="140"/>
                 </Constraint>
               </Constraints>
             </Component>
             <Component class="javax.swing.JLabel" name="perfil_modificar">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="F:\ManuelSerranoScholz\AndroidStudio\ProyectoFinal\Escritorio\imagenes\ajustes.png"/>
+                  <Image iconType="3" name="/imagenes/ajustes.png"/>
                 </Property>
               </Properties>
               <Events>
@@ -697,7 +697,7 @@
             <Component class="javax.swing.JLabel" name="perfil_cerrar_sesion">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="F:\ManuelSerranoScholz\AndroidStudio\ProyectoFinal\Escritorio\imagenes\lock.png"/>
+                  <Image iconType="3" name="/imagenes/lock.png"/>
                 </Property>
               </Properties>
               <Events>

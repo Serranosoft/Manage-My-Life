@@ -417,7 +417,7 @@ public class FinanzasUI extends javax.swing.JFrame {
             jTable1.getColumnModel().getColumn(1).setResizable(false);
         }
 
-        perfil_imagen.setIcon(new javax.swing.ImageIcon("C:\\Users\\manue\\Downloads\\YO - copia.jpg")); // NOI18N
+        perfil_imagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/user.png"))); // NOI18N
 
         jSeparator1.setBackground(new java.awt.Color(0, 0, 0));
         jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
@@ -576,9 +576,9 @@ public class FinanzasUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_3MouseClicked
 
     private void btn_4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_4MouseClicked
-        CalendarioUI calendarioUI = new CalendarioUI();
+       /* CalendarioUI calendarioUI = new CalendarioUI();
         calendarioUI.setVisible(true);
-        this.setVisible(false);
+        this.setVisible(false);*/
     }//GEN-LAST:event_btn_4MouseClicked
 
     private void btn_6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_6MouseClicked

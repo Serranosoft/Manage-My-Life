@@ -712,7 +712,7 @@
             <Component class="javax.swing.JLabel" name="perfil_imagen">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\manue\Downloads\YO - copia.jpg"/>
+                  <Image iconType="3" name="/imagenes/user.png"/>
                 </Property>
               </Properties>
             </Component>

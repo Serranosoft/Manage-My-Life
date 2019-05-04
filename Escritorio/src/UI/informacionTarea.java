@@ -153,9 +153,6 @@ public class informacionTarea extends javax.swing.JDialog {
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
 
-        tabla_subtareas.setBackground(new java.awt.Color(187, 187, 187));
-        tabla_subtareas.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        tabla_subtareas.setForeground(new java.awt.Color(0, 0, 0));
         tabla_subtareas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -179,6 +176,9 @@ public class informacionTarea extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
+        tabla_subtareas.setBackground(new java.awt.Color(187, 187, 187));
+        tabla_subtareas.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        tabla_subtareas.setForeground(new java.awt.Color(0, 0, 0));
         tabla_subtareas.setGridColor(new java.awt.Color(102, 102, 102));
         tabla_subtareas.setRowHeight(22);
         tabla_subtareas.setSelectionBackground(new java.awt.Color(51, 102, 255));
@@ -213,7 +213,7 @@ public class informacionTarea extends javax.swing.JDialog {
             }
         });
 
-        activar_edicion.setIcon(new javax.swing.ImageIcon("F:\\ManuelSerranoScholz\\AndroidStudio\\ProyectoFinal\\Escritorio\\imagenes\\edit.png")); // NOI18N
+        activar_edicion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/edit.png"))); // NOI18N
         activar_edicion.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 activar_edicionMouseClicked(evt);
@@ -248,7 +248,7 @@ public class informacionTarea extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        añadir_subtarea.setIcon(new javax.swing.ImageIcon("F:\\ManuelSerranoScholz\\AndroidStudio\\ProyectoFinal\\Escritorio\\imagenes\\plus-black-symbol.png")); // NOI18N
+        añadir_subtarea.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/plus-black-symbol.png"))); // NOI18N
         añadir_subtarea.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 añadir_subtareaMouseClicked(evt);
@@ -260,21 +260,21 @@ public class informacionTarea extends javax.swing.JDialog {
 
         fecha_realizar_tarea.setEnabled(false);
 
-        eliminar_tarea.setIcon(new javax.swing.ImageIcon("F:\\ManuelSerranoScholz\\AndroidStudio\\ProyectoFinal\\Escritorio\\imagenes\\rubbish-bin.png")); // NOI18N
+        eliminar_tarea.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/rubbish-bin.png"))); // NOI18N
         eliminar_tarea.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 eliminar_tareaMouseClicked(evt);
             }
         });
 
-        eliminar_subtarea.setIcon(new javax.swing.ImageIcon("F:\\ManuelSerranoScholz\\AndroidStudio\\ProyectoFinal\\Escritorio\\imagenes\\delete.png")); // NOI18N
+        eliminar_subtarea.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/delete.png"))); // NOI18N
         eliminar_subtarea.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 eliminar_subtareaMouseClicked(evt);
             }
         });
 
-        actualizar_tabla.setIcon(new javax.swing.ImageIcon("F:\\ManuelSerranoScholz\\AndroidStudio\\ProyectoFinal\\Escritorio\\imagenes\\reload (2).png")); // NOI18N
+        actualizar_tabla.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/reload (2).png"))); // NOI18N
         actualizar_tabla.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 actualizar_tablaMouseClicked(evt);

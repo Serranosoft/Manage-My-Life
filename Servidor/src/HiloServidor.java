@@ -117,7 +117,7 @@ class HiloServidor extends Thread {
                     subtareas = (Subtareas) entrada.readObject();
                     actualizarEstadoSubtarea(subtareas);
                     break;
-                   
+
 
             }
         } catch (IOException ex) {

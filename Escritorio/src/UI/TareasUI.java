@@ -451,7 +451,7 @@ public class TareasUI extends javax.swing.JFrame {
             tabla_tareas.getColumnModel().getColumn(1).setPreferredWidth(20);
         }
 
-        añadirTarea_btn.setIcon(new javax.swing.ImageIcon("C:\\Users\\manue\\Downloads\\add.png")); // NOI18N
+        añadirTarea_btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/add.png"))); // NOI18N
         añadirTarea_btn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 añadirTarea_btnMouseClicked(evt);
@@ -530,7 +530,7 @@ public class TareasUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_3MouseClicked
 
     private void btn_4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_4MouseClicked
-        CalendarioUI calendarioUI = new CalendarioUI();
+        CalendarioUI calendarioUI = new CalendarioUI(usuarios);
         calendarioUI.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btn_4MouseClicked

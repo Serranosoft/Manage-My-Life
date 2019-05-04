@@ -507,9 +507,9 @@ public class TareasTerminadasUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_2MouseClicked
 
     private void btn_4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_4MouseClicked
-        CalendarioUI calendarioUI = new CalendarioUI();
+        /*CalendarioUI calendarioUI = new CalendarioUI();
         calendarioUI.setVisible(true);
-        this.setVisible(false);
+        this.setVisible(false);*/
     }//GEN-LAST:event_btn_4MouseClicked
 
     private void btn_5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_5MouseClicked

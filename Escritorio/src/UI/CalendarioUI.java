@@ -1,18 +1,34 @@
 package UI;
 
-
+import Compartir.Peticion;
+import Compartir.Tareas;
+import Compartir.Usuarios;
+import Conexion.Conexion;
 import com.github.lgooddatepicker.components.DatePickerSettings;
+import com.github.lgooddatepicker.optionalusertools.CalendarSelectionListener;
 import com.github.lgooddatepicker.optionalusertools.DateHighlightPolicy;
+import com.github.lgooddatepicker.zinternaltools.CalendarSelectionEvent;
 import com.github.lgooddatepicker.zinternaltools.HighlightInformation;
 import java.awt.Color;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.YearMonth;
+import java.util.ArrayList;
+import java.util.Calendar;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import vo.Tarea;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author manue
@@ -22,32 +38,105 @@ public class CalendarioUI extends javax.swing.JFrame {
     /**
      * Creates new form CalendarioUI
      */
-    public CalendarioUI() {
+    final Conexion conexion = new Conexion();
+    final String server = conexion.getServer();
+    Socket cliente = null;
+    ObjectOutputStream salida = null;
+    ObjectInputStream entrada = null;
+    Tareas tareas = new Tareas();
+    Peticion peticion = new Peticion();
+    static Usuarios usuarios = new Usuarios();
+    int cont_tareas = 0;
+
+    public CalendarioUI(Usuarios usuarios) {
         initComponents();
-        configuracionCalendario();
         this.setLocationRelativeTo(null);
         btn_4.setBackground(Color.CYAN);
         text_btn4.setForeground(Color.BLACK);
+        obtenerTareas(usuarios);
+        configuracionCalendario();
+        this.usuarios = usuarios;
     }
+
     public void configuracionCalendario() {
         DatePickerSettings settings = new DatePickerSettings();
         settings.setHighlightPolicy(new SampleHighlightPolicy());
+        YearMonth yearMonth = YearMonth.now();
+        calendarPanel1.setDisplayedYearMonth(yearMonth);
+        calendarPanel1.getNextMonthButton().setEnabled(false);
+        calendarPanel1.getNextYearButton().setEnabled(false);
+        calendarPanel1.getPreviousMonthButton().setEnabled(false);
+        calendarPanel1.getPreviousYearButton().setEnabled(false);
+        calendarPanel1.addCalendarSelectionListener(new SampleCalendarListener());
         int newHeight = (int) (settings.getSizeDatePanelMinimumHeight() * 3.1);
         int newWidth = (int) (settings.getSizeDatePanelMinimumWidth() * 3.3);
         settings.setSizeDatePanelMinimumHeight(newHeight);
         settings.setSizeDatePanelMinimumWidth(newWidth);
         calendarPanel1.setSettings(settings);
+
     }
 
-    private static class SampleHighlightPolicy implements DateHighlightPolicy {
+    private class SampleHighlightPolicy implements DateHighlightPolicy {
 
         @Override
         public HighlightInformation getHighlightInformationOrNull(LocalDate date) {
-            if (date.getDayOfMonth() == 25) {
-                return new HighlightInformation(Color.CYAN, null, "null");
+            for (int i = 0; i < tareas.getResultados_tareas().size(); i++) {
+                if (date.getDayOfMonth() == tareas.getResultados_tareas().get(i).getFecha_realizar().toLocalDate().getDayOfMonth()) {
+                    return new HighlightInformation(Color.CYAN, null, "null");
+                }
             }
+
             return null;
         }
+    }
+
+    public class SampleCalendarListener implements CalendarSelectionListener {
+
+        @Override
+        public void selectionChanged(CalendarSelectionEvent cse) {
+            System.out.println("USUARIOS ID QUE VOY MOVIENDO: " + usuarios.getId());
+            Date date = java.sql.Date.valueOf(cse.getNewDate());
+            
+            System.out.println(date);
+            for (int i = 0; i < tareas.getResultados_tareas().size(); i++) {
+ 
+                System.out.println("ID: "+tareas.getResultados_tareas().get(i).getId()+" FECHA A COMPARAR: " + tareas.getResultados_tareas().get(i).getFecha_realizar());
+                if (tareas.getResultados_tareas().get(i).getFecha_realizar() == date) {
+                    cont_tareas++;
+                }
+            }
+            JOptionPane.showMessageDialog(null, "Día: " + cse.getNewDate() + " tienes: " + cont_tareas +" tareas");
+
+        }
+
+    }
+
+    public void closeCalendar() {
+        this.setVisible(false);
+    }
+
+    public void obtenerTareas(Usuarios usuarios) {
+
+        try {
+
+            cliente = new Socket(server, 4444);
+            salida = new ObjectOutputStream(cliente.getOutputStream());
+            entrada = new ObjectInputStream(cliente.getInputStream());
+
+            peticion.setConsulta(3);
+            salida.writeObject(peticion);
+            salida.flush();
+            tareas.setIdUsuario(usuarios.getId());
+            salida.writeObject(tareas);
+            salida.flush();
+            tareas = (Tareas) entrada.readObject();
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
+
     }
 
     /**
@@ -515,7 +604,7 @@ public class CalendarioUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CalendarioUI().setVisible(true);
+                new CalendarioUI(new Usuarios()).setVisible(true);
             }
         });
     }

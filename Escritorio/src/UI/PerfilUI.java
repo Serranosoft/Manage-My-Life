@@ -425,10 +425,10 @@ public class PerfilUI extends javax.swing.JFrame {
         perfil_nombre.setText("xxxxxxxx");
         jPanel4.add(perfil_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 170, -1, 30));
 
-        perfil_imagen.setIcon(new javax.swing.ImageIcon("F:\\ManuelSerranoScholz\\AndroidStudio\\ProyectoFinal\\Escritorio\\src\\imagenes\\user.png")); // NOI18N
-        jPanel4.add(perfil_imagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 20, 150, 140));
+        perfil_imagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/user.png"))); // NOI18N
+        jPanel4.add(perfil_imagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 20, 150, 140));
 
-        perfil_modificar.setIcon(new javax.swing.ImageIcon("F:\\ManuelSerranoScholz\\AndroidStudio\\ProyectoFinal\\Escritorio\\imagenes\\ajustes.png")); // NOI18N
+        perfil_modificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/ajustes.png"))); // NOI18N
         perfil_modificar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 perfil_modificarMouseClicked(evt);
@@ -436,7 +436,7 @@ public class PerfilUI extends javax.swing.JFrame {
         });
         jPanel4.add(perfil_modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 50, -1, -1));
 
-        perfil_cerrar_sesion.setIcon(new javax.swing.ImageIcon("F:\\ManuelSerranoScholz\\AndroidStudio\\ProyectoFinal\\Escritorio\\imagenes\\lock.png")); // NOI18N
+        perfil_cerrar_sesion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/lock.png"))); // NOI18N
         perfil_cerrar_sesion.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 perfil_cerrar_sesionMouseClicked(evt);
@@ -561,7 +561,7 @@ public class PerfilUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_5MouseClicked
 
     private void btn_4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_4MouseClicked
-        CalendarioUI calendario = new CalendarioUI();
+        CalendarioUI calendario = new CalendarioUI(usuarios);
         calendario.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btn_4MouseClicked
