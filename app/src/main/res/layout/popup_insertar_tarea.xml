@@ -141,7 +141,7 @@
                     android:id="@+id/insertar_tarea_fecha_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="xx/xx/xxxx"
+                    android:text="yyyy-MM-dd"
                     android:textColor="@color/colorSelected"/>
 
             </LinearLayout>

@@ -20,13 +20,6 @@ public class SubtareasAdapter extends RecyclerView.Adapter<SubtareasAdapter.View
 
     private List<Subtarea> subtareas = new ArrayList<>();
     private Context context;
-    private OnItemClickListener listener;
-
-    public SubtareasAdapter(List<Subtarea> subtareas, Context context, OnItemClickListener listener) {
-        this.subtareas = subtareas;
-        this.context = context;
-        this.listener = listener;
-    }
 
     public SubtareasAdapter(List<Subtarea> subtareas, Context context) {
         this.subtareas = subtareas;
@@ -59,13 +52,6 @@ public class SubtareasAdapter extends RecyclerView.Adapter<SubtareasAdapter.View
             viewHolder.checkBox.setChecked(false);
         }
 
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onItemClick(subtarea, i);
-            }
-        });
-
     }
 
     @Override
@@ -85,9 +71,6 @@ public class SubtareasAdapter extends RecyclerView.Adapter<SubtareasAdapter.View
             nombreSubtarea = itemView.findViewById(R.id.nombreSubTarea);
 
         }
-    }
-    public interface OnItemClickListener {
-        void onItemClick(Subtarea subtarea, int position);
     }
 }
 

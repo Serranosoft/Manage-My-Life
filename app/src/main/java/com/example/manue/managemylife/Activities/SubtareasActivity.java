@@ -51,7 +51,6 @@ public class SubtareasActivity extends AppCompatActivity implements ServerIP {
 
     final String server = IP;
 
-    Usuarios usuarios = new Usuarios();
     Peticion peticion = new Peticion();
     Tareas tareas = new Tareas();
     Subtareas subtareas = new Subtareas();
@@ -130,7 +129,7 @@ public class SubtareasActivity extends AppCompatActivity implements ServerIP {
 
                             @Override
                             public boolean canSwipeLeft(int position) {
-                                return false;
+                                return true;
                             }
 
                             @Override
@@ -140,9 +139,18 @@ public class SubtareasActivity extends AppCompatActivity implements ServerIP {
 
                             @Override
                             public void onDismissedBySwipeLeft(RecyclerView recyclerView, int[] reverseSortedPositions) {
-                                for (int position : reverseSortedPositions) {
-                                    listaSubtarea.remove(position);
-                                    adapter.notifyItemRemoved(position);
+                                for (final int position : reverseSortedPositions) {
+                                    int idSubtarea = listaSubtarea.get(position).getId();
+                                    if(listaSubtarea.get(position).getEstado() == 1){
+                                        subtareas.setId(idSubtarea);
+                                        subtareas.setEstado(0);
+                                    }else{
+                                        subtareas.setId(idSubtarea);
+                                        subtareas.setEstado(1);
+                                    }
+                                    executeStatusSubtareasTask();
+                                    executeMostrarSubtareasTask();
+
                                 }
                                 adapter.notifyDataSetChanged();
                             }
@@ -191,6 +199,10 @@ public class SubtareasActivity extends AppCompatActivity implements ServerIP {
         eliminarSubtareasTask eliminarSubtareasTask = new eliminarSubtareasTask();
         eliminarSubtareasTask.execute();
     }
+    public void executeStatusSubtareasTask() {
+        actualizarEstadoSubtarea actualizarEstadoSubtarea = new actualizarEstadoSubtarea();
+        actualizarEstadoSubtarea.execute();
+    }
     public class mostrarSubtareasTask extends AsyncTask<ArrayList<Subtarea>, Void, ArrayList<Subtarea>> {
 
         Socket cliente = null;
@@ -212,8 +224,6 @@ public class SubtareasActivity extends AppCompatActivity implements ServerIP {
 
                 tareas = (Tareas) entrada.readObject();
                 listaSubtarea = tareas.getSubtareas();
-                System.out.println("Tamaño lista subtareas :"+listaSubtarea.size());
-                System.out.println("Tamaño lista subtareas :"+listaSubtarea.size());
 
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -273,6 +283,30 @@ public class SubtareasActivity extends AppCompatActivity implements ServerIP {
                 entrada = new ObjectInputStream(cliente.getInputStream());
 
                 peticion.setConsulta(10);
+                salida.writeObject(peticion);
+                salida.writeObject(subtareas);
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
+            return null;
+        }
+    }
+    public class actualizarEstadoSubtarea extends AsyncTask<String, Void, Void> {
+
+        Socket cliente = null;
+        ObjectOutputStream salida = null;
+        ObjectInputStream entrada = null;
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            try {
+                cliente = new Socket(server, 4444);
+                salida = new ObjectOutputStream(cliente.getOutputStream());
+                entrada = new ObjectInputStream(cliente.getInputStream());
+
+                peticion.setConsulta(13);
                 salida.writeObject(peticion);
                 salida.writeObject(subtareas);
 

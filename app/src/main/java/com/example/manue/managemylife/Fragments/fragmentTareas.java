@@ -152,7 +152,8 @@ public class fragmentTareas extends Fragment implements ServerIP {
                         dpd = new DatePickerDialog(getActivity(), R.style.AlertDialog, new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                                fecha_textview.setText(dayOfMonth + "/" + month + 1 + "/" + year);
+                                //fecha_textview.setText(dayOfMonth + "-" + month + 1 + "-" + year);
+                                fecha_textview.setText(year + "-" + month +1 +"-" +dayOfMonth);
                             }
                         }, day, month, year);
                         dpd.show();
@@ -227,7 +228,7 @@ public class fragmentTareas extends Fragment implements ServerIP {
                             tareas.setPrioritario(prioritario);
                             java.sql.Date inscrita = new java.sql.Date(Calendar.getInstance().getTime().getTime());
                             tareas.setFecha_inscrita(inscrita);
-                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
                             java.util.Date terminar_temp = simpleDateFormat.parse(fecha_textview.getText().toString());
                             java.sql.Date terminar = new java.sql.Date(terminar_temp.getTime());
@@ -398,6 +399,8 @@ public class fragmentTareas extends Fragment implements ServerIP {
                     dialog_tarea = builder_tarea.create();
                     dialog_tarea.show();
 
+                    tareas.setId(tarea.getId());
+
                     // Identificadores
                     final TextView nombre_tarea = view_popup.findViewById(R.id.tarea_tarea);
                     nombre_tarea.setText(tarea.getNombre());
@@ -425,10 +428,10 @@ public class fragmentTareas extends Fragment implements ServerIP {
                             DialogFragment newFragment = new TimePickerFragment();
                             newFragment.show(getChildFragmentManager(), "DIALOG TIME PICKER");
 
-                            if (alarma.getDrawable().getConstantState() == getResources().getDrawable(R.mipmap.notification_inactive).getConstantState()) {
+                            if (alarma.getDrawable().getConstantState() == getResources().getDrawable(R.mipmap.notifications_inactive).getConstantState()) {
                                 alarma.setImageResource(R.mipmap.notification_active);
                             } else {
-                                alarma.setImageResource(R.mipmap.notification_inactive);
+                                alarma.setImageResource(R.mipmap.notifications_inactive);
                             }
                         }
                     });
@@ -436,10 +439,177 @@ public class fragmentTareas extends Fragment implements ServerIP {
                     subtareas.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            tareas.setId(tarea.getId());
+
                             Intent intent = new Intent(getActivity(), SubtareasActivity.class);
                             intent.putExtra("tarea_subtarea", tareas);
                             startActivity(intent);
+                        }
+                    });
+
+
+                    // FUNCIONALIDAD DE MODIFICAR TAREA
+
+                    final ImageView modificar_tarea = view_popup.findViewById(R.id.tarea_edit);
+                    modificar_tarea.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            builder_modificar_tarea = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.myDialog));
+                            View view_modificar_tarea_popup = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.popup_modificar_tarea, null);
+
+                            builder_modificar_tarea.setView(view_modificar_tarea_popup);
+
+                            dialog_modificar_tarea = builder_modificar_tarea.create();
+                            dialog_modificar_tarea.show();
+
+                            final EditText nombre_tarea = view_modificar_tarea_popup.findViewById(R.id.modificar_tarea_nombre);
+                            nombre_tarea.setText(tarea.getNombre());
+                            final EditText descripcion_tarea = view_modificar_tarea_popup.findViewById(R.id.modificar_tarea_descripcion);
+                            descripcion_tarea.setText(tarea.getDescripcion());
+                            final ImageView prioritario_tarea = view_modificar_tarea_popup.findViewById(R.id.modificar_tarea_prioritario);
+
+                            if (tarea.getPrioritario() == 1) {
+                                prioritario_tarea.setImageResource(R.mipmap.prioritario);
+                            }
+
+                            prioritario_tarea.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    if (prioritario_tarea.getDrawable().getConstantState() == getResources().getDrawable(R.mipmap.no_prioritario).getConstantState()) {
+                                        prioritario_tarea.setImageResource(R.mipmap.prioritario);
+                                        prioritario = 1;
+                                    } else {
+                                        prioritario_tarea.setImageResource(R.mipmap.no_prioritario);
+                                        prioritario = 0;
+                                    }
+
+                                }
+                            });
+                            // fecha
+                            final TextView fecha_textview = (TextView) view_modificar_tarea_popup.findViewById(R.id.modificar_tarea_fecha_text);
+                            fecha_textview.setText(tarea.getFecha_realizar().toString());
+                            final LinearLayout fecha = (LinearLayout) view_modificar_tarea_popup.findViewById(R.id.modificar_tarea_fecha);
+                            fecha.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    c = Calendar.getInstance();
+                                    int day = c.get(Calendar.DAY_OF_MONTH);
+                                    int month = c.get(Calendar.MONTH);
+                                    int year = c.get(Calendar.YEAR);
+
+                                    dpd = new DatePickerDialog(getActivity(), R.style.AlertDialog, new DatePickerDialog.OnDateSetListener() {
+                                        @Override
+                                        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                                            //fecha_textview.setText(dayOfMonth + "-" + month + 1 + "-" + year);
+                                            fecha_textview.setText(year + "-" + month +1 +"-" +dayOfMonth);
+                                        }
+                                    }, day, month, year);
+                                    dpd.show();
+                                }
+                            });
+
+                            // Categoria
+                            final TextView categoria_textview = (TextView) view_modificar_tarea_popup.findViewById(R.id.modificar_tarea_categoria_text);
+                            categoria_textview.setText(tarea.getCategoria());
+                            final LinearLayout categoria = (LinearLayout) view_modificar_tarea_popup.findViewById(R.id.modificar_tarea_categoria);
+                            final View view_popup_categoria = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.popup_insertar_tarea_categoria, null);
+                            final Button categoria_aceptar = (Button) view_popup_categoria.findViewById(R.id.btnOk);
+                            radio_categoria = (RadioGroup) view_popup_categoria.findViewById(R.id.radioScreenMode);
+                            categoria.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    builder_insertar_categoria = new AlertDialog.Builder(getActivity(), R.style.AlertDialog);
+
+
+                                    builder_insertar_categoria.setView(view_popup_categoria);
+                                    dialog_insertar_categoria = builder_insertar_categoria.create();
+                                    if (view_popup_categoria.getParent() != null) {
+                                        ((ViewGroup) view_popup_categoria.getParent()).removeView(view_popup_categoria);
+                                    }
+                                    dialog_insertar_categoria.show();
+
+                                    radio_categoria.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                                        @Override
+                                        public void onCheckedChanged(RadioGroup group, int checkedId) {
+                                            switch (radio_categoria.getCheckedRadioButtonId()) {
+                                                case R.id.radio0:
+                                                    categoria_textview.setText("Ocio");
+
+                                                    break;
+                                                case R.id.radio1:
+                                                    categoria_textview.setText("Trabajo");
+
+                                                    break;
+                                                case R.id.radio2:
+                                                    categoria_textview.setText("Estudios");
+
+                                                    break;
+                                                case R.id.radio3:
+                                                    categoria_textview.setText("Otros");
+                                                    break;
+
+                                            }
+                                        }
+                                    });
+                                    categoria_aceptar.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            dialog_insertar_categoria.dismiss();
+                                        }
+                                    });
+
+                                }
+                            });
+                            final TextView close_tarea = view_modificar_tarea_popup.findViewById(R.id.modificar_tarea_close);
+                            close_tarea.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    dialog_tarea.dismiss();
+                                }
+                            });
+
+                            final ImageView modificar_tarea_aceptar = view_modificar_tarea_popup.findViewById(R.id.modificar_tarea_aceptar);
+                            modificar_tarea_aceptar.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+
+                                    try {
+                                        tareas.setNombre(nombre_tarea.getText().toString());
+                                        tareas.setDescripcion(descripcion_tarea.getText().toString());
+                                        tareas.setCategoria(categoria_textview.getText().toString());
+                                        tareas.setEstado(0);
+                                        tareas.setPrioritario(prioritario);
+                                        java.sql.Date inscrita = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+                                        tareas.setFecha_inscrita(inscrita);
+                                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+                                        java.util.Date terminar_temp = null;
+                                        terminar_temp = simpleDateFormat.parse(fecha_textview.getText().toString());
+                                        java.sql.Date terminar = new java.sql.Date(terminar_temp.getTime());
+                                        tareas.setFecha_realizar(terminar);
+
+                                        executeUpdateTareasTask();
+                                        dialog_modificar_tarea.dismiss();
+                                        dialog_tarea.dismiss();
+                                        executeTareasTask();
+
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                        final AlertDialog.Builder alert = new AlertDialog.Builder(getContext(), R.style.AlertDialog);
+                                        alert.setTitle("Aviso");
+                                        alert.setMessage("¡Rellena todos los campos!");
+                                        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                dialogInterface.dismiss();
+                                            }
+                                        });
+                                        alert.create().show();
+                                    }
+
+                                }
+                            });
+
+
                         }
                     });
 
@@ -448,152 +618,6 @@ public class fragmentTareas extends Fragment implements ServerIP {
 
             });
             rList.setAdapter(adapter);
-            //rList.setAdapter(adapter);
-            /*adapter = new TareasAdapter(listaTarea, getActivity().getApplicationContext(), new TareasAdapter.OnItemLongClickListener() {
-                @Override
-                public void onItemLongClick(Tarea tarea, int position) {
-                    builder_tarea = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.myDialog));
-                    View view_modificar_tarea_popup = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.popup_modificar_tarea, null);
-
-                    builder_tarea.setView(view_modificar_tarea_popup);
-
-                    dialog_tarea = builder_tarea.create();
-                    dialog_tarea.show();
-
-                    final EditText nombre_tarea = view_modificar_tarea_popup.findViewById(R.id.modificar_tarea_nombre);
-                    nombre_tarea.setText(tarea.getNombre());
-                    final EditText descripcion_tarea = view_modificar_tarea_popup.findViewById(R.id.modificar_tarea_descripcion);
-                    descripcion_tarea.setText(tarea.getDescripcion());
-                    final ImageView prioritario_tarea = view_modificar_tarea_popup.findViewById(R.id.modificar_tarea_prioritario);
-
-                    if (tarea.getPrioritario() == 1) {
-                        prioritario_tarea.setImageResource(R.mipmap.prioritario);
-                    }
-
-                    prioritario_tarea.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (prioritario_tarea.getDrawable().getConstantState() == getResources().getDrawable(R.mipmap.no_prioritario).getConstantState()) {
-                                prioritario_tarea.setImageResource(R.mipmap.prioritario);
-                                prioritario = 1;
-                            } else {
-                                prioritario_tarea.setImageResource(R.mipmap.no_prioritario);
-                                prioritario = 0;
-                            }
-
-                        }
-                    });
-                    // fecha
-                    final TextView fecha_textview = (TextView) view_modificar_tarea_popup.findViewById(R.id.modificar_tarea_fecha_text);
-                    final LinearLayout fecha = (LinearLayout) view_modificar_tarea_popup.findViewById(R.id.modificar_tarea_fecha);
-                    fecha.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            c = Calendar.getInstance();
-                            int day = c.get(Calendar.DAY_OF_MONTH);
-                            int month = c.get(Calendar.MONTH);
-                            int year = c.get(Calendar.YEAR);
-
-                            dpd = new DatePickerDialog(getActivity(), R.style.AlertDialog, new DatePickerDialog.OnDateSetListener() {
-                                @Override
-                                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                                    fecha_textview.setText(dayOfMonth + "/" + month + 1 + "/" + year);
-                                }
-                            }, day, month, year);
-                            dpd.show();
-                        }
-                    });
-
-                    // Categoria
-                    final TextView categoria_textview = (TextView) view_modificar_tarea_popup.findViewById(R.id.modificar_tarea_categoria_text);
-                    final LinearLayout categoria = (LinearLayout) view_modificar_tarea_popup.findViewById(R.id.modificar_tarea_categoria);
-                    final View view_popup_categoria = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.popup_insertar_tarea_categoria, null);
-                    final Button categoria_aceptar = (Button) view_popup_categoria.findViewById(R.id.btnOk);
-                    radio_categoria = (RadioGroup) view_popup_categoria.findViewById(R.id.radioScreenMode);
-                    categoria.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            builder_insertar_categoria = new AlertDialog.Builder(getActivity(), R.style.AlertDialog);
-
-
-                            builder_insertar_categoria.setView(view_popup_categoria);
-                            dialog_insertar_categoria = builder_insertar_categoria.create();
-                            if (view_popup_categoria.getParent() != null) {
-                                ((ViewGroup) view_popup_categoria.getParent()).removeView(view_popup_categoria);
-                            }
-                            dialog_insertar_categoria.show();
-
-                            radio_categoria.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                                @Override
-                                public void onCheckedChanged(RadioGroup group, int checkedId) {
-                                    switch (radio_categoria.getCheckedRadioButtonId()) {
-                                        case R.id.radio0:
-                                            categoria_textview.setText("Ocio");
-
-                                            break;
-                                        case R.id.radio1:
-                                            categoria_textview.setText("Trabajo");
-
-                                            break;
-                                        case R.id.radio2:
-                                            categoria_textview.setText("Estudios");
-
-                                            break;
-                                        case R.id.radio3:
-                                            categoria_textview.setText("Otros");
-                                            break;
-
-                                    }
-                                }
-                            });
-                            categoria_aceptar.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    dialog_insertar_categoria.dismiss();
-                                }
-                            });
-
-                        }
-                    });
-                    final TextView close_tarea = view_modificar_tarea_popup.findViewById(R.id.modificar_tarea_close);
-                    close_tarea.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            dialog_tarea.dismiss();
-                        }
-                    });
-
-                    final ImageView modificar_tarea_aceptar = view_modificar_tarea_popup.findViewById(R.id.modificar_tarea_aceptar);
-                    modificar_tarea_aceptar.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-
-                            try {
-                                tareas.setNombre(nombre_tarea.getText().toString());
-                                tareas.setDescripcion(descripcion_tarea.getText().toString());
-                                tareas.setCategoria(categoria_textview.getText().toString());
-                                tareas.setEstado(0);
-                                tareas.setPrioritario(prioritario);
-                                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-
-                                java.util.Date terminar_temp = null;
-                                terminar_temp = simpleDateFormat.parse(fecha_textview.getText().toString());
-                                java.sql.Date terminar = new java.sql.Date(terminar_temp.getTime());
-                                tareas.setFecha_realizar(terminar);
-
-                                executeUpdateTareasTask();
-
-
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-                    });
-                }
-            });*/
-
-
         }
     }
 

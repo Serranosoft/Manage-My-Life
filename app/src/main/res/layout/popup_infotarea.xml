@@ -27,13 +27,23 @@
             android:id="@+id/tarea_alarma"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:src="@mipmap/notification_inactive"
+            android:src="@mipmap/notifications_inactive"
+            android:layout_gravity="start"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:layout_marginRight="16dp"
+            android:layout_toLeftOf="@+id/tarea_edit" />
+
+        <ImageView
+            android:id="@+id/tarea_edit"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@mipmap/edit"
             android:layout_gravity="start"
             android:layout_marginTop="8dp"
             android:gravity="center"
             android:layout_marginRight="8dp"
-            android:layout_toLeftOf="@+id/tarea_close"
-            android:text="X"/>
+            android:layout_toLeftOf="@+id/tarea_close" />
 
         <TextView
             android:id="@+id/tarea_close"

@@ -268,11 +268,31 @@ public class TareasOP {
             ps.setInt(2, tareas.getId());
             ps.executeUpdate();
 
-            System.out.println("Estado de la tarea"+tareas.getId() +tareas.getNombre() +"actualizado");
+            System.out.println("Estado de la tarea "+tareas.getId() +tareas.getNombre() +" actualizado");
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
+        public void actualizarEstadoSubtarea(Subtareas subtareas) {
+        Connection conexion = null;
+        PreparedStatement ps = null;
+
+        String sql = "UPDATE Subtarea SET Estado = ? WHERE ID = ?";
+
+        try {
+            conexion = DriverManager.getConnection(cadcon, user, password);
+            ps = conexion.prepareCall(sql);
+
+            ps.setInt(1, subtareas.getEstado());
+            ps.setInt(2, subtareas.getId());
+            ps.executeUpdate();
+
+            System.out.println("Estado de la subtarea "+subtareas.getId() +subtareas.getNombre() +" actualizado");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 }

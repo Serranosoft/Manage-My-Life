@@ -113,6 +113,10 @@ class HiloServidor extends Thread {
                     tareas = (Tareas) entrada.readObject();
                     actualizarEstadoTarea(tareas);
                     break;
+                case 13:
+                    subtareas = (Subtareas) entrada.readObject();
+                    actualizarEstadoSubtarea(subtareas);
+                    break;
                    
 
             }
@@ -228,6 +232,16 @@ class HiloServidor extends Thread {
         try {
             TareasOP top = new TareasOP();
             top.actualizarEstadoTarea(tareas);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void actualizarEstadoSubtarea(Subtareas subtareas) {
+        try {
+            TareasOP top = new TareasOP();
+            top.actualizarEstadoSubtarea(subtareas);
 
         } catch (Exception e) {
             e.printStackTrace();
