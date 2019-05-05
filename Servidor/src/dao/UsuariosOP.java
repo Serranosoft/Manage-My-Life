@@ -6,6 +6,7 @@
 package dao;
 
 import Compartir.Usuarios;
+import Conexion.DBConnection;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -17,9 +18,7 @@ import java.sql.ResultSet;
  */
 public class UsuariosOP {
 
-    public final String cadcon = "jdbc:mysql://localhost/proyecto_final_prueba?serverTimezone=UTC";
-    public final String user = "root";
-    public final String password = "123456";
+    DBConnection conn = new DBConnection();
 
     public void insertarUsuario(Usuarios usuario) {
 
@@ -29,7 +28,7 @@ public class UsuariosOP {
         String sql = "INSERT INTO Usuario (Usuario, Nombre, Salario, Contraseña) VALUES (?,?,?,?)";
 
         try {
-            conexion = DriverManager.getConnection(cadcon, user, password);
+            conexion = conn.getConnection();
             ps = conexion.prepareCall(sql);
 
             ps.setString(1, usuario.getUsuario());
@@ -53,7 +52,7 @@ public class UsuariosOP {
         String sql = "SELECT * FROM Usuario where Usuario = ? AND Contraseña = ?";
 
         try {
-            conexion = DriverManager.getConnection(cadcon, user, password);
+            conexion = conn.getConnection();
             ps = conexion.prepareCall(sql);
 
             ps.setString(1, usuario.getUsuario());
@@ -92,7 +91,7 @@ public class UsuariosOP {
         String sql = "UPDATE Usuario SET Usuario = ?, Nombre = ?, Salario = ?, Imagen = ? WHERE ID = ?";
 
         try {
-            conexion = DriverManager.getConnection(cadcon, user, password);
+            conexion = conn.getConnection();
             ps = conexion.prepareCall(sql);
 
             ps.setString(1, usuario.getUsuario());

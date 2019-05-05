@@ -7,6 +7,7 @@ package dao;
 
 import Compartir.Subtareas;
 import Compartir.Tareas;
+import Conexion.DBConnection;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -25,9 +26,7 @@ import vo.Tarea;
  */
 public class TareasOP {
 
-    public final String cadcon = "jdbc:mysql://localhost/proyecto_final_prueba?serverTimezone=UTC";
-    public final String user = "root";
-    public final String password = "123456";
+    DBConnection conn = new DBConnection();
 
     public ArrayList<Tarea> selectTareas(Tareas tareas) {
 
@@ -38,7 +37,7 @@ public class TareasOP {
 
         try {
             String sql = "SELECT * FROM Tarea WHERE Id_Usuario = ?";
-            conexion = DriverManager.getConnection(cadcon, user, password);
+            conexion = conn.getConnection();
             ps = conexion.prepareCall(sql);
             ps.setInt(1, tareas.getIdUsuario());
             rs = ps.executeQuery();
@@ -78,7 +77,7 @@ public class TareasOP {
         PreparedStatement ps = null;
         try {
             String sql = "SELECT * FROM Tarea WHERE ID = ?";
-            conexion = DriverManager.getConnection(cadcon, user, password);
+            conexion = conn.getConnection();
             ps = conexion.prepareCall(sql);
             ps.setInt(1, tareas.getId());
             rs = ps.executeQuery();
@@ -116,7 +115,7 @@ public class TareasOP {
         String sql = "INSERT INTO Tarea (Nombre, Categoria, Fecha_Inscrita, Fecha_Realizar, Descripcion, Estado, Prioritario, Id_Usuario) VALUES (?,?,?,?,?,?,?,?)";
 
         try {
-            conexion = DriverManager.getConnection(cadcon, user, password);
+            conexion = conn.getConnection();
             ps = conexion.prepareCall(sql);
 
             ps.setString(1, tareas.getNombre());
@@ -145,7 +144,7 @@ public class TareasOP {
         String sql = "DELETE FROM Tarea WHERE ID = ?";
 
         try {
-            conexion = DriverManager.getConnection(cadcon, user, password);
+            conexion = conn.getConnection();
             ps = conexion.prepareCall(sql);
 
             ps.setInt(1, tareas.getId());
@@ -165,7 +164,7 @@ public class TareasOP {
         String sql = "UPDATE Tarea SET Nombre = ?, Categoria = ?, Fecha_Inscrita = ?, Fecha_Realizar = ?, Descripcion = ?, Estado = ?, Prioritario = ? WHERE ID = ?";
 
         try {
-            conexion = DriverManager.getConnection(cadcon, user, password);
+            conexion = conn.getConnection();
             ps = conexion.prepareCall(sql);
 
             ps.setString(1, tareas.getNombre());
@@ -193,7 +192,7 @@ public class TareasOP {
 
         try {
             String sql = "SELECT * FROM Subtarea WHERE ID_Tarea = ?";
-            conexion = DriverManager.getConnection(cadcon, user, password);
+            conexion = conn.getConnection();
             ps = conexion.prepareCall(sql);
             ps.setInt(1, tareas.getId());
             rs = ps.executeQuery();
@@ -226,7 +225,7 @@ public class TareasOP {
 
         try {
             String sql = "INSERT INTO Subtarea (Nombre, Estado, ID_Tarea) VALUES (?,?,?)";
-            conexion = DriverManager.getConnection(cadcon, user, password);
+            conexion = conn.getConnection();
             ps = conexion.prepareCall(sql);
             ps.setString(1, subtareas.getNombre());
             ps.setInt(2, subtareas.getEstado());
@@ -245,7 +244,7 @@ public class TareasOP {
 
         try {
             String sql = "DELETE FROM Subtarea WHERE ID = ?";
-            conexion = DriverManager.getConnection(cadcon, user, password);
+            conexion = conn.getConnection();
             ps = conexion.prepareCall(sql);
             ps.setInt(1, subtareas.getId());
 
@@ -261,7 +260,7 @@ public class TareasOP {
         String sql = "UPDATE Tarea SET Estado = ? WHERE ID = ?";
 
         try {
-            conexion = DriverManager.getConnection(cadcon, user, password);
+            conexion = conn.getConnection();
             ps = conexion.prepareCall(sql);
 
             ps.setInt(1, tareas.getEstado());
@@ -282,7 +281,7 @@ public class TareasOP {
         String sql = "UPDATE Subtarea SET Estado = ? WHERE ID = ?";
 
         try {
-            conexion = DriverManager.getConnection(cadcon, user, password);
+            conexion = conn.getConnection();
             ps = conexion.prepareCall(sql);
 
             ps.setInt(1, subtareas.getEstado());

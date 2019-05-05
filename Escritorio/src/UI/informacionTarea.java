@@ -5,6 +5,7 @@ import Compartir.Subtareas;
 import Compartir.Tareas;
 import Compartir.Usuarios;
 import Conexion.Conexion;
+import com.github.lgooddatepicker.components.DatePickerSettings;
 import java.awt.Color;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -43,6 +44,7 @@ public class informacionTarea extends javax.swing.JDialog {
     Subtareas subtareas = new Subtareas();
     boolean edicion = false;
     int id = 0;
+    DatePickerSettings settings;
 
     public informacionTarea(java.awt.Frame parent, boolean modal, int id) {
         super(parent, modal);
@@ -55,7 +57,9 @@ public class informacionTarea extends javax.swing.JDialog {
             ex.printStackTrace();
         }
         this.setLocationRelativeTo(null);
-
+        settings = new DatePickerSettings();
+        settings.setAllowKeyboardEditing(false);
+        fecha_realizar_tarea.setSettings(settings);
         obtenerInfoTarea(id);
         obtenerSubtareas(id);
         this.id = id;
@@ -468,8 +472,10 @@ public class informacionTarea extends javax.swing.JDialog {
             peticion.setConsulta(6);
             System.out.println("Envio peticion de eliminar tareas");
             salida.writeObject(peticion);
+            salida.flush();
             System.out.println("Envio objeto tareas para eliminar");
             salida.writeObject(tareas);
+            salida.flush();
             this.setVisible(false);
 
         } catch (IOException ex) {

@@ -557,9 +557,9 @@ public class CalendarioUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_1MouseClicked
 
     private void btn_2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_2MouseClicked
-        /*TareasUI tareasUI = new TareasUI();
+        TareasUI tareasUI = new TareasUI(usuarios);
         tareasUI.setVisible(true);
-        this.setVisible(false);*/
+        this.setVisible(false);
     }//GEN-LAST:event_btn_2MouseClicked
 
     private void btn_3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_3MouseClicked

@@ -560,6 +560,7 @@ public class TareasUI extends javax.swing.JFrame {
             try {
                 peticion.setConsulta(3);
                 salida.writeObject(peticion);
+                salida.flush();
                 tareas.setIdUsuario(usuarios.getId());
                 salida.writeObject(tareas);
                 salida.flush();
@@ -657,6 +658,7 @@ public class TareasUI extends javax.swing.JFrame {
                             try {
                                 peticion.setConsulta(3);
                                 salida.writeObject(peticion);
+                                salida.flush();
                                 tareas.setIdUsuario(usuarios.getId());
                                 salida.writeObject(tareas);
                                 salida.flush();
