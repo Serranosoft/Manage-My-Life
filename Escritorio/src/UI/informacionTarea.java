@@ -49,13 +49,6 @@ public class informacionTarea extends javax.swing.JDialog {
     public informacionTarea(java.awt.Frame parent, boolean modal, int id) {
         super(parent, modal);
         initComponents();
-        try {
-            cliente = new Socket(server, 4444);
-            salida = new ObjectOutputStream(cliente.getOutputStream());
-            entrada = new ObjectInputStream(cliente.getInputStream());
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
         this.setLocationRelativeTo(null);
         settings = new DatePickerSettings();
         settings.setAllowKeyboardEditing(false);
@@ -460,6 +453,14 @@ public class informacionTarea extends javax.swing.JDialog {
             this.setVisible(false);
         } catch (IOException ex) {
             ex.printStackTrace();
+        } finally {
+            try {
+                cliente.close();
+                salida.close();
+                entrada.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
     }//GEN-LAST:event_modificar_informacion_tareaMouseClicked
 
@@ -480,6 +481,14 @@ public class informacionTarea extends javax.swing.JDialog {
 
         } catch (IOException ex) {
             ex.printStackTrace();
+        } finally {
+            try {
+                cliente.close();
+                salida.close();
+                entrada.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
     }//GEN-LAST:event_eliminar_tareaMouseClicked
     boolean insercion = false;
@@ -555,6 +564,14 @@ public class informacionTarea extends javax.swing.JDialog {
     private void obtenerInfoTarea(int id) {
 
         try {
+            try {
+            cliente = new Socket(server, 4444);
+            salida = new ObjectOutputStream(cliente.getOutputStream());
+            entrada = new ObjectInputStream(cliente.getInputStream());
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+            
             System.out.println("Envio la peticion de obtener info de tareas");
             peticion.setConsulta(5);
             salida.writeObject(peticion);

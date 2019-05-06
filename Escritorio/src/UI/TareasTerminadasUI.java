@@ -1,6 +1,17 @@
 package UI;
 
+import Compartir.Peticion;
+import Compartir.Tareas;
+import Compartir.Usuarios;
+import Conexion.Conexion;
 import java.awt.Color;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import vo.Tarea;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -16,11 +27,22 @@ public class TareasTerminadasUI extends javax.swing.JFrame {
     /**
      * Creates new form TareasTerminadasUI
      */
-    public TareasTerminadasUI() {
+    final Conexion conexion = new Conexion();
+    final String server = conexion.getServer();
+    Socket cliente = null;
+    ObjectOutputStream salida = null;
+    ObjectInputStream entrada = null;
+    Tareas tareas = new Tareas();
+    Peticion peticion = new Peticion();
+    Usuarios usuarios = new Usuarios();
+    int contador_tareas_terminadas = 0;
+    public TareasTerminadasUI(Usuarios usuarios) {
         initComponents();
         this.setLocationRelativeTo(null);
         btn_3.setBackground(Color.CYAN);
         text_btn3.setForeground(Color.BLACK);
+        this.usuarios = usuarios;
+        rellenarTareas(usuarios);
     }
 
     /**
@@ -56,8 +78,8 @@ public class TareasTerminadasUI extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jLabel3 = new javax.swing.JLabel();
+        tabla_tareas_terminadas = new javax.swing.JTable();
+        tareas_terminadas = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -210,6 +232,11 @@ public class TareasTerminadasUI extends javax.swing.JFrame {
         side_pane.add(btn_2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 140, -1));
 
         btn_6.setBackground(new java.awt.Color(0, 51, 153));
+        btn_6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_6MouseClicked(evt);
+            }
+        });
 
         ind_4.setOpaque(false);
         ind_4.setPreferredSize(new java.awt.Dimension(3, 43));
@@ -365,23 +392,22 @@ public class TareasTerminadasUI extends javax.swing.JFrame {
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
 
-        jTable1.setBackground(new java.awt.Color(187, 187, 187));
-        jTable1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        jTable1.setForeground(new java.awt.Color(0, 0, 0));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabla_tareas_terminadas.setBackground(new java.awt.Color(187, 187, 187));
+        tabla_tareas_terminadas.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        tabla_tareas_terminadas.setForeground(new java.awt.Color(0, 0, 0));
+        tabla_tareas_terminadas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"Aprobar módulos", "Estudio"},
-                {"Pasear al perro", "Ocio"}
+
             },
             new String [] {
-                "Nombre", "Tipo"
+                "Nombre", "Descripcion", "Tipo"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -392,20 +418,19 @@ public class TareasTerminadasUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.setGridColor(new java.awt.Color(102, 102, 102));
-        jTable1.setRowHeight(22);
-        jTable1.setSelectionBackground(new java.awt.Color(51, 102, 255));
-        jTable1.setSelectionForeground(new java.awt.Color(0, 0, 102));
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(520);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
+        tabla_tareas_terminadas.setGridColor(new java.awt.Color(102, 102, 102));
+        tabla_tareas_terminadas.setRowHeight(22);
+        tabla_tareas_terminadas.setSelectionBackground(new java.awt.Color(51, 102, 255));
+        tabla_tareas_terminadas.setSelectionForeground(new java.awt.Color(0, 0, 102));
+        jScrollPane1.setViewportView(tabla_tareas_terminadas);
+        if (tabla_tareas_terminadas.getColumnModel().getColumnCount() > 0) {
+            tabla_tareas_terminadas.getColumnModel().getColumn(0).setPreferredWidth(320);
+            tabla_tareas_terminadas.getColumnModel().getColumn(1).setPreferredWidth(250);
         }
 
-        jLabel3.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel3.setText("2");
+        tareas_terminadas.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
+        tareas_terminadas.setForeground(new java.awt.Color(51, 51, 51));
+        tareas_terminadas.setText("2");
 
         jLabel4.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(51, 51, 51));
@@ -424,7 +449,7 @@ public class TareasTerminadasUI extends javax.swing.JFrame {
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addGap(343, 343, 343)
-                                .addComponent(jLabel3))
+                                .addComponent(tareas_terminadas))
                             .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addGap(229, 229, 229)
                                 .addComponent(jLabel4)))
@@ -435,7 +460,7 @@ public class TareasTerminadasUI extends javax.swing.JFrame {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
-                .addComponent(jLabel3)
+                .addComponent(tareas_terminadas)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
                 .addGap(40, 40, 40)
@@ -486,6 +511,46 @@ public class TareasTerminadasUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    DefaultTableModel m;
+
+    public void rellenarTareas(Usuarios usuarios) {
+        m = (DefaultTableModel) tabla_tareas_terminadas.getModel();
+        m.setRowCount(0);
+
+        try {
+
+            cliente = new Socket(server, 4444);
+            salida = new ObjectOutputStream(cliente.getOutputStream());
+            entrada = new ObjectInputStream(cliente.getInputStream());
+
+            peticion.setConsulta(3);
+            salida.writeObject(peticion);
+            salida.flush();
+            tareas.setIdUsuario(usuarios.getId());
+            salida.writeObject(tareas);
+            salida.flush();
+            tareas = (Tareas) entrada.readObject();
+
+            ArrayList<Tarea> listado_tareas = tareas.getResultados_tareas();
+            for (int i = 0; i < listado_tareas.size(); i++) {
+                Tarea tarea = listado_tareas.get(i);
+                 
+                if (tarea.getEstado() == 1) {
+                    contador_tareas_terminadas++;
+                    Object[] array = {tarea.getNombre(), tarea.getDescripcion(), tarea.getCategoria()};
+                    m.addRow(array);
+                }
+
+            }
+            tareas_terminadas.setText(contador_tareas_terminadas+"");
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
+
+    }
     private void jPanel2MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MouseDragged
 
     }//GEN-LAST:event_jPanel2MouseDragged
@@ -495,21 +560,21 @@ public class TareasTerminadasUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel2MousePressed
 
     private void btn_1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_1MouseClicked
-        /*PerfilUI perfilUI = new PerfilUI();
+        PerfilUI perfilUI = new PerfilUI(usuarios);
         perfilUI.setVisible(true);
-        this.setVisible(false);*/
+        this.setVisible(false);
     }//GEN-LAST:event_btn_1MouseClicked
 
     private void btn_2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_2MouseClicked
-        /*TareasUI tareasUI = new TareasUI();
+        TareasUI tareasUI = new TareasUI(usuarios);
         tareasUI.setVisible(true);
-        this.setVisible(false);*/
+        this.setVisible(false);
     }//GEN-LAST:event_btn_2MouseClicked
 
     private void btn_4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_4MouseClicked
-        /*CalendarioUI calendarioUI = new CalendarioUI();
+        CalendarioUI calendarioUI = new CalendarioUI(usuarios);
         calendarioUI.setVisible(true);
-        this.setVisible(false);*/
+        this.setVisible(false);
     }//GEN-LAST:event_btn_4MouseClicked
 
     private void btn_5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_5MouseClicked
@@ -517,6 +582,12 @@ public class TareasTerminadasUI extends javax.swing.JFrame {
         finanzas.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btn_5MouseClicked
+
+    private void btn_6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_6MouseClicked
+        InformesUI informesUI = new InformesUI(usuarios);
+        informesUI.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btn_6MouseClicked
 
     /**
      * @param args the command line arguments
@@ -548,7 +619,7 @@ public class TareasTerminadasUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TareasTerminadasUI().setVisible(true);
+                new TareasTerminadasUI(new Usuarios()).setVisible(true);
             }
         });
     }
@@ -571,15 +642,15 @@ public class TareasTerminadasUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JPanel side_pane;
+    private javax.swing.JTable tabla_tareas_terminadas;
+    private javax.swing.JLabel tareas_terminadas;
     private javax.swing.JLabel text_btn3;
     // End of variables declaration//GEN-END:variables
 }

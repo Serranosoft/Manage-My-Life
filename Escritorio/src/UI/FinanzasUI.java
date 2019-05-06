@@ -19,6 +19,7 @@ public class FinanzasUI extends javax.swing.JFrame {
     /**
      * Creates new form FinanzasUI
      */
+    Usuarios usuarios = new Usuarios();
     public FinanzasUI() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -564,25 +565,27 @@ public class FinanzasUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_1MouseClicked
 
     private void btn_2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_2MouseClicked
-       /* TareasUI tareasUI = new TareasUI();
+        TareasUI tareasUI = new TareasUI(usuarios);
         tareasUI.setVisible(true);
-        this.setVisible(false);*/
+        this.setVisible(false);
     }//GEN-LAST:event_btn_2MouseClicked
 
     private void btn_3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_3MouseClicked
-        TareasTerminadasUI tareasTerminadasUI = new TareasTerminadasUI();
+        TareasTerminadasUI tareasTerminadasUI = new TareasTerminadasUI(usuarios);
         tareasTerminadasUI.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btn_3MouseClicked
 
     private void btn_4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_4MouseClicked
-       /* CalendarioUI calendarioUI = new CalendarioUI();
+        CalendarioUI calendarioUI = new CalendarioUI(usuarios);
         calendarioUI.setVisible(true);
-        this.setVisible(false);*/
+        this.setVisible(false);
     }//GEN-LAST:event_btn_4MouseClicked
 
     private void btn_6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_6MouseClicked
-        // TODO add your handling code here:
+        InformesUI informesUI = new InformesUI(usuarios);
+        informesUI.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_btn_6MouseClicked
 
     private void añadirGasto_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_añadirGasto_btnMouseClicked

@@ -241,6 +241,11 @@ public class PerfilUI extends javax.swing.JFrame {
         side_pane.add(btn_2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 150, -1));
 
         btn_6.setBackground(new java.awt.Color(0, 51, 153));
+        btn_6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_6MouseClicked(evt);
+            }
+        });
 
         ind_4.setOpaque(false);
         ind_4.setPreferredSize(new java.awt.Dimension(3, 43));
@@ -567,7 +572,7 @@ public class PerfilUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_4MouseClicked
 
     private void btn_3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_3MouseClicked
-        TareasTerminadasUI tareasTerminadasUI = new TareasTerminadasUI();
+        TareasTerminadasUI tareasTerminadasUI = new TareasTerminadasUI(usuarios);
         tareasTerminadasUI.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btn_3MouseClicked
@@ -589,6 +594,12 @@ public class PerfilUI extends javax.swing.JFrame {
         inicioSesionUI.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_perfil_cerrar_sesionMouseClicked
+
+    private void btn_6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_6MouseClicked
+        InformesUI informesUI = new InformesUI(usuarios);
+        informesUI.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btn_6MouseClicked
 
     private void rellenarDatos(int idUsuario) {
 
