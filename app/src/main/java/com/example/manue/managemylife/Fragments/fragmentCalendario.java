@@ -1,34 +1,17 @@
 package com.example.manue.managemylife.Fragments;
 
 
-import android.app.DatePickerDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.format.DateUtils;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RadioGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.manue.managemylife.Activities.MainActivity;
-import com.example.manue.managemylife.Activities.SubtareasActivity;
-import com.example.manue.managemylife.Adapters.TareasAdapter;
 import com.example.manue.managemylife.R;
-import com.example.manue.managemylife.ServerIP.ServerIP;
+import com.example.manue.managemylife.vo.SettingsClass;
 import com.squareup.timessquare.CalendarPickerView;
 import com.tapadoo.alerter.Alerter;
 import com.tapadoo.alerter.OnHideAlertListener;
@@ -38,15 +21,11 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.sql.SQLOutput;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import Compartir.Peticion;
@@ -57,10 +36,10 @@ import vo.Tarea;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class fragmentCalendario extends Fragment implements ServerIP {
+public class fragmentCalendario extends Fragment{
 
-    final String server = IP;
-
+    //final String server = IP;
+    SettingsClass settings = null;
     Usuarios usuarios = new Usuarios();
     Peticion peticion = new Peticion();
     Tareas tareas = new Tareas();
@@ -78,7 +57,7 @@ public class fragmentCalendario extends Fragment implements ServerIP {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_calendario, container, false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Calendario");
-
+        settings = new SettingsClass(getActivity().getApplicationContext());
         MainActivity mainActivity = (MainActivity) getActivity();
 
         usuarios = mainActivity.informacionUsuario();
@@ -161,7 +140,7 @@ public class fragmentCalendario extends Fragment implements ServerIP {
         @Override
         protected ArrayList<Tarea> doInBackground(ArrayList<Tarea>... arrayLists) {
             try {
-                cliente = new Socket(server, 4444);
+                cliente = new Socket(settings.obtenerSettings().get(0).getAddress(), settings.obtenerSettings().get(0).getPort());
                 salida = new ObjectOutputStream(cliente.getOutputStream());
                 entrada = new ObjectInputStream(cliente.getInputStream());
 

@@ -9,4 +9,5 @@
     <color name="background_profile">#21447c</color>
 
     <color name="alerter1">#77abff</color>
+    <color name="alerter_login">#913172</color>
 </resources>

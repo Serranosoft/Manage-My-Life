@@ -43,8 +43,10 @@ public class InformesUI extends javax.swing.JFrame {
     Usuarios usuarios = new Usuarios();
     Peticion peticion = new Peticion();
     Tareas tareas = new Tareas();
+
     public InformesUI(Usuarios usuarios) {
         initComponents();
+        System.out.println("A");
         try {
             cliente = new Socket(server, 4444);
             salida = new ObjectOutputStream(cliente.getOutputStream());
@@ -54,6 +56,7 @@ public class InformesUI extends javax.swing.JFrame {
         }
         this.setLocationRelativeTo(null);
         this.usuarios = usuarios;
+        System.out.println("Nombre: "+usuarios.getNombre() +" ID: "+usuarios.getId());
         btn_6.setBackground(Color.CYAN);
     }
 
@@ -90,7 +93,7 @@ public class InformesUI extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        perfil_nombre = new javax.swing.JLabel();
+        informes_nombre = new javax.swing.JLabel();
         perfil_imagen = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
@@ -100,6 +103,7 @@ public class InformesUI extends javax.swing.JFrame {
         jSeparator3 = new javax.swing.JSeparator();
         jSeparator4 = new javax.swing.JSeparator();
         generar_informe_tareas_categoria = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -107,6 +111,11 @@ public class InformesUI extends javax.swing.JFrame {
         side_pane.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btn_1.setBackground(new java.awt.Color(0, 51, 153));
+        btn_1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_1MouseClicked(evt);
+            }
+        });
 
         ind_1.setOpaque(false);
         ind_1.setPreferredSize(new java.awt.Dimension(3, 43));
@@ -408,10 +417,10 @@ public class InformesUI extends javax.swing.JFrame {
         jPanel4.setBackground(new java.awt.Color(153, 153, 153));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        perfil_nombre.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        perfil_nombre.setForeground(new java.awt.Color(255, 255, 255));
-        perfil_nombre.setText("xxxxxxxx");
-        jPanel4.add(perfil_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 170, -1, 30));
+        informes_nombre.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        informes_nombre.setForeground(new java.awt.Color(255, 255, 255));
+        informes_nombre.setText("xxxxxxxx");
+        jPanel4.add(informes_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 170, -1, 30));
 
         perfil_imagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/user.png"))); // NOI18N
         jPanel4.add(perfil_imagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 20, 150, 140));
@@ -432,6 +441,13 @@ public class InformesUI extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Tareas Pendientes");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -444,13 +460,14 @@ public class InformesUI extends javax.swing.JFrame {
                     .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 502, Short.MAX_VALUE)
                     .addComponent(jSeparator3, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jSeparator4, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(generar_informe_tareas_categoria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
                             .addComponent(jLabel4)
                             .addComponent(jLabel1))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(generar_informe_tareas_categoria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -462,7 +479,9 @@ public class InformesUI extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(33, 33, 33)
                 .addComponent(generar_informe_tareas_categoria)
-                .addGap(78, 78, 78)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addGap(40, 40, 40)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
@@ -519,24 +538,28 @@ public class InformesUI extends javax.swing.JFrame {
         FinanzasUI finanzas = new FinanzasUI();
         finanzas.setVisible(true);
         this.setVisible(false);
+        conexion.desconectar();
     }//GEN-LAST:event_btn_5MouseClicked
 
     private void btn_2MouseClicked1(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_2MouseClicked1
         TareasUI tareasUI = new TareasUI(usuarios);
         tareasUI.setVisible(true);
         this.setVisible(false);
+        conexion.desconectar();
     }//GEN-LAST:event_btn_2MouseClicked1
 
     private void btn_4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_4MouseClicked
         CalendarioUI calendario = new CalendarioUI(usuarios);
         calendario.setVisible(true);
         this.setVisible(false);
+        conexion.desconectar();
     }//GEN-LAST:event_btn_4MouseClicked
 
     private void btn_3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_3MouseClicked
         TareasTerminadasUI tareasTerminadasUI = new TareasTerminadasUI(usuarios);
         tareasTerminadasUI.setVisible(true);
         this.setVisible(false);
+        conexion.desconectar();
     }//GEN-LAST:event_btn_3MouseClicked
 
     private void jPanel2MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MouseDragged
@@ -551,6 +574,7 @@ public class InformesUI extends javax.swing.JFrame {
         try {
             JasperReport informe = (JasperReport) JRLoader.loadObject("informe_TareasCategoria.jasper");
             Map<String, Integer> parametros = new HashMap<String, Integer>();
+            System.out.println(usuarios.getNombre());
             parametros.put("ID_Usuario", usuarios.getId());
             JasperPrint jasperPrint = JasperFillManager.fillReport(informe, parametros, conexion.getConnection());
 
@@ -561,11 +585,41 @@ public class InformesUI extends javax.swing.JFrame {
             viewer.getContentPane().add(jrViewer.getContentPane());
             viewer.setVisible(true);
 
-            conexion.desconectar();
+           // conexion.desconectar();
+            System.out.println(usuarios.getId());
         } catch (JRException ex) {
-            Logger.getLogger(InformesUI.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
     }//GEN-LAST:event_generar_informe_tareas_categoriaMouseClicked
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        try {
+            JasperReport informe = (JasperReport) JRLoader.loadObject("informe_tareasPendientes.jasper");
+            Map<String, Integer> parametros = new HashMap<String, Integer>();
+            parametros.put("ID_Usuario", usuarios.getId());
+            JasperPrint jasperPrint = JasperFillManager.fillReport(informe, parametros, conexion.getConnection());
+
+            JasperViewer jrViewer = new JasperViewer(jasperPrint, true);
+            JDialog viewer = new JDialog(new javax.swing.JFrame(), "Tareas Pendientes", true);
+            viewer.setSize(1000, 600);
+            viewer.setLocationRelativeTo(null);
+            viewer.getContentPane().add(jrViewer.getContentPane());
+            viewer.setVisible(true);
+
+            //conexion.desconectar();
+            System.out.println(usuarios.getId());
+        } catch (JRException ex) {
+            ex.printStackTrace();
+        }
+
+    }//GEN-LAST:event_jButton1MouseClicked
+
+    private void btn_1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_1MouseClicked
+        PerfilUI perfilUI = new PerfilUI(usuarios);
+        perfilUI.setVisible(true);
+        this.setVisible(false);
+        conexion.desconectar();
+    }//GEN-LAST:event_btn_1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -616,6 +670,8 @@ public class InformesUI extends javax.swing.JFrame {
     private javax.swing.JPanel ind_4;
     private javax.swing.JPanel ind_5;
     private javax.swing.JPanel ind_6;
+    private javax.swing.JLabel informes_nombre;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -634,7 +690,6 @@ public class InformesUI extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JLabel perfil_imagen;
-    private javax.swing.JLabel perfil_nombre;
     private javax.swing.JPanel side_pane;
     private javax.swing.JLabel text_btn1;
     // End of variables declaration//GEN-END:variables

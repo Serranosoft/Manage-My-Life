@@ -2,13 +2,10 @@ package com.example.manue.managemylife.Fragments;
 
 
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -32,8 +29,8 @@ import com.example.manue.managemylife.Activities.MainActivity;
 import com.example.manue.managemylife.Activities.SubtareasActivity;
 import com.example.manue.managemylife.Adapters.TareasAdapter;
 import com.example.manue.managemylife.R;
-import com.example.manue.managemylife.ServerIP.ServerIP;
 import com.example.manue.managemylife.Util.SwipeableRecyclerViewTouchListener;
+import com.example.manue.managemylife.vo.SettingsClass;
 
 import Compartir.Peticion;
 import Compartir.Tareas;
@@ -52,9 +49,9 @@ import java.util.Calendar;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class fragmentTareas extends Fragment implements ServerIP {
+public class fragmentTareas extends Fragment {
 
-    final String server = IP;
+    SettingsClass settings = null;
 
     Usuarios usuarios = new Usuarios();
     Peticion peticion = new Peticion();
@@ -93,7 +90,7 @@ public class fragmentTareas extends Fragment implements ServerIP {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Tareas");
 
         MainActivity mainActivity = (MainActivity) getActivity();
-
+        settings = new SettingsClass(getActivity().getApplicationContext());
         usuarios = mainActivity.informacionUsuario();
 
         rList = view.findViewById(R.id.lista);
@@ -360,7 +357,7 @@ public class fragmentTareas extends Fragment implements ServerIP {
         @Override
         protected ArrayList<Tarea> doInBackground(ArrayList<Tarea>... arrayLists) {
             try {
-                cliente = new Socket(server, 4444);
+                cliente = new Socket(settings.obtenerSettings().get(0).getAddress(), settings.obtenerSettings().get(0).getPort());
                 salida = new ObjectOutputStream(cliente.getOutputStream());
                 entrada = new ObjectInputStream(cliente.getInputStream());
 
@@ -630,7 +627,7 @@ public class fragmentTareas extends Fragment implements ServerIP {
         @Override
         protected Void doInBackground(String... strings) {
             try {
-                cliente = new Socket(server, 4444);
+                cliente = new Socket(settings.obtenerSettings().get(0).getAddress(), settings.obtenerSettings().get(0).getPort());
                 salida = new ObjectOutputStream(cliente.getOutputStream());
                 entrada = new ObjectInputStream(cliente.getInputStream());
 
@@ -656,7 +653,7 @@ public class fragmentTareas extends Fragment implements ServerIP {
         @Override
         protected Void doInBackground(String... strings) {
             try {
-                cliente = new Socket(server, 4444);
+                cliente = new Socket(settings.obtenerSettings().get(0).getAddress(), settings.obtenerSettings().get(0).getPort());
                 salida = new ObjectOutputStream(cliente.getOutputStream());
                 entrada = new ObjectInputStream(cliente.getInputStream());
 
@@ -681,7 +678,7 @@ public class fragmentTareas extends Fragment implements ServerIP {
         @Override
         protected Void doInBackground(String... strings) {
             try {
-                cliente = new Socket(server, 4444);
+                cliente = new Socket(settings.obtenerSettings().get(0).getAddress(), settings.obtenerSettings().get(0).getPort());
                 salida = new ObjectOutputStream(cliente.getOutputStream());
                 entrada = new ObjectInputStream(cliente.getInputStream());
 
@@ -707,7 +704,7 @@ public class fragmentTareas extends Fragment implements ServerIP {
         @Override
         protected Void doInBackground(String... strings) {
             try {
-                cliente = new Socket(server, 4444);
+                cliente = new Socket(settings.obtenerSettings().get(0).getAddress(), settings.obtenerSettings().get(0).getPort());
                 salida = new ObjectOutputStream(cliente.getOutputStream());
                 entrada = new ObjectInputStream(cliente.getInputStream());
 

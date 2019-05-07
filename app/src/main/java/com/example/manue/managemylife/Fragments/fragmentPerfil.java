@@ -1,14 +1,10 @@
 package com.example.manue.managemylife.Fragments;
 
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,9 +15,8 @@ import android.widget.TextView;
 
 import com.example.manue.managemylife.Activities.LoginActivity;
 import com.example.manue.managemylife.Activities.MainActivity;
-import com.example.manue.managemylife.Activities.SliderActivity;
 import com.example.manue.managemylife.R;
-import com.example.manue.managemylife.ServerIP.ServerIP;
+import com.example.manue.managemylife.vo.SettingsClass;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -35,9 +30,7 @@ import Compartir.Usuarios;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class fragmentPerfil extends Fragment implements ServerIP {
-
-    final String server = IP;
+public class fragmentPerfil extends Fragment{
 
     Usuarios usuarios = new Usuarios();
     Peticion peticion = new Peticion();
@@ -51,6 +44,7 @@ public class fragmentPerfil extends Fragment implements ServerIP {
     TextView perfil_nombre = null;
     TextView perfil_usuario = null;
 
+    SettingsClass settings = null;
     public fragmentPerfil() {
         // Required empty public constructor
     }
@@ -62,7 +56,7 @@ public class fragmentPerfil extends Fragment implements ServerIP {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_perfil, container, false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Perfil");
-
+        settings = new SettingsClass(getActivity().getApplicationContext());
         MainActivity mainActivity = (MainActivity) getActivity();
 
         System.out.println("Se recoge el objeto usuarios");
@@ -128,7 +122,7 @@ public class fragmentPerfil extends Fragment implements ServerIP {
         protected Tareas doInBackground(Tareas... strings) {
             try {
                 System.out.println("Establece conexion");
-                cliente = new Socket(server, 4444);
+                cliente = new Socket(settings.obtenerSettings().get(0).getAddress(), settings.obtenerSettings().get(0).getPort());
                 System.out.println("Configura flujos");
                 salida = new ObjectOutputStream(cliente.getOutputStream());
                 entrada = new ObjectInputStream(cliente.getInputStream());

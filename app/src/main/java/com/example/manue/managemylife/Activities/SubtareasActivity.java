@@ -1,11 +1,8 @@
 package com.example.manue.managemylife.Activities;
 
-import android.app.DatePickerDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,43 +11,29 @@ import android.support.v7.widget.RecyclerView;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RadioGroup;
-import android.widget.TextView;
 
 import com.example.manue.managemylife.Adapters.SubtareasAdapter;
-import com.example.manue.managemylife.Adapters.TareasAdapter;
-import com.example.manue.managemylife.Fragments.TimePickerFragment;
-import com.example.manue.managemylife.Fragments.fragmentTareas;
 import com.example.manue.managemylife.R;
-import com.example.manue.managemylife.ServerIP.ServerIP;
 import com.example.manue.managemylife.Util.SwipeableRecyclerViewTouchListener;
+import com.example.manue.managemylife.vo.SettingsClass;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import Compartir.Peticion;
 import Compartir.Subtareas;
 import Compartir.Tareas;
-import Compartir.Usuarios;
 import vo.Subtarea;
-import vo.Tarea;
 
-public class SubtareasActivity extends AppCompatActivity implements ServerIP {
+public class SubtareasActivity extends AppCompatActivity {
 
-    final String server = IP;
-
+    //final String server = IP;
+    SettingsClass settings = null;
     Peticion peticion = new Peticion();
     Tareas tareas = new Tareas();
     Subtareas subtareas = new Subtareas();
@@ -69,7 +52,7 @@ public class SubtareasActivity extends AppCompatActivity implements ServerIP {
         setContentView(R.layout.activity_subtareas);
 
         tareas = (Tareas) getIntent().getSerializableExtra("tarea_subtarea");
-
+        settings = new SettingsClass(this);
         rList = findViewById(R.id.lista_subtareas);
         rList.setHasFixedSize(true);
         rList.setLayoutManager(new LinearLayoutManager(this));
@@ -212,7 +195,7 @@ public class SubtareasActivity extends AppCompatActivity implements ServerIP {
         @Override
         protected ArrayList<Subtarea> doInBackground(ArrayList<Subtarea>... arrayLists) {
             try {
-                cliente = new Socket(server, 4444);
+                cliente = new Socket(settings.obtenerSettings().get(0).getAddress(), settings.obtenerSettings().get(0).getPort());
                 salida = new ObjectOutputStream(cliente.getOutputStream());
                 entrada = new ObjectInputStream(cliente.getInputStream());
 
@@ -253,7 +236,7 @@ public class SubtareasActivity extends AppCompatActivity implements ServerIP {
         @Override
         protected Void doInBackground(String... strings) {
             try {
-                cliente = new Socket(server, 4444);
+                cliente = new Socket(settings.obtenerSettings().get(0).getAddress(), settings.obtenerSettings().get(0).getPort());
                 salida = new ObjectOutputStream(cliente.getOutputStream());
                 entrada = new ObjectInputStream(cliente.getInputStream());
 
@@ -278,7 +261,7 @@ public class SubtareasActivity extends AppCompatActivity implements ServerIP {
         @Override
         protected Void doInBackground(String... strings) {
             try {
-                cliente = new Socket(server, 4444);
+                cliente = new Socket(settings.obtenerSettings().get(0).getAddress(), settings.obtenerSettings().get(0).getPort());
                 salida = new ObjectOutputStream(cliente.getOutputStream());
                 entrada = new ObjectInputStream(cliente.getInputStream());
 
@@ -302,7 +285,7 @@ public class SubtareasActivity extends AppCompatActivity implements ServerIP {
         @Override
         protected Void doInBackground(String... strings) {
             try {
-                cliente = new Socket(server, 4444);
+                cliente = new Socket(settings.obtenerSettings().get(0).getAddress(), settings.obtenerSettings().get(0).getPort());
                 salida = new ObjectOutputStream(cliente.getOutputStream());
                 entrada = new ObjectInputStream(cliente.getInputStream());
 

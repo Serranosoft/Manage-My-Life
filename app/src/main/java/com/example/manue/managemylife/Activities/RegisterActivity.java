@@ -1,38 +1,14 @@
 package com.example.manue.managemylife.Activities;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Handler;
-import android.os.Looper;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
 
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.AsyncTask;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -41,24 +17,20 @@ import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.example.manue.managemylife.R;
-import com.example.manue.managemylife.ServerIP.ServerIP;
+import com.example.manue.managemylife.vo.SettingsClass;
 
 import Compartir.Peticion;
 import Compartir.Usuarios;
 
-import static android.Manifest.permission.READ_CONTACTS;
-
 /**
  * A login screen that offers login via email/password.
  */
-public class RegisterActivity extends AppCompatActivity implements ServerIP {
+public class RegisterActivity extends AppCompatActivity{
 
-    final String server = IP;
-
+    //final String server = IP;
+    SettingsClass settings = null;
     Usuarios usuarios = new Usuarios();
     Peticion peticion = new Peticion();
     EditText usuario = null;
@@ -71,7 +43,7 @@ public class RegisterActivity extends AppCompatActivity implements ServerIP {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-
+        settings = new SettingsClass(this);
         usuario = (EditText) findViewById(R.id.register_email);
         contraseña = (EditText) findViewById(R.id.register_pass);
         nombre = (EditText) findViewById(R.id.register_nombre);
@@ -104,7 +76,7 @@ public class RegisterActivity extends AppCompatActivity implements ServerIP {
         protected Void doInBackground(String... strings) {
             try {
                 System.out.println("AAA");
-                cliente = new Socket(server, 4444);
+                cliente = new Socket(settings.obtenerSettings().get(0).getAddress(), settings.obtenerSettings().get(0).getPort());
                 System.out.println("BBB");
                 salida = new ObjectOutputStream(cliente.getOutputStream());
                 entrada = new ObjectInputStream(cliente.getInputStream());
