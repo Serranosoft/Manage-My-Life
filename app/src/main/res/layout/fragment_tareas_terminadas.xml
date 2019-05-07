@@ -20,7 +20,7 @@
         />
 
     <TextView
-        android:id="@+id/tareas_terminadas_done"
+        android:id="@+id/tareas_terminadas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -32,8 +32,8 @@
         />
     <android.support.v7.widget.RecyclerView
         android:layout_marginTop="16dp"
-        android:layout_below="@id/tareas_terminadas_done"
-        android:id="@+id/lista"
+        android:layout_below="@id/tareas_terminadas"
+        android:id="@+id/lista_tareas_terminadas"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/tarea_terminada"
