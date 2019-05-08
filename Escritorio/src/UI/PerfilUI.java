@@ -431,7 +431,7 @@ public class PerfilUI extends javax.swing.JFrame {
         jPanel4.add(perfil_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 170, -1, 30));
 
         perfil_imagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/user.png"))); // NOI18N
-        jPanel4.add(perfil_imagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 20, 150, 140));
+        jPanel4.add(perfil_imagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 20, 120, 140));
 
         perfil_modificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/ajustes.png"))); // NOI18N
         perfil_modificar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -589,7 +589,7 @@ public class PerfilUI extends javax.swing.JFrame {
     }//GEN-LAST:event_perfil_modificarMouseClicked
 
     private void perfil_cerrar_sesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_perfil_cerrar_sesionMouseClicked
-        
+
         InicioSesionUI inicioSesionUI = new InicioSesionUI();
         inicioSesionUI.setVisible(true);
         this.setVisible(false);
@@ -620,7 +620,7 @@ public class PerfilUI extends javax.swing.JFrame {
                     tareas_pendientes++;
                 }
             }
-            
+
             perfil_tareas_pendientes.setText(tareas_pendientes + "");
             perfil_tareas_terminadas.setText(tareas_terminadas + "");
             perfil_balance.setText(usuarios.getSalario() + " €");

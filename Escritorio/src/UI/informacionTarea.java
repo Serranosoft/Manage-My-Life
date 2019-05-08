@@ -15,6 +15,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import vo.Subtarea;
 import vo.Tarea;
@@ -125,6 +126,11 @@ public class informacionTarea extends javax.swing.JDialog {
         jLabel5.setText("Categoria");
 
         salir.setBackground(new java.awt.Color(0, 102, 153));
+        salir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                salirMouseClicked(evt);
+            }
+        });
 
         jLabel6.setText("SALIR");
         jLabel6.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -150,6 +156,9 @@ public class informacionTarea extends javax.swing.JDialog {
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
 
+        tabla_subtareas.setBackground(new java.awt.Color(187, 187, 187));
+        tabla_subtareas.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        tabla_subtareas.setForeground(new java.awt.Color(0, 0, 0));
         tabla_subtareas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -173,9 +182,6 @@ public class informacionTarea extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
-        tabla_subtareas.setBackground(new java.awt.Color(187, 187, 187));
-        tabla_subtareas.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        tabla_subtareas.setForeground(new java.awt.Color(0, 0, 0));
         tabla_subtareas.setGridColor(new java.awt.Color(102, 102, 102));
         tabla_subtareas.setRowHeight(22);
         tabla_subtareas.setSelectionBackground(new java.awt.Color(51, 102, 255));
@@ -399,9 +405,10 @@ public class informacionTarea extends javax.swing.JDialog {
         if (!edicion) {
             edicion = true;
             modificar_informacion_tarea.setBackground(new Color(0, 102, 153));
+            modificar_informacion_tarea.setEnabled(true);
             nombre_tarea.setEditable(true);
             categoria_tarea.setEnabled(true);
-            descripcion_tarea.setEnabled(true);
+            descripcion_tarea.setEditable(true);
             estado_tarea.setEnabled(true);
             prioritaria_tarea.setEnabled(true);
             fecha_realizar_tarea.setEnabled(true);
@@ -411,6 +418,7 @@ public class informacionTarea extends javax.swing.JDialog {
         } else {
             edicion = false;
             modificar_informacion_tarea.setBackground(new Color(94, 104, 109));
+            modificar_informacion_tarea.setEnabled(false);
             nombre_tarea.setEditable(false);
             categoria_tarea.setEnabled(false);
             descripcion_tarea.setEditable(false);
@@ -424,44 +432,49 @@ public class informacionTarea extends javax.swing.JDialog {
 
     private void modificar_informacion_tareaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_modificar_informacion_tareaMouseClicked
 
-        try {
-            cliente = new Socket(server, 4444);
-            salida = new ObjectOutputStream(cliente.getOutputStream());
-            entrada = new ObjectInputStream(cliente.getInputStream());
+        if (!modificar_informacion_tarea.isEnabled()) {
 
-            if (estado_tarea.isSelected()) {
-                tareas.setEstado(1);
-            } else {
-                tareas.setEstado(0);
-            }
-            if (prioritaria_tarea.isSelected()) {
-                tareas.setPrioritario(1);
-            } else {
-                tareas.setPrioritario(0);
-            }
-            tareas.setNombre(nombre_tarea.getText());
-            tareas.setCategoria(categoria_tarea.getSelectedItem().toString());
-            tareas.setDescripcion(descripcion_tarea.getText());
-            Date terminar = java.sql.Date.valueOf(fecha_realizar_tarea.getDate());
-            tareas.setFecha_realizar(terminar);
-
-            peticion.setConsulta(7);
-            System.out.println("Envio peticion");
-            salida.writeObject(peticion);
-            System.out.println("Envio tareas");
-            salida.writeObject(tareas);
-            this.setVisible(false);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        } finally {
+        } else {
             try {
-                cliente.close();
-                salida.close();
-                entrada.close();
+                cliente = new Socket(server, 4444);
+                salida = new ObjectOutputStream(cliente.getOutputStream());
+                entrada = new ObjectInputStream(cliente.getInputStream());
+
+                if (estado_tarea.isSelected()) {
+                    tareas.setEstado(1);
+                } else {
+                    tareas.setEstado(0);
+                }
+                if (prioritaria_tarea.isSelected()) {
+                    tareas.setPrioritario(1);
+                } else {
+                    tareas.setPrioritario(0);
+                }
+                tareas.setNombre(nombre_tarea.getText());
+                tareas.setCategoria(categoria_tarea.getSelectedItem().toString());
+                tareas.setDescripcion(descripcion_tarea.getText());
+                Date terminar = java.sql.Date.valueOf(fecha_realizar_tarea.getDate());
+                tareas.setFecha_realizar(terminar);
+
+                peticion.setConsulta(7);
+                System.out.println("Envio peticion");
+                salida.writeObject(peticion);
+                System.out.println("Envio tareas");
+                salida.writeObject(tareas);
+                this.setVisible(false);
             } catch (IOException ex) {
                 ex.printStackTrace();
+            } finally {
+                try {
+                    cliente.close();
+                    salida.close();
+                    entrada.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             }
         }
+
     }//GEN-LAST:event_modificar_informacion_tareaMouseClicked
 
     private void eliminar_tareaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_eliminar_tareaMouseClicked
@@ -536,23 +549,63 @@ public class informacionTarea extends javax.swing.JDialog {
     }//GEN-LAST:event_añadir_subtareaMouseClicked
 
     private void eliminar_subtareaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_eliminar_subtareaMouseClicked
-        try {
-            cliente = new Socket(server, 4444);
-            salida = new ObjectOutputStream(cliente.getOutputStream());
-            entrada = new ObjectInputStream(cliente.getInputStream());
 
-            int id = tabla_subtareas.getSelectedRow();
-            subtareas.setId(tareas.getSubtareas().get(id).getId());
-            peticion.setConsulta(10);
-            System.out.println("Envio peticion de eliminar subtareas");
-            salida.writeObject(peticion);
-            salida.flush();
-            salida.writeObject(subtareas);
-            salida.flush();
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        if (tabla_subtareas.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(null, "Selecciona alguna subtarea!");
+        } else if (tabla_subtareas.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(null, "No hay subtareas!!");
+        } else {
+            try {
+                cliente = new Socket(server, 4444);
+                salida = new ObjectOutputStream(cliente.getOutputStream());
+                entrada = new ObjectInputStream(cliente.getInputStream());
+
+                int id = tabla_subtareas.getSelectedRow();
+                subtareas.setId(tareas.getSubtareas().get(id).getId());
+                peticion.setConsulta(10);
+                System.out.println("Envio peticion de eliminar subtareas");
+                salida.writeObject(peticion);
+                salida.flush();
+                salida.writeObject(subtareas);
+                salida.flush();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            m = (DefaultTableModel) tabla_subtareas.getModel();
+            m.setRowCount(0);
+
+            try {
+                cliente = new Socket(server, 4444);
+                salida = new ObjectOutputStream(cliente.getOutputStream());
+                entrada = new ObjectInputStream(cliente.getInputStream());
+
+                System.out.println("Envio la peticion");
+                peticion.setConsulta(8);
+                salida.writeObject(peticion);
+                salida.flush();
+                tareas.setId(id);
+                salida.writeObject(tareas);
+                salida.flush();
+                tareas = (Tareas) entrada.readObject();
+
+                String estado = "Pendiente";
+                ArrayList<Subtarea> listado_subtareas = tareas.getSubtareas();
+                for (int i = 0; i < listado_subtareas.size(); i++) {
+                    Subtarea subtarea = listado_subtareas.get(i);
+                    if (subtarea.getEstado() == 1) {
+                        estado = "Terminado";
+                    }
+
+                    Object[] array = {subtarea.getNombre(), estado};
+                    m.addRow(array);
+
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
         }
-        obtenerSubtareas(this.id);
 
 
     }//GEN-LAST:event_eliminar_subtareaMouseClicked
@@ -561,17 +614,21 @@ public class informacionTarea extends javax.swing.JDialog {
         obtenerSubtareas(id);
     }//GEN-LAST:event_actualizar_tablaMouseClicked
 
+    private void salirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salirMouseClicked
+        this.setVisible(false);
+    }//GEN-LAST:event_salirMouseClicked
+
     private void obtenerInfoTarea(int id) {
 
         try {
             try {
-            cliente = new Socket(server, 4444);
-            salida = new ObjectOutputStream(cliente.getOutputStream());
-            entrada = new ObjectInputStream(cliente.getInputStream());
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-            
+                cliente = new Socket(server, 4444);
+                salida = new ObjectOutputStream(cliente.getOutputStream());
+                entrada = new ObjectInputStream(cliente.getInputStream());
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
             System.out.println("Envio la peticion de obtener info de tareas");
             peticion.setConsulta(5);
             salida.writeObject(peticion);

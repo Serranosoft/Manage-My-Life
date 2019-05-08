@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
 /*
@@ -22,7 +23,6 @@ import javax.swing.JTable;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author manue
@@ -41,6 +41,7 @@ public class insertarTarea extends javax.swing.JDialog {
     Peticion peticion = new Peticion();
     Usuarios usuarios = new Usuarios();
     DatePickerSettings settings;
+
     public insertarTarea(java.awt.Frame parent, boolean modal, Tareas tareas) {
         super(parent, modal);
         initComponents();
@@ -189,41 +190,49 @@ public class insertarTarea extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void insertar_tareaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_insertar_tareaMouseClicked
-        
-        try {
-            peticion.setConsulta(4);
-            salida.writeObject(peticion);
-            salida.flush();
-            tareas.setNombre(tarea_nombre.getText());
-            tareas.setDescripcion(tarea_descripcion.getText());
-            tareas.setCategoria(tarea_categoria.getSelectedItem().toString());
-            Date terminar = java.sql.Date.valueOf(tarea_terminar.getDate());
-            tareas.setFecha_realizar(terminar);
-            java.sql.Date inscrita = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-            tareas.setFecha_inscrita(inscrita);
-            tareas.setEstado(0);
-            tareas.setPrioritario(0);
-                       
-            salida.writeObject(tareas);
-            salida.flush();
-            cerrarDialog();
-        } catch (IOException ex) {
-            Logger.getLogger(insertarTarea.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
+
+        if (tarea_nombre.getText().isEmpty() || tarea_terminar.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Rellena todos los campos!");
+        } else {
             try {
-                cliente.close();
-                salida.close();
-                entrada.close();
+                peticion.setConsulta(4);
+                salida.writeObject(peticion);
+                salida.flush();
+                tareas.setNombre(tarea_nombre.getText());
+                tareas.setDescripcion(tarea_descripcion.getText());
+                tareas.setCategoria(tarea_categoria.getSelectedItem().toString());
+                Date terminar = java.sql.Date.valueOf(tarea_terminar.getDate());
+                tareas.setFecha_realizar(terminar);
+                java.sql.Date inscrita = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+                tareas.setFecha_inscrita(inscrita);
+                tareas.setEstado(0);
+                tareas.setPrioritario(0);
+
+                salida.writeObject(tareas);
+                salida.flush();
+                
             } catch (IOException ex) {
                 Logger.getLogger(insertarTarea.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                try {
+                    cliente.close();
+                    salida.close();
+                    entrada.close();
+                    cerrarDialog();
+                } catch (IOException ex) {
+                    Logger.getLogger(insertarTarea.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
+
         }
+
     }//GEN-LAST:event_insertar_tareaMouseClicked
 
     public boolean cerrarDialog() {
         this.setVisible(false);
         return true;
     }
+
     /**
      * @param args the command line arguments
      */

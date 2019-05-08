@@ -588,7 +588,7 @@ public class TareasUI extends javax.swing.JFrame {
                 Object[] array = {tarea.getNombre(), estado};
                 m.addRow(array);
             }
-
+            System.out.println("J");
         }
     }//GEN-LAST:event_añadirTarea_btnMouseClicked
 

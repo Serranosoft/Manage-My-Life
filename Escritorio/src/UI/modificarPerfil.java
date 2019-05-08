@@ -4,6 +4,7 @@ import Compartir.Peticion;
 import Compartir.Tareas;
 import Compartir.Usuarios;
 import Conexion.Conexion;
+import java.awt.Frame;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,6 +27,7 @@ import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageOutputStream;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /*
@@ -51,6 +53,8 @@ public class modificarPerfil extends javax.swing.JDialog {
     Usuarios usuarios = new Usuarios();
     ImageIcon photo = null;
     String path = "";
+    InicioSesionUI inicioSesionUI = new InicioSesionUI();
+    Frame parent = null;
 
     public modificarPerfil(java.awt.Frame parent, boolean modal, Usuarios usuarios) {
         super(parent, modal);
@@ -65,6 +69,7 @@ public class modificarPerfil extends javax.swing.JDialog {
         this.setLocationRelativeTo(null);
         this.usuarios = usuarios;
         cargaDatos();
+        this.parent = parent;
         buscar_imagen.addActionListener(new ActionListener() {
 
             @Override
@@ -236,40 +241,51 @@ public class modificarPerfil extends javax.swing.JDialog {
 
     private void modificar_perfilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_modificar_perfilMouseClicked
         try {
-            
-            usuarios.setNombre(usuario_nombre.getText());
-            usuarios.setUsuario(usuario_usuario.getText());
-            usuarios.setSalario(Integer.valueOf(usuario_salario.getText()));
-            
-            //FileInputStream fis = new FileInputStream(path);
-            
-            
-            
-            //usuarios.setImagen(data);
-            peticion.setConsulta(11);
-            salida.writeObject(peticion);
-            salida.writeObject(usuarios);
-            this.setVisible(false);
+
+            if (usuario_nombre.getText().isEmpty() || usuario_usuario.getText().isEmpty() || usuario_salario.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Rellena todos los campos!");
+            } else {
+
+                cliente = new Socket(server, 4444);
+                salida = new ObjectOutputStream(cliente.getOutputStream());
+                entrada = new ObjectInputStream(cliente.getInputStream());
+
+                usuarios.setNombre(usuario_nombre.getText());
+                usuarios.setUsuario(usuario_usuario.getText());
+                usuarios.setSalario(Integer.valueOf(usuario_salario.getText()));
+
+                peticion.setConsulta(11);
+                salida.writeObject(peticion);
+                salida.flush();
+                salida.writeObject(usuarios);
+                salida.flush();
+                JOptionPane.showMessageDialog(null, "Para aplicar los cambios debes iniciar sesión de nuevo");
+                parent.setVisible(false);
+                inicioSesionUI.setVisible(true);
+                this.setVisible(false);
+                
+            }
+
         } catch (IOException ex) {
-            Logger.getLogger(modificarPerfil.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        } finally {
+            try {
+                cliente.close();
+                salida.close();
+                entrada.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
     }//GEN-LAST:event_modificar_perfilMouseClicked
+
 
     public void cargaDatos() {
         usuario_nombre.setText(usuarios.getNombre());
         usuario_usuario.setText(usuarios.getUsuario());
-        usuario_salario.setText(usuarios.getSalario()+"");
-        
-        /*try {
-            BufferedImage img = ImageIO.read(new ByteArrayInputStream(usuarios.getImagen()));
-            ImageIcon p1 = new ImageIcon(img);
-            prueba.setIcon(p1);
-            
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }*/
-
+        usuario_salario.setText(usuarios.getSalario() + "");
     }
+
     public ImageIcon ResizeImage(String ImagePath) {
         ImageIcon MyImage = new ImageIcon(ImagePath);
         Image img = MyImage.getImage();
