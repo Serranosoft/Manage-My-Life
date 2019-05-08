@@ -72,16 +72,16 @@
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="29" splitType="Stretch">
+		<band height="41" splitType="Stretch">
 			<staticText>
-				<reportElement mode="Opaque" x="89" y="13" width="183" height="16" forecolor="#006699" backcolor="#E6E6E6"/>
+				<reportElement mode="Opaque" x="89" y="24" width="183" height="16" forecolor="#006699" backcolor="#E6E6E6"/>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Categoría]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="272" y="13" width="183" height="16" forecolor="#006699" backcolor="#E6E6E6"/>
+				<reportElement mode="Opaque" x="272" y="24" width="183" height="16" forecolor="#006699" backcolor="#E6E6E6"/>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
@@ -103,8 +103,29 @@
 			</textField>
 		</band>
 	</detail>
+	<columnFooter>
+		<band height="204">
+			<pieChart>
+				<chart>
+					<reportElement x="100" y="0" width="355" height="204"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<pieDataset>
+					<keyExpression><![CDATA[$F{Categoria}.toString()]]></keyExpression>
+					<valueExpression><![CDATA[$F{COUNT(Tarea.ID)}]]></valueExpression>
+					<labelExpression><![CDATA[$F{COUNT(Tarea.ID)}+" tareas"]]></labelExpression>
+				</pieDataset>
+				<piePlot>
+					<plot/>
+					<itemLabel color="#000000" backgroundColor="#FFFFFF"/>
+				</piePlot>
+			</pieChart>
+		</band>
+	</columnFooter>
 	<pageFooter>
-		<band height="22" splitType="Stretch">
+		<band height="28" splitType="Stretch">
 			<textField pattern="EEEEE dd MMMMM yyyy">
 				<reportElement x="0" y="9" width="100" height="13"/>
 				<textElement/>
