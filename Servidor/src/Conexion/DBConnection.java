@@ -23,7 +23,7 @@ public class DBConnection {
      */
     
     
-    
+    static String puerto = "";
     static String bd = "";
     static String login = "";
     static String password = "";
@@ -39,7 +39,7 @@ public class DBConnection {
         try {
             BufferedReader br = new BufferedReader(new FileReader("config.txt"));
             
-            
+            puerto = br.readLine();
             bd = br.readLine();
             login = br.readLine();
             password = br.readLine();
@@ -64,5 +64,8 @@ public class DBConnection {
      */
     public void desconectar() {
         connection = null;
+    }
+    public int getPuerto() {
+        return Integer.valueOf(puerto);
     }
 }

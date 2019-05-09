@@ -37,6 +37,7 @@ public class InformesUI extends javax.swing.JFrame {
      */
     final Conexion conexion = new Conexion();
     final String server = conexion.getServer();
+    final int puerto = conexion.getPuerto();
     Socket cliente = null;
     ObjectOutputStream salida = null;
     ObjectInputStream entrada = null;
@@ -48,7 +49,7 @@ public class InformesUI extends javax.swing.JFrame {
         initComponents();
         System.out.println("A");
         try {
-            cliente = new Socket(server, 4444);
+            cliente = new Socket(server, puerto);
             salida = new ObjectOutputStream(cliente.getOutputStream());
             entrada = new ObjectInputStream(cliente.getInputStream());
         } catch (IOException ex) {
@@ -105,6 +106,7 @@ public class InformesUI extends javax.swing.JFrame {
         generar_informe_tareas_categoria = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -456,6 +458,13 @@ public class InformesUI extends javax.swing.JFrame {
             }
         });
 
+        jButton3.setText("Usuarios y Tareas Terminadas");
+        jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton3MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -470,13 +479,14 @@ public class InformesUI extends javax.swing.JFrame {
                     .addComponent(jSeparator4, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(generar_informe_tareas_categoria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
                             .addComponent(jLabel4)
                             .addComponent(jLabel1))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -500,7 +510,9 @@ public class InformesUI extends javax.swing.JFrame {
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 125, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -654,6 +666,26 @@ public class InformesUI extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton2MouseClicked
 
+    private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
+        try {
+            JasperReport informe = (JasperReport) JRLoader.loadObject("informe_UsuariosTareas.jasper");
+            Map<String, Integer> parametros = new HashMap<String, Integer>();
+            JasperPrint jasperPrint = JasperFillManager.fillReport(informe, parametros, conexion.getConnection());
+
+            JasperViewer jrViewer = new JasperViewer(jasperPrint, true);
+            JDialog viewer = new JDialog(new javax.swing.JFrame(), "Usuarios y sus tareas terminadas", true);
+            viewer.setSize(1000, 600);
+            viewer.setLocationRelativeTo(null);
+            viewer.getContentPane().add(jrViewer.getContentPane());
+            viewer.setVisible(true);
+
+            //conexion.desconectar();
+            System.out.println(usuarios.getId());
+        } catch (JRException ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_jButton3MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -706,6 +738,7 @@ public class InformesUI extends javax.swing.JFrame {
     private javax.swing.JLabel informes_nombre;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

@@ -15,6 +15,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.YearMonth;
@@ -40,6 +41,7 @@ public class CalendarioUI extends javax.swing.JFrame {
      */
     final Conexion conexion = new Conexion();
     final String server = conexion.getServer();
+    final int puerto = conexion.getPuerto();
     Socket cliente = null;
     ObjectOutputStream salida = null;
     ObjectInputStream entrada = null;
@@ -96,16 +98,17 @@ public class CalendarioUI extends javax.swing.JFrame {
         public void selectionChanged(CalendarSelectionEvent cse) {
             System.out.println("USUARIOS ID QUE VOY MOVIENDO: " + usuarios.getId());
             Date date = java.sql.Date.valueOf(cse.getNewDate());
-            
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             System.out.println(date);
             for (int i = 0; i < tareas.getResultados_tareas().size(); i++) {
  
                 System.out.println("ID: "+tareas.getResultados_tareas().get(i).getId()+" FECHA A COMPARAR: " + tareas.getResultados_tareas().get(i).getFecha_realizar());
-                if (tareas.getResultados_tareas().get(i).getFecha_realizar() == date) {
+                if (sdf.format(date).equals(sdf.format(tareas.getResultados_tareas().get(i).getFecha_realizar()))) {
                     cont_tareas++;
                 }
             }
             JOptionPane.showMessageDialog(null, "Día: " + cse.getNewDate() + " tienes: " + cont_tareas +" tareas");
+            cont_tareas = 0;
 
         }
 
@@ -119,7 +122,7 @@ public class CalendarioUI extends javax.swing.JFrame {
 
         try {
 
-            cliente = new Socket(server, 4444);
+            cliente = new Socket(server, puerto);
             salida = new ObjectOutputStream(cliente.getOutputStream());
             entrada = new ObjectInputStream(cliente.getInputStream());
 

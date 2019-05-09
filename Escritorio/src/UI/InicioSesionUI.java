@@ -30,6 +30,7 @@ public class InicioSesionUI extends javax.swing.JFrame {
      */
     final Conexion conexion = new Conexion();
     final String server = conexion.getServer();
+    final int puerto = conexion.getPuerto();
     Socket cliente = null;
     ObjectOutputStream salida = null;
     ObjectInputStream entrada = null;
@@ -213,7 +214,7 @@ public class InicioSesionUI extends javax.swing.JFrame {
             /* Configuración del socket y flujos (En este caso no lo configuro en el propio constructor ya que debo cerrar los flujos en el caso de que la comprobación de
             credenciales sea incorrecta para poder realizar tantas consultas como el usuario vea conveniente
              */
-            cliente = new Socket(server, 4444);
+            cliente = new Socket(server, puerto);
             salida = new ObjectOutputStream(cliente.getOutputStream());
             entrada = new ObjectInputStream(cliente.getInputStream());
 

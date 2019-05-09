@@ -11,7 +11,7 @@ public class Conexion {
      * Parametros de conexion
      */
     static String server = "";
-
+    static String puerto = "";
     // jasper report
     static String bd = "";
     static String login = "";
@@ -25,6 +25,7 @@ public class Conexion {
             BufferedReader br = new BufferedReader(new FileReader("config.txt"));
 
             server = br.readLine();
+            puerto = br.readLine();
             bd = br.readLine();
             login = br.readLine();
             password = br.readLine();
@@ -45,5 +46,8 @@ public class Conexion {
 
     public void desconectar() {
         connection = null;
+    }
+    public Integer getPuerto() {
+        return Integer.valueOf(puerto);
     }
 }

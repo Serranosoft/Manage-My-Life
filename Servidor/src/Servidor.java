@@ -1,5 +1,6 @@
 
 import Compartir.Tareas;
+import Conexion.DBConnection;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
@@ -24,9 +25,10 @@ public class Servidor {
         ServerSocket servidor = null;
         ObjectOutputStream salida;
         Socket usuario = null;
+        DBConnection conexion = new DBConnection();
         
         try {
-            servidor = new ServerSocket(4444);
+            servidor = new ServerSocket(conexion.getPuerto());
             
         } catch (Exception e) {
             e.printStackTrace();

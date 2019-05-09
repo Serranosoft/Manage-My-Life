@@ -33,6 +33,7 @@ public class TareasUI extends javax.swing.JFrame {
      */
     final Conexion conexion = new Conexion();
     final String server = conexion.getServer();
+    final int puerto = conexion.getPuerto();
     Socket cliente = null;
     ObjectOutputStream salida = null;
     ObjectInputStream entrada = null;
@@ -554,7 +555,7 @@ public class TareasUI extends javax.swing.JFrame {
         dialog = insertarTarea.cerrarDialog();
         if (dialog) {
             try {
-                cliente = new Socket(server, 4444);
+                cliente = new Socket(server, puerto);
                 salida = new ObjectOutputStream(cliente.getOutputStream());
                 entrada = new ObjectInputStream(cliente.getInputStream());
             } catch (IOException ex) {
@@ -605,7 +606,7 @@ public class TareasUI extends javax.swing.JFrame {
 
         try {
 
-            cliente = new Socket(server, 4444);
+            cliente = new Socket(server, puerto);
             salida = new ObjectOutputStream(cliente.getOutputStream());
             entrada = new ObjectInputStream(cliente.getInputStream());
 
@@ -659,7 +660,7 @@ public class TareasUI extends javax.swing.JFrame {
                         dialog = informacionTarea.cerrarDialog();
                         if (dialog) {
                             try {
-                                cliente = new Socket(server, 4444);
+                                cliente = new Socket(server, puerto);
                                 salida = new ObjectOutputStream(cliente.getOutputStream());
                                 entrada = new ObjectInputStream(cliente.getInputStream());
                             } catch (IOException ex) {

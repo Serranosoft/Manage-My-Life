@@ -36,6 +36,7 @@ public class informacionTarea extends javax.swing.JDialog {
      */
     final Conexion conexion = new Conexion();
     final String server = conexion.getServer();
+    final int puerto = conexion.getPuerto();
     Socket cliente = null;
     ObjectOutputStream salida = null;
     ObjectInputStream entrada = null;
@@ -436,7 +437,7 @@ public class informacionTarea extends javax.swing.JDialog {
 
         } else {
             try {
-                cliente = new Socket(server, 4444);
+                cliente = new Socket(server, puerto);
                 salida = new ObjectOutputStream(cliente.getOutputStream());
                 entrada = new ObjectInputStream(cliente.getInputStream());
 
@@ -479,7 +480,7 @@ public class informacionTarea extends javax.swing.JDialog {
 
     private void eliminar_tareaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_eliminar_tareaMouseClicked
         try {
-            cliente = new Socket(server, 4444);
+            cliente = new Socket(server, puerto);
             salida = new ObjectOutputStream(cliente.getOutputStream());
             entrada = new ObjectInputStream(cliente.getInputStream());
 
@@ -514,7 +515,7 @@ public class informacionTarea extends javax.swing.JDialog {
             m.setRowCount(0);
 
             try {
-                cliente = new Socket(server, 4444);
+                cliente = new Socket(server, puerto);
                 salida = new ObjectOutputStream(cliente.getOutputStream());
                 entrada = new ObjectInputStream(cliente.getInputStream());
 
@@ -556,7 +557,7 @@ public class informacionTarea extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, "No hay subtareas!!");
         } else {
             try {
-                cliente = new Socket(server, 4444);
+                cliente = new Socket(server, puerto);
                 salida = new ObjectOutputStream(cliente.getOutputStream());
                 entrada = new ObjectInputStream(cliente.getInputStream());
 
@@ -575,7 +576,7 @@ public class informacionTarea extends javax.swing.JDialog {
             m.setRowCount(0);
 
             try {
-                cliente = new Socket(server, 4444);
+                cliente = new Socket(server, puerto);
                 salida = new ObjectOutputStream(cliente.getOutputStream());
                 entrada = new ObjectInputStream(cliente.getInputStream());
 
@@ -622,7 +623,7 @@ public class informacionTarea extends javax.swing.JDialog {
 
         try {
             try {
-                cliente = new Socket(server, 4444);
+                cliente = new Socket(server, puerto);
                 salida = new ObjectOutputStream(cliente.getOutputStream());
                 entrada = new ObjectInputStream(cliente.getInputStream());
             } catch (IOException ex) {
@@ -661,7 +662,7 @@ public class informacionTarea extends javax.swing.JDialog {
         m.setRowCount(0);
 
         try {
-            cliente = new Socket(server, 4444);
+            cliente = new Socket(server, puerto);
             salida = new ObjectOutputStream(cliente.getOutputStream());
             entrada = new ObjectInputStream(cliente.getInputStream());
 
