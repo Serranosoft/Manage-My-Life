@@ -43,7 +43,7 @@ public class insertarSubtarea extends javax.swing.JDialog {
         initComponents();
         try {
             System.out.println("bucle no porfavor");
-            cliente = new Socket(server, 4444);
+            cliente = new Socket(server, 5555);
             System.out.println("configuro flujos");
             salida = new ObjectOutputStream(cliente.getOutputStream());
             entrada = new ObjectInputStream(cliente.getInputStream());

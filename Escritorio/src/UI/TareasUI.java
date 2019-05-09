@@ -542,7 +542,7 @@ public class TareasUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_4MouseClicked
 
     private void btn_5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_5MouseClicked
-        FinanzasUI finanzas = new FinanzasUI();
+        FinanzasUI finanzas = new FinanzasUI(usuarios);
         finanzas.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btn_5MouseClicked
@@ -553,6 +553,11 @@ public class TareasUI extends javax.swing.JFrame {
         insertarTarea insertarTarea = new insertarTarea(this, true, tareas);
         insertarTarea.setVisible(true);
         dialog = insertarTarea.cerrarDialog();
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
         if (dialog) {
             try {
                 cliente = new Socket(server, puerto);
@@ -647,17 +652,22 @@ public class TareasUI extends javax.swing.JFrame {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
-                    
+
                     //int idTareaSeleccionada = tareas.getResultados_tareas().get(tabla_tareas.getSelectedRow()).getId();
                     if (tabla_tareas.getSelectedRow() == -1) {
                         return;
                     } else {
-                        
+
                         informacionTarea informacionTarea = new informacionTarea(TareasUI.this, true, tareas.getResultados_tareas().get(tabla_tareas.getSelectedRow()).getId());
                         tabla_tareas.getSelectionModel().setSelectionInterval(-1, -1);
                         informacionTarea.setVisible(true);
                         //tabla_tareas.clearSelection();
                         dialog = informacionTarea.cerrarDialog();
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException ex) {
+                            ex.printStackTrace();
+                        }
                         if (dialog) {
                             try {
                                 cliente = new Socket(server, puerto);

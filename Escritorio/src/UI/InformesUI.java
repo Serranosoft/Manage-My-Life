@@ -558,7 +558,7 @@ public class InformesUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_5MouseClicked
-        FinanzasUI finanzas = new FinanzasUI();
+        FinanzasUI finanzas = new FinanzasUI(usuarios);
         finanzas.setVisible(true);
         this.setVisible(false);
         conexion.desconectar();

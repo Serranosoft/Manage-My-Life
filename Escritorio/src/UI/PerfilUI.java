@@ -426,10 +426,10 @@ public class PerfilUI extends javax.swing.JFrame {
         jPanel4.setBackground(new java.awt.Color(153, 153, 153));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        perfil_nombre.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        perfil_nombre.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         perfil_nombre.setForeground(new java.awt.Color(255, 255, 255));
         perfil_nombre.setText("xxxxxxxx");
-        jPanel4.add(perfil_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 170, -1, 30));
+        jPanel4.add(perfil_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 170, 110, 30));
 
         perfil_imagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/user.png"))); // NOI18N
         jPanel4.add(perfil_imagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 20, 120, 140));
@@ -561,7 +561,7 @@ public class PerfilUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel2MousePressed
 
     private void btn_5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_5MouseClicked
-        FinanzasUI finanzas = new FinanzasUI();
+        FinanzasUI finanzas = new FinanzasUI(usuarios);
         finanzas.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btn_5MouseClicked

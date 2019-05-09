@@ -579,7 +579,7 @@ public class TareasTerminadasUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_4MouseClicked
 
     private void btn_5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_5MouseClicked
-        FinanzasUI finanzas = new FinanzasUI();
+        FinanzasUI finanzas = new FinanzasUI(usuarios);
         finanzas.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btn_5MouseClicked

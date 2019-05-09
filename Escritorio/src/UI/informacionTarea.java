@@ -511,6 +511,11 @@ public class informacionTarea extends javax.swing.JDialog {
         insertarSubtarea inSubtarea = new insertarSubtarea(this, true, tareas);
         inSubtarea.setVisible(true);
         insercion = inSubtarea.cerrarDialog();
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
         if (insercion) {
             m.setRowCount(0);
 
@@ -570,6 +575,11 @@ public class informacionTarea extends javax.swing.JDialog {
                 salida.writeObject(subtareas);
                 salida.flush();
             } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException ex) {
                 ex.printStackTrace();
             }
             m = (DefaultTableModel) tabla_subtareas.getModel();

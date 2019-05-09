@@ -1,8 +1,10 @@
 
+import Compartir.Gastos;
 import Compartir.Peticion;
 import Compartir.Subtareas;
 import Compartir.Tareas;
 import Compartir.Usuarios;
+import dao.GastosOP;
 import dao.TareasOP;
 import dao.UsuariosOP;
 import java.io.IOException;
@@ -10,6 +12,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import vo.Gasto;
+import vo.Producto;
 import vo.Subtarea;
 import vo.Tarea;
 
@@ -33,6 +37,8 @@ class HiloServidor extends Thread {
     Usuarios usuarios = new Usuarios();
     Peticion peticion = new Peticion();
     Subtareas subtareas = new Subtareas();
+    Gastos gastos = new Gastos();
+    //Productos productos = new Productos();
     int consulta = 0;
 
     HiloServidor(Socket usuario, ObjectOutputStream salida) {
@@ -110,8 +116,25 @@ class HiloServidor extends Thread {
                     subtareas = (Subtareas) entrada.readObject();
                     actualizarEstadoSubtarea(subtareas);
                     break;
-
-
+                case 14:
+                    gastos = (Gastos) entrada.readObject();
+                    obtenerGastos(gastos);
+                    salida.writeObject(gastos);
+                    break;
+                case 15:
+                    gastos = (Gastos) entrada.readObject();
+                    insertarGasto(gastos);
+                    break;
+                case 16:
+                    gastos = (Gastos) entrada.readObject();
+                    eliminarGasto(gastos);
+                    break;
+                case 17:
+                    System.out.println("A");
+                    gastos = (Gastos) entrada.readObject();
+                    obtenerProductos(gastos);
+                    salida.writeObject(gastos);
+                    break;
             }
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -221,6 +244,7 @@ class HiloServidor extends Thread {
         UsuariosOP uop = new UsuariosOP();
         uop.modificarUsuario(usuarios);
     }
+
     private void actualizarEstadoTarea(Tareas tareas) {
         try {
             TareasOP top = new TareasOP();
@@ -236,6 +260,47 @@ class HiloServidor extends Thread {
             TareasOP top = new TareasOP();
             top.actualizarEstadoSubtarea(subtareas);
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void obtenerGastos(Gastos gastos) {
+
+        ArrayList<Gasto> listado_gastos = null;
+        try {
+
+            GastosOP gop = new GastosOP();
+            listado_gastos = gop.selectGastos(gastos);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        gastos.setResultados_gastos(listado_gastos);
+    }
+
+    private void insertarGasto(Gastos gastos) {
+        GastosOP gop = new GastosOP();
+        gop.insertarGasto(gastos);
+    }
+
+    private void eliminarGasto(Gastos gastos) {
+
+        try {
+            GastosOP gop = new GastosOP();
+            gop.eliminarGasto(gastos);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void obtenerProductos(Gastos gastos) {
+
+        try {
+            ArrayList<Producto> listado_productos = null;
+            GastosOP gop = new GastosOP();
+            listado_productos = gop.obtenerProductos(gastos);
+            gastos.setProductos(listado_productos);
         } catch (Exception e) {
             e.printStackTrace();
         }
