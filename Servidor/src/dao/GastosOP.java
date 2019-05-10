@@ -6,6 +6,8 @@
 package dao;
 
 import Compartir.Gastos;
+import Compartir.Productos;
+import Compartir.Subtareas;
 import Compartir.Tareas;
 import Conexion.DBConnection;
 import java.sql.Connection;
@@ -146,6 +148,44 @@ public class GastosOP {
             }
         }
         return listado_productos;
+    }
+
+    public void insertarProducto(Productos productos) {
+        Connection conexion = null;
+        PreparedStatement ps = null;
+
+        String sql = "INSERT INTO Producto (Nombre_Prod, Precio_Prod, ID_Gasto) VALUES (?,?,?)";
+
+        try {
+            conexion = conn.getConnection();
+            ps = conexion.prepareCall(sql);
+
+            ps.setString(1, productos.getNombre_Producto());
+            ps.setInt(2, productos.getPrecio_Producto());
+            ps.setInt(3, productos.getID_Gasto());
+
+            ps.executeUpdate();
+
+            System.out.println("Producto introducido");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+        public void eliminarProducto(Productos productos) {
+        Connection conexion = null;
+        PreparedStatement ps = null;
+
+        try {
+            String sql = "DELETE FROM Producto WHERE ID = ?";
+            conexion = conn.getConnection();
+            ps = conexion.prepareCall(sql);
+            ps.setInt(1, productos.getID());
+
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -123,11 +123,16 @@ public class UsuariosOP {
             byte[] imageByte;
             BufferedImage image = null;
             try {
-                imageByte = Base64.getDecoder().decode(usuario.getImagen());
-                ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
-                image = ImageIO.read(bis);
-                ImageIO.write(image, "jpg", new File("media/" + usuario.getUsuario() + "_profile.jpg"));
-                bis.close();
+                if (usuario.getImagen() == null) {
+
+                } else {
+                    imageByte = Base64.getDecoder().decode(usuario.getImagen());
+                    ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
+                    image = ImageIO.read(bis);
+                    ImageIO.write(image, "jpg", new File("media/" + usuario.getUsuario() + "_profile.jpg"));
+                    bis.close();
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -158,12 +163,12 @@ public class UsuariosOP {
 
             ps.setString(1, usuario.getUsuario());
             ResultSet rs = ps.executeQuery();
-            if(rs.next() == false){
+            if (rs.next() == false) {
                 usuario.setExiste(false);
-            }else{
+            } else {
                 usuario.setExiste(true);
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }

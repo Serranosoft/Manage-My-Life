@@ -282,6 +282,8 @@ public class RegistroUI extends javax.swing.JFrame {
             Logger.getLogger(RegistroUI.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(RegistroUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch(NumberFormatException nfe){
+            JOptionPane.showMessageDialog(null, "Introduce carácteres válidos!");
         }
     }//GEN-LAST:event_registrar_botonMouseClicked
 

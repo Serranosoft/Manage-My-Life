@@ -1,6 +1,7 @@
 
 import Compartir.Gastos;
 import Compartir.Peticion;
+import Compartir.Productos;
 import Compartir.Subtareas;
 import Compartir.Tareas;
 import Compartir.Usuarios;
@@ -38,7 +39,7 @@ class HiloServidor extends Thread {
     Peticion peticion = new Peticion();
     Subtareas subtareas = new Subtareas();
     Gastos gastos = new Gastos();
-    //Productos productos = new Productos();
+    Productos productos = new Productos();
     int consulta = 0;
 
     HiloServidor(Socket usuario, ObjectOutputStream salida) {
@@ -106,7 +107,6 @@ class HiloServidor extends Thread {
                     break;
                 case 11:
                     usuarios = (Usuarios) entrada.readObject();
-                    System.out.println("LE LLEGA3: " + usuarios.getImagen());
                     modificarUsuario(usuarios);
                     break;
                 case 12:
@@ -139,6 +139,16 @@ class HiloServidor extends Thread {
                     usuarios = (Usuarios) entrada.readObject();
                     comprobarExisteUsuario(usuarios);
                     salida.writeObject(usuarios);
+                    break;
+                case 19:
+                    productos = (Productos) entrada.readObject();
+                    insertarProducto(productos);
+                    salida.writeObject(productos);
+                    break;
+                case 20:
+                    productos = (Productos) entrada.readObject();
+                    eliminarProducto(productos);
+                    break;
 
             }
         } catch (IOException ex) {
@@ -247,7 +257,6 @@ class HiloServidor extends Thread {
     private void modificarUsuario(Usuarios usuarios) {
 
         UsuariosOP uop = new UsuariosOP();
-        System.out.println("LE LLEGA2 : " + usuarios.getImagen());
         uop.modificarUsuario(usuarios);
     }
 
@@ -317,4 +326,25 @@ class HiloServidor extends Thread {
         UsuariosOP uop = new UsuariosOP();
         usuarios = uop.comprobarExisteUsuario(usuarios);
     }
+
+    private void insertarProducto(Productos productos) {
+
+        try {
+            GastosOP gop = new GastosOP();
+            gop.insertarProducto(productos);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void eliminarProducto(Productos productos) {
+
+        try {
+            GastosOP gop = new GastosOP();
+            gop.eliminarProducto(productos);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
 }

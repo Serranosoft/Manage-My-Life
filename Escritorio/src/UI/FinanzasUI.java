@@ -6,11 +6,16 @@ import Compartir.Tareas;
 import Compartir.Usuarios;
 import Conexion.Conexion;
 import java.awt.Color;
+import java.awt.Image;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Base64;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -53,6 +58,7 @@ public class FinanzasUI extends javax.swing.JFrame {
         usuario_balance.setText(usuarios.getSalario() + "€");
         obtenerGastos(usuarios);
         informacionGastos();
+        obtenerImagenPerfil(usuarios);
 
     }
 
@@ -90,15 +96,12 @@ public class FinanzasUI extends javax.swing.JFrame {
         jPanel6 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla_gastos = new javax.swing.JTable();
-        perfil_imagen = new javax.swing.JLabel();
-        jSeparator1 = new javax.swing.JSeparator();
-        jSeparator2 = new javax.swing.JSeparator();
         usuarios_gastos = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         usuario_balance = new javax.swing.JLabel();
         añadirGasto_btn = new javax.swing.JButton();
-        eliminar_Gastobtn = new javax.swing.JButton();
+        perfil_imagen = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -447,14 +450,6 @@ public class FinanzasUI extends javax.swing.JFrame {
             tabla_gastos.getColumnModel().getColumn(1).setResizable(false);
         }
 
-        perfil_imagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/user.png"))); // NOI18N
-
-        jSeparator1.setBackground(new java.awt.Color(0, 0, 0));
-        jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
-
-        jSeparator2.setBackground(new java.awt.Color(0, 0, 0));
-        jSeparator2.setForeground(new java.awt.Color(0, 0, 0));
-
         usuarios_gastos.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
         usuarios_gastos.setForeground(new java.awt.Color(51, 51, 51));
         usuarios_gastos.setText("X");
@@ -479,13 +474,7 @@ public class FinanzasUI extends javax.swing.JFrame {
             }
         });
 
-        eliminar_Gastobtn.setForeground(new java.awt.Color(0, 0, 0));
-        eliminar_Gastobtn.setText("ELIMINAR GASTO");
-        eliminar_Gastobtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                eliminar_GastobtnMouseClicked(evt);
-            }
-        });
+        perfil_imagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/user.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -498,59 +487,47 @@ public class FinanzasUI extends javax.swing.JFrame {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addGap(90, 90, 90)
-                                .addComponent(jLabel4))
-                            .addComponent(jSeparator1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                        .addGap(90, 90, 90)
+                        .addComponent(jLabel4))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGap(125, 125, 125)
-                        .addComponent(usuarios_gastos)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addComponent(perfil_imagen)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(usuarios_gastos)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(perfil_imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(100, 100, 100)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addGap(103, 103, 103))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                         .addComponent(usuario_balance, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(89, 89, 89))
-                    .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(89, 89, 89))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(añadirGasto_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(270, 270, 270))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(eliminar_Gastobtn, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap(20, Short.MAX_VALUE)
+                .addContainerGap(23, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                         .addComponent(usuarios_gastos)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(perfil_imagen, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGap(37, 37, 37))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                         .addComponent(usuario_balance)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(21, 21, 21)
+                        .addGap(37, 37, 37))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addComponent(perfil_imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addComponent(añadirGasto_btn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(eliminar_Gastobtn)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -678,84 +655,7 @@ public class FinanzasUI extends javax.swing.JFrame {
                 ex.printStackTrace();
             }
         }
-
     }//GEN-LAST:event_añadirGasto_btnMouseClicked
-
-    private void eliminar_GastobtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_eliminar_GastobtnMouseClicked
-
-        if (tabla_gastos.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(null, "Selecciona algun gasto!");
-        } else if (tabla_gastos.getRowCount() == 0) {
-            JOptionPane.showMessageDialog(null, "No hay gastos!!");
-        } else {
-            try {
-
-                cliente = new Socket(server, puerto);
-                salida = new ObjectOutputStream(cliente.getOutputStream());
-                entrada = new ObjectInputStream(cliente.getInputStream());
-
-                int id = tabla_gastos.getSelectedRow();
-                gastos.setId(gastos.getResultados_gastos().get(id).getId());
-                peticion.setConsulta(16);
-                System.out.println("Envio peticion de eliminar gastos");
-                salida.writeObject(peticion);
-                salida.flush();
-                System.out.println("Envio objeto gastos para eliminar");
-                salida.writeObject(gastos);
-                salida.flush();
-
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            } finally {
-                try {
-                    cliente.close();
-                    salida.close();
-                    entrada.close();
-
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException ex) {
-                        ex.printStackTrace();
-                    }
-                    m = (DefaultTableModel) tabla_gastos.getModel();
-                    m.setRowCount(0);
-
-                    try {
-
-                        cliente = new Socket(server, puerto);
-                        salida = new ObjectOutputStream(cliente.getOutputStream());
-                        entrada = new ObjectInputStream(cliente.getInputStream());
-
-                        peticion.setConsulta(14);
-                        salida.writeObject(peticion);
-                        salida.flush();
-                        gastos.setIdUsuario(usuarios.getId());
-                        salida.writeObject(gastos);
-                        salida.flush();
-                        gastos = (Gastos) entrada.readObject();
-
-                        ArrayList<Gasto> listado_gastos = gastos.getResultados_gastos();
-                        for (int i = 0; i < listado_gastos.size(); i++) {
-                            Gasto gasto = listado_gastos.get(i);
-
-                            Object[] array = {gasto.getNombre_gasto(), gasto.getPrecio_gasto()};
-                            m.addRow(array);
-
-                        }
-                        usuarios_gastos.setText(listado_gastos.size() + "");
-
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    } catch (ClassNotFoundException ex) {
-                        ex.printStackTrace();
-                    }
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        }
-
-    }//GEN-LAST:event_eliminar_GastobtnMouseClicked
     DefaultTableModel m;
 
     public void rellenarGastos(Usuarios usuarios) {
@@ -871,7 +771,7 @@ public class FinanzasUI extends javax.swing.JFrame {
                             for (int i = 0; i < listado_gastos.size(); i++) {
                                 Gasto gasto = listado_gastos.get(i);
 
-                                Object[] array = {gasto.getNombre_gasto(), gasto.getPrecio_gasto()};
+                                Object[] array = {gasto.getNombre_gasto(), gasto.getPrecio_gasto()+" €"};
                                 m.addRow(array);
 
                             }
@@ -884,6 +784,24 @@ public class FinanzasUI extends javax.swing.JFrame {
         });
     }
 
+        public void obtenerImagenPerfil(Usuarios usuarios) {
+        try {
+            System.out.println(usuarios.getImagen().length());
+            if (usuarios.getImagen().equals("null") || usuarios.getImagen().length() == 0) {
+                ImageIcon image_perfil = new ImageIcon("src/imagenes/user.png");
+                perfil_imagen.setIcon(image_perfil);
+            } else {
+                byte[] imageByte = Base64.getDecoder().decode(usuarios.getImagen());
+                ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
+                Image imagen = ImageIO.read(bis);
+                ImageIcon image_perfil = new ImageIcon(imagen);
+                perfil_imagen.setIcon(image_perfil);
+            }
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -927,7 +845,6 @@ public class FinanzasUI extends javax.swing.JFrame {
     private javax.swing.JPanel btn_4;
     private javax.swing.JPanel btn_5;
     private javax.swing.JPanel btn_6;
-    private javax.swing.JButton eliminar_Gastobtn;
     private javax.swing.JPanel ind_1;
     private javax.swing.JPanel ind_2;
     private javax.swing.JPanel ind_3;
@@ -945,8 +862,6 @@ public class FinanzasUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JLabel perfil_imagen;
     private javax.swing.JPanel side_pane;
     private javax.swing.JTable tabla_gastos;

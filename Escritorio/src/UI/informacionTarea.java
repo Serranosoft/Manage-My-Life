@@ -94,7 +94,6 @@ public class informacionTarea extends javax.swing.JDialog {
         fecha_realizar_tarea = new com.github.lgooddatepicker.components.DatePicker();
         eliminar_tarea = new javax.swing.JLabel();
         eliminar_subtarea = new javax.swing.JButton();
-        actualizar_tabla = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -278,13 +277,6 @@ public class informacionTarea extends javax.swing.JDialog {
             }
         });
 
-        actualizar_tabla.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/reload (2).png"))); // NOI18N
-        actualizar_tabla.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                actualizar_tablaMouseClicked(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -332,10 +324,8 @@ public class informacionTarea extends javax.swing.JDialog {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(eliminar_subtarea, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(añadir_subtarea, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(actualizar_tabla, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(eliminar_subtarea, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(añadir_subtarea, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -347,9 +337,7 @@ public class informacionTarea extends javax.swing.JDialog {
                         .addGap(37, 37, 37)
                         .addComponent(añadir_subtarea)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(eliminar_subtarea)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(actualizar_tabla))
+                        .addComponent(eliminar_subtarea))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -524,7 +512,7 @@ public class informacionTarea extends javax.swing.JDialog {
                 salida = new ObjectOutputStream(cliente.getOutputStream());
                 entrada = new ObjectInputStream(cliente.getInputStream());
 
-                System.out.println("Envio la peticion de añadir subtareas");
+                System.out.println("Envio la peticion de obtener subtareas");
                 peticion.setConsulta(8);
                 salida.writeObject(peticion);
                 //salida.flush();
@@ -620,10 +608,6 @@ public class informacionTarea extends javax.swing.JDialog {
 
 
     }//GEN-LAST:event_eliminar_subtareaMouseClicked
-
-    private void actualizar_tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_actualizar_tablaMouseClicked
-        obtenerSubtareas(id);
-    }//GEN-LAST:event_actualizar_tablaMouseClicked
 
     private void salirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salirMouseClicked
         this.setVisible(false);
@@ -764,7 +748,6 @@ public class informacionTarea extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel activar_edicion;
-    private javax.swing.JButton actualizar_tabla;
     private javax.swing.JButton añadir_subtarea;
     private javax.swing.JComboBox<String> categoria_tarea;
     private javax.swing.JTextField descripcion_tarea;

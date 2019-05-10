@@ -1,6 +1,8 @@
 package UI;
 
+import Compartir.Gastos;
 import Compartir.Peticion;
+import Compartir.Productos;
 import Compartir.Subtareas;
 import Compartir.Tareas;
 import Compartir.Usuarios;
@@ -13,6 +15,7 @@ import java.sql.Date;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -23,7 +26,7 @@ import java.util.logging.Logger;
  *
  * @author manue
  */
-public class insertarSubtarea extends javax.swing.JDialog {
+public class insertarProducto extends javax.swing.JDialog {
 
     /**
      * Creates new form insertarTarea
@@ -34,24 +37,15 @@ public class insertarSubtarea extends javax.swing.JDialog {
     Socket cliente = null;
     ObjectOutputStream salida = null;
     ObjectInputStream entrada = null;
-    Tareas tareas = new Tareas();
+    Gastos gastos = new Gastos();
     Peticion peticion = new Peticion();
     Usuarios usuarios = new Usuarios();
-    Subtareas subtareas = new Subtareas();
+    Productos productos = new Productos();
 
-    public insertarSubtarea(java.awt.Dialog parent, boolean modal, Tareas tareas) {
+    public insertarProducto(java.awt.Dialog parent, boolean modal, Gastos gastos) {
         super(parent, modal);
         initComponents();
-        try {
-            cliente = new Socket(server, puerto);
-            salida = new ObjectOutputStream(cliente.getOutputStream());
-            entrada = new ObjectInputStream(cliente.getInputStream());
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-
-        this.tareas = tareas;
+        this.gastos = gastos;
         this.setLocationRelativeTo(null);
     }
 
@@ -67,15 +61,17 @@ public class insertarSubtarea extends javax.swing.JDialog {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        subtarea_nombre = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        producto_nombre = new javax.swing.JTextField();
+        producto_insertar = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        producto_precio = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel2.setBackground(new java.awt.Color(0, 102, 153));
 
-        jLabel1.setText("INSERTAR SUBTAREA");
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel1.setText("INSERTAR SUBTAREA");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -94,14 +90,16 @@ public class insertarSubtarea extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jLabel2.setText("Nombre");
+        jLabel2.setText("Nombre Producto");
 
-        jButton1.setText("OK");
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+        producto_insertar.setText("OK");
+        producto_insertar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton1MouseClicked(evt);
+                producto_insertarMouseClicked(evt);
             }
         });
+
+        jLabel3.setText("Precio Producto");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -111,11 +109,14 @@ public class insertarSubtarea extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(subtarea_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
-                        .addComponent(jButton1)))
+                    .addComponent(producto_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(producto_precio, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addContainerGap(61, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(producto_insertar)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -125,33 +126,42 @@ public class insertarSubtarea extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(subtarea_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(producto_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(producto_precio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(producto_insertar)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+    private void producto_insertarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_producto_insertarMouseClicked
 
         try {
-            peticion.setConsulta(9);
+            cliente = new Socket(server, puerto);
+            salida = new ObjectOutputStream(cliente.getOutputStream());
+            entrada = new ObjectInputStream(cliente.getInputStream());
+            peticion.setConsulta(19);
             salida.writeObject(peticion);
             salida.flush();
-            subtareas.setNombre(subtarea_nombre.getText());
-            subtareas.setEstado(0);
-            subtareas.setID_Tarea(tareas.getId());
+            productos.setNombre_Producto(producto_nombre.getText());
+            productos.setPrecio_Producto(Integer.valueOf(producto_precio.getText()));
+            productos.setID_Gasto(gastos.getId());
 
-            salida.writeObject(subtareas);
+            salida.writeObject(productos);
             salida.flush();
             cerrarDialog();
 
         } catch (IOException ex) {
             ex.printStackTrace();
+        } catch (NumberFormatException nfe) {
+            JOptionPane.showMessageDialog(null, "Introduce carácteres válidos!");
         }
-    }//GEN-LAST:event_jButton1MouseClicked
+    }//GEN-LAST:event_producto_insertarMouseClicked
 
     public boolean cerrarDialog() {
         this.setVisible(false);
@@ -175,21 +185,23 @@ public class insertarSubtarea extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(insertarSubtarea.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(insertarProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(insertarSubtarea.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(insertarProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(insertarSubtarea.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(insertarProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(insertarSubtarea.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(insertarProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                insertarSubtarea dialog = new insertarSubtarea(new javax.swing.JDialog(), true, new Tareas());
+                insertarProducto dialog = new insertarProducto(new javax.swing.JDialog(), true, new Gastos());
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -202,10 +214,12 @@ public class insertarSubtarea extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextField subtarea_nombre;
+    private javax.swing.JButton producto_insertar;
+    private javax.swing.JTextField producto_nombre;
+    private javax.swing.JTextField producto_precio;
     // End of variables declaration//GEN-END:variables
 }

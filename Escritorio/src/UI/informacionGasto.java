@@ -7,6 +7,7 @@ package UI;
 
 import Compartir.Gastos;
 import Compartir.Peticion;
+import Compartir.Productos;
 import Compartir.Subtareas;
 import Compartir.Tareas;
 import Compartir.Usuarios;
@@ -16,6 +17,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import vo.Producto;
 import vo.Subtarea;
@@ -38,6 +40,7 @@ public class informacionGasto extends javax.swing.JDialog {
     Gastos gastos = new Gastos();
     Peticion peticion = new Peticion();
     Usuarios usuarios = new Usuarios();
+    Productos productos = new Productos();
     boolean edicion = false;
     int id = 0;
 
@@ -65,6 +68,7 @@ public class informacionGasto extends javax.swing.JDialog {
         tabla_productos = new javax.swing.JTable();
         añadir_producto = new javax.swing.JButton();
         eliminar_producto = new javax.swing.JButton();
+        eliminar_Gastobtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -78,16 +82,16 @@ public class informacionGasto extends javax.swing.JDialog {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(356, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(346, 346, 346))
+                .addGap(273, 273, 273))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(21, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addGap(19, 19, 19))
         );
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
@@ -123,8 +127,18 @@ public class informacionGasto extends javax.swing.JDialog {
         tabla_productos.setSelectionBackground(new java.awt.Color(51, 102, 255));
         tabla_productos.setSelectionForeground(new java.awt.Color(0, 0, 102));
         jScrollPane1.setViewportView(tabla_productos);
+        if (tabla_productos.getColumnModel().getColumnCount() > 0) {
+            tabla_productos.getColumnModel().getColumn(1).setMinWidth(100);
+            tabla_productos.getColumnModel().getColumn(1).setPreferredWidth(100);
+            tabla_productos.getColumnModel().getColumn(1).setMaxWidth(100);
+        }
 
         añadir_producto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/plus-black-symbol.png"))); // NOI18N
+        añadir_producto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                añadir_productoMouseClicked(evt);
+            }
+        });
 
         eliminar_producto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/delete.png"))); // NOI18N
         eliminar_producto.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -133,26 +147,40 @@ public class informacionGasto extends javax.swing.JDialog {
             }
         });
 
+        eliminar_Gastobtn.setForeground(new java.awt.Color(0, 0, 0));
+        eliminar_Gastobtn.setText("ELIMINAR GASTO");
+        eliminar_Gastobtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                eliminar_GastobtnMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(añadir_producto, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(eliminar_producto, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(7, 7, 7))
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(eliminar_Gastobtn, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 671, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 165, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(eliminar_Gastobtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 127, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(añadir_producto)
                     .addComponent(eliminar_producto))
@@ -164,9 +192,136 @@ public class informacionGasto extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void eliminar_productoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_eliminar_productoMouseClicked
+        if (tabla_productos.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(null, "Selecciona algun producto!");
+        } else if (tabla_productos.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(null, "No hay productos!!");
+        } else {
+            try {
+                cliente = new Socket(server, puerto);
+                salida = new ObjectOutputStream(cliente.getOutputStream());
+                entrada = new ObjectInputStream(cliente.getInputStream());
 
+                int id = tabla_productos.getSelectedRow();
+                productos.setID(gastos.getProductos().get(id).getId());
+                peticion.setConsulta(20);
+                System.out.println("Envio peticion de eliminar productos");
+                salida.writeObject(peticion);
+                salida.flush();
+                salida.writeObject(productos);
+                salida.flush();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+            m = (DefaultTableModel) tabla_productos.getModel();
+            m.setRowCount(0);
+
+            try {
+                cliente = new Socket(server, puerto);
+                salida = new ObjectOutputStream(cliente.getOutputStream());
+                entrada = new ObjectInputStream(cliente.getInputStream());
+
+                System.out.println("Envio la peticion");
+                peticion.setConsulta(17);
+                salida.writeObject(peticion);
+                salida.flush();
+                gastos.setId(id);
+                salida.writeObject(gastos);
+                salida.flush();
+                gastos = (Gastos) entrada.readObject();
+
+                ArrayList<Producto> listado_productos = gastos.getProductos();
+                for (int i = 0; i < listado_productos.size(); i++) {
+                    Producto producto = listado_productos.get(i);
+                    Object[] array = {producto.getNombre_producto(), producto.getPrecio_producto() + " €"};
+                    m.addRow(array);
+
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        }
 
     }//GEN-LAST:event_eliminar_productoMouseClicked
+
+    private void eliminar_GastobtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_eliminar_GastobtnMouseClicked
+
+        try {
+
+            cliente = new Socket(server, puerto);
+            salida = new ObjectOutputStream(cliente.getOutputStream());
+            entrada = new ObjectInputStream(cliente.getInputStream());
+
+            gastos.setId(id);
+            peticion.setConsulta(16);
+            System.out.println("Envio peticion de eliminar gastos");
+            salida.writeObject(peticion);
+            salida.flush();
+            System.out.println("Envio objeto gastos para eliminar");
+            salida.writeObject(gastos);
+            salida.flush();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                cliente.close();
+                salida.close();
+                entrada.close();
+                cerrarDialog();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+    }//GEN-LAST:event_eliminar_GastobtnMouseClicked
+    boolean insercion = false;
+    private void añadir_productoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_añadir_productoMouseClicked
+        insertarProducto inProducto = new insertarProducto(this, true, gastos);
+        inProducto.setVisible(true);
+        insercion = inProducto.cerrarDialog();
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+        if (insercion) {
+            m.setRowCount(0);
+
+            try {
+                cliente = new Socket(server, puerto);
+                salida = new ObjectOutputStream(cliente.getOutputStream());
+                entrada = new ObjectInputStream(cliente.getInputStream());
+
+                System.out.println("Envio la peticion de obtener productos");
+                peticion.setConsulta(17);
+                salida.writeObject(peticion);
+                //salida.flush();
+                gastos.setId(id);
+                salida.writeObject(gastos);
+                //salida.flush();
+                gastos = (Gastos) entrada.readObject();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+            ArrayList<Producto> listado_productos = gastos.getProductos();
+            for (int i = 0; i < listado_productos.size(); i++) {
+                Producto producto = listado_productos.get(i);
+                Object[] array = {producto.getNombre_producto(), producto.getPrecio_producto() + " €"};
+                m.addRow(array);
+
+            }
+
+        }
+    }//GEN-LAST:event_añadir_productoMouseClicked
 
     public boolean cerrarDialog() {
         this.setVisible(false);
@@ -195,7 +350,7 @@ public class informacionGasto extends javax.swing.JDialog {
             ArrayList<Producto> listado_productos = gastos.getProductos();
             for (int i = 0; i < listado_productos.size(); i++) {
                 Producto producto = listado_productos.get(i);
-                Object[] array = {producto.getNombre_producto(), producto.getPrecio_producto()};
+                Object[] array = {producto.getNombre_producto(), producto.getPrecio_producto() + " €"};
                 m.addRow(array);
 
             }
@@ -229,16 +384,24 @@ public class informacionGasto extends javax.swing.JDialog {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(informacionGasto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(informacionGasto.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(informacionGasto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(informacionGasto.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(informacionGasto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(informacionGasto.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(informacionGasto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(informacionGasto.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -259,6 +422,7 @@ public class informacionGasto extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton añadir_producto;
+    private javax.swing.JButton eliminar_Gastobtn;
     private javax.swing.JButton eliminar_producto;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel2;

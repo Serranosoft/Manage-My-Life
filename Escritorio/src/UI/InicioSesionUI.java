@@ -230,9 +230,11 @@ public class InicioSesionUI extends javax.swing.JFrame {
             
             peticion.setConsulta(2);
             salida.writeObject(peticion);
+            salida.flush();
             usuarios.setUsuario(usuario);
             usuarios.setContraseña(sb.toString());
             salida.writeObject(usuarios);
+            salida.flush();
             usuarios = (Usuarios) entrada.readObject();
 
             if (usuarios.isExiste()) {
@@ -251,6 +253,7 @@ public class InicioSesionUI extends javax.swing.JFrame {
             Logger.getLogger(InicioSesionUI.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
+                cliente.close();
                 salida.close();
                 entrada.close();
             } catch (IOException ex) {

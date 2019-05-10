@@ -63,17 +63,11 @@ public class modificarPerfil extends javax.swing.JDialog {
     public modificarPerfil(java.awt.Frame parent, boolean modal, Usuarios usuarios) {
         super(parent, modal);
         initComponents();
-        try {
-            cliente = new Socket(server, puerto);
-            salida = new ObjectOutputStream(cliente.getOutputStream());
-            entrada = new ObjectInputStream(cliente.getInputStream());
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
         this.setLocationRelativeTo(null);
         this.usuarios = usuarios;
         cargaDatos();
         this.parent = parent;
+        obtenerImagenPerfil(usuarios);
         buscar_imagen.addActionListener(new ActionListener() {
 
             @Override
@@ -267,11 +261,16 @@ public class modificarPerfil extends javax.swing.JDialog {
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
                 try {
-                    byte[] imageBytes = Files.readAllBytes(new File(path).toPath());
-                    System.out.println("TAMAÑO DEL ARRAY DE BYTES: " + imageBytes.length);
-                    imageString = Base64.getEncoder().encodeToString(imageBytes);
-                    System.out.println("IMAGESTRING LENGTH: " + imageString.length());
-                    bos.close();
+                    if (path.isEmpty()) {
+
+                    } else {
+                        byte[] imageBytes = Files.readAllBytes(new File(path).toPath());
+                        System.out.println("TAMAÑO DEL ARRAY DE BYTES: " + imageBytes.length);
+                        imageString = Base64.getEncoder().encodeToString(imageBytes);
+                        System.out.println("IMAGESTRING LENGTH: " + imageString.length());
+                        bos.close();
+                    }
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -294,7 +293,9 @@ public class modificarPerfil extends javax.swing.JDialog {
 
         } catch (IOException ex) {
             ex.printStackTrace();
-        } finally {
+        } catch(NumberFormatException nfe){
+            JOptionPane.showMessageDialog(null, "Introduce carácteres válidos!");
+        }finally {
             try {
                 cliente.close();
                 salida.close();
@@ -305,6 +306,25 @@ public class modificarPerfil extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_modificar_perfilMouseClicked
 
+        public void obtenerImagenPerfil(Usuarios usuarios) {
+        try {
+            System.out.println(usuarios.getImagen().length());
+            if (usuarios.getImagen().equals("null") || usuarios.getImagen().length() == 0) {
+                ImageIcon image_perfil = new ImageIcon("src/imagenes/user.png");
+                perfil_imagen.setIcon(image_perfil);
+            } else {
+                byte[] imageByte = Base64.getDecoder().decode(usuarios.getImagen());
+                ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
+                Image imagen = ImageIO.read(bis);
+                ImageIcon image_perfil = new ImageIcon(imagen);
+                perfil_imagen.setIcon(image_perfil);
+            }
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+        
     public void cargaDatos() {
         usuario_nombre.setText(usuarios.getNombre());
         usuario_usuario.setText(usuarios.getUsuario());
