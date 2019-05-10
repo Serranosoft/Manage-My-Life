@@ -5,12 +5,20 @@ import Compartir.Tareas;
 import Compartir.Usuarios;
 import Conexion.Conexion;
 import java.awt.Color;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Base64;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -46,8 +54,9 @@ public class PerfilUI extends javax.swing.JFrame {
             ex.printStackTrace();
         }
         this.setLocationRelativeTo(null);
-        usuarios = usuario;
+        this.usuarios = usuario;
         rellenarDatos(usuarios.getId());
+        obtenerImagenPerfil(usuarios);
         btn_1.setBackground(Color.CYAN);
         text_btn1.setForeground(Color.BLACK);
     }
@@ -432,7 +441,7 @@ public class PerfilUI extends javax.swing.JFrame {
         jPanel4.add(perfil_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 170, 110, 30));
 
         perfil_imagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/user.png"))); // NOI18N
-        jPanel4.add(perfil_imagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 20, 120, 140));
+        jPanel4.add(perfil_imagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 20, 140, 140));
 
         perfil_modificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/ajustes.png"))); // NOI18N
         perfil_modificar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -629,6 +638,25 @@ public class PerfilUI extends javax.swing.JFrame {
         } catch (IOException ex) {
             ex.printStackTrace();
         } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void obtenerImagenPerfil(Usuarios usuarios) {
+        try {
+            System.out.println(usuarios.getImagen().length());
+            if (usuarios.getImagen().equals("null") || usuarios.getImagen().length() == 0) {
+                ImageIcon image_perfil = new ImageIcon("src/imagenes/user.png");
+                perfil_imagen.setIcon(image_perfil);
+            } else {
+                byte[] imageByte = Base64.getDecoder().decode(usuarios.getImagen());
+                ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
+                Image imagen = ImageIO.read(bis);
+                ImageIcon image_perfil = new ImageIcon(imagen);
+                perfil_imagen.setIcon(image_perfil);
+            }
+
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
     }

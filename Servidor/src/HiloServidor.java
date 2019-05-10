@@ -106,6 +106,7 @@ class HiloServidor extends Thread {
                     break;
                 case 11:
                     usuarios = (Usuarios) entrada.readObject();
+                    System.out.println("LE LLEGA3: " + usuarios.getImagen());
                     modificarUsuario(usuarios);
                     break;
                 case 12:
@@ -130,11 +131,15 @@ class HiloServidor extends Thread {
                     eliminarGasto(gastos);
                     break;
                 case 17:
-                    System.out.println("A");
                     gastos = (Gastos) entrada.readObject();
                     obtenerProductos(gastos);
                     salida.writeObject(gastos);
                     break;
+                case 18:
+                    usuarios = (Usuarios) entrada.readObject();
+                    comprobarExisteUsuario(usuarios);
+                    salida.writeObject(usuarios);
+
             }
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -242,6 +247,7 @@ class HiloServidor extends Thread {
     private void modificarUsuario(Usuarios usuarios) {
 
         UsuariosOP uop = new UsuariosOP();
+        System.out.println("LE LLEGA2 : " + usuarios.getImagen());
         uop.modificarUsuario(usuarios);
     }
 
@@ -304,5 +310,11 @@ class HiloServidor extends Thread {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void comprobarExisteUsuario(Usuarios usuarios) {
+
+        UsuariosOP uop = new UsuariosOP();
+        usuarios = uop.comprobarExisteUsuario(usuarios);
     }
 }

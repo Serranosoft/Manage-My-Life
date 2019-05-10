@@ -19,7 +19,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.nio.file.Files;
 import java.sql.Date;
+import java.util.Base64;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -53,6 +55,7 @@ public class modificarPerfil extends javax.swing.JDialog {
     Peticion peticion = new Peticion();
     Usuarios usuarios = new Usuarios();
     ImageIcon photo = null;
+    Image image = null;
     String path = "";
     InicioSesionUI inicioSesionUI = new InicioSesionUI();
     Frame parent = null;
@@ -77,14 +80,22 @@ public class modificarPerfil extends javax.swing.JDialog {
             public void actionPerformed(ActionEvent e) {
                 JFileChooser file = new JFileChooser();
                 file.setCurrentDirectory(new File(System.getProperty("user.home")));
-                FileNameExtensionFilter filter = new FileNameExtensionFilter("*.Images", "jpg", "png");
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("*.Images", "jpg");
                 file.addChoosableFileFilter(filter);
+
                 int result = file.showSaveDialog(null);
                 if (result == JFileChooser.APPROVE_OPTION) {
                     File selectedFile = file.getSelectedFile();
-                    path = selectedFile.getAbsolutePath();
-                    photo = ResizeImage(path);
-                    imagen_perfil.setIcon(ResizeImage(path));
+                    if (filter.accept(selectedFile)) {
+                        path = selectedFile.getAbsolutePath();
+                        image = ResizeImage(path);
+                        obtenerImagenPerfil(selectedFile);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Solo se aceptan imagenes con formato .jpg");
+                    }
+
+                    //photo = ResizeImage(path);
+                    //imagen_perfil.setIcon(ResizeImage(path));
                 } else if (result == JFileChooser.CANCEL_OPTION) {
                     System.out.println("No se ha seleccionado ninguna imágen");
                 }
@@ -112,9 +123,9 @@ public class modificarPerfil extends javax.swing.JDialog {
         modificar_perfil = new javax.swing.JPanel();
         label = new javax.swing.JLabel();
         usuario_salario = new javax.swing.JTextField();
-        imagen_perfil = new javax.swing.JLabel();
+        perfil_imagen = new javax.swing.JLabel();
         buscar_imagen = new javax.swing.JButton();
-        prueba = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -173,54 +184,55 @@ public class modificarPerfil extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
-        imagen_perfil.setIcon(new javax.swing.ImageIcon("F:\\ManuelSerranoScholz\\AndroidStudio\\ProyectoFinal\\Escritorio\\src\\imagenes\\user.png")); // NOI18N
+        perfil_imagen.setIcon(new javax.swing.ImageIcon("F:\\ManuelSerranoScholz\\AndroidStudio\\ProyectoFinal\\Escritorio\\src\\imagenes\\user.png")); // NOI18N
 
         buscar_imagen.setText("Buscar");
 
-        prueba.setText("jLabel4");
+        jLabel4.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        jLabel4.setText("Solo se aceptan imagenes con extension .jpg");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(modificar_perfil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2)
-                            .addComponent(usuario_salario, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
-                            .addComponent(usuario_usuario)
-                            .addComponent(usuario_nombre))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(47, Short.MAX_VALUE)
+                .addContainerGap(68, Short.MAX_VALUE)
+                .addComponent(perfil_imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(61, 61, 61))
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(prueba)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(modificar_perfil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGap(31, 31, 31)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel2)
+                                    .addComponent(usuario_salario, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
+                                    .addComponent(usuario_usuario)
+                                    .addComponent(usuario_nombre))))
+                        .addComponent(buscar_imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(buscar_imagen, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
-                            .addComponent(imagen_perfil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addGap(60, 60, 60))
+                        .addGap(20, 20, 20)
+                        .addComponent(jLabel4)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(imagen_perfil, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(perfil_imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(buscar_imagen)
-                .addGap(67, 67, 67)
-                .addComponent(prueba)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 135, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(usuario_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -251,10 +263,23 @@ public class modificarPerfil extends javax.swing.JDialog {
                 salida = new ObjectOutputStream(cliente.getOutputStream());
                 entrada = new ObjectInputStream(cliente.getInputStream());
 
+                String imageString = null;
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+
+                try {
+                    byte[] imageBytes = Files.readAllBytes(new File(path).toPath());
+                    System.out.println("TAMAÑO DEL ARRAY DE BYTES: " + imageBytes.length);
+                    imageString = Base64.getEncoder().encodeToString(imageBytes);
+                    System.out.println("IMAGESTRING LENGTH: " + imageString.length());
+                    bos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
                 usuarios.setNombre(usuario_nombre.getText());
                 usuarios.setUsuario(usuario_usuario.getText());
                 usuarios.setSalario(Integer.valueOf(usuario_salario.getText()));
-
+                usuarios.setImagen(imageString);
                 peticion.setConsulta(11);
                 salida.writeObject(peticion);
                 salida.flush();
@@ -264,7 +289,7 @@ public class modificarPerfil extends javax.swing.JDialog {
                 parent.setVisible(false);
                 inicioSesionUI.setVisible(true);
                 this.setVisible(false);
-                
+
             }
 
         } catch (IOException ex) {
@@ -280,19 +305,30 @@ public class modificarPerfil extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_modificar_perfilMouseClicked
 
-
     public void cargaDatos() {
         usuario_nombre.setText(usuarios.getNombre());
         usuario_usuario.setText(usuarios.getUsuario());
         usuario_salario.setText(usuarios.getSalario() + "");
     }
 
-    public ImageIcon ResizeImage(String ImagePath) {
+    public Image ResizeImage(String ImagePath) {
         ImageIcon MyImage = new ImageIcon(ImagePath);
         Image img = MyImage.getImage();
-        Image newImg = img.getScaledInstance(imagen_perfil.getWidth(), imagen_perfil.getHeight(), Image.SCALE_SMOOTH);
+        Image newImg = img.getScaledInstance(perfil_imagen.getWidth(), perfil_imagen.getHeight(), Image.SCALE_SMOOTH);
         ImageIcon image = new ImageIcon(newImg);
-        return image;
+        return newImg;
+    }
+
+    public void obtenerImagenPerfil(File ruta) {
+        try {
+            byte[] imageByte = Files.readAllBytes(ruta.toPath());
+            ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
+            Image imagen = ImageIO.read(bis);
+            ImageIcon image_perfil = new ImageIcon(imagen);
+            perfil_imagen.setIcon(image_perfil);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
 
     }
 
@@ -343,15 +379,15 @@ public class modificarPerfil extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buscar_imagen;
-    private javax.swing.JLabel imagen_perfil;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel label;
     private javax.swing.JPanel modificar_perfil;
-    private javax.swing.JLabel prueba;
+    private javax.swing.JLabel perfil_imagen;
     private javax.swing.JTextField usuario_nombre;
     private javax.swing.JTextField usuario_salario;
     private javax.swing.JTextField usuario_usuario;

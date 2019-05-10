@@ -12,6 +12,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -38,13 +39,6 @@ public class RegistroUI extends javax.swing.JFrame {
 
     public RegistroUI() {
         initComponents();
-        try {
-            cliente = new Socket(server, puerto);
-            salida = new ObjectOutputStream(cliente.getOutputStream());
-            entrada = new ObjectInputStream(cliente.getInputStream());
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
         this.setLocationRelativeTo(null);
     }
 
@@ -233,38 +227,60 @@ public class RegistroUI extends javax.swing.JFrame {
 
     private void registrar_botonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registrar_botonMouseClicked
         try {
-            /*PerfilUI perfilUI = new PerfilUI();
-            perfilUI.setVisible(true);
-            this.setVisible(false);*/
+
+            cliente = new Socket(server, puerto);
+            salida = new ObjectOutputStream(cliente.getOutputStream());
+            entrada = new ObjectInputStream(cliente.getInputStream());
 
             usuarios.setUsuario(registro_email_field.getText());
             usuarios.setNombre(registro_nombre_field.getText());
             usuarios.setSalario(Integer.valueOf(registro_salario_field.getText()));
-            //String contraseña = registro_password_field.getPassword().toString();
+
             String contraseña = new String(registro_password_field.getPassword());
-            System.out.println(contraseña);
-            
             MessageDigest digest = MessageDigest.getInstance("MD5");
             byte[] hash = digest.digest(contraseña.getBytes(StandardCharsets.UTF_8));
+
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < hash.length; i++) {
-                sb.append(Integer.toString((hash[i] & 0xff) + 0x100,16).substring(1));
+                sb.append(Integer.toString((hash[i] & 0xff) + 0x100, 16).substring(1));
             }
-            System.out.println("Contraseña cifrada: " +sb.toString());
-            usuarios.setContraseña(sb.toString());
-            // Le envio la consulta al servidor
-            peticion.setConsulta(1);
-            salida.writeObject(peticion);
-            // Le envio el objeto usuarios con los datos al servidor
-            salida.writeObject(usuarios);
 
-            // Envio al usuario a la pantalla de inicio de sesión
-            InicioSesionUI inicio_panel = new InicioSesionUI();
-            inicio_panel.setVisible(true);
-            this.setVisible(false);
+            usuarios.setContraseña(sb.toString());
+
+            // comprobar si existe el usuario
+            peticion.setConsulta(18);
+            salida.writeObject(peticion);
+            salida.flush();
+            salida.writeObject(usuarios);
+            salida.flush();
+
+            usuarios = (Usuarios) entrada.readObject();
+            if (usuarios.isExiste()) {
+                JOptionPane.showMessageDialog(this, "Ese usuario ya existe!");
+                cliente.close();
+                salida.close();
+                entrada.close();
+            } else {
+                cliente = new Socket(server, puerto);
+                salida = new ObjectOutputStream(cliente.getOutputStream());
+                entrada = new ObjectInputStream(cliente.getInputStream());
+                // Le envio la consulta al servidor
+                peticion.setConsulta(1);
+                salida.writeObject(peticion);
+                // Le envio el objeto usuarios con los datos al servidor
+                salida.writeObject(usuarios);
+
+                // Envio al usuario a la pantalla de inicio de sesión
+                InicioSesionUI inicio_panel = new InicioSesionUI();
+                inicio_panel.setVisible(true);
+                this.setVisible(false);
+            }
+
         } catch (IOException ex) {
             ex.printStackTrace();
         } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(RegistroUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
             Logger.getLogger(RegistroUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_registrar_botonMouseClicked
