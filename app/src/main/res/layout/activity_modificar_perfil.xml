@@ -1,32 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:background="#5f7ae2"
     android:padding="5dp"
     android:layout_gravity="center"
     tools:context=".Activities.ModificarPerfilActivity">
 
     <ImageView
-        android:id="@+id/modificar_imagen"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="8dp"
-        android:layout_gravity="center"
-        android:src="@mipmap/user"/>
-
-    <ImageView
         android:id="@+id/imageView1"
-        android:layout_width="150dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="24dp"
         android:layout_gravity="center"
         android:src="@mipmap/user"/>
+    <LinearLayout
+
+        android:background="@color/colorElements"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp">
+
+        <LinearLayout
+            android:id="@+id/modificar_imagen_galeria"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="#034078">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/gallery"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/modificar_imagen_camara"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="#1282A2">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/photo_camera"/>
+        </LinearLayout>
+    </LinearLayout>
+
+
+
 
     <LinearLayout
         android:layout_width="match_parent"

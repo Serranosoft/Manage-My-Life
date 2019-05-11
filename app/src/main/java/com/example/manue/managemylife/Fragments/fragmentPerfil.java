@@ -10,11 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.manue.managemylife.Activities.LoginActivity;
 import com.example.manue.managemylife.Activities.MainActivity;
+import com.example.manue.managemylife.Activities.ModificarPerfilActivity;
+import com.example.manue.managemylife.Activities.ProductosActivity;
 import com.example.manue.managemylife.R;
 import com.example.manue.managemylife.vo.SettingsClass;
 
@@ -43,6 +46,7 @@ public class fragmentPerfil extends Fragment{
     TextView perfil_balance = null;
     TextView perfil_nombre = null;
     TextView perfil_usuario = null;
+    Button modificar_perfil = null;
 
     SettingsClass settings = null;
 
@@ -59,10 +63,18 @@ public class fragmentPerfil extends Fragment{
         View view = inflater.inflate(R.layout.fragment_perfil, container, false);
         instance = this;
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Perfil");
+        modificar_perfil = view.findViewById(R.id.modificar_perfil);
+
+        modificar_perfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ModificarPerfilActivity.class);
+                startActivity(intent);
+            }
+        });
         settings = new SettingsClass(getActivity().getApplicationContext());
         MainActivity mainActivity = (MainActivity) getActivity();
 
-        System.out.println("Se recoge el objeto usuarios");
         usuarios = mainActivity.informacionUsuario();
         Button cerrar_sesion = (Button) view.findViewById(R.id.cerrar_sesion);
         cerrar_sesion.setOnClickListener(new View.OnClickListener() {
@@ -128,23 +140,18 @@ public class fragmentPerfil extends Fragment{
         @Override
         protected Tareas doInBackground(Tareas... strings) {
             try {
-                System.out.println("Establece conexion");
                 cliente = new Socket(settings.obtenerSettings().get(0).getAddress(), settings.obtenerSettings().get(0).getPort());
-                System.out.println("Configura flujos");
                 salida = new ObjectOutputStream(cliente.getOutputStream());
                 entrada = new ObjectInputStream(cliente.getInputStream());
 
-                System.out.println("Envia consulta");
                 peticion.setConsulta(3);
 
                 salida.writeObject(peticion);
 
                 tareas.setIdUsuario(usuarios.getId());
-                System.out.println("Envia tareas");
                 salida.writeObject(tareas);
 
 
-                System.out.println("Lee tareas");
                 tareas = (Tareas) entrada.readObject();
 
                 for (int i = 0; i < tareas.getResultados_tareas().size(); i++) {
