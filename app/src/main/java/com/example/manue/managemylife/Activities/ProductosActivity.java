@@ -1,0 +1,354 @@
+package com.example.manue.managemylife.Activities;
+
+import android.content.DialogInterface;
+import android.os.AsyncTask;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.ContextThemeWrapper;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.example.manue.managemylife.Adapters.ProductosAdapter;
+import com.example.manue.managemylife.Adapters.SubtareasAdapter;
+import com.example.manue.managemylife.R;
+import com.example.manue.managemylife.Util.SwipeableRecyclerViewTouchListener;
+import com.example.manue.managemylife.vo.SettingsClass;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.util.ArrayList;
+
+import Compartir.Gastos;
+import Compartir.Peticion;
+import Compartir.Productos;
+import Compartir.Usuarios;
+import vo.Producto;
+import vo.Subtarea;
+
+public class ProductosActivity extends AppCompatActivity {
+
+    Gastos gastos = new Gastos();
+    SettingsClass settings = null;
+    Peticion peticion = new Peticion();
+    Productos productos = new Productos();
+    Usuarios usuarios = new Usuarios();
+
+    private RecyclerView rList;
+    private ArrayList<Producto> listaProducto;
+    private RecyclerView.Adapter adapter;
+    FloatingActionButton fab = null;
+
+    private AlertDialog.Builder builder_producto;
+    private AlertDialog dialog_producto;
+
+    TextView productos_cantidad = null;
+    TextView productos_balance = null;
+    int balance = 0;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_productos);
+
+
+
+        productos_cantidad = (TextView) findViewById(R.id.productos_cantidad);
+        productos_balance = (TextView) findViewById(R.id.productos_balance);
+        productos_balance.setText(balance+"");
+
+        gastos = (Gastos) getIntent().getSerializableExtra("gastos_productos");
+        usuarios = (Usuarios) getIntent().getSerializableExtra("usuarios");
+        balance = usuarios.getSalario();
+
+        settings = new SettingsClass(this);
+
+        rList = findViewById(R.id.listaProducto);
+        rList.setHasFixedSize(true);
+        rList.setLayoutManager(new LinearLayoutManager(this));
+
+
+        executeMostrarProductos();
+        fab = findViewById(R.id.productos_add);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                builder_producto = new AlertDialog.Builder(new ContextThemeWrapper(ProductosActivity.this, R.style.myDialog));
+                View view_popup_producto = LayoutInflater.from(getApplicationContext()).inflate(R.layout.popup_insertar_producto, null);
+
+                builder_producto.setView(view_popup_producto);
+
+                dialog_producto = builder_producto.create();
+                dialog_producto.show();
+
+
+                // Nombre del gasto
+
+                final EditText nombre_producto = view_popup_producto.findViewById(R.id.insertar_nombre_producto);
+                final EditText precio_producto = view_popup_producto.findViewById(R.id.insertar_precio_producto);
+
+                final TextView close_gasto = view_popup_producto.findViewById(R.id.insertar_producto_close);
+                close_gasto.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog_producto.dismiss();
+                    }
+                });
+
+                final ImageView aceptar_producto = view_popup_producto.findViewById(R.id.insertar_aceptar_producto);
+                aceptar_producto.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        try{
+                            productos.setNombre_Producto(nombre_producto.getText().toString());
+                            productos.setPrecio_Producto(Integer.valueOf(precio_producto.getText().toString()));
+                            productos.setID_Gasto(gastos.getId());
+                            executeInsertarProductos();
+                            dialog_producto.dismiss();
+                            adapter.notifyDataSetChanged();
+                            balance-=Integer.valueOf(precio_producto.getText().toString());
+                            executeActualizarProductos();
+
+                        }catch (NumberFormatException nfe) {
+
+                            nfe.printStackTrace();
+                            final AlertDialog.Builder alert = new AlertDialog.Builder(ProductosActivity.this, R.style.AlertDialog);
+                            alert.setTitle("Aviso");
+                            alert.setMessage("¡Introduce campos válidos!");
+                            alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            });
+                            alert.create().show();
+                        }
+
+                    }
+                });
+            }
+        });
+
+        SwipeableRecyclerViewTouchListener swipeTouchListener =
+                new SwipeableRecyclerViewTouchListener(rList,
+                        new SwipeableRecyclerViewTouchListener.SwipeListener() {
+
+                            @Override
+                            public boolean canSwipeLeft(int position) {
+                                return false;
+                            }
+
+                            @Override
+                            public boolean canSwipeRight(int position) {
+                                return true;
+                            }
+
+                            @Override
+                            public void onDismissedBySwipeLeft(RecyclerView recyclerView, int[] reverseSortedPositions) {
+
+                            }
+
+                            @Override
+                            public void onDismissedBySwipeRight(RecyclerView recyclerView, int[] reverseSortedPositions) {
+                                for (final int position : reverseSortedPositions) {
+                                    final AlertDialog.Builder alert = new AlertDialog.Builder(ProductosActivity.this, R.style.AlertDialog);
+                                    alert.setTitle("Aviso");
+                                    alert.setMessage("¿Quieres eliminar el producto permanentemente?");
+                                    alert.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            int idProducto = listaProducto.get(position).getId();
+                                            int precio = listaProducto.get(position).getPrecio_producto();
+                                            productos.setID(idProducto);
+                                            // llamo al metodo eliminar
+                                            executeDeleteProductos();
+                                            listaProducto.remove(position);
+                                            balance += precio;
+                                            productos_balance.setText(balance+"€");
+                                            adapter.notifyItemRemoved(position);
+                                        }
+                                    });
+                                    alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            dialogInterface.dismiss();
+                                        }
+                                    });
+                                    alert.create().show();
+
+                                }
+                                adapter.notifyDataSetChanged();
+                            }
+                        });
+
+        rList.addOnItemTouchListener(swipeTouchListener);
+
+
+    }
+
+    public void executeInsertarProductos() {
+        insertarProductossTask insertarProductossTask = new insertarProductossTask();
+        insertarProductossTask.execute();
+    }
+
+    public void executeMostrarProductos() {
+        mostrarProductosTask mostrarProductosTask = new mostrarProductosTask();
+        mostrarProductosTask.execute();
+    }
+
+    public void executeActualizarProductos() {
+        actualizarProductosTask actualizarProductosTask = new actualizarProductosTask();
+        actualizarProductosTask.execute();
+    }
+    public void executeDeleteProductos() {
+        eliminarProductosTask eliminarProductosTask = new eliminarProductosTask();
+        eliminarProductosTask.execute();
+    }
+    public class mostrarProductosTask extends AsyncTask<ArrayList<Producto>, Void, ArrayList<Producto>> {
+
+        Socket cliente = null;
+        ObjectOutputStream salida = null;
+        ObjectInputStream entrada = null;
+
+        @Override
+        protected ArrayList<Producto> doInBackground(ArrayList<Producto>... arrayLists) {
+            try {
+                cliente = new Socket(settings.obtenerSettings().get(0).getAddress(), settings.obtenerSettings().get(0).getPort());
+                salida = new ObjectOutputStream(cliente.getOutputStream());
+                entrada = new ObjectInputStream(cliente.getInputStream());
+
+                peticion.setConsulta(17);
+                salida.writeObject(peticion);
+
+
+                salida.writeObject(gastos);
+
+                gastos = (Gastos) entrada.readObject();
+                listaProducto = gastos.getProductos();
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            return listaProducto;
+        }
+
+        @Override
+        protected void onPostExecute(final ArrayList<Producto> listaProducto) {
+            super.onPostExecute(listaProducto);
+
+            productos_cantidad.setText(listaProducto.size()+"");
+            for (int i = 0; i < listaProducto.size(); i++) {
+                balance -= listaProducto.get(i).getPrecio_producto();
+            }
+            productos_balance.setText(balance+"€");
+            adapter = new ProductosAdapter(listaProducto, getApplicationContext());
+            rList.setAdapter(adapter);
+
+        }
+    }
+
+    public class insertarProductossTask extends AsyncTask<String, Void, Void> {
+
+        Socket cliente = null;
+        ObjectOutputStream salida = null;
+        ObjectInputStream entrada = null;
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            try {
+                cliente = new Socket(settings.obtenerSettings().get(0).getAddress(), settings.obtenerSettings().get(0).getPort());
+                salida = new ObjectOutputStream(cliente.getOutputStream());
+                entrada = new ObjectInputStream(cliente.getInputStream());
+
+
+                peticion.setConsulta(19);
+                salida.writeObject(peticion);
+
+                salida.writeObject(productos);
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    public class actualizarProductosTask extends AsyncTask<ArrayList<Producto>, Void, ArrayList<Producto>> {
+
+        Socket cliente = null;
+        ObjectOutputStream salida = null;
+        ObjectInputStream entrada = null;
+
+        @Override
+        protected ArrayList<Producto> doInBackground(ArrayList<Producto>... arrayLists) {
+            try {
+                cliente = new Socket(settings.obtenerSettings().get(0).getAddress(), settings.obtenerSettings().get(0).getPort());
+                salida = new ObjectOutputStream(cliente.getOutputStream());
+                entrada = new ObjectInputStream(cliente.getInputStream());
+
+                peticion.setConsulta(17);
+                salida.writeObject(peticion);
+
+
+                salida.writeObject(gastos);
+
+                gastos = (Gastos) entrada.readObject();
+                listaProducto = gastos.getProductos();
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            return listaProducto;
+        }
+
+        @Override
+        protected void onPostExecute(final ArrayList<Producto> listaProducto) {
+            super.onPostExecute(listaProducto);
+
+            productos_cantidad.setText(listaProducto.size()+"");
+            productos_balance.setText(balance+"€");
+            adapter = new ProductosAdapter(listaProducto, getApplicationContext());
+            rList.setAdapter(adapter);
+
+        }
+    }
+
+    public class eliminarProductosTask extends AsyncTask<String, Void, Void> {
+
+        Socket cliente = null;
+        ObjectOutputStream salida = null;
+        ObjectInputStream entrada = null;
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            try {
+                cliente = new Socket(settings.obtenerSettings().get(0).getAddress(), settings.obtenerSettings().get(0).getPort());
+                salida = new ObjectOutputStream(cliente.getOutputStream());
+                entrada = new ObjectInputStream(cliente.getInputStream());
+
+                peticion.setConsulta(20);
+                salida.writeObject(peticion);
+                salida.writeObject(productos);
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
+            return null;
+        }
+    }
+}

@@ -143,7 +143,6 @@ class HiloServidor extends Thread {
                 case 19:
                     productos = (Productos) entrada.readObject();
                     insertarProducto(productos);
-                    salida.writeObject(productos);
                     break;
                 case 20:
                     productos = (Productos) entrada.readObject();

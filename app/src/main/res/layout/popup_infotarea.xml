@@ -31,7 +31,7 @@
             android:layout_gravity="start"
             android:layout_marginTop="8dp"
             android:gravity="center"
-            android:layout_marginRight="16dp"
+            android:layout_marginRight="24dp"
             android:layout_toLeftOf="@+id/tarea_edit" />
 
         <ImageView
@@ -42,7 +42,7 @@
             android:layout_gravity="start"
             android:layout_marginTop="8dp"
             android:gravity="center"
-            android:layout_marginRight="8dp"
+            android:layout_marginRight="16dp"
             android:layout_toLeftOf="@+id/tarea_close" />
 
         <TextView

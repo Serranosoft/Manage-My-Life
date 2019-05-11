@@ -9,13 +9,13 @@ public class Usuarios implements Serializable {
     private String nombre;
     private String contraseña;
     private int salario;
-    private byte[] imagen;
+    private String imagen;
     private boolean existe;
 
     public Usuarios() {
     }
 
-    public Usuarios(int id, String usuario, String nombre, String contraseña, int salario, byte[] imagen, boolean existe) {
+    public Usuarios(int id, String usuario, String nombre, String contraseña, int salario, String imagen, boolean existe) {
         this.id = id;
         this.usuario = usuario;
         this.nombre = nombre;
@@ -25,11 +25,11 @@ public class Usuarios implements Serializable {
         this.existe = existe;
     }
 
-    public byte[] getImagen() {
+    public String getImagen() {
         return imagen;
     }
 
-    public void setImagen(byte[] imagen) {
+    public void setImagen(String imagen) {
         this.imagen = imagen;
     }
 

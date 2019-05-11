@@ -155,7 +155,6 @@ public class GastosOP {
         PreparedStatement ps = null;
 
         String sql = "INSERT INTO Producto (Nombre_Prod, Precio_Prod, ID_Gasto) VALUES (?,?,?)";
-
         try {
             conexion = conn.getConnection();
             ps = conexion.prepareCall(sql);

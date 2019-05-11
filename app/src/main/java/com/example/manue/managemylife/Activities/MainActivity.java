@@ -40,8 +40,6 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
     Usuarios usuarios = new Usuarios();
-    Peticion peticion = new Peticion();
-    Tareas tareas = new Tareas();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
