@@ -176,4 +176,51 @@ public class UsuariosOP {
         return usuario;
     }
 
+    public void actualizarSalario(Usuarios usuario) {
+        Connection conexion = null;
+        PreparedStatement ps = null;
+        String sql = "UPDATE Usuario SET Salario = ? WHERE ID = ?";
+
+        try {
+            conexion = conn.getConnection();
+            ps = conexion.prepareCall(sql);
+
+            ps.setInt(1, usuario.getSalario());
+            ps.setInt(2, usuario.getId());
+
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Salario actualizado");
+    }
+
+    public Usuarios obtenerInformacion(Usuarios usuario) {
+        Connection conexion = null;
+        PreparedStatement ps = null;
+        String sql = "SELECT * FROM Usuario WHERE ID = ?";
+        ResultSet rs = null;
+        try {
+            conexion = conn.getConnection();
+            ps = conexion.prepareCall(sql);
+
+            ps.setInt(1, usuario.getId());
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                usuario.setId(Integer.valueOf(rs.getString("ID")));
+                usuario.setUsuario(rs.getString("Usuario"));
+                usuario.setNombre(rs.getString("Nombre"));
+                usuario.setSalario(Integer.valueOf(rs.getString("Salario")));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Obtener informacion usuario");
+        return usuario;
+    }
+
 }

@@ -37,7 +37,8 @@
             android:name=".Activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activities.SubtareasActivity" />
-        <activity android:name=".Activities.ProductosActivity"></activity>
+        <activity android:name=".Activities.ProductosActivity" />
+        <activity android:name=".Activities.ModificarPerfilActivity"></activity>
     </application>
 
 </manifest>

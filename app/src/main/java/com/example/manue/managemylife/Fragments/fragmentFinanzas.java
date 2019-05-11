@@ -68,7 +68,8 @@ public class fragmentFinanzas extends Fragment {
     private AlertDialog.Builder builder_gasto;
     private AlertDialog dialog_gasto;
 
-    TextView finanzas_gastos;
+    TextView finanzas_gastos = null;
+    TextView finanzas_balance = null;
     public fragmentFinanzas() {
         // Required empty public constructor
     }
@@ -81,13 +82,13 @@ public class fragmentFinanzas extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Control de Gastos");
         View view = inflater.inflate(R.layout.fragment_finanzas, container, false);
 
-        MainActivity mainActivity = (MainActivity) getActivity();
+        //MainActivity mainActivity = (MainActivity) getActivity();
         settings = new SettingsClass(getActivity().getApplicationContext());
-        usuarios = mainActivity.informacionUsuario();
-        System.out.println("USUARIOS QUE RECIBE FRAGMENT FINANZAS SALARIOOO: "+usuarios.getSalario());
+        //usuarios = mainActivity.informacionUsuario();
+        usuarios = fragmentPerfil.getInstance().getUsuarios();
 
         finanzas_gastos = view.findViewById(R.id.finanzas_gastos);
-        TextView finanzas_balance = view.findViewById(R.id.finanzas_balance);
+        finanzas_balance = view.findViewById(R.id.finanzas_balance);
         finanzas_balance.setText(usuarios.getSalario()+"€");
 
         rList = view.findViewById(R.id.listaGastos);

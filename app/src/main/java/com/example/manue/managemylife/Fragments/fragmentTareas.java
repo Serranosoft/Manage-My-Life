@@ -93,6 +93,7 @@ public class fragmentTareas extends Fragment {
         settings = new SettingsClass(getActivity().getApplicationContext());
         usuarios = mainActivity.informacionUsuario();
 
+
         rList = view.findViewById(R.id.lista);
         rList.setHasFixedSize(true);
         rList.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));

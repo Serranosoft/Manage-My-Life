@@ -148,6 +148,15 @@ class HiloServidor extends Thread {
                     productos = (Productos) entrada.readObject();
                     eliminarProducto(productos);
                     break;
+                case 21:
+                    usuarios = (Usuarios) entrada.readObject();
+                    actualizarSalario(usuarios);
+                    break;
+                case 22:
+                    usuarios = (Usuarios) entrada.readObject();
+                    obtenerInformacionPerfil(usuarios);
+                    salida.writeObject(usuarios);
+                    break;
 
             }
         } catch (IOException ex) {
@@ -342,6 +351,26 @@ class HiloServidor extends Thread {
             GastosOP gop = new GastosOP();
             gop.eliminarProducto(productos);
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void actualizarSalario(Usuarios usuarios) {
+        
+        try {
+            UsuariosOP uop = new UsuariosOP();
+            uop.actualizarSalario(usuarios);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void obtenerInformacionPerfil(Usuarios usuarios) {
+        
+        try {
+            UsuariosOP uop = new UsuariosOP();
+            uop.obtenerInformacion(usuarios);
+        } catch(Exception e) {
             e.printStackTrace();
         }
     }

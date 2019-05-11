@@ -45,6 +45,8 @@ public class fragmentPerfil extends Fragment{
     TextView perfil_usuario = null;
 
     SettingsClass settings = null;
+
+    private static fragmentPerfil instance = null;
     public fragmentPerfil() {
         // Required empty public constructor
     }
@@ -55,13 +57,13 @@ public class fragmentPerfil extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_perfil, container, false);
+        instance = this;
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Perfil");
         settings = new SettingsClass(getActivity().getApplicationContext());
         MainActivity mainActivity = (MainActivity) getActivity();
 
         System.out.println("Se recoge el objeto usuarios");
         usuarios = mainActivity.informacionUsuario();
-
         Button cerrar_sesion = (Button) view.findViewById(R.id.cerrar_sesion);
         cerrar_sesion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,8 +103,8 @@ public class fragmentPerfil extends Fragment{
         perfil_nombre = (TextView) view.findViewById(R.id.perfil_nombre);
         perfil_usuario = (TextView) view.findViewById(R.id.perfil_usuario);
 
-        System.out.println("Se ejecuta el task");
         executeTareasTask();
+        executeObtenerInfo();
         return view;
 
     }
@@ -110,6 +112,11 @@ public class fragmentPerfil extends Fragment{
     public void executeTareasTask() {
         informacionTareasTask informacionTareasTask = new informacionTareasTask();
         informacionTareasTask.execute();
+    }
+
+    public void executeObtenerInfo() {
+        obtenerInformacionPerfil obtenerInformacionPerfil = new obtenerInformacionPerfil();
+        obtenerInformacionPerfil.execute();
     }
 
     public class informacionTareasTask extends AsyncTask<Tareas, Integer, Tareas> {
@@ -161,10 +168,58 @@ public class fragmentPerfil extends Fragment{
             super.onPostExecute(tareas);
             perfil_tareas_pendientes.setText(tareas_pendientes+"");
             perfil_tareas_terminadas.setText(tareas_terminadas+"");
-            perfil_balance.setText(usuarios.getSalario()+"");
+            /*perfil_balance.setText(usuarios.getSalario()+"");
+            perfil_nombre.setText(usuarios.getNombre());
+            perfil_usuario.setText(usuarios.getUsuario());*/
+        }
+    }
+
+    public class obtenerInformacionPerfil extends AsyncTask<String, Void, Void> {
+
+        Socket cliente = null;
+        ObjectOutputStream salida = null;
+        ObjectInputStream entrada = null;
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            try {
+
+                cliente = new Socket(settings.obtenerSettings().get(0).getAddress(), settings.obtenerSettings().get(0).getPort());
+                salida = new ObjectOutputStream(cliente.getOutputStream());
+                entrada = new ObjectInputStream(cliente.getInputStream());
+
+                peticion.setConsulta(22);
+                salida.writeObject(peticion);
+
+                salida.writeObject(usuarios);
+                usuarios = (Usuarios) entrada.readObject();
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+            System.out.println("HOLAAA");
+            perfil_balance.setText(usuarios.getSalario()+"€");
             perfil_nombre.setText(usuarios.getNombre());
             perfil_usuario.setText(usuarios.getUsuario());
+
         }
+    }
+
+    public Usuarios getUsuarios() {
+        return usuarios;
+    }
+
+    public static fragmentPerfil getInstance() {
+        return instance;
     }
 
 

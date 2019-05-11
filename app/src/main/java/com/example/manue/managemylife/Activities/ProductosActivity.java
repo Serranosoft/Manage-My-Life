@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.manue.managemylife.Adapters.ProductosAdapter;
 import com.example.manue.managemylife.Adapters.SubtareasAdapter;
+import com.example.manue.managemylife.Fragments.fragmentPerfil;
 import com.example.manue.managemylife.R;
 import com.example.manue.managemylife.Util.SwipeableRecyclerViewTouchListener;
 import com.example.manue.managemylife.vo.SettingsClass;
@@ -66,7 +67,8 @@ public class ProductosActivity extends AppCompatActivity {
         productos_balance.setText(balance+"");
 
         gastos = (Gastos) getIntent().getSerializableExtra("gastos_productos");
-        usuarios = (Usuarios) getIntent().getSerializableExtra("usuarios");
+        //usuarios = (Usuarios) getIntent().getSerializableExtra("usuarios");
+        usuarios = fragmentPerfil.getInstance().getUsuarios();
         balance = usuarios.getSalario();
 
         settings = new SettingsClass(this);
@@ -75,8 +77,8 @@ public class ProductosActivity extends AppCompatActivity {
         rList.setHasFixedSize(true);
         rList.setLayoutManager(new LinearLayoutManager(this));
 
-
-        executeMostrarProductos();
+        executeActualizarProductos();
+        //executeMostrarProductos();
         fab = findViewById(R.id.productos_add);
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -117,7 +119,10 @@ public class ProductosActivity extends AppCompatActivity {
                             dialog_producto.dismiss();
                             adapter.notifyDataSetChanged();
                             balance-=Integer.valueOf(precio_producto.getText().toString());
+                            usuarios.setSalario(balance);
+                            executeUpdateSalario();
                             executeActualizarProductos();
+                            executeObtenerInformacion();
 
                         }catch (NumberFormatException nfe) {
 
@@ -173,9 +178,13 @@ public class ProductosActivity extends AppCompatActivity {
                                             // llamo al metodo eliminar
                                             executeDeleteProductos();
                                             listaProducto.remove(position);
-                                            balance += precio;
-                                            productos_balance.setText(balance+"€");
                                             adapter.notifyItemRemoved(position);
+                                            balance += precio;
+                                            usuarios.setSalario(balance);
+                                            executeUpdateSalario();
+                                            executeActualizarProductos();
+                                            executeObtenerInformacion();
+
                                         }
                                     });
                                     alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -201,11 +210,6 @@ public class ProductosActivity extends AppCompatActivity {
         insertarProductossTask.execute();
     }
 
-    public void executeMostrarProductos() {
-        mostrarProductosTask mostrarProductosTask = new mostrarProductosTask();
-        mostrarProductosTask.execute();
-    }
-
     public void executeActualizarProductos() {
         actualizarProductosTask actualizarProductosTask = new actualizarProductosTask();
         actualizarProductosTask.execute();
@@ -214,51 +218,14 @@ public class ProductosActivity extends AppCompatActivity {
         eliminarProductosTask eliminarProductosTask = new eliminarProductosTask();
         eliminarProductosTask.execute();
     }
-    public class mostrarProductosTask extends AsyncTask<ArrayList<Producto>, Void, ArrayList<Producto>> {
-
-        Socket cliente = null;
-        ObjectOutputStream salida = null;
-        ObjectInputStream entrada = null;
-
-        @Override
-        protected ArrayList<Producto> doInBackground(ArrayList<Producto>... arrayLists) {
-            try {
-                cliente = new Socket(settings.obtenerSettings().get(0).getAddress(), settings.obtenerSettings().get(0).getPort());
-                salida = new ObjectOutputStream(cliente.getOutputStream());
-                entrada = new ObjectInputStream(cliente.getInputStream());
-
-                peticion.setConsulta(17);
-                salida.writeObject(peticion);
-
-
-                salida.writeObject(gastos);
-
-                gastos = (Gastos) entrada.readObject();
-                listaProducto = gastos.getProductos();
-
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-            return listaProducto;
-        }
-
-        @Override
-        protected void onPostExecute(final ArrayList<Producto> listaProducto) {
-            super.onPostExecute(listaProducto);
-
-            productos_cantidad.setText(listaProducto.size()+"");
-            for (int i = 0; i < listaProducto.size(); i++) {
-                balance -= listaProducto.get(i).getPrecio_producto();
-            }
-            productos_balance.setText(balance+"€");
-            adapter = new ProductosAdapter(listaProducto, getApplicationContext());
-            rList.setAdapter(adapter);
-
-        }
+    public void executeUpdateSalario() {
+        actualizarSalarioTask actualizarSalarioTask = new actualizarSalarioTask();
+        actualizarSalarioTask.execute();
     }
-
+    public void executeObtenerInformacion() {
+        obtenerInformacionPerfil obtenerInformacionPerfil = new obtenerInformacionPerfil();
+        obtenerInformacionPerfil.execute();
+    }
     public class insertarProductossTask extends AsyncTask<String, Void, Void> {
 
         Socket cliente = null;
@@ -284,7 +251,6 @@ public class ProductosActivity extends AppCompatActivity {
             return null;
         }
     }
-
     public class actualizarProductosTask extends AsyncTask<ArrayList<Producto>, Void, ArrayList<Producto>> {
 
         Socket cliente = null;
@@ -348,6 +314,62 @@ public class ProductosActivity extends AppCompatActivity {
                 ex.printStackTrace();
             }
 
+            return null;
+        }
+    }
+
+    public class actualizarSalarioTask extends AsyncTask<String, Void, Void> {
+
+        Socket cliente = null;
+        ObjectOutputStream salida = null;
+        ObjectInputStream entrada = null;
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            try {
+                cliente = new Socket(settings.obtenerSettings().get(0).getAddress(), settings.obtenerSettings().get(0).getPort());
+                salida = new ObjectOutputStream(cliente.getOutputStream());
+                entrada = new ObjectInputStream(cliente.getInputStream());
+
+                peticion.setConsulta(21);
+                salida.writeObject(peticion);
+                salida.flush();
+                salida.writeObject(usuarios);
+                salida.flush();
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
+            return null;
+        }
+    }
+
+    public class obtenerInformacionPerfil extends AsyncTask<String, Void, Void> {
+
+        Socket cliente = null;
+        ObjectOutputStream salida = null;
+        ObjectInputStream entrada = null;
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            try {
+
+                cliente = new Socket(settings.obtenerSettings().get(0).getAddress(), settings.obtenerSettings().get(0).getPort());
+                salida = new ObjectOutputStream(cliente.getOutputStream());
+                entrada = new ObjectInputStream(cliente.getInputStream());
+
+                peticion.setConsulta(22);
+                salida.writeObject(peticion);
+
+                salida.writeObject(usuarios);
+                usuarios = (Usuarios) entrada.readObject();
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
             return null;
         }
     }
