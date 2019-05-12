@@ -213,7 +213,6 @@ public class fragmentPerfil extends Fragment{
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
 
-            System.out.println("HOLAAA");
             perfil_balance.setText(usuarios.getSalario()+"€");
             perfil_nombre.setText(usuarios.getNombre());
             perfil_usuario.setText(usuarios.getUsuario());

@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#5f7ae2"
+    android:background="#6793db"
     android:padding="5dp"
     android:layout_gravity="center"
     tools:context=".Activities.ModificarPerfilActivity">
@@ -64,17 +64,20 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginBottom="8dp">
-        <EditText
-            android:id="@+id/modificar_perfil_nombre"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nombre"
-            android:textStyle="bold"
-            android:textColor="@color/colorSelected"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:textSize="24sp"/>
+            android:textColorHint="@color/black">
+
+            <EditText android:id="@+id/modificar_perfil_nombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:hint="Nombre"
+                android:textColorHint="@color/black"/>
+        </android.support.design.widget.TextInputLayout>
 
     </LinearLayout>
     <LinearLayout
@@ -82,17 +85,20 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginBottom="8dp">
-        <EditText
-            android:id="@+id/modificar_perfil_usuario"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Usuario"
-            android:textStyle="bold"
-            android:textColor="@color/colorSelected"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:textSize="24sp"/>
+            android:textColorHint="@color/black">
+
+            <EditText android:id="@+id/modificar_perfil_usuario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:hint="Usuario"
+                android:textColorHint="@color/black"/>
+        </android.support.design.widget.TextInputLayout>
 
     </LinearLayout>
     <LinearLayout
@@ -101,26 +107,46 @@
         android:layout_height="wrap_content">
 
 
-        <EditText
-            android:id="@+id/modificar_perfil_salario"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Salario"
-            android:textStyle="bold"
-            android:textColor="@color/colorSelected"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:textSize="24sp"/>
+            android:textColorHint="@color/black">
+
+            <EditText android:id="@+id/modificar_perfil_salario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:hint="Salario"
+                android:textColorHint="@color/black"/>
+        </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/insertar_aceptar_producto"
-        android:layout_width="150dp"
+    <LinearLayout
+
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="24dp">
+    <ImageView
+        android:id="@+id/modificar_perfil_aceptar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:layout_gravity="center"
         android:src="@mipmap/checked"/>
+        <ImageView
+            android:id="@+id/modificar_perfil_cancelar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_gravity="center"
+            android:src="@mipmap/cross"/>
+    </LinearLayout>
 
 </LinearLayout>
