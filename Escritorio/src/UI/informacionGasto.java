@@ -12,11 +12,18 @@ import Compartir.Subtareas;
 import Compartir.Tareas;
 import Compartir.Usuarios;
 import Conexion.Conexion;
+import java.awt.Image;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Base64;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import vo.Producto;
@@ -43,14 +50,18 @@ public class informacionGasto extends javax.swing.JDialog {
     Productos productos = new Productos();
     boolean edicion = false;
     int id = 0;
+    int sumaProductos = 0;
+    int cant_productos = 0;
 
-    public informacionGasto(java.awt.Frame parent, boolean modal, int id) {
+    public informacionGasto(java.awt.Frame parent, boolean modal, int id, Usuarios usuarios) {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(null);
         obtenerProductos(id);
         this.id = id;
-
+        this.usuarios = usuarios;
+        usuario_balance.setText(usuarios.getSalario()+"");
+        obtenerImagenPerfil(usuarios);
     }
 
     /**
@@ -69,6 +80,11 @@ public class informacionGasto extends javax.swing.JDialog {
         añadir_producto = new javax.swing.JButton();
         eliminar_producto = new javax.swing.JButton();
         eliminar_Gastobtn = new javax.swing.JButton();
+        cantidad_productos = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        usuario_balance = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        perfil_imagen = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -84,7 +100,7 @@ public class informacionGasto extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(273, 273, 273))
+                .addGap(259, 259, 259))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -155,37 +171,93 @@ public class informacionGasto extends javax.swing.JDialog {
             }
         });
 
+        cantidad_productos.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
+        cantidad_productos.setForeground(new java.awt.Color(51, 51, 51));
+        cantidad_productos.setText("X");
+
+        jLabel4.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel4.setText("PRODUCTOS");
+
+        usuario_balance.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
+        usuario_balance.setForeground(new java.awt.Color(51, 51, 51));
+        usuario_balance.setText("XXX€");
+
+        jLabel5.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel5.setText("BALANCE");
+
+        perfil_imagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/user.png"))); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 671, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(eliminar_Gastobtn, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(34, 34, 34)
+                                .addComponent(jLabel4))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(93, 93, 93)
+                                .addComponent(cantidad_productos)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(perfil_imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(95, 95, 95)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(usuario_balance, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(24, 24, 24))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addGap(37, 37, 37)))))
+                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(añadir_producto, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(eliminar_producto, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(eliminar_Gastobtn, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 671, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(14, 14, 14))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(perfil_imagen, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(cantidad_productos)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel4))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(usuario_balance)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel5)))
+                        .addGap(31, 31, 31)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(eliminar_producto, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(añadir_producto, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(eliminar_Gastobtn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 127, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(añadir_producto)
-                    .addComponent(eliminar_producto))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         pack();
@@ -205,7 +277,6 @@ public class informacionGasto extends javax.swing.JDialog {
                 int id = tabla_productos.getSelectedRow();
                 productos.setID(gastos.getProductos().get(id).getId());
                 peticion.setConsulta(20);
-                System.out.println("Envio peticion de eliminar productos");
                 salida.writeObject(peticion);
                 salida.flush();
                 salida.writeObject(productos);
@@ -226,7 +297,6 @@ public class informacionGasto extends javax.swing.JDialog {
                 salida = new ObjectOutputStream(cliente.getOutputStream());
                 entrada = new ObjectInputStream(cliente.getInputStream());
 
-                System.out.println("Envio la peticion");
                 peticion.setConsulta(17);
                 salida.writeObject(peticion);
                 salida.flush();
@@ -261,10 +331,8 @@ public class informacionGasto extends javax.swing.JDialog {
 
             gastos.setId(id);
             peticion.setConsulta(16);
-            System.out.println("Envio peticion de eliminar gastos");
             salida.writeObject(peticion);
             salida.flush();
-            System.out.println("Envio objeto gastos para eliminar");
             salida.writeObject(gastos);
             salida.flush();
         } catch (IOException ex) {
@@ -286,6 +354,7 @@ public class informacionGasto extends javax.swing.JDialog {
         insertarProducto inProducto = new insertarProducto(this, true, gastos);
         inProducto.setVisible(true);
         insercion = inProducto.cerrarDialog();
+        // En cuanto se realiza la inserción se realiza una espera de 100ms
         try {
             Thread.sleep(100);
         } catch (InterruptedException ex) {
@@ -293,31 +362,66 @@ public class informacionGasto extends javax.swing.JDialog {
         }
         if (insercion) {
             m.setRowCount(0);
-
+            // Configuración de parámetros y envió de solicitud para obtener productos actualizados
             try {
                 cliente = new Socket(server, puerto);
                 salida = new ObjectOutputStream(cliente.getOutputStream());
                 entrada = new ObjectInputStream(cliente.getInputStream());
 
-                System.out.println("Envio la peticion de obtener productos");
                 peticion.setConsulta(17);
                 salida.writeObject(peticion);
-                //salida.flush();
                 gastos.setId(id);
                 salida.writeObject(gastos);
-                //salida.flush();
                 gastos = (Gastos) entrada.readObject();
             } catch (IOException ex) {
                 ex.printStackTrace();
             } catch (ClassNotFoundException ex) {
                 ex.printStackTrace();
+            } finally {
+                try {
+                    cliente.close();
+                    salida.close();
+                    entrada.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             }
             ArrayList<Producto> listado_productos = gastos.getProductos();
             for (int i = 0; i < listado_productos.size(); i++) {
                 Producto producto = listado_productos.get(i);
                 Object[] array = {producto.getNombre_producto(), producto.getPrecio_producto() + " €"};
+                cant_productos++;
                 m.addRow(array);
 
+            }
+            
+            // Configuro salario actualizado (tras la inserción de un producto)
+            int salario_actual = usuarios.getSalario();
+            usuarios.setSalario(salario_actual - listado_productos.get(listado_productos.size()-1).getPrecio_producto());
+            
+            cantidad_productos.setText(cant_productos+"");
+            usuario_balance.setText(usuarios.getSalario()+"");
+            // Configuración de parámetros para la actualización del salario al usuario '?'
+            try {
+                cliente = new Socket(server, puerto);
+                salida = new ObjectOutputStream(cliente.getOutputStream());
+                entrada = new ObjectInputStream(cliente.getInputStream());
+
+                peticion.setConsulta(21);
+                salida.writeObject(peticion);
+                salida.flush();
+                salida.writeObject(usuarios);
+                salida.flush();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    cliente.close();
+                    salida.close();
+                    entrada.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             }
 
         }
@@ -329,6 +433,7 @@ public class informacionGasto extends javax.swing.JDialog {
     }
     DefaultTableModel m;
 
+    // Método para obtener al iniciar el modal todos los productos
     public void obtenerProductos(int id) {
         m = (DefaultTableModel) tabla_productos.getModel();
         m.setRowCount(0);
@@ -351,9 +456,12 @@ public class informacionGasto extends javax.swing.JDialog {
             for (int i = 0; i < listado_productos.size(); i++) {
                 Producto producto = listado_productos.get(i);
                 Object[] array = {producto.getNombre_producto(), producto.getPrecio_producto() + " €"};
+                cant_productos++;
                 m.addRow(array);
 
             }
+            cantidad_productos.setText(cant_productos+"");
+            cant_productos = 0;
         } catch (IOException ex) {
             ex.printStackTrace();
         } catch (ClassNotFoundException ex) {
@@ -367,6 +475,25 @@ public class informacionGasto extends javax.swing.JDialog {
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
+        }
+    }
+
+    // Método para obtener la información del usuario y configuración de la imágen de perfil
+    public void obtenerImagenPerfil(Usuarios usuarios) {
+        try {
+            if (usuarios.getImagen().equals("null") || usuarios.getImagen().length() == 0) {
+                ImageIcon image_perfil = new ImageIcon("src/imagenes/user.png");
+                perfil_imagen.setIcon(image_perfil);
+            } else {
+                byte[] imageByte = Base64.getDecoder().decode(usuarios.getImagen());
+                ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
+                Image imagen = ImageIO.read(bis);
+                ImageIcon image_perfil = new ImageIcon(imagen);
+                perfil_imagen.setIcon(image_perfil);
+            }
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -408,7 +535,7 @@ public class informacionGasto extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                informacionGasto dialog = new informacionGasto(new javax.swing.JFrame(), true, 0);
+                informacionGasto dialog = new informacionGasto(new javax.swing.JFrame(), true, 0, new Usuarios());
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -422,11 +549,16 @@ public class informacionGasto extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton añadir_producto;
+    private javax.swing.JLabel cantidad_productos;
     private javax.swing.JButton eliminar_Gastobtn;
     private javax.swing.JButton eliminar_producto;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel perfil_imagen;
     private javax.swing.JTable tabla_productos;
+    private javax.swing.JLabel usuario_balance;
     // End of variables declaration//GEN-END:variables
 }

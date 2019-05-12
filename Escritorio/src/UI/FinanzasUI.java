@@ -2,7 +2,6 @@ package UI;
 
 import Compartir.Gastos;
 import Compartir.Peticion;
-import Compartir.Tareas;
 import Compartir.Usuarios;
 import Conexion.Conexion;
 import java.awt.Color;
@@ -16,12 +15,10 @@ import java.util.ArrayList;
 import java.util.Base64;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import vo.Gasto;
-import vo.Tarea;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -729,12 +726,11 @@ public class FinanzasUI extends javax.swing.JFrame {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
-                    //int idTareaSeleccionada = tareas.getResultados_tareas().get(tabla_tareas.getSelectedRow()).getId();
                     if (tabla_gastos.getSelectedRow() == -1) {
                         return;
                     } else {
 
-                        informacionGasto informacionGasto = new informacionGasto(FinanzasUI.this, true, gastos.getResultados_gastos().get(tabla_gastos.getSelectedRow()).getId());
+                        informacionGasto informacionGasto = new informacionGasto(FinanzasUI.this, true, gastos.getResultados_gastos().get(tabla_gastos.getSelectedRow()).getId(), usuarios);
                         tabla_gastos.getSelectionModel().setSelectionInterval(-1, -1);
                         informacionGasto.setVisible(true);
                         //tabla_tareas.clearSelection();
@@ -786,7 +782,6 @@ public class FinanzasUI extends javax.swing.JFrame {
 
         public void obtenerImagenPerfil(Usuarios usuarios) {
         try {
-            System.out.println(usuarios.getImagen().length());
             if (usuarios.getImagen().equals("null") || usuarios.getImagen().length() == 0) {
                 ImageIcon image_perfil = new ImageIcon("src/imagenes/user.png");
                 perfil_imagen.setIcon(image_perfil);

@@ -6,18 +6,13 @@ import Compartir.Usuarios;
 import Conexion.Conexion;
 import java.awt.Color;
 import java.awt.Image;
-import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Base64;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 /*
@@ -644,7 +639,6 @@ public class PerfilUI extends javax.swing.JFrame {
 
     public void obtenerImagenPerfil(Usuarios usuarios) {
         try {
-            System.out.println(usuarios.getImagen().length());
             if (usuarios.getImagen().equals("null") || usuarios.getImagen().length() == 0) {
                 ImageIcon image_perfil = new ImageIcon("src/imagenes/user.png");
                 perfil_imagen.setIcon(image_perfil);

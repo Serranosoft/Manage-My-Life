@@ -18,7 +18,6 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import vo.Subtarea;
-import vo.Tarea;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

@@ -71,7 +71,7 @@ public class insertarProducto extends javax.swing.JDialog {
         jPanel2.setBackground(new java.awt.Color(0, 102, 153));
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel1.setText("INSERTAR SUBTAREA");
+        jLabel1.setText("INSERTAR PRODUCTO");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);

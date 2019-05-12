@@ -17,13 +17,8 @@ import java.net.Socket;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.YearMonth;
-import java.util.ArrayList;
-import java.util.Calendar;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
-import vo.Tarea;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
