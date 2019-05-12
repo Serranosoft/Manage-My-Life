@@ -4,6 +4,8 @@ package com.example.manue.managemylife.Fragments;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -13,6 +15,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +37,7 @@ import com.example.manue.managemylife.R;
 import com.example.manue.managemylife.Util.SwipeableRecyclerViewTouchListener;
 import com.example.manue.managemylife.vo.SettingsClass;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -47,6 +51,7 @@ import Compartir.Gastos;
 import Compartir.Peticion;
 import Compartir.Tareas;
 import Compartir.Usuarios;
+import de.hdodenhof.circleimageview.CircleImageView;
 import vo.Gasto;
 import vo.Tarea;
 
@@ -70,6 +75,7 @@ public class fragmentFinanzas extends Fragment {
 
     TextView finanzas_gastos = null;
     TextView finanzas_balance = null;
+    CircleImageView imagen_perfil = null;
     public fragmentFinanzas() {
         // Required empty public constructor
     }
@@ -89,6 +95,7 @@ public class fragmentFinanzas extends Fragment {
 
         finanzas_gastos = view.findViewById(R.id.finanzas_gastos);
         finanzas_balance = view.findViewById(R.id.finanzas_balance);
+        imagen_perfil = view.findViewById(R.id.imagenPerfil);
         finanzas_balance.setText(usuarios.getSalario()+"€");
 
         rList = view.findViewById(R.id.listaGastos);
@@ -96,6 +103,7 @@ public class fragmentFinanzas extends Fragment {
         rList.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
 
         executeFinanzasTask();
+        obtenerImagenPerfil(usuarios);
         FloatingActionButton fab_gasto = view.findViewById(R.id.gastos_add);
         fab_gasto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -311,6 +319,21 @@ public class fragmentFinanzas extends Fragment {
             }
 
             return null;
+        }
+    }
+    public void obtenerImagenPerfil(Usuarios usuarios) {
+        try {
+            if (usuarios.getImagen().equals("null") || usuarios.getImagen().length() == 0) {
+                imagen_perfil.setImageResource(R.mipmap.user);
+            } else {
+                byte[] imageByte = Base64.decode(usuarios.getImagen(), Base64.NO_WRAP);
+                ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
+                Bitmap photo = BitmapFactory.decodeStream(bis);
+                imagen_perfil.setImageBitmap(photo);
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 

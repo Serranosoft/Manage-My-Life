@@ -2,10 +2,13 @@ package com.example.manue.managemylife.Fragments;
 
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +24,7 @@ import com.example.manue.managemylife.Activities.ProductosActivity;
 import com.example.manue.managemylife.R;
 import com.example.manue.managemylife.vo.SettingsClass;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -29,6 +33,7 @@ import java.net.Socket;
 import Compartir.Peticion;
 import Compartir.Tareas;
 import Compartir.Usuarios;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -47,6 +52,7 @@ public class fragmentPerfil extends Fragment{
     TextView perfil_nombre = null;
     TextView perfil_usuario = null;
     Button modificar_perfil = null;
+    CircleImageView imagen_perfil = null;
 
     SettingsClass settings = null;
 
@@ -65,17 +71,21 @@ public class fragmentPerfil extends Fragment{
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Perfil");
         modificar_perfil = view.findViewById(R.id.modificar_perfil);
 
-        modificar_perfil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ModificarPerfilActivity.class);
-                startActivity(intent);
-            }
-        });
+
         settings = new SettingsClass(getActivity().getApplicationContext());
         MainActivity mainActivity = (MainActivity) getActivity();
 
         usuarios = mainActivity.informacionUsuario();
+
+        modificar_perfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ModificarPerfilActivity.class);
+                intent.putExtra("usuarios_perfil", usuarios);
+                startActivity(intent);
+            }
+        });
+
         Button cerrar_sesion = (Button) view.findViewById(R.id.cerrar_sesion);
         cerrar_sesion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,9 +124,11 @@ public class fragmentPerfil extends Fragment{
         perfil_balance = (TextView) view.findViewById(R.id.perfil_balance);
         perfil_nombre = (TextView) view.findViewById(R.id.perfil_nombre);
         perfil_usuario = (TextView) view.findViewById(R.id.perfil_usuario);
+        imagen_perfil = (CircleImageView) view.findViewById(R.id.imagenPerfil);
 
         executeTareasTask();
         executeObtenerInfo();
+        obtenerImagenPerfil(usuarios);
         return view;
 
     }
@@ -175,9 +187,6 @@ public class fragmentPerfil extends Fragment{
             super.onPostExecute(tareas);
             perfil_tareas_pendientes.setText(tareas_pendientes+"");
             perfil_tareas_terminadas.setText(tareas_terminadas+"");
-            /*perfil_balance.setText(usuarios.getSalario()+"");
-            perfil_nombre.setText(usuarios.getNombre());
-            perfil_usuario.setText(usuarios.getUsuario());*/
         }
     }
 
@@ -228,6 +237,21 @@ public class fragmentPerfil extends Fragment{
         return instance;
     }
 
+    public void obtenerImagenPerfil(Usuarios usuarios) {
+        try {
+            if (usuarios.getImagen().equals("null") || usuarios.getImagen().length() == 0) {
+                imagen_perfil.setImageResource(R.mipmap.user);
+            } else {
+                byte[] imageByte = Base64.decode(usuarios.getImagen(), Base64.NO_WRAP);
+                ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
+                Bitmap photo = BitmapFactory.decodeStream(bis);
+                imagen_perfil.setImageBitmap(photo);
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 
 
 }

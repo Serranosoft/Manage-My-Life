@@ -25,7 +25,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp">
+        android:layout_marginBottom="16dp">
 
         <LinearLayout
             android:id="@+id/modificar_imagen_galeria"
@@ -68,7 +68,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
             android:textColorHint="@color/black">
 
             <EditText android:id="@+id/modificar_perfil_nombre"
@@ -89,7 +88,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
             android:textColorHint="@color/black">
 
             <EditText android:id="@+id/modificar_perfil_usuario"
@@ -111,7 +109,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
             android:textColorHint="@color/black">
 
             <EditText android:id="@+id/modificar_perfil_salario"

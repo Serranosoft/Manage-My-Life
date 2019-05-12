@@ -3,6 +3,7 @@ package com.example.manue.managemylife.Activities;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -11,6 +12,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -23,8 +25,12 @@ import android.widget.Toast;
 
 import com.example.manue.managemylife.R;
 import com.example.manue.managemylife.vo.SettingsClass;
+import com.tapadoo.alerter.Alerter;
+import com.tapadoo.alerter.OnHideAlertListener;
+import com.tapadoo.alerter.OnShowAlertListener;
 
 import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,6 +40,7 @@ import java.net.Socket;
 
 import Compartir.Peticion;
 import Compartir.Productos;
+import Compartir.Tareas;
 import Compartir.Usuarios;
 
 public class ModificarPerfilActivity extends AppCompatActivity {
@@ -43,7 +50,7 @@ public class ModificarPerfilActivity extends AppCompatActivity {
     Peticion peticion = new Peticion();
 
     private static final int CAMERA_REQUEST = 1888;
-    private ImageView imageView;
+    private ImageView imagen_perfil;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
 
     public static final int GALLERY = 200;
@@ -67,6 +74,12 @@ public class ModificarPerfilActivity extends AppCompatActivity {
         modificar_usuario = this.findViewById(R.id.modificar_perfil_usuario);
         modificar_salario = this.findViewById(R.id.modificar_perfil_salario);
 
+        usuarios = (Usuarios) getIntent().getSerializableExtra("usuarios_perfil");
+
+        modificar_nombre.setText(usuarios.getNombre());
+        modificar_usuario.setText(usuarios.getUsuario());
+        modificar_salario.setText(usuarios.getSalario()+"");
+
         modificar_perfil_cancelar = this.findViewById(R.id.modificar_perfil_cancelar);
         modificar_perfil_cancelar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,10 +97,44 @@ public class ModificarPerfilActivity extends AppCompatActivity {
                 usuarios.setSalario(Integer.valueOf(modificar_salario.getText().toString()));
 
                 executeUpdateUsuario();
+
+                Alerter.create(ModificarPerfilActivity.this)
+                        .setTitle("Aplicando cambios...")
+                        .setText("Inicia sesión de nuevo para aplicar los cambios!")
+                        .setIcon(R.drawable.alerter_ic_face)
+                        .setBackgroundColorRes(R.color.alerter_login)
+                        .setDuration(1550)
+                        .enableSwipeToDismiss() //seems to not work well with OnClickListener
+                        .enableProgress(true)
+                        .setProgressColorRes(R.color.black)
+                        .setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                //do something when Alerter message was clicked
+
+                            }
+                        })
+                        .setOnShowListener(new OnShowAlertListener() {
+                            @Override
+                            public void onShow() {
+                                //do something when Alerter message shows
+                            }
+                        })
+                        .setOnHideListener(new OnHideAlertListener() {
+                            @Override
+                            public void onHide() {
+                                Intent intent = new Intent(ModificarPerfilActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                            }
+                        })
+                        .show();
+
+
+
             }
         });
 
-        this.imageView = (ImageView)this.findViewById(R.id.imageView1);
+        imagen_perfil = (ImageView)this.findViewById(R.id.imageView1);
         LinearLayout capturar_imagen = (LinearLayout) this.findViewById(R.id.modificar_imagen_camara);
         LinearLayout galeria = (LinearLayout) this.findViewById(R.id.modificar_imagen_galeria);
         capturar_imagen.setOnClickListener(new View.OnClickListener() {
@@ -115,6 +162,8 @@ public class ModificarPerfilActivity extends AppCompatActivity {
 
             }
         });
+
+        obtenerImagenPerfil(usuarios);
     }
 
     public void executeUpdateUsuario() {
@@ -176,7 +225,7 @@ public class ModificarPerfilActivity extends AppCompatActivity {
             if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
                 Bitmap ScaledBmp = Bitmap.createScaledBitmap(photo, 400,450, true);
-                imageView.setImageBitmap(ScaledBmp);
+                imagen_perfil.setImageBitmap(ScaledBmp);
 
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 photo.compress(Bitmap.CompressFormat.JPEG, 100, stream);
@@ -194,7 +243,7 @@ public class ModificarPerfilActivity extends AppCompatActivity {
                 Bitmap bmp = BitmapFactory.decodeStream(bufferedInputStream);
 
                 Bitmap ScaledBmp = Bitmap.createScaledBitmap(bmp, 400,450, true);
-                imageView.setImageBitmap(ScaledBmp);
+                imagen_perfil.setImageBitmap(ScaledBmp);
 
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 ScaledBmp.compress(Bitmap.CompressFormat.JPEG, 100, stream);
@@ -206,6 +255,22 @@ public class ModificarPerfilActivity extends AppCompatActivity {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public void obtenerImagenPerfil(Usuarios usuarios) {
+        try {
+            if (usuarios.getImagen().equals("null") || usuarios.getImagen().length() == 0) {
+                imagen_perfil.setImageResource(R.mipmap.user);
+            } else {
+                byte[] imageByte = Base64.decode(usuarios.getImagen(), Base64.NO_WRAP);
+                ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
+                Bitmap photo = BitmapFactory.decodeStream(bis);
+                imagen_perfil.setImageBitmap(photo);
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 }

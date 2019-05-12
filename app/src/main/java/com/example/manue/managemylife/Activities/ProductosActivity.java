@@ -1,6 +1,8 @@
 package com.example.manue.managemylife.Activities;
 
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -8,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +25,7 @@ import com.example.manue.managemylife.R;
 import com.example.manue.managemylife.Util.SwipeableRecyclerViewTouchListener;
 import com.example.manue.managemylife.vo.SettingsClass;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -32,6 +36,7 @@ import Compartir.Gastos;
 import Compartir.Peticion;
 import Compartir.Productos;
 import Compartir.Usuarios;
+import de.hdodenhof.circleimageview.CircleImageView;
 import vo.Producto;
 import vo.Subtarea;
 
@@ -53,6 +58,7 @@ public class ProductosActivity extends AppCompatActivity {
 
     TextView productos_cantidad = null;
     TextView productos_balance = null;
+    CircleImageView imagen_perfil = null;
     int balance = 0;
 
     @Override
@@ -64,6 +70,7 @@ public class ProductosActivity extends AppCompatActivity {
 
         productos_cantidad = (TextView) findViewById(R.id.productos_cantidad);
         productos_balance = (TextView) findViewById(R.id.productos_balance);
+        imagen_perfil = (CircleImageView) findViewById(R.id.imagenPerfil);
         productos_balance.setText(balance+"");
 
         gastos = (Gastos) getIntent().getSerializableExtra("gastos_productos");
@@ -77,6 +84,7 @@ public class ProductosActivity extends AppCompatActivity {
         rList.setHasFixedSize(true);
         rList.setLayoutManager(new LinearLayoutManager(this));
 
+        obtenerImagenPerfil(usuarios);
         executeActualizarProductos();
         //executeMostrarProductos();
         fab = findViewById(R.id.productos_add);
@@ -371,6 +379,22 @@ public class ProductosActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             return null;
+        }
+    }
+
+    public void obtenerImagenPerfil(Usuarios usuarios) {
+        try {
+            if (usuarios.getImagen().equals("null") || usuarios.getImagen().length() == 0) {
+                imagen_perfil.setImageResource(R.mipmap.user);
+            } else {
+                byte[] imageByte = Base64.decode(usuarios.getImagen(), Base64.NO_WRAP);
+                ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
+                Bitmap photo = BitmapFactory.decodeStream(bis);
+                imagen_perfil.setImageBitmap(photo);
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 }
