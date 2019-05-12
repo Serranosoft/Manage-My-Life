@@ -80,8 +80,11 @@
               <Component id="jScrollPane1" min="-2" pref="410" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="eliminar_subtarea" alignment="1" min="-2" pref="42" max="-2" attributes="0"/>
-                  <Component id="añadir_subtarea" alignment="1" min="-2" pref="42" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="eliminar_subtarea" alignment="1" min="-2" pref="42" max="-2" attributes="0"/>
+                      <Component id="añadir_subtarea" alignment="1" min="-2" pref="42" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="actualizar_estado_subtarea" alignment="1" min="-2" pref="42" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -97,6 +100,8 @@
                       <Component id="añadir_subtarea" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="eliminar_subtarea" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="actualizar_estado_subtarea" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -449,6 +454,16 @@
       </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="eliminar_subtareaMouseClicked"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="actualizar_estado_subtarea">
+      <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/imagenes/exchange-arrows.png"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="actualizar_estado_subtareaMouseClicked"/>
       </Events>
     </Component>
   </SubComponents>

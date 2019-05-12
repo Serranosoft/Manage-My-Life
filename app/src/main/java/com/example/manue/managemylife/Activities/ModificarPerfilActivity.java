@@ -39,8 +39,6 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import Compartir.Peticion;
-import Compartir.Productos;
-import Compartir.Tareas;
 import Compartir.Usuarios;
 
 public class ModificarPerfilActivity extends AppCompatActivity {

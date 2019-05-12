@@ -93,6 +93,7 @@ public class informacionTarea extends javax.swing.JDialog {
         fecha_realizar_tarea = new com.github.lgooddatepicker.components.DatePicker();
         eliminar_tarea = new javax.swing.JLabel();
         eliminar_subtarea = new javax.swing.JButton();
+        actualizar_estado_subtarea = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -276,6 +277,13 @@ public class informacionTarea extends javax.swing.JDialog {
             }
         });
 
+        actualizar_estado_subtarea.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/exchange-arrows.png"))); // NOI18N
+        actualizar_estado_subtarea.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                actualizar_estado_subtareaMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -323,8 +331,10 @@ public class informacionTarea extends javax.swing.JDialog {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(eliminar_subtarea, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(añadir_subtarea, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(eliminar_subtarea, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(añadir_subtarea, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(actualizar_estado_subtarea, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -336,7 +346,9 @@ public class informacionTarea extends javax.swing.JDialog {
                         .addGap(37, 37, 37)
                         .addComponent(añadir_subtarea)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(eliminar_subtarea))
+                        .addComponent(eliminar_subtarea)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(actualizar_estado_subtarea))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -402,7 +414,6 @@ public class informacionTarea extends javax.swing.JDialog {
             fecha_realizar_tarea.setEnabled(true);
             fecha_realizar_tarea.setDateToToday();
 
-            System.out.println("Edicion activada");
         } else {
             edicion = false;
             modificar_informacion_tarea.setBackground(new Color(94, 104, 109));
@@ -413,7 +424,6 @@ public class informacionTarea extends javax.swing.JDialog {
             estado_tarea.setEnabled(false);
             prioritaria_tarea.setEnabled(false);
             fecha_realizar_tarea.setEnabled(false);
-            System.out.println("Edicion desactivada");
         }
 
     }//GEN-LAST:event_activar_edicionMouseClicked
@@ -445,9 +455,7 @@ public class informacionTarea extends javax.swing.JDialog {
                 tareas.setFecha_realizar(terminar);
 
                 peticion.setConsulta(7);
-                System.out.println("Envio peticion");
                 salida.writeObject(peticion);
-                System.out.println("Envio tareas");
                 salida.writeObject(tareas);
                 this.setVisible(false);
             } catch (IOException ex) {
@@ -472,10 +480,9 @@ public class informacionTarea extends javax.swing.JDialog {
             entrada = new ObjectInputStream(cliente.getInputStream());
 
             peticion.setConsulta(6);
-            System.out.println("Envio peticion de eliminar tareas");
             salida.writeObject(peticion);
             salida.flush();
-            System.out.println("Envio objeto tareas para eliminar");
+
             salida.writeObject(tareas);
             salida.flush();
             this.setVisible(false);
@@ -511,7 +518,6 @@ public class informacionTarea extends javax.swing.JDialog {
                 salida = new ObjectOutputStream(cliente.getOutputStream());
                 entrada = new ObjectInputStream(cliente.getInputStream());
 
-                System.out.println("Envio la peticion de obtener subtareas");
                 peticion.setConsulta(8);
                 salida.writeObject(peticion);
                 //salida.flush();
@@ -530,6 +536,8 @@ public class informacionTarea extends javax.swing.JDialog {
                 Subtarea subtarea = listado_subtareas.get(i);
                 if (subtarea.getEstado() == 1) {
                     estado = "Terminado";
+                } else if (subtarea.getEstado() == 0) {
+                    estado = "Pendiente";
                 }
                 Object[] array = {subtarea.getNombre(), estado};
                 m.addRow(array);
@@ -556,7 +564,6 @@ public class informacionTarea extends javax.swing.JDialog {
                 int id = tabla_subtareas.getSelectedRow();
                 subtareas.setId(tareas.getSubtareas().get(id).getId());
                 peticion.setConsulta(10);
-                System.out.println("Envio peticion de eliminar subtareas");
                 salida.writeObject(peticion);
                 salida.flush();
                 salida.writeObject(subtareas);
@@ -566,6 +573,81 @@ public class informacionTarea extends javax.swing.JDialog {
             }
             try {
                 Thread.sleep(100);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+            m = (DefaultTableModel) tabla_subtareas.getModel();
+            m.setRowCount(0);
+
+            try {
+                cliente = new Socket(server, puerto);
+                salida = new ObjectOutputStream(cliente.getOutputStream());
+                entrada = new ObjectInputStream(cliente.getInputStream());
+
+                peticion.setConsulta(8);
+                salida.writeObject(peticion);
+                salida.flush();
+                tareas.setId(id);
+                salida.writeObject(tareas);
+                salida.flush();
+                tareas = (Tareas) entrada.readObject();
+
+                String estado = "Pendiente";
+                ArrayList<Subtarea> listado_subtareas = tareas.getSubtareas();
+                for (int i = 0; i < listado_subtareas.size(); i++) {
+                    Subtarea subtarea = listado_subtareas.get(i);
+                    if (subtarea.getEstado() == 1) {
+                        estado = "Terminado";
+                    } else if (subtarea.getEstado() == 0) {
+                        estado = "Pendiente";
+                    }
+
+                    Object[] array = {subtarea.getNombre(), estado};
+                    m.addRow(array);
+
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+
+    }//GEN-LAST:event_eliminar_subtareaMouseClicked
+
+    private void salirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salirMouseClicked
+        this.setVisible(false);
+    }//GEN-LAST:event_salirMouseClicked
+
+    private void actualizar_estado_subtareaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_actualizar_estado_subtareaMouseClicked
+        if (tabla_subtareas.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(null, "Selecciona alguna subtarea!");
+        } else if (tabla_subtareas.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(null, "No hay subtareas!!");
+        } else {
+            try {
+                cliente = new Socket(server, puerto);
+                salida = new ObjectOutputStream(cliente.getOutputStream());
+                entrada = new ObjectInputStream(cliente.getInputStream());
+
+                int id = tabla_subtareas.getSelectedRow();
+                if (tareas.getSubtareas().get(id).getEstado() == 0) {
+                    subtareas.setId(tareas.getSubtareas().get(id).getId());
+                    subtareas.setEstado(1);
+                } else if (tareas.getSubtareas().get(id).getEstado() == 1) {
+                    subtareas.setId(tareas.getSubtareas().get(id).getId());
+                    subtareas.setEstado(0);
+                }
+                peticion.setConsulta(13);
+                salida.writeObject(peticion);
+                salida.writeObject(subtareas);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
+            try {
+                Thread.sleep(220);
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
             }
@@ -592,6 +674,8 @@ public class informacionTarea extends javax.swing.JDialog {
                     Subtarea subtarea = listado_subtareas.get(i);
                     if (subtarea.getEstado() == 1) {
                         estado = "Terminado";
+                    } else if (subtarea.getEstado() == 0) {
+                        estado = "Pendiente";
                     }
 
                     Object[] array = {subtarea.getNombre(), estado};
@@ -602,15 +686,18 @@ public class informacionTarea extends javax.swing.JDialog {
                 ex.printStackTrace();
             } catch (ClassNotFoundException ex) {
                 ex.printStackTrace();
+            } finally {
+                try {
+                    cliente.close();
+                    salida.close();
+                    entrada.close();
+
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             }
         }
-
-
-    }//GEN-LAST:event_eliminar_subtareaMouseClicked
-
-    private void salirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salirMouseClicked
-        this.setVisible(false);
-    }//GEN-LAST:event_salirMouseClicked
+    }//GEN-LAST:event_actualizar_estado_subtareaMouseClicked
 
     private void obtenerInfoTarea(int id) {
 
@@ -674,6 +761,8 @@ public class informacionTarea extends javax.swing.JDialog {
                 Subtarea subtarea = listado_subtareas.get(i);
                 if (subtarea.getEstado() == 1) {
                     estado = "Terminado";
+                } else if (subtarea.getEstado() == 0) {
+                    estado = "Pendiente";
                 }
 
                 Object[] array = {subtarea.getNombre(), estado};
@@ -747,6 +836,7 @@ public class informacionTarea extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel activar_edicion;
+    private javax.swing.JButton actualizar_estado_subtarea;
     private javax.swing.JButton añadir_subtarea;
     private javax.swing.JComboBox<String> categoria_tarea;
     private javax.swing.JTextField descripcion_tarea;

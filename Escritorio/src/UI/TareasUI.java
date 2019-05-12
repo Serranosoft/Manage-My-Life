@@ -703,7 +703,6 @@ public class TareasUI extends javax.swing.JFrame {
                                 }
                                 Object[] array = {tarea.getNombre(), estado};
                                 m.addRow(array);
-                                System.out.println("Actualiza tabla");
                             }
                         }
                     }

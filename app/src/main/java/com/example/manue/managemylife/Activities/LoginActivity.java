@@ -21,7 +21,6 @@ import android.widget.TextView;
 
 import com.example.manue.managemylife.DB.DataBaseRoom;
 import com.example.manue.managemylife.Entity.Settings;
-import com.example.manue.managemylife.Fragments.fragmentTareas;
 import com.example.manue.managemylife.R;
 import com.example.manue.managemylife.vo.SettingsClass;
 import com.tapadoo.alerter.Alerter;

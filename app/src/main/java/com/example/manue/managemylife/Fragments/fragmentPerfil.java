@@ -13,14 +13,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.manue.managemylife.Activities.LoginActivity;
 import com.example.manue.managemylife.Activities.MainActivity;
 import com.example.manue.managemylife.Activities.ModificarPerfilActivity;
-import com.example.manue.managemylife.Activities.ProductosActivity;
 import com.example.manue.managemylife.R;
 import com.example.manue.managemylife.vo.SettingsClass;
 
