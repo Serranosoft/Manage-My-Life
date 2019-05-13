@@ -52,6 +52,8 @@ public class informacionGasto extends javax.swing.JDialog {
     int id = 0;
     int sumaProductos = 0;
     int cant_productos = 0;
+    int precio_eliminado = 0;
+    int precio_gasto = 0;
 
     public informacionGasto(java.awt.Frame parent, boolean modal, int id, Usuarios usuarios) {
         super(parent, modal);
@@ -60,7 +62,7 @@ public class informacionGasto extends javax.swing.JDialog {
         obtenerProductos(id);
         this.id = id;
         this.usuarios = usuarios;
-        usuario_balance.setText(usuarios.getSalario()+"");
+        usuario_balance.setText(usuarios.getSalario() + " €");
         obtenerImagenPerfil(usuarios);
     }
 
@@ -85,6 +87,7 @@ public class informacionGasto extends javax.swing.JDialog {
         usuario_balance = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         perfil_imagen = new javax.swing.JLabel();
+        guardar_cambios = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -189,6 +192,14 @@ public class informacionGasto extends javax.swing.JDialog {
 
         perfil_imagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/user.png"))); // NOI18N
 
+        guardar_cambios.setForeground(new java.awt.Color(0, 0, 0));
+        guardar_cambios.setText("GUARDAR CAMBIOS");
+        guardar_cambios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                guardar_cambiosMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -203,7 +214,8 @@ public class informacionGasto extends javax.swing.JDialog {
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 671, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(guardar_cambios, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(eliminar_Gastobtn, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -256,7 +268,9 @@ public class informacionGasto extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(eliminar_Gastobtn)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(eliminar_Gastobtn)
+                    .addComponent(guardar_cambios))
                 .addContainerGap())
         );
 
@@ -276,6 +290,7 @@ public class informacionGasto extends javax.swing.JDialog {
 
                 int id = tabla_productos.getSelectedRow();
                 productos.setID(gastos.getProductos().get(id).getId());
+                precio_eliminado = gastos.getProductos().get(id).getPrecio_producto();
                 peticion.setConsulta(20);
                 salida.writeObject(peticion);
                 salida.flush();
@@ -309,14 +324,77 @@ public class informacionGasto extends javax.swing.JDialog {
                 for (int i = 0; i < listado_productos.size(); i++) {
                     Producto producto = listado_productos.get(i);
                     Object[] array = {producto.getNombre_producto(), producto.getPrecio_producto() + " €"};
+                    cant_productos++;
+                    
                     m.addRow(array);
 
                 }
+             
+                // Configuro salario actualizado (tras la eliminación de un producto)
+                int salario_actual = usuarios.getSalario();
+                usuarios.setSalario(salario_actual + precio_eliminado);
+
+                cantidad_productos.setText(cant_productos + "");
+                usuario_balance.setText(usuarios.getSalario() + "€");
+                cant_productos = 0;
+                
+                
+                // Configuración de parámetros para la actualización del salario al usuario '?'
+                try {
+                    cliente = new Socket(server, puerto);
+                    salida = new ObjectOutputStream(cliente.getOutputStream());
+                    entrada = new ObjectInputStream(cliente.getInputStream());
+
+                    peticion.setConsulta(21);
+                    salida.writeObject(peticion);
+                    salida.flush();
+                    salida.writeObject(usuarios);
+                    salida.flush();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        cliente.close();
+                        salida.close();
+                        entrada.close();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+
             } catch (IOException ex) {
                 ex.printStackTrace();
             } catch (ClassNotFoundException ex) {
                 ex.printStackTrace();
             }
+
+            // Actualización del gasto
+            System.out.println("PRECIO DEL GASTO ACTUAL: "+gastos.getPrecio_gasto());
+            System.out.println("PRECIO A RESTAR: "+precio_eliminado);
+            gastos.setPrecio_gasto(gastos.getPrecio_gasto() - precio_eliminado);
+            precio_eliminado = 0;
+            try {
+                cliente = new Socket(server, puerto);
+                salida = new ObjectOutputStream(cliente.getOutputStream());
+                entrada = new ObjectInputStream(cliente.getInputStream());
+
+                peticion.setConsulta(23);
+                salida.writeObject(peticion);
+                salida.flush();
+                salida.writeObject(gastos);
+                salida.flush();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    cliente.close();
+                    salida.close();
+                    entrada.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+
         }
 
     }//GEN-LAST:event_eliminar_productoMouseClicked
@@ -329,6 +407,23 @@ public class informacionGasto extends javax.swing.JDialog {
             salida = new ObjectOutputStream(cliente.getOutputStream());
             entrada = new ObjectInputStream(cliente.getInputStream());
 
+            peticion.setConsulta(17);
+            salida.writeObject(peticion);
+            salida.flush();
+            gastos.setId(id);
+            salida.writeObject(gastos);
+            salida.flush();
+            gastos = (Gastos) entrada.readObject();
+
+            for (int i = 0; i < gastos.getProductos().size(); i++) {
+                precio_eliminado += gastos.getProductos().get(i).getPrecio_producto();
+            }
+
+            // Elimino el gasto
+            cliente = new Socket(server, puerto);
+            salida = new ObjectOutputStream(cliente.getOutputStream());
+            entrada = new ObjectInputStream(cliente.getInputStream());
+
             gastos.setId(id);
             peticion.setConsulta(16);
             salida.writeObject(peticion);
@@ -337,12 +432,67 @@ public class informacionGasto extends javax.swing.JDialog {
             salida.flush();
         } catch (IOException ex) {
             ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(informacionGasto.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 cliente.close();
                 salida.close();
                 entrada.close();
                 cerrarDialog();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+        // Actualizo salario
+        usuarios.setSalario(usuarios.getSalario() + precio_eliminado);
+        try {
+            cliente = new Socket(server, puerto);
+            salida = new ObjectOutputStream(cliente.getOutputStream());
+            entrada = new ObjectInputStream(cliente.getInputStream());
+
+            peticion.setConsulta(21);
+            salida.writeObject(peticion);
+            salida.flush();
+            salida.writeObject(usuarios);
+            salida.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                cliente.close();
+                salida.close();
+                entrada.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        // Actualización del gasto
+        gastos.setPrecio_gasto(precio_gasto);
+        precio_gasto = 0;
+        try {
+            cliente = new Socket(server, puerto);
+            salida = new ObjectOutputStream(cliente.getOutputStream());
+            entrada = new ObjectInputStream(cliente.getInputStream());
+
+            peticion.setConsulta(23);
+            salida.writeObject(peticion);
+            salida.flush();
+            salida.writeObject(gastos);
+            salida.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                cliente.close();
+                salida.close();
+                entrada.close();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -391,16 +541,18 @@ public class informacionGasto extends javax.swing.JDialog {
                 Producto producto = listado_productos.get(i);
                 Object[] array = {producto.getNombre_producto(), producto.getPrecio_producto() + " €"};
                 cant_productos++;
+                precio_gasto += producto.getPrecio_producto();
                 m.addRow(array);
 
             }
-            
+
             // Configuro salario actualizado (tras la inserción de un producto)
             int salario_actual = usuarios.getSalario();
-            usuarios.setSalario(salario_actual - listado_productos.get(listado_productos.size()-1).getPrecio_producto());
-            
-            cantidad_productos.setText(cant_productos+"");
-            usuario_balance.setText(usuarios.getSalario()+"");
+            usuarios.setSalario(salario_actual - listado_productos.get(listado_productos.size() - 1).getPrecio_producto());
+
+            cantidad_productos.setText(cant_productos + "");
+            usuario_balance.setText(usuarios.getSalario() + "");
+            cant_productos = 0;
             // Configuración de parámetros para la actualización del salario al usuario '?'
             try {
                 cliente = new Socket(server, puerto);
@@ -424,8 +576,39 @@ public class informacionGasto extends javax.swing.JDialog {
                 }
             }
 
+            // Actualización del gasto
+            System.out.println("PRECIO DEL GASTO ACTUAL: "+gastos.getPrecio_gasto());
+            System.out.println("SUMA AL PRECIO ACTUAL: "+precio_gasto);
+            gastos.setPrecio_gasto(precio_gasto);
+            precio_gasto = 0;
+            try {
+                cliente = new Socket(server, puerto);
+                salida = new ObjectOutputStream(cliente.getOutputStream());
+                entrada = new ObjectInputStream(cliente.getInputStream());
+
+                peticion.setConsulta(23);
+                salida.writeObject(peticion);
+                salida.flush();
+                salida.writeObject(gastos);
+                salida.flush();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    cliente.close();
+                    salida.close();
+                    entrada.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+
         }
     }//GEN-LAST:event_añadir_productoMouseClicked
+
+    private void guardar_cambiosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_guardar_cambiosMouseClicked
+        cerrarDialog();
+    }//GEN-LAST:event_guardar_cambiosMouseClicked
 
     public boolean cerrarDialog() {
         this.setVisible(false);
@@ -443,7 +626,6 @@ public class informacionGasto extends javax.swing.JDialog {
             salida = new ObjectOutputStream(cliente.getOutputStream());
             entrada = new ObjectInputStream(cliente.getInputStream());
 
-            System.out.println("Envio la peticion");
             peticion.setConsulta(17);
             salida.writeObject(peticion);
             salida.flush();
@@ -460,7 +642,7 @@ public class informacionGasto extends javax.swing.JDialog {
                 m.addRow(array);
 
             }
-            cantidad_productos.setText(cant_productos+"");
+            cantidad_productos.setText(cant_productos + "");
             cant_productos = 0;
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -552,6 +734,7 @@ public class informacionGasto extends javax.swing.JDialog {
     private javax.swing.JLabel cantidad_productos;
     private javax.swing.JButton eliminar_Gastobtn;
     private javax.swing.JButton eliminar_producto;
+    private javax.swing.JButton guardar_cambios;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;

@@ -44,9 +44,12 @@ public class FinanzasUI extends javax.swing.JFrame {
     Usuarios usuarios = new Usuarios();
     Gastos gastos = new Gastos();
     boolean dialog = false;
+    int salario_aux = 0;
+    int salario_actual = 0;
 
     public FinanzasUI(Usuarios usuarios) {
         initComponents();
+        System.out.println("REPETIR?");
         this.setLocationRelativeTo(null);
         this.usuarios = usuarios;
         rellenarGastos(usuarios);
@@ -56,6 +59,7 @@ public class FinanzasUI extends javax.swing.JFrame {
         obtenerGastos(usuarios);
         informacionGastos();
         obtenerImagenPerfil(usuarios);
+        
 
     }
 
@@ -640,7 +644,7 @@ public class FinanzasUI extends javax.swing.JFrame {
                 for (int i = 0; i < listado_gastos.size(); i++) {
                     Gasto gasto = listado_gastos.get(i);
 
-                    Object[] array = {gasto.getNombre_gasto(), gasto.getPrecio_gasto()};
+                    Object[] array = {gasto.getNombre_gasto(), gasto.getPrecio_gasto()+" €"};
                     m.addRow(array);
 
                 }
@@ -655,7 +659,7 @@ public class FinanzasUI extends javax.swing.JFrame {
     }//GEN-LAST:event_añadirGasto_btnMouseClicked
     DefaultTableModel m;
 
-    public void rellenarGastos(Usuarios usuarios) {
+   public void rellenarGastos(Usuarios usuarios) {
         m = (DefaultTableModel) tabla_gastos.getModel();
         m.setRowCount(0);
 
@@ -677,7 +681,7 @@ public class FinanzasUI extends javax.swing.JFrame {
             for (int i = 0; i < listado_gastos.size(); i++) {
                 Gasto gasto = listado_gastos.get(i);
 
-                Object[] array = {gasto.getNombre_gasto(), gasto.getPrecio_gasto()};
+                Object[] array = {gasto.getNombre_gasto(), gasto.getPrecio_gasto()+" €"};
                 m.addRow(array);
 
             }
@@ -733,7 +737,6 @@ public class FinanzasUI extends javax.swing.JFrame {
                         informacionGasto informacionGasto = new informacionGasto(FinanzasUI.this, true, gastos.getResultados_gastos().get(tabla_gastos.getSelectedRow()).getId(), usuarios);
                         tabla_gastos.getSelectionModel().setSelectionInterval(-1, -1);
                         informacionGasto.setVisible(true);
-                        //tabla_tareas.clearSelection();
                         dialog = informacionGasto.cerrarDialog();
                         try {
                             Thread.sleep(100);
@@ -768,9 +771,12 @@ public class FinanzasUI extends javax.swing.JFrame {
                                 Gasto gasto = listado_gastos.get(i);
 
                                 Object[] array = {gasto.getNombre_gasto(), gasto.getPrecio_gasto()+" €"};
+                                System.out.println("tabla principal precio por gasto : " +gasto.getPrecio_gasto());
                                 m.addRow(array);
-
+                                
                             }
+                            usuarios_gastos.setText(listado_gastos.size() + "");
+                            usuario_balance.setText(usuarios.getSalario()+"€");
                         }
                     }
 

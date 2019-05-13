@@ -157,6 +157,10 @@ class HiloServidor extends Thread {
                     obtenerInformacionPerfil(usuarios);
                     salida.writeObject(usuarios);
                     break;
+                case 23:
+                    gastos = (Gastos) entrada.readObject();
+                    actualizarGasto(gastos);
+                    break;
 
             }
         } catch (IOException ex) {
@@ -371,6 +375,16 @@ class HiloServidor extends Thread {
             UsuariosOP uop = new UsuariosOP();
             uop.obtenerInformacion(usuarios);
         } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void actualizarGasto(Gastos gastos) {
+        
+        try {
+            GastosOP gop = new GastosOP();
+            gop.actualizarGasto(gastos);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

@@ -170,8 +170,8 @@ public class GastosOP {
             e.printStackTrace();
         }
     }
-    
-        public void eliminarProducto(Productos productos) {
+
+    public void eliminarProducto(Productos productos) {
         Connection conexion = null;
         PreparedStatement ps = null;
 
@@ -182,6 +182,26 @@ public class GastosOP {
             ps.setInt(1, productos.getID());
 
             ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+        public void actualizarGasto(Gastos gastos) {
+        Connection conexion = null;
+        PreparedStatement ps = null;
+
+        String sql = "UPDATE Gasto SET Precio_Gasto = ? WHERE ID = ?";
+        try {
+            conexion = conn.getConnection();
+            ps = conexion.prepareCall(sql);
+
+            ps.setInt(1, gastos.getPrecio_gasto());
+            ps.setInt(2, gastos.getId());
+
+            ps.executeUpdate();
+
+            System.out.println("Gasto actualizado");
         } catch (Exception e) {
             e.printStackTrace();
         }
