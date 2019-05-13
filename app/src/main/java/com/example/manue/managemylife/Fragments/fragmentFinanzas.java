@@ -269,6 +269,7 @@ public class fragmentFinanzas extends Fragment {
                     gastos.setPrecio_gasto(gasto.getPrecio_gasto());
                     Intent intent = new Intent(getActivity(), ProductosActivity.class);
                     intent.putExtra("gastos_productos", gastos);
+                    intent.putExtra("usuarios",usuarios);
                     startActivity(intent);
                 }
 
