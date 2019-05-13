@@ -18,7 +18,7 @@
         android:layout_width="90dp"
         android:layout_height="90dp"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:src="@mipmap/perfil_ejemplo"
+        android:src="@mipmap/user"
         />
 
     <TextView

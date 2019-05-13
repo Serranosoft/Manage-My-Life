@@ -1,7 +1,6 @@
 package com.example.manue.managemylife.Fragments;
 
 
-import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -41,7 +40,7 @@ import Compartir.Peticion;
 import Compartir.Usuarios;
 import de.hdodenhof.circleimageview.CircleImageView;
 import vo.Gasto;
-import vo.Tarea;
+import vo.Producto;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -57,6 +56,7 @@ public class fragmentFinanzas extends Fragment {
     private RecyclerView rList;
     private ArrayList<Gasto> listaGasto;
     private RecyclerView.Adapter adapter;
+    private ArrayList<Producto> listaProducto;
 
     private AlertDialog.Builder builder_gasto;
     private AlertDialog dialog_gasto;
@@ -64,6 +64,8 @@ public class fragmentFinanzas extends Fragment {
     TextView finanzas_gastos = null;
     TextView finanzas_balance = null;
     CircleImageView imagen_perfil = null;
+
+    int suma_productos_gasto = 0;
     public fragmentFinanzas() {
         // Required empty public constructor
     }
@@ -76,9 +78,7 @@ public class fragmentFinanzas extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Control de Gastos");
         View view = inflater.inflate(R.layout.fragment_finanzas, container, false);
 
-        //MainActivity mainActivity = (MainActivity) getActivity();
         settings = new SettingsClass(getActivity().getApplicationContext());
-        //usuarios = mainActivity.informacionUsuario();
         usuarios = fragmentPerfil.getInstance().getUsuarios();
 
         finanzas_gastos = view.findViewById(R.id.finanzas_gastos);
@@ -105,8 +105,6 @@ public class fragmentFinanzas extends Fragment {
                 dialog_gasto.show();
 
 
-                // Nombre del gasto
-
                 final EditText nombre_gasto = view_popup_gasto.findViewById(R.id.insertar_nombre_gasto);
                 final EditText tipo_gasto = view_popup_gasto.findViewById(R.id.insertar_tipo_gasto);
 
@@ -124,12 +122,22 @@ public class fragmentFinanzas extends Fragment {
                     public void onClick(View v) {
                         gastos.setNombre_gasto(nombre_gasto.getText().toString());
                         gastos.setTipo_gasto(tipo_gasto.getText().toString());
+                        gastos.setPrecio_gasto(0);
                         executeInsertarGastosTask();
                         dialog_gasto.dismiss();
                         adapter.notifyDataSetChanged();
                         executeFinanzasTask();
                     }
                 });
+            }
+        });
+
+        FloatingActionButton actualizar_gastos = view.findViewById(R.id.actualizar_gastos);
+        actualizar_gastos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                executeFinanzasTask();
+                executeObtenerInformacion();
             }
         });
         // Método que permite eliminar deslizando cada elemento del CardView
@@ -139,7 +147,7 @@ public class fragmentFinanzas extends Fragment {
 
                             @Override
                             public boolean canSwipeLeft(int position) {
-                                return true;
+                                return false;
                             }
 
                             @Override
@@ -149,12 +157,6 @@ public class fragmentFinanzas extends Fragment {
 
                             @Override
                             public void onDismissedBySwipeLeft(RecyclerView recyclerView, int[] reverseSortedPositions) {
-                                for (final int position : reverseSortedPositions) {
-                                    int idTarea = listaGasto.get(position).getId();
-                                    // Modificar gasto
-
-                                }
-                                adapter.notifyDataSetChanged();
 
                             }
 
@@ -169,10 +171,13 @@ public class fragmentFinanzas extends Fragment {
                                         public void onClick(DialogInterface dialogInterface, int i) {
                                             int idGasto = listaGasto.get(position).getId();
                                             gastos.setId(idGasto);
-                                            // llamo al metodo eliminar
+
+                                            executeObtenerProductos();
                                             executeDeleteFinanzasTask();
+
                                             listaGasto.remove(position);
                                             adapter.notifyItemRemoved(position);
+                                            suma_productos_gasto = 0;
                                         }
                                     });
                                     alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -189,6 +194,7 @@ public class fragmentFinanzas extends Fragment {
                         });
 
         rList.addOnItemTouchListener(swipeTouchListener);
+        //rList.setAdapter(adapter);
         return view;
     }
 
@@ -207,6 +213,20 @@ public class fragmentFinanzas extends Fragment {
         insertarGastosTask.execute();
     }
 
+    public void executeObtenerInformacion() {
+        obtenerInformacionPerfil obtenerInformacionPerfil = new obtenerInformacionPerfil();
+        obtenerInformacionPerfil.execute();
+    }
+
+    public void executeUpdateSalario() {
+        actualizarSalarioTask actualizarSalarioTask = new actualizarSalarioTask();
+        actualizarSalarioTask.execute();
+    }
+
+    public void executeObtenerProductos() {
+        obtenerProductosTask obtenerProductosTask = new obtenerProductosTask();
+        obtenerProductosTask.execute();
+    }
     public class mostrarGastosTask extends AsyncTask<ArrayList<Gasto>, Void, ArrayList<Gasto>> {
 
         Socket cliente = null;
@@ -242,14 +262,13 @@ public class fragmentFinanzas extends Fragment {
         protected void onPostExecute(final ArrayList<Gasto> listaGasto) {
             super.onPostExecute(listaGasto);
             finanzas_gastos.setText(listaGasto.size()+"");
-            // Adapter + ClickListener para visualizar los productos de un gasto
             adapter = new GastosAdapter(listaGasto, getActivity().getApplicationContext(), new GastosAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(final Gasto gasto, int position) {
                     gastos.setId(gasto.getId());
+                    gastos.setPrecio_gasto(gasto.getPrecio_gasto());
                     Intent intent = new Intent(getActivity(), ProductosActivity.class);
                     intent.putExtra("gastos_productos", gastos);
-                    intent.putExtra("usuarios", usuarios);
                     startActivity(intent);
                 }
 
@@ -309,6 +328,110 @@ public class fragmentFinanzas extends Fragment {
             return null;
         }
     }
+
+    public class actualizarSalarioTask extends AsyncTask<String, Void, Void> {
+
+        Socket cliente = null;
+        ObjectOutputStream salida = null;
+        ObjectInputStream entrada = null;
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            try {
+                cliente = new Socket(settings.obtenerSettings().get(0).getAddress(), settings.obtenerSettings().get(0).getPort());
+                salida = new ObjectOutputStream(cliente.getOutputStream());
+                entrada = new ObjectInputStream(cliente.getInputStream());
+
+                peticion.setConsulta(21);
+                salida.writeObject(peticion);
+                salida.flush();
+                salida.writeObject(usuarios);
+                salida.flush();
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
+            return null;
+        }
+    }
+
+    public class obtenerInformacionPerfil extends AsyncTask<String, Void, Void> {
+
+        Socket cliente = null;
+        ObjectOutputStream salida = null;
+        ObjectInputStream entrada = null;
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            try {
+
+                cliente = new Socket(settings.obtenerSettings().get(0).getAddress(), settings.obtenerSettings().get(0).getPort());
+                salida = new ObjectOutputStream(cliente.getOutputStream());
+                entrada = new ObjectInputStream(cliente.getInputStream());
+
+                peticion.setConsulta(22);
+                salida.writeObject(peticion);
+
+                salida.writeObject(usuarios);
+                usuarios = (Usuarios) entrada.readObject();
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+            finanzas_balance.setText(usuarios.getSalario()+"€");
+        }
+    }
+
+    public class obtenerProductosTask extends AsyncTask<ArrayList<Producto>, Void, ArrayList<Producto>> {
+
+        Socket cliente = null;
+        ObjectOutputStream salida = null;
+        ObjectInputStream entrada = null;
+
+        @Override
+        protected ArrayList<Producto> doInBackground(ArrayList<Producto>... arrayLists) {
+            try {
+                cliente = new Socket(settings.obtenerSettings().get(0).getAddress(), settings.obtenerSettings().get(0).getPort());
+                salida = new ObjectOutputStream(cliente.getOutputStream());
+                entrada = new ObjectInputStream(cliente.getInputStream());
+
+                peticion.setConsulta(17);
+                salida.writeObject(peticion);
+
+                salida.writeObject(gastos);
+
+                gastos = (Gastos) entrada.readObject();
+                listaProducto = gastos.getProductos();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            return listaProducto;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Producto> productos) {
+            super.onPostExecute(productos);
+            for (int i = 0; i < productos.size(); i++) {
+                suma_productos_gasto += productos.get(i).getPrecio_producto();
+            }
+            usuarios.setSalario(usuarios.getSalario() + suma_productos_gasto);
+            executeUpdateSalario();
+
+        }
+    }
+
     public void obtenerImagenPerfil(Usuarios usuarios) {
         try {
             if (usuarios.getImagen().equals("null") || usuarios.getImagen().length() == 0) {

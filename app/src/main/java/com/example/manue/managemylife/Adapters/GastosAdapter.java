@@ -50,7 +50,7 @@ public class GastosAdapter extends RecyclerView.Adapter<GastosAdapter.ViewHolder
             viewHolder.nombreGasto.setText(gasto.getNombre_gasto());
         }
 
-        viewHolder.precioGasto.setText(gasto.getPrecio_gasto()+"");
+        viewHolder.precioGasto.setText(gasto.getPrecio_gasto()+"€");
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -52,6 +52,7 @@ public class ProductosActivity extends AppCompatActivity {
     private ArrayList<Producto> listaProducto;
     private RecyclerView.Adapter adapter;
     FloatingActionButton fab = null;
+    FloatingActionButton eliminar_gasto = null;
 
     private AlertDialog.Builder builder_producto;
     private AlertDialog dialog_producto;
@@ -65,7 +66,7 @@ public class ProductosActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_productos);
-
+        settings = new SettingsClass(this);
 
 
         productos_cantidad = (TextView) findViewById(R.id.productos_cantidad);
@@ -76,9 +77,10 @@ public class ProductosActivity extends AppCompatActivity {
         gastos = (Gastos) getIntent().getSerializableExtra("gastos_productos");
         //usuarios = (Usuarios) getIntent().getSerializableExtra("usuarios");
         usuarios = fragmentPerfil.getInstance().getUsuarios();
+        executeObtenerInformacion();
         balance = usuarios.getSalario();
+        System.out.println("SALARIO ACTUAL DEL USUARIO :"+usuarios.getSalario());
 
-        settings = new SettingsClass(this);
 
         rList = findViewById(R.id.listaProducto);
         rList.setHasFixedSize(true);
@@ -86,6 +88,7 @@ public class ProductosActivity extends AppCompatActivity {
 
         obtenerImagenPerfil(usuarios);
         executeActualizarProductos();
+        System.out.println("GASTO CON EL QUE SE VA A JUGAR SIN AGREGAR GASTOS"+gastos.getPrecio_gasto());
         //executeMostrarProductos();
         fab = findViewById(R.id.productos_add);
 
@@ -123,6 +126,9 @@ public class ProductosActivity extends AppCompatActivity {
                             productos.setNombre_Producto(nombre_producto.getText().toString());
                             productos.setPrecio_Producto(Integer.valueOf(precio_producto.getText().toString()));
                             productos.setID_Gasto(gastos.getId());
+                            System.out.println("PRECIO DEL GASTO ACTUAL: "+gastos.getPrecio_gasto());
+                            System.out.println("PRECIO A SUMAR: "+productos.getPrecio_Producto());
+                            gastos.setPrecio_gasto(gastos.getPrecio_gasto() + productos.getPrecio_Producto());
                             executeInsertarProductos();
                             dialog_producto.dismiss();
                             adapter.notifyDataSetChanged();
@@ -130,6 +136,8 @@ public class ProductosActivity extends AppCompatActivity {
                             usuarios.setSalario(balance);
                             executeUpdateSalario();
                             executeActualizarProductos();
+                            executeActualizarGasto();
+
                             executeObtenerInformacion();
 
                         }catch (NumberFormatException nfe) {
@@ -151,6 +159,17 @@ public class ProductosActivity extends AppCompatActivity {
                 });
             }
         });
+
+        /*eliminar_gasto = findViewById(R.id.eliminar_gasto);
+        eliminar_gasto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                executeDeleteGastoTask();
+                usuarios.setSalario(usuarios.getSalario() - );
+                executeUpdateSalario();
+                onBackPressed();
+            }
+        });*/
 
         SwipeableRecyclerViewTouchListener swipeTouchListener =
                 new SwipeableRecyclerViewTouchListener(rList,
@@ -183,6 +202,9 @@ public class ProductosActivity extends AppCompatActivity {
                                             int idProducto = listaProducto.get(position).getId();
                                             int precio = listaProducto.get(position).getPrecio_producto();
                                             productos.setID(idProducto);
+                                            System.out.println("PRECIO DEL GASTO ACTUAL: "+gastos.getPrecio_gasto());
+                                            System.out.println("PRECIO A RESTAR: "+precio);
+                                            gastos.setPrecio_gasto(gastos.getPrecio_gasto() - precio);
                                             // llamo al metodo eliminar
                                             executeDeleteProductos();
                                             listaProducto.remove(position);
@@ -191,6 +213,7 @@ public class ProductosActivity extends AppCompatActivity {
                                             usuarios.setSalario(balance);
                                             executeUpdateSalario();
                                             executeActualizarProductos();
+                                            executeActualizarGasto();
                                             executeObtenerInformacion();
 
                                         }
@@ -233,6 +256,15 @@ public class ProductosActivity extends AppCompatActivity {
     public void executeObtenerInformacion() {
         obtenerInformacionPerfil obtenerInformacionPerfil = new obtenerInformacionPerfil();
         obtenerInformacionPerfil.execute();
+    }
+    public void executeActualizarGasto() {
+        actualizarGastoTask actualizarGastoTask = new actualizarGastoTask();
+        actualizarGastoTask.execute();
+    }
+
+    public void executeDeleteGastoTask() {
+        eliminarGastosTask eliminarGastosTask = new eliminarGastosTask();
+        eliminarGastosTask.execute();
     }
     public class insertarProductossTask extends AsyncTask<String, Void, Void> {
 
@@ -353,6 +385,33 @@ public class ProductosActivity extends AppCompatActivity {
         }
     }
 
+    public class actualizarGastoTask extends AsyncTask<String, Void, Void> {
+
+        Socket cliente = null;
+        ObjectOutputStream salida = null;
+        ObjectInputStream entrada = null;
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            try {
+                cliente = new Socket(settings.obtenerSettings().get(0).getAddress(), settings.obtenerSettings().get(0).getPort());
+                salida = new ObjectOutputStream(cliente.getOutputStream());
+                entrada = new ObjectInputStream(cliente.getInputStream());
+
+                peticion.setConsulta(23);
+                salida.writeObject(peticion);
+                salida.flush();
+                salida.writeObject(gastos);
+                salida.flush();
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
+            return null;
+        }
+    }
+
     public class obtenerInformacionPerfil extends AsyncTask<String, Void, Void> {
 
         Socket cliente = null;
@@ -395,6 +454,31 @@ public class ProductosActivity extends AppCompatActivity {
 
         } catch (Exception ex) {
             ex.printStackTrace();
+        }
+    }
+
+    public class eliminarGastosTask extends AsyncTask<String, Void, Void> {
+
+        Socket cliente = null;
+        ObjectOutputStream salida = null;
+        ObjectInputStream entrada = null;
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            try {
+                cliente = new Socket(settings.obtenerSettings().get(0).getAddress(), settings.obtenerSettings().get(0).getPort());
+                salida = new ObjectOutputStream(cliente.getOutputStream());
+                entrada = new ObjectInputStream(cliente.getInputStream());
+
+                peticion.setConsulta(16);
+                salida.writeObject(peticion);
+                salida.writeObject(gastos);
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
+            return null;
         }
     }
 }
