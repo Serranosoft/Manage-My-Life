@@ -1,45 +1,59 @@
 package com.example.manue.managemylife.Activities;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.manue.managemylife.Fragments.TimePickerFragment;
 import com.example.manue.managemylife.Fragments.fragmentCalendario;
 import com.example.manue.managemylife.Fragments.fragmentFinanzas;
 import com.example.manue.managemylife.Fragments.fragmentPerfil;
 import com.example.manue.managemylife.Fragments.fragmentTareas;
 import com.example.manue.managemylife.Fragments.fragmentTareasTerminadas;
 import com.example.manue.managemylife.R;
+import com.example.manue.managemylife.Util.AlarmReceiver;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Calendar;
 
 import Compartir.Peticion;
 import Compartir.Tareas;
 import Compartir.Usuarios;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener, TimePickerDialog.OnTimeSetListener {
 
     Usuarios usuarios = new Usuarios();
+    ImageView nav_imagen = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,10 +81,12 @@ public class MainActivity extends AppCompatActivity
         //ImageView nav_imagen = (ImageView) headerView.findViewById(R.id.nav_imagenPerfil);
         TextView nav_nombre = (TextView) headerView.findViewById(R.id.nav_nombreUsuario);
         TextView nav_usuario = (TextView) headerView.findViewById(R.id.nav_usuario);
+        nav_imagen = (ImageView) headerView.findViewById(R.id.nav_imagenPerfil);
 
         // Configuracion de parámetros del menú lateral
         nav_nombre.setText(usuarios.getNombre());
         nav_usuario.setText(usuarios.getUsuario());
+        obtenerImagenPerfil(usuarios);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_actual,
                 new fragmentPerfil()).commit();
@@ -100,7 +116,10 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            DialogFragment newFragment = new TimePickerFragment();
+            newFragment.show(getSupportFragmentManager(), "DIALOG TIME PICKER");
+
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -148,9 +167,35 @@ public class MainActivity extends AppCompatActivity
         return usuarios;
 
     }
+    public void obtenerImagenPerfil(Usuarios usuarios) {
+        try {
+            if (usuarios.getImagen().equals("null") || usuarios.getImagen().length() == 0) {
+                nav_imagen.setImageResource(R.mipmap.user);
+            } else {
+                byte[] imageByte = Base64.decode(usuarios.getImagen(), Base64.NO_WRAP);
+                ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
+                Bitmap photo = BitmapFactory.decodeStream(bis);
+                nav_imagen.setImageBitmap(photo);
+            }
 
-    /*public Usuarios informacionUsuarioActualizada() {
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 
 
-    }*/
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        System.out.println("HORA QUE SE REGISTRARÁ LA NOTIFICACION: "+hourOfDay +" minuto: "+minute);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY,hourOfDay );
+        calendar.set(Calendar.MINUTE, minute);
+        calendar.set(Calendar.SECOND, 1);
+
+        Intent intent = new Intent(MainActivity.this, AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager am = (AlarmManager)this.getSystemService(this.ALARM_SERVICE);
+        am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+    }
 }

@@ -325,52 +325,50 @@ public class informacionGasto extends javax.swing.JDialog {
                     Producto producto = listado_productos.get(i);
                     Object[] array = {producto.getNombre_producto(), producto.getPrecio_producto() + " €"};
                     cant_productos++;
-                    
+
                     m.addRow(array);
 
                 }
-             
-                // Configuro salario actualizado (tras la eliminación de un producto)
-                int salario_actual = usuarios.getSalario();
-                usuarios.setSalario(salario_actual + precio_eliminado);
-
-                cantidad_productos.setText(cant_productos + "");
-                usuario_balance.setText(usuarios.getSalario() + "€");
-                cant_productos = 0;
-                
-                
-                // Configuración de parámetros para la actualización del salario al usuario '?'
-                try {
-                    cliente = new Socket(server, puerto);
-                    salida = new ObjectOutputStream(cliente.getOutputStream());
-                    entrada = new ObjectInputStream(cliente.getInputStream());
-
-                    peticion.setConsulta(21);
-                    salida.writeObject(peticion);
-                    salida.flush();
-                    salida.writeObject(usuarios);
-                    salida.flush();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    try {
-                        cliente.close();
-                        salida.close();
-                        entrada.close();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                }
-
             } catch (IOException ex) {
                 ex.printStackTrace();
             } catch (ClassNotFoundException ex) {
                 ex.printStackTrace();
             }
 
+            // Configuro salario actualizado (tras la eliminación de un producto)
+            int salario_actual = usuarios.getSalario();
+            usuarios.setSalario(salario_actual + precio_eliminado);
+
+            cantidad_productos.setText(cant_productos + "");
+            usuario_balance.setText(usuarios.getSalario() + "€");
+            cant_productos = 0;
+
+            // Configuración de parámetros para la actualización del salario al usuario '?'
+            try {
+                cliente = new Socket(server, puerto);
+                salida = new ObjectOutputStream(cliente.getOutputStream());
+                entrada = new ObjectInputStream(cliente.getInputStream());
+
+                peticion.setConsulta(21);
+                salida.writeObject(peticion);
+                salida.flush();
+                salida.writeObject(usuarios);
+                salida.flush();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    cliente.close();
+                    salida.close();
+                    entrada.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+
             // Actualización del gasto
-            System.out.println("PRECIO DEL GASTO ACTUAL: "+gastos.getPrecio_gasto());
-            System.out.println("PRECIO A RESTAR: "+precio_eliminado);
+            System.out.println("PRECIO DEL GASTO ACTUAL: " + gastos.getPrecio_gasto());
+            System.out.println("PRECIO A RESTAR: " + precio_eliminado);
             gastos.setPrecio_gasto(gastos.getPrecio_gasto() - precio_eliminado);
             precio_eliminado = 0;
             try {
@@ -424,7 +422,7 @@ public class informacionGasto extends javax.swing.JDialog {
             salida = new ObjectOutputStream(cliente.getOutputStream());
             entrada = new ObjectInputStream(cliente.getInputStream());
 
-            gastos.setId(id);
+            //gastos.setId(id);
             peticion.setConsulta(16);
             salida.writeObject(peticion);
             salida.flush();
@@ -577,8 +575,8 @@ public class informacionGasto extends javax.swing.JDialog {
             }
 
             // Actualización del gasto
-            System.out.println("PRECIO DEL GASTO ACTUAL: "+gastos.getPrecio_gasto());
-            System.out.println("SUMA AL PRECIO ACTUAL: "+precio_gasto);
+            System.out.println("PRECIO DEL GASTO ACTUAL: " + gastos.getPrecio_gasto());
+            System.out.println("SUMA AL PRECIO ACTUAL: " + precio_gasto);
             gastos.setPrecio_gasto(precio_gasto);
             precio_gasto = 0;
             try {

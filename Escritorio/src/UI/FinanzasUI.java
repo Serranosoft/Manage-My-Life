@@ -49,18 +49,17 @@ public class FinanzasUI extends javax.swing.JFrame {
 
     public FinanzasUI(Usuarios usuarios) {
         initComponents();
-        System.out.println("REPETIR?");
         this.setLocationRelativeTo(null);
         this.usuarios = usuarios;
         rellenarGastos(usuarios);
         btn_5.setBackground(Color.CYAN);
         text_btn5.setForeground(Color.BLACK);
-        usuario_balance.setText(usuarios.getSalario() + "€");
+        //usuario_balance.setText(usuarios.getSalario() + "€");
         obtenerGastos(usuarios);
         informacionGastos();
         obtenerImagenPerfil(usuarios);
+        obtenerInformacionPerfil(usuarios);
         
-
     }
 
     /**
@@ -720,8 +719,29 @@ public class FinanzasUI extends javax.swing.JFrame {
         }
     }
     
-    public void obtenerPrecioGasto() {
-        
+    public void obtenerInformacionPerfil(Usuarios usuarios) {
+
+        try {
+
+            cliente = new Socket(server, puerto);
+            salida = new ObjectOutputStream(cliente.getOutputStream());
+            entrada = new ObjectInputStream(cliente.getInputStream());
+
+            peticion.setConsulta(22);
+            salida.writeObject(peticion);
+            salida.flush();
+
+            salida.writeObject(usuarios);
+            salida.flush();
+            usuarios = (Usuarios) entrada.readObject();
+
+            usuario_balance.setText(usuarios.getSalario() + "€");
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
     }
 
     private void informacionGastos() {

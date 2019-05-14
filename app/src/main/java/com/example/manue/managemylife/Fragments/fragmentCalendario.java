@@ -75,7 +75,9 @@ public class fragmentCalendario extends Fragment{
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 for (int i = 0; i < listaTarea.size(); i++) {
                     if(sdf.format(date1).equals(sdf.format(listaTarea.get(i).getFecha_realizar()))) {
-                        cont_tareas++;
+                        if(listaTarea.get(i).getEstado() == 0){
+                            cont_tareas++;
+                        }
                     }
                 }
                 //String selectedDate = DateFormat.getDateInstance(DateFormat.FULL).format(date);
@@ -171,8 +173,11 @@ public class fragmentCalendario extends Fragment{
 
             final ArrayList<Date> dates = new ArrayList<>();
             for (int i = 0; i < listaTarea.size(); i++) {
-                dates.add(listaTarea.get(i).getFecha_realizar());
-                System.out.println("Fechas de dates: "+listaTarea.get(i).getFecha_realizar());
+                if(listaTarea.get(i).getEstado() == 0) {
+                    dates.add(listaTarea.get(i).getFecha_realizar());
+                    System.out.println("Fechas de dates: "+listaTarea.get(i).getFecha_realizar());
+                }
+
             }
 
             Date dMin = Collections.min(dates);

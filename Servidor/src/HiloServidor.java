@@ -348,7 +348,7 @@ class HiloServidor extends Thread {
             e.printStackTrace();
         }
     }
-    
+
     private void eliminarProducto(Productos productos) {
 
         try {
@@ -358,9 +358,9 @@ class HiloServidor extends Thread {
             e.printStackTrace();
         }
     }
-    
+
     private void actualizarSalario(Usuarios usuarios) {
-        
+
         try {
             UsuariosOP uop = new UsuariosOP();
             uop.actualizarSalario(usuarios);
@@ -368,9 +368,9 @@ class HiloServidor extends Thread {
             e.printStackTrace();
         }
     }
-    
+
     private void obtenerInformacionPerfil(Usuarios usuarios) {
-        
+
         try {
             UsuariosOP uop = new UsuariosOP();
             uop.obtenerInformacion(usuarios);
@@ -378,9 +378,9 @@ class HiloServidor extends Thread {
             e.printStackTrace();
         }
     }
-    
+
     private void actualizarGasto(Gastos gastos) {
-        
+
         try {
             GastosOP gop = new GastosOP();
             gop.actualizarGasto(gastos);
@@ -388,5 +388,5 @@ class HiloServidor extends Thread {
             e.printStackTrace();
         }
     }
-    
+
 }

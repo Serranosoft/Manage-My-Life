@@ -51,6 +51,7 @@ public class PerfilUI extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.usuarios = usuario;
         rellenarDatos(usuarios.getId());
+        obtenerInformacionPerfil(usuarios);
         obtenerImagenPerfil(usuarios);
         btn_1.setBackground(Color.CYAN);
         text_btn1.setForeground(Color.BLACK);
@@ -628,8 +629,32 @@ public class PerfilUI extends javax.swing.JFrame {
 
             perfil_tareas_pendientes.setText(tareas_pendientes + "");
             perfil_tareas_terminadas.setText(tareas_terminadas + "");
-            perfil_balance.setText(usuarios.getSalario() + " €");
             perfil_nombre.setText(usuarios.getNombre());
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    public void obtenerInformacionPerfil(Usuarios usuarios) {
+
+        try {
+
+            cliente = new Socket(server, puerto);
+            salida = new ObjectOutputStream(cliente.getOutputStream());
+            entrada = new ObjectInputStream(cliente.getInputStream());
+
+            peticion.setConsulta(22);
+            salida.writeObject(peticion);
+            salida.flush();
+
+            salida.writeObject(usuarios);
+            salida.flush();
+            usuarios = (Usuarios) entrada.readObject();
+
+            perfil_balance.setText(usuarios.getSalario() + "€");
+
         } catch (IOException ex) {
             ex.printStackTrace();
         } catch (ClassNotFoundException ex) {

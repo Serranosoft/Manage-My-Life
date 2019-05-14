@@ -151,9 +151,10 @@ public class fragmentTareas extends Fragment {
                             @Override
                             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                                 //fecha_textview.setText(dayOfMonth + "-" + month + 1 + "-" + year);
-                                fecha_textview.setText(year + "-" + month +1 +"-" +dayOfMonth);
+                                month++;
+                                fecha_textview.setText(year + "-" + month +"-" +dayOfMonth);
                             }
-                        }, day, month, year);
+                        }, year, month, day);
                         dpd.show();
                     }
                 });
@@ -219,23 +220,37 @@ public class fragmentTareas extends Fragment {
                     public void onClick(View v) {
 
                         try {
-                            tareas.setNombre(nombre_tarea.getText().toString());
-                            tareas.setDescripcion(descripcion_tarea.getText().toString());
-                            tareas.setCategoria(categoria_textview.getText().toString());
-                            tareas.setEstado(0);
-                            tareas.setPrioritario(prioritario);
-                            java.sql.Date inscrita = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-                            tareas.setFecha_inscrita(inscrita);
-                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                            if(nombre_tarea.getText().toString().isEmpty()) {
+                                final AlertDialog.Builder alert = new AlertDialog.Builder(getContext(), R.style.AlertDialog);
+                                alert.setTitle("Aviso");
+                                alert.setMessage("¡Rellena todos los campos!");
+                                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                });
+                                alert.create().show();
+                            }else{
+                                tareas.setNombre(nombre_tarea.getText().toString());
+                                tareas.setDescripcion(descripcion_tarea.getText().toString());
+                                tareas.setCategoria(categoria_textview.getText().toString());
+                                tareas.setEstado(0);
+                                tareas.setPrioritario(prioritario);
+                                java.sql.Date inscrita = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+                                tareas.setFecha_inscrita(inscrita);
+                                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-                            java.util.Date terminar_temp = simpleDateFormat.parse(fecha_textview.getText().toString());
-                            java.sql.Date terminar = new java.sql.Date(terminar_temp.getTime());
-                            tareas.setFecha_realizar(terminar);
+                                java.util.Date terminar_temp = simpleDateFormat.parse(fecha_textview.getText().toString());
+                                java.sql.Date terminar = new java.sql.Date(terminar_temp.getTime());
+                                tareas.setFecha_realizar(terminar);
 
-                            executeInsertarTareasTask();
-                            dialog_tarea.dismiss();
-                            adapter.notifyDataSetChanged();
-                            executeTareasTask();
+                                executeInsertarTareasTask();
+                                dialog_tarea.dismiss();
+                                adapter.notifyDataSetChanged();
+                                executeTareasTask();
+                            }
+
 
                         } catch (ParseException e) {
                             e.printStackTrace();
@@ -419,20 +434,7 @@ public class fragmentTareas extends Fragment {
                             dialog_tarea.dismiss();
                         }
                     });
-                    final ImageView alarma = view_popup.findViewById(R.id.tarea_alarma);
-                    alarma.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            DialogFragment newFragment = new TimePickerFragment();
-                            newFragment.show(getChildFragmentManager(), "DIALOG TIME PICKER");
 
-                            if (alarma.getDrawable().getConstantState() == getResources().getDrawable(R.mipmap.notifications_inactive).getConstantState()) {
-                                alarma.setImageResource(R.mipmap.notification_active);
-                            } else {
-                                alarma.setImageResource(R.mipmap.notifications_inactive);
-                            }
-                        }
-                    });
                     final Button subtareas = view_popup.findViewById(R.id.tarea_subtareas);
                     subtareas.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -498,9 +500,10 @@ public class fragmentTareas extends Fragment {
                                         @Override
                                         public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                                             //fecha_textview.setText(dayOfMonth + "-" + month + 1 + "-" + year);
+                                            month++;
                                             fecha_textview.setText(year + "-" + month +1 +"-" +dayOfMonth);
                                         }
-                                    }, day, month, year);
+                                    }, year, month, day);
                                     dpd.show();
                                 }
                             });
@@ -571,24 +574,38 @@ public class fragmentTareas extends Fragment {
                                 public void onClick(View v) {
 
                                     try {
-                                        tareas.setNombre(nombre_tarea.getText().toString());
-                                        tareas.setDescripcion(descripcion_tarea.getText().toString());
-                                        tareas.setCategoria(categoria_textview.getText().toString());
-                                        tareas.setEstado(0);
-                                        tareas.setPrioritario(prioritario);
-                                        java.sql.Date inscrita = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-                                        tareas.setFecha_inscrita(inscrita);
-                                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                                        if(nombre_tarea.getText().toString().isEmpty()) {
+                                            final AlertDialog.Builder alert = new AlertDialog.Builder(getContext(), R.style.AlertDialog);
+                                            alert.setTitle("Aviso");
+                                            alert.setMessage("¡Rellena todos los campos!");
+                                            alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    dialogInterface.dismiss();
+                                                }
+                                            });
+                                            alert.create().show();
+                                        }else{
+                                            tareas.setNombre(nombre_tarea.getText().toString());
+                                            tareas.setDescripcion(descripcion_tarea.getText().toString());
+                                            tareas.setCategoria(categoria_textview.getText().toString());
+                                            tareas.setEstado(0);
+                                            tareas.setPrioritario(prioritario);
+                                            java.sql.Date inscrita = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+                                            tareas.setFecha_inscrita(inscrita);
+                                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-                                        java.util.Date terminar_temp = null;
-                                        terminar_temp = simpleDateFormat.parse(fecha_textview.getText().toString());
-                                        java.sql.Date terminar = new java.sql.Date(terminar_temp.getTime());
-                                        tareas.setFecha_realizar(terminar);
+                                            java.util.Date terminar_temp = null;
+                                            terminar_temp = simpleDateFormat.parse(fecha_textview.getText().toString());
+                                            java.sql.Date terminar = new java.sql.Date(terminar_temp.getTime());
+                                            tareas.setFecha_realizar(terminar);
 
-                                        executeUpdateTareasTask();
-                                        dialog_modificar_tarea.dismiss();
-                                        dialog_tarea.dismiss();
-                                        executeTareasTask();
+                                            executeUpdateTareasTask();
+                                            dialog_modificar_tarea.dismiss();
+                                            dialog_tarea.dismiss();
+                                            executeTareasTask();
+                                        }
+
 
                                     } catch (ParseException e) {
                                         e.printStackTrace();

@@ -10,7 +10,7 @@ import com.example.manue.managemylife.R;
 
 import java.util.Calendar;
 
-public class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener{
+public class TimePickerFragment extends DialogFragment{
 
     public TimePickerFragment() {
         // Required empty public constructor
@@ -24,12 +24,7 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
 
-        return new TimePickerDialog(getActivity(), R.style.AlertDialog, this, hour, minute,
-                DateFormat.is24HourFormat(getActivity()));
-    }
-
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-
+        return new TimePickerDialog(getActivity(), R.style.AlertDialog, (TimePickerDialog.OnTimeSetListener) getActivity(), hour, minute, DateFormat.is24HourFormat(getActivity()));
     }
 
 }

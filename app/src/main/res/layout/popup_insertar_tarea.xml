@@ -103,7 +103,7 @@
                     android:id="@+id/insertar_tarea_categoria_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="x"
+                    android:text="Otros"
                     android:textColor="#E3E4DB"/>
             </LinearLayout>
             <LinearLayout

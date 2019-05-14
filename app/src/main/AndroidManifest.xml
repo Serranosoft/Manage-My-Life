@@ -38,6 +38,8 @@
         <activity
             android:name=".Activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        
+        <receiver android:name=".Util.AlarmReceiver"/>
         <activity android:name=".Activities.SubtareasActivity" />
         <activity android:name=".Activities.ProductosActivity" />
         <activity android:name=".Activities.ModificarPerfilActivity"></activity>
