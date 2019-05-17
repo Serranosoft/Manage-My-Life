@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import vo.Tarea;
@@ -47,12 +48,22 @@ public class TareasAdapter extends RecyclerView.Adapter<TareasAdapter.ViewHolder
         }
 
 
+        if(tarea.getCategoria().equals("Estudios")) {
+            viewHolder.imagenTarea.setImageResource(R.mipmap.estudios);
+        }else if(tarea.getCategoria().equals("Trabajo")) {
+            viewHolder.imagenTarea.setImageResource(R.mipmap.trabajo);
+        }else if (tarea.getCategoria().equals("Ocio")) {
+            viewHolder.imagenTarea.setImageResource(R.mipmap.ocio);
+        }else {
+            viewHolder.imagenTarea.setImageResource(R.mipmap.clock);
+        }
+
         if(tarea.getEstado() == 1){
             viewHolder.checkBox.setChecked(true);
+            viewHolder.imagenTarea.setImageResource(R.mipmap.checked);
         }else{
             viewHolder.checkBox.setChecked(false);
         }
-
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,12 +82,14 @@ public class TareasAdapter extends RecyclerView.Adapter<TareasAdapter.ViewHolder
 
         public TextView nombreTarea;
         public CheckBox checkBox;
+        public ImageView imagenTarea;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             checkBox = (CheckBox) itemView.findViewById(R.id.checkboxTarea);
             nombreTarea = itemView.findViewById(R.id.nombreTarea);
+            imagenTarea = itemView.findViewById(R.id.imagenTarea);
 
         }
     }

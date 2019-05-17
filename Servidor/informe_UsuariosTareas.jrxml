@@ -4,7 +4,7 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<queryString>
-		<![CDATA[SELECT Usuario.Nombre, COUNT(Tarea.Nombre) FROM Tarea INNER JOIN Usuario ON Tarea.Id_Usuario = Usuario.ID WHERE Tarea.Estado = 1 GROUP BY Usuario.Nombre]]>
+		<![CDATA[SELECT Usuario.Nombre, COUNT(Tarea.Nombre) FROM Tarea INNER JOIN Usuario ON Tarea.Id_Usuario = Usuario.ID WHERE Tarea.Estado = 1 GROUP BY Usuario.Nombre ORDER BY COUNT(Tarea.Nombre) DESC]]>
 	</queryString>
 	<field name="Nombre" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>

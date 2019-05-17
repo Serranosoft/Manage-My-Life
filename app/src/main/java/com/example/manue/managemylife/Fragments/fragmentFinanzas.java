@@ -18,8 +18,11 @@ import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.manue.managemylife.Activities.ProductosActivity;
@@ -66,6 +69,10 @@ public class fragmentFinanzas extends Fragment {
     CircleImageView imagen_perfil = null;
 
     int suma_productos_gasto = 0;
+    private RadioGroup radio_categoria;
+
+    private AlertDialog.Builder builder_insertar_categoria;
+    private AlertDialog dialog_insertar_categoria;
     public fragmentFinanzas() {
         // Required empty public constructor
     }
@@ -106,7 +113,50 @@ public class fragmentFinanzas extends Fragment {
 
 
                 final EditText nombre_gasto = view_popup_gasto.findViewById(R.id.insertar_nombre_gasto);
-                final EditText tipo_gasto = view_popup_gasto.findViewById(R.id.insertar_tipo_gasto);
+
+                //final EditText tipo_gasto = view_popup_gasto.findViewById(R.id.insertar_tipo_gasto);
+
+                final TextView categoria_textview = (TextView) view_popup_gasto.findViewById(R.id.insertar_finanza_categoria_text);
+                final LinearLayout categoria = (LinearLayout) view_popup_gasto.findViewById(R.id.insertar_finanza_categoria);
+                final View view_popup_categoria = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.popup_insertar_finanzas_categoria, null);
+                final Button categoria_aceptar = (Button) view_popup_categoria.findViewById(R.id.btnOkFinanzas);
+
+                radio_categoria = (RadioGroup) view_popup_categoria.findViewById(R.id.radioScreenModeFinanzas);
+                categoria.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        builder_insertar_categoria = new AlertDialog.Builder(getActivity(), R.style.AlertDialog);
+
+
+                        builder_insertar_categoria.setView(view_popup_categoria);
+                        dialog_insertar_categoria = builder_insertar_categoria.create();
+                        if (view_popup_categoria.getParent() != null) {
+                            ((ViewGroup) view_popup_categoria.getParent()).removeView(view_popup_categoria);
+                        }
+                        dialog_insertar_categoria.show();
+
+                        radio_categoria.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                                switch (radio_categoria.getCheckedRadioButtonId()) {
+                                    case R.id.radio0:
+                                        categoria_textview.setText("Producto");
+                                        break;
+                                    case R.id.radio1:
+                                        categoria_textview.setText("Servicio");
+                                        break;
+
+                                }
+                            }
+                        });
+                        categoria_aceptar.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog_insertar_categoria.dismiss();
+                            }
+                        });
+                    }
+                });
 
                 final TextView close_gasto = view_popup_gasto.findViewById(R.id.insertar_gasto_close);
                 close_gasto.setOnClickListener(new View.OnClickListener() {
@@ -121,7 +171,7 @@ public class fragmentFinanzas extends Fragment {
                     @Override
                     public void onClick(View v) {
                         gastos.setNombre_gasto(nombre_gasto.getText().toString());
-                        gastos.setTipo_gasto(tipo_gasto.getText().toString());
+                        gastos.setTipo_gasto(categoria_textview.getText().toString());
                         gastos.setPrecio_gasto(0);
                         executeInsertarGastosTask();
                         dialog_gasto.dismiss();

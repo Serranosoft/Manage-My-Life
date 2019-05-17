@@ -70,7 +70,7 @@ public class insertarGasto extends javax.swing.JDialog {
         jLabel5 = new javax.swing.JLabel();
         insertar_gasto = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
-        gasto_tipo = new javax.swing.JTextField();
+        gasto_tipo = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -127,6 +127,8 @@ public class insertarGasto extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        gasto_tipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Producto", "Servicio" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -138,7 +140,7 @@ public class insertarGasto extends javax.swing.JDialog {
                     .addComponent(jLabel2)
                     .addComponent(jLabel5)
                     .addComponent(insertar_gasto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(gasto_tipo))
+                    .addComponent(gasto_tipo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -156,7 +158,7 @@ public class insertarGasto extends javax.swing.JDialog {
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(gasto_tipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33)
+                .addGap(31, 31, 31)
                 .addComponent(insertar_gasto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 9, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -171,7 +173,7 @@ public class insertarGasto extends javax.swing.JDialog {
 
     private void insertar_gastoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_insertar_gastoMouseClicked
 
-        if (gasto_nombre.getText().isEmpty() || gasto_tipo.getText().isEmpty()) {
+        if (gasto_nombre.getText().isEmpty() || gasto_tipo.getSelectedItem().toString().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Rellena todos los campos!");
         } else {
             try {
@@ -179,7 +181,7 @@ public class insertarGasto extends javax.swing.JDialog {
                 salida.writeObject(peticion);
                 salida.flush();
                 gastos.setNombre_gasto(gasto_nombre.getText());
-                gastos.setTipo_gasto(gasto_tipo.getText());
+                gastos.setTipo_gasto(gasto_tipo.getSelectedItem().toString());
                 gastos.setPrecio_gasto(0);
                 
                 salida.writeObject(gastos);
@@ -249,7 +251,7 @@ public class insertarGasto extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField gasto_nombre;
-    private javax.swing.JTextField gasto_tipo;
+    private javax.swing.JComboBox<String> gasto_tipo;
     private javax.swing.JPanel insertar_gasto;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
