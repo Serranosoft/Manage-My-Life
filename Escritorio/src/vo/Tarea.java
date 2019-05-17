@@ -22,21 +22,8 @@ public class Tarea implements Serializable {
     private String descripcion;
     private int estado = 0;
     private int prioritario = 0;
-
-    public Tarea(int id, String nombre, int estado) {
-        this.id = id;
-        this.nombre = nombre;
-        this.estado = estado;
-    }
-
-    public Tarea(int id, String nombre, String categoria, Date fecha_inscrita, Date fecha_realizar, String descripcion) {
-        this.id = id;
-        this.nombre = nombre;
-        this.categoria = categoria;
-        this.fecha_inscrita = fecha_inscrita;
-        this.fecha_realizar = fecha_realizar;
-        this.descripcion = descripcion;
-    }
+ 
+  
 
     public Tarea() {
     }
@@ -104,5 +91,6 @@ public class Tarea implements Serializable {
     public void setPrioritario(int prioritario) {
         this.prioritario = prioritario;
     }
+    
 
 }

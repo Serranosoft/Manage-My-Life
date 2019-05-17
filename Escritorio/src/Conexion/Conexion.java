@@ -2,8 +2,6 @@ package Conexion;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.sql.Connection;
-import java.sql.DriverManager;
 
 public class Conexion {
 
@@ -12,25 +10,26 @@ public class Conexion {
      */
     static String server = "";
     static String puerto = "";
-    // jasper report
-    static String bd = "";
-    static String login = "";
-    static String password = "";
-    static String url = "jdbc:mysql://localhost/";
-    Connection connection = null;
 
     public Conexion() {
         try {
 
             BufferedReader br = new BufferedReader(new FileReader("config.txt"));
 
-            server = br.readLine();
-            puerto = br.readLine();
-            bd = br.readLine();
-            login = br.readLine();
-            password = br.readLine();
-            connection = DriverManager.getConnection(url + bd + "?serverTimezone=UTC", login, password);
-            
+            String[] configuracion = new String[2];
+            String line = "";
+            while ((line = br.readLine()) != null) {
+                String[] palabra = line.split(":");
+                if (palabra[0].equals("IP")) {
+                    configuracion[0] = palabra[1];
+                } else if (palabra[0].equals("puerto")) {
+                    configuracion[1] = palabra[1];
+                }
+
+            }
+            server = configuracion[0];
+            puerto = configuracion[1];
+
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -40,13 +39,6 @@ public class Conexion {
         return server;
     }
 
-    public Connection getConnection() {
-        return connection;
-    }
-
-    public void desconectar() {
-        connection = null;
-    }
     public Integer getPuerto() {
         return Integer.valueOf(puerto);
     }

@@ -5,31 +5,26 @@
  */
 package UI;
 
+import Compartir.Informes;
 import Compartir.Peticion;
 import Compartir.Tareas;
 import Compartir.Usuarios;
 import Conexion.Conexion;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Image;
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 import java.util.Base64;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JDialog;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.view.JasperViewer;
+
 
 /**
  *
@@ -49,17 +44,10 @@ public class InformesUI extends javax.swing.JFrame {
     Usuarios usuarios = new Usuarios();
     Peticion peticion = new Peticion();
     Tareas tareas = new Tareas();
+    Informes informes = new Informes();
 
     public InformesUI(Usuarios usuarios) {
         initComponents();
-        System.out.println("A");
-        try {
-            cliente = new Socket(server, puerto);
-            salida = new ObjectOutputStream(cliente.getOutputStream());
-            entrada = new ObjectInputStream(cliente.getInputStream());
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
         this.setLocationRelativeTo(null);
         this.usuarios = usuarios;
         informes_nombre.setText(usuarios.getNombre());
@@ -568,28 +556,24 @@ public class InformesUI extends javax.swing.JFrame {
         FinanzasUI finanzas = new FinanzasUI(usuarios);
         finanzas.setVisible(true);
         this.setVisible(false);
-        conexion.desconectar();
     }//GEN-LAST:event_btn_5MouseClicked
 
     private void btn_2MouseClicked1(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_2MouseClicked1
         TareasUI tareasUI = new TareasUI(usuarios);
         tareasUI.setVisible(true);
         this.setVisible(false);
-        conexion.desconectar();
     }//GEN-LAST:event_btn_2MouseClicked1
 
     private void btn_4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_4MouseClicked
         CalendarioUI calendario = new CalendarioUI(usuarios);
         calendario.setVisible(true);
         this.setVisible(false);
-        conexion.desconectar();
     }//GEN-LAST:event_btn_4MouseClicked
 
     private void btn_3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_3MouseClicked
         TareasTerminadasUI tareasTerminadasUI = new TareasTerminadasUI(usuarios);
         tareasTerminadasUI.setVisible(true);
         this.setVisible(false);
-        conexion.desconectar();
     }//GEN-LAST:event_btn_3MouseClicked
 
     private void jPanel2MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MouseDragged
@@ -602,43 +586,94 @@ public class InformesUI extends javax.swing.JFrame {
 
     private void generar_informe_tareas_categoriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_generar_informe_tareas_categoriaMouseClicked
         try {
-            JasperReport informe = (JasperReport) JRLoader.loadObject("informe_TareasCategoria.jasper");
-            Map<String, Integer> parametros = new HashMap<String, Integer>();
-            System.out.println(usuarios.getNombre());
-            parametros.put("ID_Usuario", usuarios.getId());
-            JasperPrint jasperPrint = JasperFillManager.fillReport(informe, parametros, conexion.getConnection());
+            cliente = new Socket(server, puerto);
+            salida = new ObjectOutputStream(cliente.getOutputStream());
+            entrada = new ObjectInputStream(cliente.getInputStream());
 
-            JasperViewer jrViewer = new JasperViewer(jasperPrint, true);
-            JDialog viewer = new JDialog(new javax.swing.JFrame(), "Tareas por Categorias", true);
-            viewer.setSize(1000, 600);
-            viewer.setLocationRelativeTo(null);
-            viewer.getContentPane().add(jrViewer.getContentPane());
-            viewer.setVisible(true);
+            peticion.setConsulta(24);
+            salida.writeObject(peticion);
 
-            // conexion.desconectar();
-            System.out.println(usuarios.getId());
-        } catch (JRException ex) {
+            informes.setId_usuario(usuarios.getId());
+            informes.setTipo("informe_TareasCategoria");
+            salida.writeObject(informes);
+            informes = (Informes) entrada.readObject();
+            System.out.println("TAMAÑO DE ENCODE: " + informes.getInforme().length());
+            byte[] prueba = Base64.getDecoder().decode(informes.getInforme());
+
+            OutputStream out = new FileOutputStream("informes_generados/" + informes.getTipo() + "_out.pdf");
+            out.write(prueba);
+            out.close();
+
+            try {
+
+                File pdfFile = new File("informes_generados/" + informes.getTipo() + "_out.pdf");
+                if (pdfFile.exists()) {
+
+                    if (Desktop.isDesktopSupported()) {
+                        Desktop.getDesktop().open(pdfFile);
+                    } else {
+                        System.out.println("Awt Desktop is not supported!");
+                    }
+
+                } else {
+                    System.out.println("File is not exists!");
+                }
+
+                System.out.println("Done");
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
         }
     }//GEN-LAST:event_generar_informe_tareas_categoriaMouseClicked
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         try {
-            JasperReport informe = (JasperReport) JRLoader.loadObject("informe_tareasPendientes.jasper");
-            Map<String, Integer> parametros = new HashMap<String, Integer>();
-            parametros.put("ID_Usuario", usuarios.getId());
-            JasperPrint jasperPrint = JasperFillManager.fillReport(informe, parametros, conexion.getConnection());
+            cliente = new Socket(server, puerto);
+            salida = new ObjectOutputStream(cliente.getOutputStream());
+            entrada = new ObjectInputStream(cliente.getInputStream());
 
-            JasperViewer jrViewer = new JasperViewer(jasperPrint, true);
-            JDialog viewer = new JDialog(new javax.swing.JFrame(), "Tareas Pendientes", true);
-            viewer.setSize(1000, 600);
-            viewer.setLocationRelativeTo(null);
-            viewer.getContentPane().add(jrViewer.getContentPane());
-            viewer.setVisible(true);
+            peticion.setConsulta(24);
+            salida.writeObject(peticion);
 
-            //conexion.desconectar();
-            System.out.println(usuarios.getId());
-        } catch (JRException ex) {
+            informes.setId_usuario(usuarios.getId());
+            informes.setTipo("informe_tareasPendientes");
+            salida.writeObject(informes);
+            informes = (Informes) entrada.readObject();
+            System.out.println("TAMAÑO DE ENCODE: " + informes.getInforme().length());
+            byte[] prueba = Base64.getDecoder().decode(informes.getInforme());
+
+            OutputStream out = new FileOutputStream("informes_generados/" + informes.getTipo() + "_out.pdf");
+            out.write(prueba);
+            out.close();
+
+            try {
+
+                File pdfFile = new File("informes_generados/" + informes.getTipo() + "_out.pdf");
+                if (pdfFile.exists()) {
+
+                    if (Desktop.isDesktopSupported()) {
+                        Desktop.getDesktop().open(pdfFile);
+                    } else {
+                        System.out.println("Awt Desktop is not supported!");
+                    }
+
+                } else {
+                    System.out.println("File is not exists!");
+                }
+
+                System.out.println("Done");
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
         }
 
@@ -648,52 +683,105 @@ public class InformesUI extends javax.swing.JFrame {
         PerfilUI perfilUI = new PerfilUI(usuarios);
         perfilUI.setVisible(true);
         this.setVisible(false);
-        conexion.desconectar();
     }//GEN-LAST:event_btn_1MouseClicked
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+        //try {
+
         try {
-            JasperReport informe = (JasperReport) JRLoader.loadObject("informeTareasSubtareas.jasper");
-            Map<String, Integer> parametros = new HashMap<String, Integer>();
-            parametros.put("ID_Usuario", usuarios.getId());
-            JasperPrint jasperPrint = JasperFillManager.fillReport(informe, parametros, conexion.getConnection());
+            cliente = new Socket(server, puerto);
+            salida = new ObjectOutputStream(cliente.getOutputStream());
+            entrada = new ObjectInputStream(cliente.getInputStream());
 
-            JasperViewer jrViewer = new JasperViewer(jasperPrint, true);
-            JDialog viewer = new JDialog(new javax.swing.JFrame(), "Tareas y Subtareas", true);
-            viewer.setSize(1000, 600);
-            viewer.setLocationRelativeTo(null);
-            viewer.getContentPane().add(jrViewer.getContentPane());
-            viewer.setVisible(true);
+            peticion.setConsulta(24);
+            salida.writeObject(peticion);
 
-            //conexion.desconectar();
-            System.out.println(usuarios.getId());
-        } catch (JRException ex) {
+            informes.setId_usuario(usuarios.getId());
+            informes.setTipo("informeTareasSubtareas");
+            salida.writeObject(informes);
+            informes = (Informes) entrada.readObject();
+            System.out.println("TAMAÑO DE ENCODE: " + informes.getInforme().length());
+            byte[] prueba = Base64.getDecoder().decode(informes.getInforme());
+
+            OutputStream out = new FileOutputStream("informes_generados/" + informes.getTipo() + "_out.pdf");
+            out.write(prueba);
+            out.close();
+
+            try {
+
+                File pdfFile = new File("informes_generados/" + informes.getTipo() + "_out.pdf");
+                if (pdfFile.exists()) {
+
+                    if (Desktop.isDesktopSupported()) {
+                        Desktop.getDesktop().open(pdfFile);
+                    } else {
+                        System.out.println("Awt Desktop is not supported!");
+                    }
+
+                } else {
+                    System.out.println("File is not exists!");
+                }
+
+                System.out.println("Done");
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
         }
-
     }//GEN-LAST:event_jButton2MouseClicked
 
     private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
         try {
-            JasperReport informe = (JasperReport) JRLoader.loadObject("informe_UsuariosTareas.jasper");
-            Map<String, Integer> parametros = new HashMap<String, Integer>();
-            JasperPrint jasperPrint = JasperFillManager.fillReport(informe, parametros, conexion.getConnection());
+            cliente = new Socket(server, puerto);
+            salida = new ObjectOutputStream(cliente.getOutputStream());
+            entrada = new ObjectInputStream(cliente.getInputStream());
 
-            JasperViewer jrViewer = new JasperViewer(jasperPrint, true);
-            JDialog viewer = new JDialog(new javax.swing.JFrame(), "Usuarios y sus tareas terminadas", true);
-            viewer.setSize(1000, 600);
-            viewer.setLocationRelativeTo(null);
-            viewer.getContentPane().add(jrViewer.getContentPane());
-            viewer.setVisible(true);
+            peticion.setConsulta(24);
+            salida.writeObject(peticion);
 
-            //conexion.desconectar();
-            System.out.println(usuarios.getId());
-        } catch (JRException ex) {
+            informes.setId_usuario(usuarios.getId());
+            informes.setTipo("informe_UsuariosTareas");
+            salida.writeObject(informes);
+            informes = (Informes) entrada.readObject();
+            System.out.println("TAMAÑO DE ENCODE: " + informes.getInforme().length());
+            byte[] prueba = Base64.getDecoder().decode(informes.getInforme());
+
+            OutputStream out = new FileOutputStream("informes_generados/" + informes.getTipo() + "_out.pdf");
+            out.write(prueba);
+            out.close();
+
+            try {
+
+                File pdfFile = new File("informes_generados/" + informes.getTipo() + "_out.pdf");
+                if (pdfFile.exists()) {
+
+                    if (Desktop.isDesktopSupported()) {
+                        Desktop.getDesktop().open(pdfFile);
+                    } else {
+                        System.out.println("Awt Desktop is not supported!");
+                    }
+
+                } else {
+                    System.out.println("File is not exists!");
+                }
+
+                System.out.println("Done");
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
         }
     }//GEN-LAST:event_jButton3MouseClicked
 
-        public void obtenerImagenPerfil(Usuarios usuarios) {
+    public void obtenerImagenPerfil(Usuarios usuarios) {
         try {
             System.out.println(usuarios.getImagen().length());
             if (usuarios.getImagen().equals("null") || usuarios.getImagen().length() == 0) {
@@ -711,6 +799,7 @@ public class InformesUI extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }
+
     /**
      * @param args the command line arguments
      */

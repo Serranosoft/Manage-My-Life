@@ -79,7 +79,10 @@ public class CalendarioUI extends javax.swing.JFrame {
         public HighlightInformation getHighlightInformationOrNull(LocalDate date) {
             for (int i = 0; i < tareas.getResultados_tareas().size(); i++) {
                 if (date.getDayOfMonth() == tareas.getResultados_tareas().get(i).getFecha_realizar().toLocalDate().getDayOfMonth()) {
-                    return new HighlightInformation(Color.CYAN, null, "null");
+                    if(tareas.getResultados_tareas().get(i).getEstado() == 0){
+                        return new HighlightInformation(Color.CYAN, null, "null");
+                    }
+                    
                 }
             }
 
@@ -99,7 +102,10 @@ public class CalendarioUI extends javax.swing.JFrame {
  
                 System.out.println("ID: "+tareas.getResultados_tareas().get(i).getId()+" FECHA A COMPARAR: " + tareas.getResultados_tareas().get(i).getFecha_realizar());
                 if (sdf.format(date).equals(sdf.format(tareas.getResultados_tareas().get(i).getFecha_realizar()))) {
-                    cont_tareas++;
+                    if(tareas.getResultados_tareas().get(i).getEstado() == 0) {
+                        cont_tareas++;
+                    }
+                    
                 }
             }
             JOptionPane.showMessageDialog(null, "Día: " + cse.getNewDate() + " tienes: " + cont_tareas +" tareas");

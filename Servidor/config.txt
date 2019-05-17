@@ -1,4 +1,4 @@
-4444
-proyecto_final
-root
-123456
+puerto:4444
+nombre_base_datos:proyecto_final
+usuario_base_datos:root
+contrasena_base_datos:123456

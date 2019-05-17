@@ -1,11 +1,13 @@
 
 import Compartir.Gastos;
+import Compartir.Informes;
 import Compartir.Peticion;
 import Compartir.Productos;
 import Compartir.Subtareas;
 import Compartir.Tareas;
 import Compartir.Usuarios;
 import dao.GastosOP;
+import dao.InformesOP;
 import dao.TareasOP;
 import dao.UsuariosOP;
 import java.io.IOException;
@@ -40,6 +42,7 @@ class HiloServidor extends Thread {
     Subtareas subtareas = new Subtareas();
     Gastos gastos = new Gastos();
     Productos productos = new Productos();
+    Informes informes = new Informes();
     int consulta = 0;
 
     HiloServidor(Socket usuario, ObjectOutputStream salida) {
@@ -161,6 +164,12 @@ class HiloServidor extends Thread {
                     gastos = (Gastos) entrada.readObject();
                     actualizarGasto(gastos);
                     break;
+                case 24:
+                    informes = (Informes) entrada.readObject();
+                    generarInformes(informes);
+                    salida.writeObject(informes);
+                    break;
+                    
 
             }
         } catch (IOException ex) {
@@ -385,6 +394,18 @@ class HiloServidor extends Thread {
             GastosOP gop = new GastosOP();
             gop.actualizarGasto(gastos);
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void generarInformes(Informes informes) {
+        byte[] pdf = "".getBytes();
+        String pdf_encoded = "";
+        try {
+            InformesOP iop = new InformesOP();
+            pdf_encoded = iop.GenerarInforme(informes);
+            informes.setInforme(pdf_encoded);
+        } catch(Exception e) {
             e.printStackTrace();
         }
     }
