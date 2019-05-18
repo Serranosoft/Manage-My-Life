@@ -67,7 +67,7 @@ public class ProductosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_productos);
         settings = new SettingsClass(this);
-
+        //getActionBar().setDisplayHomeAsUpEnabled(true);
 
         productos_cantidad = (TextView) findViewById(R.id.productos_cantidad);
         productos_balance = (TextView) findViewById(R.id.productos_balance);
@@ -76,8 +76,6 @@ public class ProductosActivity extends AppCompatActivity {
 
         gastos = (Gastos) getIntent().getSerializableExtra("gastos_productos");
         usuarios = (Usuarios) getIntent().getSerializableExtra("usuarios");
-        //usuarios = fragmentPerfil.getInstance().getUsuarios();
-        //executeObtenerInformacion();
         balance = usuarios.getSalario();
 
 
@@ -87,7 +85,6 @@ public class ProductosActivity extends AppCompatActivity {
 
         obtenerImagenPerfil(usuarios);
         executeActualizarProductos();
-        //executeMostrarProductos();
         fab = findViewById(R.id.productos_add);
 
         fab.setOnClickListener(new View.OnClickListener() {

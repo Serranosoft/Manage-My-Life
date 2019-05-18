@@ -79,6 +79,13 @@ public class fragmentFinanzas extends Fragment {
 
 
     @Override
+    public void onResume() {
+        super.onResume();
+        executeFinanzasTask();
+        executeObtenerInformacion();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -182,14 +189,6 @@ public class fragmentFinanzas extends Fragment {
             }
         });
 
-        FloatingActionButton actualizar_gastos = view.findViewById(R.id.actualizar_gastos);
-        actualizar_gastos.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                executeFinanzasTask();
-                executeObtenerInformacion();
-            }
-        });
         // Método que permite eliminar deslizando cada elemento del CardView
         SwipeableRecyclerViewTouchListener swipeTouchListener =
                 new SwipeableRecyclerViewTouchListener(rList,
@@ -222,11 +221,14 @@ public class fragmentFinanzas extends Fragment {
                                             int idGasto = listaGasto.get(position).getId();
                                             gastos.setId(idGasto);
 
+                                            // Obtengo todos los productos de ese gasto y lo sumo al salario.
                                             executeObtenerProductos();
+                                            // Elimino el gasto
                                             executeDeleteFinanzasTask();
 
                                             listaGasto.remove(position);
                                             adapter.notifyItemRemoved(position);
+
                                             suma_productos_gasto = 0;
                                         }
                                     });
@@ -478,6 +480,8 @@ public class fragmentFinanzas extends Fragment {
                 suma_productos_gasto += productos.get(i).getPrecio_producto();
             }
             usuarios.setSalario(usuarios.getSalario() + suma_productos_gasto);
+            finanzas_balance.setText(usuarios.getSalario()+"€");
+            finanzas_gastos.setText(listaGasto.size()+"");
             executeUpdateSalario();
 
         }

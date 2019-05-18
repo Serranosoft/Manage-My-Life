@@ -115,14 +115,4 @@
         android:src="@drawable/add"
         app:backgroundTint="@color/colorElements" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/actualizar_gastos"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@mipmap/refresh"
-        app:backgroundTint="@color/colorElements" />
-
 </RelativeLayout>
