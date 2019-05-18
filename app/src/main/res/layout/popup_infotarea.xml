@@ -19,7 +19,7 @@
             android:layout_marginTop="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Informacion"
+            android:text="@string/informacion"
             android:layout_marginLeft="8dp"
             android:textColor="@color/colorSelected"/>
 
@@ -56,7 +56,7 @@
             android:id="@+id/tarea_tarea"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Estudiar Acceso a Datos"
+            android:text="Titulo de prueba de la tarea"
             android:textStyle="bold"
             android:textColor="@color/colorSelected"
             android:layout_gravity="center"
@@ -116,7 +116,7 @@
                     android:id="@+id/tarea_categoria"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ESTUDIOS"
+                    android:text="Estudios"
                     android:textColor="#E3E4DB"/>
             </LinearLayout>
             <LinearLayout
@@ -144,7 +144,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Terminar"
+                    android:text="@string/terminar"
                     android:textStyle="bold"
                     android:layout_marginBottom="8dp"
                     android:textColor="@color/colorSelected"/>
@@ -164,7 +164,7 @@
             android:id="@+id/tarea_subtareas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="SUBTAREAS"
+            android:text="@string/subtareas"
             android:textSize="18sp"
             android:textColor="@color/colorSelected"
             android:background="#5f7ae2"

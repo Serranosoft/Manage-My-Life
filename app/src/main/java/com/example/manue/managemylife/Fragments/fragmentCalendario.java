@@ -56,7 +56,7 @@ public class fragmentCalendario extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_calendario, container, false);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Calendario");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.Calendario);
         settings = new SettingsClass(getActivity().getApplicationContext());
         MainActivity mainActivity = (MainActivity) getActivity();
 

@@ -84,7 +84,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="tareas pendientes"
+                    android:text="@string/tareasPend"
                     android:textAllCaps="true"
                     android:textColor="#fff"
                     android:textSize="10sp" />
@@ -121,7 +121,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="tareas terminadas"
+                    android:text="@string/tareasTerm"
                     android:textAllCaps="true"
                     android:textColor="#fff"
                     android:textSize="10sp" />
@@ -157,7 +157,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="balance actual"
+                    android:text="@string/balance"
                     android:textAllCaps="true"
                     android:textColor="#fff"
                     android:textSize="10sp" />
@@ -180,7 +180,7 @@
             android:layout_margin="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="MODIFICAR PERFIL"
+            android:text="@string/modificarPerfil"
             android:background="@color/colorElements"/>
         <Button
             android:id="@+id/cerrar_sesion"
@@ -188,7 +188,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/modificar_perfil"
-            android:text="CERRAR SESIÓN"
+            android:text="@string/cerrarSesion"
             android:background="@color/colorElements"/>
 
     </RelativeLayout>

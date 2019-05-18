@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Tareas Terminadas :"
+        android:text="@string/tareasTerm"
         android:textSize="16dp"
         android:textColor="#000"
         />

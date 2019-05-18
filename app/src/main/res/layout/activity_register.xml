@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
-            android:hint="Usuario / Correo Electrónico"
+            android:hint="@string/usuario"
             android:textColorHint="@color/black"
             android:textColor="@color/black"/>
     </android.support.design.widget.TextInputLayout>
@@ -40,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            android:hint="Contraseña"
+            android:hint="@string/contrasena"
             android:textColorHint="@color/black"
             android:textColor="@color/black"/>
     </android.support.design.widget.TextInputLayout>
@@ -54,7 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
-            android:hint="Nombre"
+            android:hint="@string/nombre"
             android:textColorHint="@color/black"
             android:textColor="@color/black"/>
     </android.support.design.widget.TextInputLayout>
@@ -68,7 +68,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
-            android:hint="Salario"
+            android:hint="@string/salario"
             android:textColorHint="@color/black"
             android:textColor="@color/black"/>
     </android.support.design.widget.TextInputLayout>
@@ -81,13 +81,13 @@
         android:layout_marginBottom="16dp"
         android:background="@color/background_profile"
         android:textColor="@color/colorSelected"
-        android:text="REGISTRARSE"/>
+        android:text="@string/registrarse"/>
 
     <TextView android:id="@+id/register_iniciar_sesion"
         android:textColor="@color/black"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Ya tienes una cuenta? Inicia Sesión"
+        android:text="@string/YaTienesCuenta"
         android:gravity="center"
         android:textSize="16dip"/>
 

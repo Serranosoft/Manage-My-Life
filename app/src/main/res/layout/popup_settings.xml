@@ -18,7 +18,7 @@
             android:layout_marginTop="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Configurar conexion"
+            android:text="@string/ConfigurarConexion"
             android:layout_marginLeft="8dp"
             android:textColor="@color/colorSelected"/>
 
@@ -43,7 +43,7 @@
             android:id="@+id/direccionIP"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Dirección del Servidor..."
+            android:hint="@string/DireccionServidor"
             android:textStyle="bold"
             android:textColor="@color/colorSelected"
             android:layout_gravity="center"
@@ -55,7 +55,7 @@
             android:id="@+id/puerto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Puerto del Servidor.."
+            android:hint="@string/PuertoServidor"
             android:textStyle="bold"
             android:textColor="@color/colorSelected"
             android:layout_gravity="center"

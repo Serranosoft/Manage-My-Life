@@ -43,7 +43,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="productos"
+                    android:text="@string/productos"
                     android:textAllCaps="true"
                     android:textColor="#fff"
                     android:textSize="10sp" />
@@ -79,7 +79,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="balance"
+                    android:text="@string/balance"
                     android:textAllCaps="true"
                     android:textColor="#fff"
                     android:textSize="10sp" />

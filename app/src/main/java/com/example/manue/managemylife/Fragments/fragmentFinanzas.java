@@ -82,7 +82,7 @@ public class fragmentFinanzas extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Control de Gastos");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.ControlGastos);
         View view = inflater.inflate(R.layout.fragment_finanzas, container, false);
 
         settings = new SettingsClass(getActivity().getApplicationContext());

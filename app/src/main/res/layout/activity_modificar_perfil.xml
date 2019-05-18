@@ -74,7 +74,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
-                android:hint="Nombre"
+                android:hint="@string/nombre"
                 android:textColorHint="@color/black"/>
         </android.support.design.widget.TextInputLayout>
 
@@ -94,7 +94,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
-                android:hint="Usuario"
+                android:hint="@string/usuario"
                 android:textColorHint="@color/black"/>
         </android.support.design.widget.TextInputLayout>
 
@@ -115,7 +115,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                android:hint="Salario"
+                android:hint="@string/salario"
                 android:textColorHint="@color/black"/>
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>

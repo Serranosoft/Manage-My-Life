@@ -8,31 +8,27 @@
         <item
             android:id="@+id/item_menu_perfil"
             android:icon="@mipmap/user"
-            android:title="Perfil" />
+            android:title="@string/Perfil" />
 
         <item
             android:id="@+id/item_menu_tareas"
             android:icon="@mipmap/tareas"
-            android:title="Tareas" />
+            android:title="@string/Tareas" />
         <item
             android:id="@+id/item_menu_tareas_terminadas"
             android:icon="@mipmap/task_complete"
-            android:title="Tareas Terminadas" />
+            android:title="@string/tareasTerm" />
         <item
             android:id="@+id/item_menu_calendario"
             android:icon="@mipmap/calendar"
-            android:title="Calendario" />
+            android:title="@string/Calendario" />
 
-        <item android:title="Finanzas">
+        <item android:title="@string/Finanzas">
             <menu>
                 <item
                     android:id="@+id/item_menu_gastos"
                     android:icon="@mipmap/hand"
-                    android:title="Control de Gastos" />
-                <item
-                    android:id="@+id/item_menu_informes"
-                    android:icon="@mipmap/graphic"
-                    android:title="Informes" />
+                    android:title="@string/ControlGastos" />
             </menu>
         </item>
     </group>

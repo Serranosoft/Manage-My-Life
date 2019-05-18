@@ -18,7 +18,7 @@
             android:layout_marginTop="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Crear Producto"
+            android:text="@string/crearProducto"
             android:layout_marginLeft="8dp"
             android:textColor="@color/colorSelected"/>
 
@@ -43,7 +43,7 @@
             android:id="@+id/insertar_nombre_producto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nombre del producto..."
+            android:hint="@string/NombreDelProducto"
             android:textStyle="bold"
             android:textColor="@color/colorSelected"
             android:layout_marginLeft="8dp"
@@ -62,7 +62,7 @@
                 android:id="@+id/insertar_precio_producto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Precio del producto..."
+                android:hint="@string/PrecioDelProducto"
                 android:textStyle="bold"
                 android:textColor="@color/colorSelected"
                 android:layout_marginLeft="8dp"

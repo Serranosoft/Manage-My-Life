@@ -55,7 +55,7 @@ public class fragmentTareasTerminadas extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Tareas Terminadas");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.tareasTerm);
 
         View view = inflater.inflate(R.layout.fragment_tareas_terminadas, container, false);
 

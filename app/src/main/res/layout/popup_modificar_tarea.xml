@@ -18,7 +18,7 @@
             android:layout_marginTop="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Modificar tarea"
+            android:text="@string/modificarTarea"
             android:layout_marginLeft="8dp"
             android:textColor="@color/colorSelected"/>
 
@@ -43,7 +43,7 @@
             android:id="@+id/modificar_tarea_nombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nombre de la tarea..."
+            android:hint="@string/NombreDeTarea"
             android:textStyle="bold"
             android:textColor="@color/colorSelected"
             android:layout_gravity="center"
@@ -72,7 +72,7 @@
                 android:id="@+id/modificar_tarea_descripcion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Descripción de la tarea"
+                android:hint="@string/DescripcionTarea"
                 android:textSize="14sp"
                 android:textColor="@color/colorSelected"/>
         </LinearLayout>
@@ -94,7 +94,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Categoria"
+                    android:text="@string/Categoria"
                     android:textStyle="bold"
                     android:layout_marginBottom="8dp"
                     android:textColor="#E3E4DB"/>
@@ -132,7 +132,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Terminar en.."
+                    android:text="@string/terminar"
                     android:textStyle="bold"
                     android:layout_marginBottom="8dp"
                     android:textColor="@color/colorSelected"/>

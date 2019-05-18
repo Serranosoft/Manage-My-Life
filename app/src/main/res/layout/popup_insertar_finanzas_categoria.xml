@@ -42,7 +42,7 @@
         <Button
             android:id="@+id/btnOkFinanzas"
             android:layout_width="wrap_content"
-            android:text="Aceptar"
+            android:text="@string/aceptar"
             android:layout_height="wrap_content" />
     </LinearLayout>
 

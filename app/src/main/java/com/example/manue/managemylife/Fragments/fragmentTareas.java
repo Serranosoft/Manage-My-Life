@@ -87,7 +87,7 @@ public class fragmentTareas extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tareas, container, false);
 
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Tareas");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.Tareas);
 
         MainActivity mainActivity = (MainActivity) getActivity();
         settings = new SettingsClass(getActivity().getApplicationContext());

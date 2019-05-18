@@ -66,7 +66,7 @@ public class fragmentPerfil extends Fragment{
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_perfil, container, false);
         instance = this;
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Perfil");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.Perfil);
         modificar_perfil = view.findViewById(R.id.modificar_perfil);
 
 
