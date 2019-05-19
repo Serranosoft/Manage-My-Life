@@ -205,7 +205,7 @@ public class CalendarioUI extends javax.swing.JFrame {
         );
 
         jLabel8.setText("Perfil");
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout btn_1Layout = new javax.swing.GroupLayout(btn_1);
@@ -216,7 +216,7 @@ public class CalendarioUI extends javax.swing.JFrame {
                 .addComponent(ind_1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel8)
-                .addGap(0, 92, Short.MAX_VALUE))
+                .addGap(0, 89, Short.MAX_VALUE))
         );
         btn_1Layout.setVerticalGroup(
             btn_1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -253,7 +253,7 @@ public class CalendarioUI extends javax.swing.JFrame {
         );
 
         jLabel9.setText("Control de Gastos");
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout btn_5Layout = new javax.swing.GroupLayout(btn_5);
@@ -264,7 +264,7 @@ public class CalendarioUI extends javax.swing.JFrame {
                 .addComponent(ind_2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel9)
-                .addGap(0, 25, Short.MAX_VALUE))
+                .addGap(0, 8, Short.MAX_VALUE))
         );
         btn_5Layout.setVerticalGroup(
             btn_5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -301,7 +301,7 @@ public class CalendarioUI extends javax.swing.JFrame {
         );
 
         jLabel10.setText("Tareas");
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout btn_2Layout = new javax.swing.GroupLayout(btn_2);
@@ -312,7 +312,7 @@ public class CalendarioUI extends javax.swing.JFrame {
                 .addComponent(ind_3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel10)
-                .addGap(0, 86, Short.MAX_VALUE))
+                .addGap(0, 80, Short.MAX_VALUE))
         );
         btn_2Layout.setVerticalGroup(
             btn_2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -349,7 +349,7 @@ public class CalendarioUI extends javax.swing.JFrame {
         );
 
         jLabel11.setText("Informes");
-        jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout btn_6Layout = new javax.swing.GroupLayout(btn_6);
@@ -360,7 +360,7 @@ public class CalendarioUI extends javax.swing.JFrame {
                 .addComponent(ind_4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel11)
-                .addGap(0, 72, Short.MAX_VALUE))
+                .addGap(0, 65, Short.MAX_VALUE))
         );
         btn_6Layout.setVerticalGroup(
             btn_6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -392,7 +392,7 @@ public class CalendarioUI extends javax.swing.JFrame {
         );
 
         text_btn4.setText("Calendario");
-        text_btn4.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        text_btn4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         text_btn4.setForeground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout btn_4Layout = new javax.swing.GroupLayout(btn_4);
@@ -403,7 +403,7 @@ public class CalendarioUI extends javax.swing.JFrame {
                 .addComponent(ind_5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(text_btn4)
-                .addGap(0, 62, Short.MAX_VALUE))
+                .addGap(0, 54, Short.MAX_VALUE))
         );
         btn_4Layout.setVerticalGroup(
             btn_4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -440,7 +440,7 @@ public class CalendarioUI extends javax.swing.JFrame {
         );
 
         jLabel17.setText("Tareas Terminadas");
-        jLabel17.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        jLabel17.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout btn_3Layout = new javax.swing.GroupLayout(btn_3);
@@ -451,7 +451,7 @@ public class CalendarioUI extends javax.swing.JFrame {
                 .addComponent(ind_6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel17)
-                .addGap(0, 22, Short.MAX_VALUE))
+                .addGap(0, 6, Short.MAX_VALUE))
         );
         btn_3Layout.setVerticalGroup(
             btn_3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

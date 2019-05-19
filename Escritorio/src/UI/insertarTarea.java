@@ -211,7 +211,7 @@ public class insertarTarea extends javax.swing.JDialog {
 
                 salida.writeObject(tareas);
                 salida.flush();
-                
+
             } catch (IOException ex) {
                 Logger.getLogger(insertarTarea.class.getName()).log(Level.SEVERE, null, ex);
             } finally {

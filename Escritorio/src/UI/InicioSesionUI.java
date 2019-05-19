@@ -83,15 +83,15 @@ public class InicioSesionUI extends javax.swing.JFrame {
         inicio_email_field.setDisabledTextColor(new java.awt.Color(255, 0, 0));
         inicio_email_field.setSelectedTextColor(new java.awt.Color(255, 51, 0));
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(102, 102, 102));
         jLabel3.setText("Iniciar Sesión");
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(102, 102, 102));
         jLabel7.setText("usuario / email");
 
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(102, 102, 102));
         jLabel8.setText("password");
 
@@ -112,11 +112,11 @@ public class InicioSesionUI extends javax.swing.JFrame {
         });
         inicio_registrarse_btn.setLayout(null);
 
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("REGISTRARSE");
         inicio_registrarse_btn.add(jLabel10);
-        jLabel10.setBounds(100, 0, 100, 40);
+        jLabel10.setBounds(90, 0, 140, 40);
 
         inicio_iniciarSesion_btn.setkStartColor(new java.awt.Color(0, 153, 153));
         inicio_iniciarSesion_btn.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -126,11 +126,11 @@ public class InicioSesionUI extends javax.swing.JFrame {
         });
         inicio_iniciarSesion_btn.setLayout(null);
 
-        jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
         jLabel13.setText("INICIAR SESIÓN");
         inicio_iniciarSesion_btn.add(jLabel13);
-        jLabel13.setBounds(90, 0, 110, 40);
+        jLabel13.setBounds(80, 0, 150, 40);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -166,24 +166,24 @@ public class InicioSesionUI extends javax.swing.JFrame {
                 .addComponent(inicio_iniciarSesion_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(inicio_registrarse_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         kGradientPanel1.add(jPanel1);
-        jPanel1.setBounds(90, 160, 400, 400);
+        jPanel1.setBounds(90, 170, 400, 400);
 
         jLabel4.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("GESTOR DE TAREAS Y FINANZAS");
         kGradientPanel1.add(jLabel4);
-        jLabel4.setBounds(150, 80, 300, 40);
+        jLabel4.setBounds(100, 100, 420, 40);
 
-        jLabel11.setFont(new java.awt.Font("Segoe UI", 2, 36)); // NOI18N
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 2, 45)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setText("Manage My Life");
         kGradientPanel1.add(jLabel11);
-        jLabel11.setBounds(160, 30, 280, 48);
+        jLabel11.setBounds(130, 40, 400, 60);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

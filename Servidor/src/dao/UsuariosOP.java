@@ -37,7 +37,7 @@ public class UsuariosOP {
 
         try {
             conexion = conn.getConnection();
-            ps = conexion.prepareCall(sql);
+            ps = conexion.prepareStatement(sql);
 
             ps.setString(1, usuario.getUsuario());
             ps.setString(2, usuario.getNombre());
@@ -62,7 +62,7 @@ public class UsuariosOP {
 
         try {
             conexion = conn.getConnection();
-            ps = conexion.prepareCall(sql);
+            ps = conexion.prepareStatement(sql);
 
             ps.setString(1, usuario.getUsuario());
             ps.setString(2, usuario.getContraseña());
@@ -118,7 +118,7 @@ public class UsuariosOP {
 
         try {
             conexion = conn.getConnection();
-            ps = conexion.prepareCall(sql);
+            ps = conexion.prepareStatement(sql);
 
             byte[] imageByte;
             BufferedImage image = null;
@@ -159,7 +159,7 @@ public class UsuariosOP {
 
         try {
             conexion = conn.getConnection();
-            ps = conexion.prepareCall(sql);
+            ps = conexion.prepareStatement(sql);
 
             ps.setString(1, usuario.getUsuario());
             ResultSet rs = ps.executeQuery();
@@ -183,7 +183,7 @@ public class UsuariosOP {
 
         try {
             conexion = conn.getConnection();
-            ps = conexion.prepareCall(sql);
+            ps = conexion.prepareStatement(sql);
 
             ps.setInt(1, usuario.getSalario());
             ps.setInt(2, usuario.getId());
@@ -204,7 +204,7 @@ public class UsuariosOP {
         ResultSet rs = null;
         try {
             conexion = conn.getConnection();
-            ps = conexion.prepareCall(sql);
+            ps = conexion.prepareStatement(sql);
 
             ps.setInt(1, usuario.getId());
             rs = ps.executeQuery();

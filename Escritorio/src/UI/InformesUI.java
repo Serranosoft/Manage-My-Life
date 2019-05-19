@@ -408,7 +408,7 @@ public class InformesUI extends javax.swing.JFrame {
             }
         });
 
-        jLabel5.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Dialog", 1, 20)); // NOI18N
         jLabel5.setText("INFORMES");
 
         jPanel3.setBackground(new java.awt.Color(204, 204, 204));
@@ -417,23 +417,27 @@ public class InformesUI extends javax.swing.JFrame {
         jPanel4.setBackground(new java.awt.Color(153, 153, 153));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        informes_nombre.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        informes_nombre.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
         informes_nombre.setForeground(new java.awt.Color(255, 255, 255));
         informes_nombre.setText("xxxxxxxx");
-        jPanel4.add(informes_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 170, -1, 30));
+        jPanel4.add(informes_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 170, -1, 30));
 
         perfil_imagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/user.png"))); // NOI18N
         jPanel4.add(perfil_imagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 20, 150, 140));
 
+        jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Consultar Progreso de Tareas");
 
+        jLabel3.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Consultar progreso de Gastos");
 
+        jLabel4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Consultar progreso de otros Usuarios");
 
+        generar_informe_tareas_categoria.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         generar_informe_tareas_categoria.setText("Cantidad de tareas por Categoría");
         generar_informe_tareas_categoria.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -441,6 +445,7 @@ public class InformesUI extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jButton1.setText("Tareas Pendientes");
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -448,6 +453,7 @@ public class InformesUI extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jButton2.setText("Tareas y Subtareas");
         jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -455,6 +461,7 @@ public class InformesUI extends javax.swing.JFrame {
             }
         });
 
+        jButton3.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jButton3.setText("Usuarios y Tareas Terminadas");
         jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -462,6 +469,7 @@ public class InformesUI extends javax.swing.JFrame {
             }
         });
 
+        jButton4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jButton4.setText("Numero de Gastos por Tipo");
         jButton4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -469,6 +477,7 @@ public class InformesUI extends javax.swing.JFrame {
             }
         });
 
+        jButton5.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jButton5.setText("Usuarios y Gastos");
         jButton5.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -476,6 +485,7 @@ public class InformesUI extends javax.swing.JFrame {
             }
         });
 
+        jButton6.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jButton6.setText("Numero de Productos por Tipo");
         jButton6.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -560,7 +570,7 @@ public class InformesUI extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(8, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))

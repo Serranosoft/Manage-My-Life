@@ -90,23 +90,23 @@ public class RegistroUI extends javax.swing.JFrame {
         registro_nombre_field.setForeground(new java.awt.Color(102, 102, 102));
         registro_nombre_field.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(12, 91, 160)));
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(102, 102, 102));
         jLabel3.setText("Registrate");
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(102, 102, 102));
         jLabel5.setText("usuario / email");
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(102, 102, 102));
         jLabel6.setText("salario");
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(102, 102, 102));
         jLabel7.setText("nombre");
 
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(102, 102, 102));
         jLabel8.setText("contraseña");
 
@@ -122,13 +122,13 @@ public class RegistroUI extends javax.swing.JFrame {
         });
         registrar_boton.setLayout(null);
 
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("REGISTRARSE");
         registrar_boton.add(jLabel10);
-        jLabel10.setBounds(100, 0, 100, 40);
+        jLabel10.setBounds(90, 0, 180, 40);
 
-        registrar_inicioSesion_btn.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
+        registrar_inicioSesion_btn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         registrar_inicioSesion_btn.setForeground(new java.awt.Color(102, 102, 102));
         registrar_inicioSesion_btn.setText("¿Tienes una cuenta ya creada? ¡Inicia Sesión aqui!");
         registrar_inicioSesion_btn.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -155,11 +155,11 @@ public class RegistroUI extends javax.swing.JFrame {
                         .addComponent(registro_email_field)
                         .addComponent(registro_password_field)
                         .addComponent(registrar_boton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(57, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(85, Short.MAX_VALUE)
-                .addComponent(registrar_inicioSesion_btn)
-                .addGap(88, 88, 88))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(36, 36, 36)
+                .addComponent(registrar_inicioSesion_btn, javax.swing.GroupLayout.DEFAULT_SIZE, 358, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -182,28 +182,28 @@ public class RegistroUI extends javax.swing.JFrame {
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(registro_salario_field, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addComponent(registrar_boton, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(registrar_inicioSesion_btn)
-                .addGap(39, 39, 39))
+                .addGap(12, 12, 12))
         );
 
         kGradientPanel1.add(jPanel1);
         jPanel1.setBounds(90, 140, 400, 480);
 
         jLabel4.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("GESTOR DE TAREAS Y FINANZAS");
         kGradientPanel1.add(jLabel4);
-        jLabel4.setBounds(150, 80, 300, 40);
+        jLabel4.setBounds(110, 80, 450, 40);
 
-        jLabel11.setFont(new java.awt.Font("Segoe UI", 2, 36)); // NOI18N
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 2, 45)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setText("Manage My Life");
         kGradientPanel1.add(jLabel11);
-        jLabel11.setBounds(160, 30, 280, 48);
+        jLabel11.setBounds(130, 10, 420, 61);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

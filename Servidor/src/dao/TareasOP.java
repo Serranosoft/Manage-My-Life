@@ -38,7 +38,7 @@ public class TareasOP {
         try {
             String sql = "SELECT * FROM Tarea WHERE Id_Usuario = ?";
             conexion = conn.getConnection();
-            ps = conexion.prepareCall(sql);
+            ps = conexion.prepareStatement(sql);
             ps.setInt(1, tareas.getIdUsuario());
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -78,7 +78,7 @@ public class TareasOP {
         try {
             String sql = "SELECT * FROM Tarea WHERE ID = ?";
             conexion = conn.getConnection();
-            ps = conexion.prepareCall(sql);
+            ps = conexion.prepareStatement(sql);
             ps.setInt(1, tareas.getId());
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -116,7 +116,7 @@ public class TareasOP {
 
         try {
             conexion = conn.getConnection();
-            ps = conexion.prepareCall(sql);
+            ps = conexion.prepareStatement(sql);
 
             ps.setString(1, tareas.getNombre());
             ps.setString(2, tareas.getCategoria());
@@ -145,7 +145,7 @@ public class TareasOP {
 
         try {
             conexion = conn.getConnection();
-            ps = conexion.prepareCall(sql);
+            ps = conexion.prepareStatement(sql);
 
             ps.setInt(1, tareas.getId());
             ps.executeUpdate();
@@ -165,7 +165,7 @@ public class TareasOP {
 
         try {
             conexion = conn.getConnection();
-            ps = conexion.prepareCall(sql);
+            ps = conexion.prepareStatement(sql);
 
             ps.setString(1, tareas.getNombre());
             ps.setString(2, tareas.getCategoria());
@@ -193,7 +193,7 @@ public class TareasOP {
         try {
             String sql = "SELECT * FROM Subtarea WHERE ID_Tarea = ?";
             conexion = conn.getConnection();
-            ps = conexion.prepareCall(sql);
+            ps = conexion.prepareStatement(sql);
             ps.setInt(1, tareas.getId());
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -226,7 +226,7 @@ public class TareasOP {
         try {
             String sql = "INSERT INTO Subtarea (Nombre, Estado, ID_Tarea) VALUES (?,?,?)";
             conexion = conn.getConnection();
-            ps = conexion.prepareCall(sql);
+            ps = conexion.prepareStatement(sql);
             ps.setString(1, subtareas.getNombre());
             ps.setInt(2, subtareas.getEstado());
             ps.setInt(3, subtareas.getID_Tarea());
@@ -245,7 +245,7 @@ public class TareasOP {
         try {
             String sql = "DELETE FROM Subtarea WHERE ID = ?";
             conexion = conn.getConnection();
-            ps = conexion.prepareCall(sql);
+            ps = conexion.prepareStatement(sql);
             ps.setInt(1, subtareas.getId());
 
             ps.executeUpdate();
@@ -261,7 +261,7 @@ public class TareasOP {
 
         try {
             conexion = conn.getConnection();
-            ps = conexion.prepareCall(sql);
+            ps = conexion.prepareStatement(sql);
 
             ps.setInt(1, tareas.getEstado());
             ps.setInt(2, tareas.getId());
@@ -282,7 +282,7 @@ public class TareasOP {
 
         try {
             conexion = conn.getConnection();
-            ps = conexion.prepareCall(sql);
+            ps = conexion.prepareStatement(sql);
 
             ps.setInt(1, subtareas.getEstado());
             ps.setInt(2, subtareas.getId());

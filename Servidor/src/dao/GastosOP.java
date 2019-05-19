@@ -39,7 +39,7 @@ public class GastosOP {
         try {
             String sql = "SELECT * FROM Gasto WHERE Id_Usuario = ?";
             conexion = conn.getConnection();
-            ps = conexion.prepareCall(sql);
+            ps = conexion.prepareStatement(sql);
             ps.setInt(1, gastos.getIdUsuario());
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -77,7 +77,7 @@ public class GastosOP {
 
         try {
             conexion = conn.getConnection();
-            ps = conexion.prepareCall(sql);
+            ps = conexion.prepareStatement(sql);
 
             ps.setString(1, gastos.getNombre_gasto());
             ps.setString(2, gastos.getTipo_gasto());
@@ -102,7 +102,7 @@ public class GastosOP {
 
         try {
             conexion = conn.getConnection();
-            ps = conexion.prepareCall(sql);
+            ps = conexion.prepareStatement(sql);
 
             ps.setInt(1, gastos.getId());
             ps.executeUpdate();
@@ -123,7 +123,7 @@ public class GastosOP {
         try {
             String sql = "SELECT * FROM Producto WHERE ID_Gasto = ?";
             conexion = conn.getConnection();
-            ps = conexion.prepareCall(sql);
+            ps = conexion.prepareStatement(sql);
             System.out.println(gastos.getId());
             ps.setInt(1, gastos.getId());
             rs = ps.executeQuery();
@@ -157,7 +157,7 @@ public class GastosOP {
         String sql = "INSERT INTO Producto (Nombre_Prod, Precio_Prod, ID_Gasto) VALUES (?,?,?)";
         try {
             conexion = conn.getConnection();
-            ps = conexion.prepareCall(sql);
+            ps = conexion.prepareStatement(sql);
 
             ps.setString(1, productos.getNombre_Producto());
             ps.setInt(2, productos.getPrecio_Producto());
@@ -178,7 +178,7 @@ public class GastosOP {
         try {
             String sql = "DELETE FROM Producto WHERE ID = ?";
             conexion = conn.getConnection();
-            ps = conexion.prepareCall(sql);
+            ps = conexion.prepareStatement(sql);
             ps.setInt(1, productos.getID());
 
             ps.executeUpdate();
@@ -194,7 +194,7 @@ public class GastosOP {
         String sql = "UPDATE Gasto SET Precio_Gasto = ? WHERE ID = ?";
         try {
             conexion = conn.getConnection();
-            ps = conexion.prepareCall(sql);
+            ps = conexion.prepareStatement(sql);
 
             ps.setInt(1, gastos.getPrecio_gasto());
             ps.setInt(2, gastos.getId());

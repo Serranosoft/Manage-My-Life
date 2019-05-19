@@ -100,7 +100,7 @@ public class informacionTarea extends javax.swing.JDialog {
         jPanel2.setBackground(new java.awt.Color(0, 102, 153));
 
         jLabel1.setText("INFORMACION TAREAS");
-        jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Dialog", 1, 20)); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -109,21 +109,23 @@ public class informacionTarea extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(315, 315, 315))
+                .addGap(293, 293, 293))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
+                .addGap(20, 20, 20)
                 .addComponent(jLabel1)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         jLabel2.setText("Nombre");
+        jLabel2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
         descripcion_tarea.setEditable(false);
 
         jLabel5.setText("Categoria");
+        jLabel5.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
         salir.setBackground(new java.awt.Color(0, 102, 153));
         salir.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -193,15 +195,19 @@ public class informacionTarea extends javax.swing.JDialog {
         }
 
         jLabel7.setText("Descripción");
+        jLabel7.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
         jLabel8.setText("Fecha Terminar");
+        jLabel8.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
         jLabel9.setText("Fecha inscrita");
+        jLabel9.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
         fecha_inscrita_tarea.setEditable(false);
 
         prioritaria_tarea.setText("Prioritaria");
         prioritaria_tarea.setEnabled(false);
+        prioritaria_tarea.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         prioritaria_tarea.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 prioritaria_tareaActionPerformed(evt);
@@ -210,6 +216,7 @@ public class informacionTarea extends javax.swing.JDialog {
 
         estado_tarea.setText("Terminado");
         estado_tarea.setEnabled(false);
+        estado_tarea.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         estado_tarea.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 estado_tareaActionPerformed(evt);
@@ -239,7 +246,7 @@ public class informacionTarea extends javax.swing.JDialog {
         modificar_informacion_tareaLayout.setHorizontalGroup(
             modificar_informacion_tareaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, modificar_informacion_tareaLayout.createSequentialGroup()
-                .addContainerGap(66, Short.MAX_VALUE)
+                .addContainerGap(72, Short.MAX_VALUE)
                 .addComponent(jLabel10)
                 .addGap(55, 55, 55))
         );
@@ -294,14 +301,10 @@ public class informacionTarea extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(51, 51, 51)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel9)
-                                    .addComponent(jLabel8)
-                                    .addComponent(jLabel7)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(salir, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(modificar_informacion_tarea, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addGap(45, 45, 45)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(salir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(modificar_informacion_tarea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(0, 1, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addContainerGap(45, Short.MAX_VALUE)
@@ -320,7 +323,10 @@ public class informacionTarea extends javax.swing.JDialog {
                                                     .addComponent(eliminar_tarea)
                                                     .addGap(18, 18, 18)
                                                     .addComponent(activar_edicion))))
-                                        .addComponent(categoria_tarea, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                        .addComponent(categoria_tarea, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(jLabel7)
+                                    .addComponent(jLabel8)
+                                    .addComponent(jLabel9))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -351,7 +357,8 @@ public class informacionTarea extends javax.swing.JDialog {
                         .addComponent(actualizar_estado_subtarea))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane1)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
@@ -384,8 +391,7 @@ public class informacionTarea extends javax.swing.JDialog {
                                 .addGap(18, 18, 18)
                                 .addComponent(salir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(modificar_informacion_tarea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 487, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(modificar_informacion_tarea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
