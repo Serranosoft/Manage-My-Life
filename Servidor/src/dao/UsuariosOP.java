@@ -114,7 +114,7 @@ public class UsuariosOP {
         Connection conexion = null;
         PreparedStatement ps = null;
 
-        String sql = "UPDATE Usuario SET Usuario = ?, Nombre = ?, Salario = ?, Imagen = ? WHERE ID = ?";
+        String sql = "UPDATE Usuario SET Usuario = ?, Nombre = ?, Imagen = ? WHERE ID = ?";
 
         try {
             conexion = conn.getConnection();
@@ -139,9 +139,8 @@ public class UsuariosOP {
             usuario.setImagen("media/" + usuario.getUsuario() + "_profile.jpg");
             ps.setString(1, usuario.getUsuario());
             ps.setString(2, usuario.getNombre());
-            ps.setInt(3, usuario.getSalario());
-            ps.setString(4, usuario.getImagen());
-            ps.setInt(5, usuario.getId());
+            ps.setString(3, usuario.getImagen());
+            ps.setInt(4, usuario.getId());
 
             ps.executeUpdate();
 

@@ -19,19 +19,15 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import vo.Subtarea;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 /**
- *
+ * Interfaz con la información de la tarea, donde se puede agregar subtareas, eliminar subtareas, modificar informacion de la tarea
  * @author manue
  */
 public class informacionTarea extends javax.swing.JDialog {
 
     /**
-     * Creates new form insertarGasto
+     * Variables
      */
     final Conexion conexion = new Conexion();
     final String server = conexion.getServer();
@@ -46,7 +42,12 @@ public class informacionTarea extends javax.swing.JDialog {
     boolean edicion = false;
     int id = 0;
     DatePickerSettings settings;
-
+/**
+ * Constructor con la carga de distintos métodos y configuración de field de fechas.
+ * @param parent JFrame padre
+ * @param modal modal
+ * @param id Identificador de la tarea
+ */
     public informacionTarea(java.awt.Frame parent, boolean modal, int id) {
         super(parent, modal);
         initComponents();
@@ -405,7 +406,10 @@ public class informacionTarea extends javax.swing.JDialog {
     private void estado_tareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_estado_tareaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_estado_tareaActionPerformed
-
+/**
+ * Método para activar la edición de los distintos fields.
+ * @param evt Evento clic
+ */
     private void activar_edicionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_activar_edicionMouseClicked
 
         if (!edicion) {
@@ -433,7 +437,10 @@ public class informacionTarea extends javax.swing.JDialog {
         }
 
     }//GEN-LAST:event_activar_edicionMouseClicked
-
+/**
+ * Método para modificar los distintos campos de la tarea
+ * @param evt Evento clic
+ */
     private void modificar_informacion_tareaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_modificar_informacion_tareaMouseClicked
 
         if (!modificar_informacion_tarea.isEnabled()) {
@@ -479,6 +486,10 @@ public class informacionTarea extends javax.swing.JDialog {
 
     }//GEN-LAST:event_modificar_informacion_tareaMouseClicked
 
+    /**
+     * Método para eliminar la tarea
+     * @param evt Evento clic
+     */
     private void eliminar_tareaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_eliminar_tareaMouseClicked
         try {
             cliente = new Socket(server, puerto);
@@ -506,6 +517,10 @@ public class informacionTarea extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_eliminar_tareaMouseClicked
     boolean insercion = false;
+    /**
+     * Método para añadir una subtarea
+     * @param evt Evento clic
+     */
     private void añadir_subtareaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_añadir_subtareaMouseClicked
 
         insertarSubtarea inSubtarea = new insertarSubtarea(this, true, tareas);
@@ -555,6 +570,10 @@ public class informacionTarea extends javax.swing.JDialog {
 
     }//GEN-LAST:event_añadir_subtareaMouseClicked
 
+    /**
+     * Método para eliminar subtareas
+     * @param evt Evento clic
+     */
     private void eliminar_subtareaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_eliminar_subtareaMouseClicked
 
         if (tabla_subtareas.getSelectedRow() == -1) {
@@ -625,7 +644,10 @@ public class informacionTarea extends javax.swing.JDialog {
     private void salirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salirMouseClicked
         this.setVisible(false);
     }//GEN-LAST:event_salirMouseClicked
-
+/**
+ * Método para actualizar el estado de subtareas y actualizamos tablas
+ * @param evt 
+ */
     private void actualizar_estado_subtareaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_actualizar_estado_subtareaMouseClicked
         if (tabla_subtareas.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(null, "Selecciona alguna subtarea!");
@@ -704,7 +726,10 @@ public class informacionTarea extends javax.swing.JDialog {
             }
         }
     }//GEN-LAST:event_actualizar_estado_subtareaMouseClicked
-
+/**
+ * Método para obtener de la información de la tarea para rellenar los distintos campos.
+ * @param id Identificador de la tarea
+ */
     private void obtenerInfoTarea(int id) {
 
         try {
@@ -716,7 +741,6 @@ public class informacionTarea extends javax.swing.JDialog {
                 ex.printStackTrace();
             }
 
-            System.out.println("Envio la peticion de obtener info de tareas");
             peticion.setConsulta(5);
             salida.writeObject(peticion);
             tareas.setId(id);
@@ -742,7 +766,10 @@ public class informacionTarea extends javax.swing.JDialog {
         }
     }
     DefaultTableModel m;
-
+/**
+ * Método para obtener las distintas subtareas e imprimirlas en la tabla
+ * @param id 
+ */
     private void obtenerSubtareas(int id) {
         m = (DefaultTableModel) tabla_subtareas.getModel();
         m.setRowCount(0);
@@ -797,9 +824,6 @@ public class informacionTarea extends javax.swing.JDialog {
         return true;
     }
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

@@ -55,7 +55,6 @@ public class ModificarPerfilActivity extends AppCompatActivity {
     public static final int PICK_IMAGE = 1;
     EditText modificar_usuario;
     EditText modificar_nombre;
-    EditText modificar_salario;
     ImageView modificar_perfil_aceptar;
     ImageView modificar_perfil_cancelar;
 
@@ -70,13 +69,11 @@ public class ModificarPerfilActivity extends AppCompatActivity {
 
         modificar_nombre = this.findViewById(R.id.modificar_perfil_nombre);
         modificar_usuario = this.findViewById(R.id.modificar_perfil_usuario);
-        modificar_salario = this.findViewById(R.id.modificar_perfil_salario);
 
         usuarios = (Usuarios) getIntent().getSerializableExtra("usuarios_perfil");
 
         modificar_nombre.setText(usuarios.getNombre());
         modificar_usuario.setText(usuarios.getUsuario());
-        modificar_salario.setText(usuarios.getSalario()+"");
 
         modificar_perfil_cancelar = this.findViewById(R.id.modificar_perfil_cancelar);
         modificar_perfil_cancelar.setOnClickListener(new View.OnClickListener() {
@@ -92,7 +89,6 @@ public class ModificarPerfilActivity extends AppCompatActivity {
             public void onClick(View v) {
                 usuarios.setNombre(modificar_nombre.getText().toString());
                 usuarios.setUsuario(modificar_usuario.getText().toString());
-                usuarios.setSalario(Integer.valueOf(modificar_salario.getText().toString()));
 
                 executeUpdateUsuario();
 

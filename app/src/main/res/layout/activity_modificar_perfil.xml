@@ -99,26 +99,6 @@
         </android.support.design.widget.TextInputLayout>
 
     </LinearLayout>
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textColorHint="@color/black">
-
-            <EditText android:id="@+id/modificar_perfil_salario"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:hint="@string/salario"
-                android:textColorHint="@color/black"/>
-        </android.support.design.widget.TextInputLayout>
-    </LinearLayout>
 
     <LinearLayout
 

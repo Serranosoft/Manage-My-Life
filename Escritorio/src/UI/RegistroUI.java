@@ -14,19 +14,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 /**
- *
+ * Página que permite el registro de usuarios
  * @author manue
  */
 public class RegistroUI extends javax.swing.JFrame {
 
     /**
-     * Creates new form RegistroUI
+     * Variables
      */
     final Conexion conexion = new Conexion();
     final String server = conexion.getServer();
@@ -224,7 +220,10 @@ public class RegistroUI extends javax.swing.JFrame {
         inicio_panel.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_registrar_inicioSesion_btnMouseClicked
-
+/**
+ * Método que envía un objeto usuarios con los datos que ha escrito para registrarlo
+ * @param evt Evento clic
+ */
     private void registrar_botonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registrar_botonMouseClicked
         try {
 
@@ -287,9 +286,7 @@ public class RegistroUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_registrar_botonMouseClicked
 
-    /**
-     * @param args the command line arguments
-     */
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

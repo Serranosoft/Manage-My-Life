@@ -105,8 +105,6 @@ public class fragmentCalendario extends Fragment{
                             @Override
                             public void onClick(View v) {
                                 //do something when Alerter message was clicked
-                                getFragmentManager().beginTransaction().replace(R.id.fragment_actual,
-                                        new fragmentTareas()).commit();
                             }
                         })
                         .setOnShowListener(new OnShowAlertListener() {

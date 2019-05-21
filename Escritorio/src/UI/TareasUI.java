@@ -17,19 +17,15 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import vo.Tarea;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 /**
+ * Página para mostrar las distintas tareas (pendientes y terminadas)
  *
  * @author manue
  */
 public class TareasUI extends javax.swing.JFrame {
 
     /**
-     * Creates new form TareasUI
+     * Variables
      */
     final Conexion conexion = new Conexion();
     final String server = conexion.getServer();
@@ -42,6 +38,11 @@ public class TareasUI extends javax.swing.JFrame {
     Usuarios usuarios = new Usuarios();
     boolean dialog = false;
 
+    /**
+     * Constructor con los distintos parámetros y llamada de métodos
+     *
+     * @param usuario Objeto usuarios con valores del usuario actual.
+     */
     public TareasUI(Usuarios usuario) {
         initComponents();
 
@@ -546,7 +547,12 @@ public class TareasUI extends javax.swing.JFrame {
         finanzas.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btn_5MouseClicked
-
+    /**
+     * Método para añadir una tarea con los distintos valores introducidos por
+     * el usuario
+     *
+     * @param evt Evento clic
+     */
     private void añadirTarea_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_añadirTarea_btnMouseClicked
 
         tareas.setIdUsuario(usuarios.getId());
@@ -598,6 +604,7 @@ public class TareasUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_añadirTarea_btnMouseClicked
 
+
     private void btn_6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_6MouseClicked
         InformesUI informesUI = new InformesUI(usuarios);
         informesUI.setVisible(true);
@@ -605,6 +612,12 @@ public class TareasUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_6MouseClicked
     DefaultTableModel m;
 
+    /**
+     * Método para rellenar la lista de tareas aplicando estado de Pendiente /
+     * Terminado
+     *
+     * @param usuarios Objeto usuarios con los valores actuales del usuario.
+     */
     public void rellenarTareas(Usuarios usuarios) {
         m = (DefaultTableModel) tabla_tareas.getModel();
         m.setRowCount(0);
@@ -646,14 +659,15 @@ public class TareasUI extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Método que permite acciones dinámicas en los distintos valores para abrir la información de las tareas.
+     */
     private void informacionTareas() {
 
         tabla_tareas.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
-
-                    //int idTareaSeleccionada = tareas.getResultados_tareas().get(tabla_tareas.getSelectedRow()).getId();
                     if (tabla_tareas.getSelectedRow() == -1) {
                         return;
                     } else {
@@ -661,7 +675,6 @@ public class TareasUI extends javax.swing.JFrame {
                         informacionTarea informacionTarea = new informacionTarea(TareasUI.this, true, tareas.getResultados_tareas().get(tabla_tareas.getSelectedRow()).getId());
                         tabla_tareas.getSelectionModel().setSelectionInterval(-1, -1);
                         informacionTarea.setVisible(true);
-                        //tabla_tareas.clearSelection();
                         dialog = informacionTarea.cerrarDialog();
                         try {
                             Thread.sleep(100);

@@ -38,8 +38,8 @@ public class Servidor {
             try {
                 usuario = servidor.accept();
                 salida = new ObjectOutputStream(usuario.getOutputStream());
-                HiloServidor juego = new HiloServidor(usuario, salida);
-                juego.start();
+                HiloServidor hilo = new HiloServidor(usuario, salida);
+                hilo.start();
                 
             } catch (IOException ex) {
                 ex.printStackTrace();

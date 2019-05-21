@@ -20,19 +20,15 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import vo.Gasto;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 /**
+ * Página de finanzas para agregar gastos
  *
  * @author manue
  */
 public class FinanzasUI extends javax.swing.JFrame {
 
     /**
-     * Creates new form FinanzasUI
+     * Variables
      */
     final Conexion conexion = new Conexion();
     final String server = conexion.getServer();
@@ -59,7 +55,7 @@ public class FinanzasUI extends javax.swing.JFrame {
         informacionGastos();
         obtenerImagenPerfil(usuarios);
         obtenerInformacionPerfil(usuarios);
-        
+
     }
 
     /**
@@ -643,7 +639,7 @@ public class FinanzasUI extends javax.swing.JFrame {
                 for (int i = 0; i < listado_gastos.size(); i++) {
                     Gasto gasto = listado_gastos.get(i);
 
-                    Object[] array = {gasto.getNombre_gasto(), gasto.getPrecio_gasto()+" €"};
+                    Object[] array = {gasto.getNombre_gasto(), gasto.getPrecio_gasto() + " €"};
                     m.addRow(array);
 
                 }
@@ -658,7 +654,12 @@ public class FinanzasUI extends javax.swing.JFrame {
     }//GEN-LAST:event_añadirGasto_btnMouseClicked
     DefaultTableModel m;
 
-   public void rellenarGastos(Usuarios usuarios) {
+    /**
+     * Método para rellenar los distintos gastos en la lista.
+     *
+     * @param usuarios Objeto usuarios con los datos del usuario actual
+     */
+    public void rellenarGastos(Usuarios usuarios) {
         m = (DefaultTableModel) tabla_gastos.getModel();
         m.setRowCount(0);
 
@@ -680,7 +681,7 @@ public class FinanzasUI extends javax.swing.JFrame {
             for (int i = 0; i < listado_gastos.size(); i++) {
                 Gasto gasto = listado_gastos.get(i);
 
-                Object[] array = {gasto.getNombre_gasto(), gasto.getPrecio_gasto()+" €"};
+                Object[] array = {gasto.getNombre_gasto(), gasto.getPrecio_gasto() + " €"};
                 m.addRow(array);
 
             }
@@ -692,6 +693,11 @@ public class FinanzasUI extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Método para obtener los gastos y rellenar los gastos actualizados
+     *
+     * @param usuarios Objeto usuarios con los datos del usuario actual
+     */
     public void obtenerGastos(Usuarios usuarios) {
 
         try {
@@ -718,7 +724,13 @@ public class FinanzasUI extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }
-    
+
+    /**
+     * Método para obtener los valores del usuario actual para rellenar el
+     * balance actual en la página.
+     *
+     * @param usuarios Objeto usuarios con los valores del usuario actual
+     */
     public void obtenerInformacionPerfil(Usuarios usuarios) {
 
         try {
@@ -744,6 +756,10 @@ public class FinanzasUI extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Método que configura la tabla para poder acceder a la pantalla de
+     * productos por cada gasto.
+     */
     private void informacionGastos() {
 
         tabla_gastos.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -790,13 +806,13 @@ public class FinanzasUI extends javax.swing.JFrame {
                             for (int i = 0; i < listado_gastos.size(); i++) {
                                 Gasto gasto = listado_gastos.get(i);
 
-                                Object[] array = {gasto.getNombre_gasto(), gasto.getPrecio_gasto()+" €"};
-                                System.out.println("tabla principal precio por gasto : " +gasto.getPrecio_gasto());
+                                Object[] array = {gasto.getNombre_gasto(), gasto.getPrecio_gasto() + " €"};
+                                System.out.println("tabla principal precio por gasto : " + gasto.getPrecio_gasto());
                                 m.addRow(array);
-                                
+
                             }
                             usuarios_gastos.setText(listado_gastos.size() + "");
-                            usuario_balance.setText(usuarios.getSalario()+"€");
+                            usuario_balance.setText(usuarios.getSalario() + "€");
                         }
                     }
 
@@ -806,7 +822,13 @@ public class FinanzasUI extends javax.swing.JFrame {
         });
     }
 
-        public void obtenerImagenPerfil(Usuarios usuarios) {
+    /**
+     * Método para cargar la imágen del usuario (carga una imagen user si no ha
+     * indicado ninguna imágen de perfil)
+     *
+     * @param usuarios Objeto usuarios con los datos del usuario actual
+     */
+    public void obtenerImagenPerfil(Usuarios usuarios) {
         try {
             if (usuarios.getImagen().equals("null") || usuarios.getImagen().length() == 0) {
                 ImageIcon image_perfil = new ImageIcon("src/imagenes/user.png");
@@ -823,6 +845,7 @@ public class FinanzasUI extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }
+
     /**
      * @param args the command line arguments
      */

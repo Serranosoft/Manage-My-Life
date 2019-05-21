@@ -22,19 +22,16 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 /**
+ * Carga de componentes de JDialog de modificar perfil, métodos para envio y
+ * recibo de imágenes entre cliente y servidor.
  *
  * @author manue
  */
 public class modificarPerfil extends javax.swing.JDialog {
 
     /**
-     * Creates new form insertarTarea
+     * Variables
      */
     final Conexion conexion = new Conexion();
     final String server = conexion.getServer();
@@ -50,6 +47,14 @@ public class modificarPerfil extends javax.swing.JDialog {
     InicioSesionUI inicioSesionUI = new InicioSesionUI();
     Frame parent = null;
 
+    /**
+     * Constructor para carga de componentes y configuración de busqueda de
+     * archivos
+     *
+     * @param parent JFrame padre
+     * @param modal
+     * @param usuarios Objeto usuarios con los datos del usuario actual
+     */
     public modificarPerfil(java.awt.Frame parent, boolean modal, Usuarios usuarios) {
         super(parent, modal);
         initComponents();
@@ -78,8 +83,6 @@ public class modificarPerfil extends javax.swing.JDialog {
                         JOptionPane.showMessageDialog(null, "Solo se aceptan imagenes con formato .jpg");
                     }
 
-                    //photo = ResizeImage(path);
-                    //imagen_perfil.setIcon(ResizeImage(path));
                 } else if (result == JFileChooser.CANCEL_OPTION) {
                     System.out.println("No se ha seleccionado ninguna imágen");
                 }
@@ -103,10 +106,8 @@ public class modificarPerfil extends javax.swing.JDialog {
         usuario_nombre = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         usuario_usuario = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
         modificar_perfil = new javax.swing.JPanel();
         label = new javax.swing.JLabel();
-        usuario_salario = new javax.swing.JTextField();
         perfil_imagen = new javax.swing.JLabel();
         buscar_imagen = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
@@ -140,9 +141,6 @@ public class modificarPerfil extends javax.swing.JDialog {
 
         jLabel3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel3.setText("Usuario");
-
-        jLabel5.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel5.setText("Salario");
 
         modificar_perfil.setBackground(new java.awt.Color(0, 102, 153));
         modificar_perfil.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -194,23 +192,18 @@ public class modificarPerfil extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(modificar_perfil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGap(31, 31, 31)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel2)
-                                    .addComponent(usuario_salario, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
-                                    .addComponent(usuario_usuario)
-                                    .addComponent(usuario_nombre))))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(modificar_perfil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel3)
+                                .addComponent(jLabel2)
+                                .addComponent(usuario_usuario, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
+                                .addComponent(usuario_nombre)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -223,7 +216,7 @@ public class modificarPerfil extends javax.swing.JDialog {
                 .addComponent(buscar_imagen)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(usuario_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -232,12 +225,8 @@ public class modificarPerfil extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(usuario_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(usuario_salario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
                 .addComponent(modificar_perfil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(23, 23, 23))
         );
 
         pack();
@@ -246,7 +235,7 @@ public class modificarPerfil extends javax.swing.JDialog {
     private void modificar_perfilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_modificar_perfilMouseClicked
         try {
 
-            if (usuario_nombre.getText().isEmpty() || usuario_usuario.getText().isEmpty() || usuario_salario.getText().isEmpty()) {
+            if (usuario_nombre.getText().isEmpty() || usuario_usuario.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Rellena todos los campos!");
             } else {
 
@@ -274,7 +263,6 @@ public class modificarPerfil extends javax.swing.JDialog {
 
                 usuarios.setNombre(usuario_nombre.getText());
                 usuarios.setUsuario(usuario_usuario.getText());
-                usuarios.setSalario(Integer.valueOf(usuario_salario.getText()));
                 usuarios.setImagen(imageString);
                 peticion.setConsulta(11);
                 salida.writeObject(peticion);
@@ -290,9 +278,9 @@ public class modificarPerfil extends javax.swing.JDialog {
 
         } catch (IOException ex) {
             ex.printStackTrace();
-        } catch(NumberFormatException nfe){
+        } catch (NumberFormatException nfe) {
             JOptionPane.showMessageDialog(null, "Introduce carácteres válidos!");
-        }finally {
+        } finally {
             try {
                 cliente.close();
                 salida.close();
@@ -303,7 +291,12 @@ public class modificarPerfil extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_modificar_perfilMouseClicked
 
-        public void obtenerImagenPerfil(Usuarios usuarios) {
+    /**
+     * Método para cargar la imágen del usuario (carga una imagen user si no ha
+     * indicado ninguna imágen de perfil)
+     * @param usuarios Objeto usuarios con los datos del usuario actual
+     */
+    public void obtenerImagenPerfil(Usuarios usuarios) {
         try {
             System.out.println(usuarios.getImagen().length());
             if (usuarios.getImagen().equals("null") || usuarios.getImagen().length() == 0) {
@@ -321,11 +314,10 @@ public class modificarPerfil extends javax.swing.JDialog {
             ex.printStackTrace();
         }
     }
-        
+
     public void cargaDatos() {
         usuario_nombre.setText(usuarios.getNombre());
         usuario_usuario.setText(usuarios.getUsuario());
-        usuario_salario.setText(usuarios.getSalario() + "");
     }
 
     public Image ResizeImage(String ImagePath) {
@@ -400,13 +392,11 @@ public class modificarPerfil extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel label;
     private javax.swing.JPanel modificar_perfil;
     private javax.swing.JLabel perfil_imagen;
     private javax.swing.JTextField usuario_nombre;
-    private javax.swing.JTextField usuario_salario;
     private javax.swing.JTextField usuario_usuario;
     // End of variables declaration//GEN-END:variables
 }
