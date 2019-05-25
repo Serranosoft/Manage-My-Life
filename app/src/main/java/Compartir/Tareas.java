@@ -7,6 +7,9 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 
+/**
+ * Clase Objeto de tareas para el envio/recibo de datos entre cliente/servidor
+ */
 public class Tareas implements Serializable{
     private int id;
     private String nombre;
@@ -19,10 +22,23 @@ public class Tareas implements Serializable{
     private int idUsuario;
     private ArrayList<Tarea> resultados_tareas;
     private ArrayList<Subtarea> subtareas;
-
+    /**
+     * Constructor por defecto de tareas
+     */
     public Tareas() {
     }
-
+    /**
+     * Constructor completo de tareas
+     * @param id Identificador de la tarea
+     * @param nombre Nombre de la tarea
+     * @param categoria Categoría de la tarea
+     * @param fecha_inscrita Fecha en la que se escribió la tarea
+     * @param fecha_realizar Fecha en la que se realiza la tarea
+     * @param descripcion Descripción de la tarea
+     * @param idUsuario Identificador del usuario al que pertenece la tarea
+     * @param resultados_tareas Listado de tareas
+     * @param subtareas Listado de subtareas relacionados a la tarea
+     */
     public Tareas(int id, String nombre, String categoria, Date fecha_inscrita, Date fecha_realizar, String descripcion, int idUsuario, ArrayList<Tarea> resultados_tareas, ArrayList<Subtarea> subtareas) {
         this.id = id;
         this.nombre = nombre;
@@ -34,11 +50,17 @@ public class Tareas implements Serializable{
         this.resultados_tareas = resultados_tareas;
         this.subtareas = subtareas;
     }
-
+    /**
+     * Getter de lista de subtareas relacionados a la tarea
+     * @return Lista de subtareas
+     */
     public ArrayList<Subtarea> getSubtareas() {
         return subtareas;
     }
-
+    /**
+     * Setter de lista de subtareas relacionadas a la tarea
+     * @param subtareas Lista de subtareas
+     */
     public void setSubtareas(ArrayList<Subtarea> subtareas) {
         this.subtareas = subtareas;
     }

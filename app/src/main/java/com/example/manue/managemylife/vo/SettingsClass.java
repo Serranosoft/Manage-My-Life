@@ -8,6 +8,9 @@ import com.example.manue.managemylife.Entity.Settings;
 
 import java.util.List;
 
+/**
+ * Clase encargada de mantener los distintos métodos para obtener la direccion IP y puerto del Servidor
+ */
 public class SettingsClass {
 
     private static DataBaseRoom db;

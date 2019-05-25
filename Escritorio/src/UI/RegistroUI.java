@@ -236,7 +236,7 @@ public class RegistroUI extends javax.swing.JFrame {
             usuarios.setSalario(Integer.valueOf(registro_salario_field.getText()));
 
             String contraseña = new String(registro_password_field.getPassword());
-            MessageDigest digest = MessageDigest.getInstance("MD5");
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(contraseña.getBytes(StandardCharsets.UTF_8));
 
             StringBuilder sb = new StringBuilder();

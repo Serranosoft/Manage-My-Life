@@ -40,6 +40,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import vo.Producto;
 import vo.Subtarea;
 
+/**
+ * Activity que permite insertar productos relacionados a un gasto
+ */
 public class ProductosActivity extends AppCompatActivity {
 
     Gastos gastos = new Gastos();
@@ -220,32 +223,35 @@ public class ProductosActivity extends AppCompatActivity {
 
     }
 
-    public void executeInsertarProductos() {
+    private void executeInsertarProductos() {
         insertarProductossTask insertarProductossTask = new insertarProductossTask();
         insertarProductossTask.execute();
     }
 
-    public void executeActualizarProductos() {
+    private void executeActualizarProductos() {
         actualizarProductosTask actualizarProductosTask = new actualizarProductosTask();
         actualizarProductosTask.execute();
     }
-    public void executeDeleteProductos() {
+    private void executeDeleteProductos() {
         eliminarProductosTask eliminarProductosTask = new eliminarProductosTask();
         eliminarProductosTask.execute();
     }
-    public void executeUpdateSalario() {
+    private void executeUpdateSalario() {
         actualizarSalarioTask actualizarSalarioTask = new actualizarSalarioTask();
         actualizarSalarioTask.execute();
     }
-    public void executeObtenerInformacion() {
+    private void executeObtenerInformacion() {
         obtenerInformacionPerfil obtenerInformacionPerfil = new obtenerInformacionPerfil();
         obtenerInformacionPerfil.execute();
     }
-    public void executeActualizarGasto() {
+    private void executeActualizarGasto() {
         actualizarGastoTask actualizarGastoTask = new actualizarGastoTask();
         actualizarGastoTask.execute();
     }
 
+    /**
+     * Clase AsyncTask para insertar productos en el sistema
+     */
     public class insertarProductossTask extends AsyncTask<String, Void, Void> {
 
         Socket cliente = null;
@@ -271,6 +277,10 @@ public class ProductosActivity extends AppCompatActivity {
             return null;
         }
     }
+
+    /**
+     * Clase AsyncTask para obtener los productos y actualizar la cantidad de productos en pantalla
+     */
     public class actualizarProductosTask extends AsyncTask<ArrayList<Producto>, Void, ArrayList<Producto>> {
 
         Socket cliente = null;
@@ -313,6 +323,9 @@ public class ProductosActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Clase AsyncTask para eliminar los productos del sistema
+     */
     public class eliminarProductosTask extends AsyncTask<String, Void, Void> {
 
         Socket cliente = null;
@@ -338,6 +351,9 @@ public class ProductosActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Clase AsyncTask para actualizar el salario del usuario tras la inserción/eliminación de algún producto
+     */
     public class actualizarSalarioTask extends AsyncTask<String, Void, Void> {
 
         Socket cliente = null;
@@ -365,6 +381,9 @@ public class ProductosActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Clase AsyncTask para actualizar el precio del gasto actual al insertar/eliminar un producto relacionado al gasto
+     */
     public class actualizarGastoTask extends AsyncTask<String, Void, Void> {
 
         Socket cliente = null;
@@ -392,6 +411,9 @@ public class ProductosActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Clase AsyncTask para obtener toda la información del usuario
+     */
     public class obtenerInformacionPerfil extends AsyncTask<String, Void, Void> {
 
         Socket cliente = null;
@@ -421,6 +443,10 @@ public class ProductosActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Método para obtener la imagen de perfil del usuario
+     * @param usuarios Objeto usuarios con la imagen de perfil cifrada
+     */
     public void obtenerImagenPerfil(Usuarios usuarios) {
         try {
             if (usuarios.getImagen().equals("null") || usuarios.getImagen().length() == 0) {

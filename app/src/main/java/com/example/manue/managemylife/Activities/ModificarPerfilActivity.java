@@ -41,6 +41,9 @@ import java.net.Socket;
 import Compartir.Peticion;
 import Compartir.Usuarios;
 
+/**
+ * Activity que permite modificar los datos del usuario
+ */
 public class ModificarPerfilActivity extends AppCompatActivity {
 
     Usuarios usuarios = new Usuarios();
@@ -160,11 +163,15 @@ public class ModificarPerfilActivity extends AppCompatActivity {
         obtenerImagenPerfil(usuarios);
     }
 
-    public void executeUpdateUsuario() {
+
+    private void executeUpdateUsuario() {
         actualizarUsuario actualizarUsuario = new actualizarUsuario();
         actualizarUsuario.execute();
     }
 
+    /**
+     * Clase AsyncTask para actualizar los campos de un usuario
+     */
     public class actualizarUsuario extends AsyncTask<String, Void, Void> {
 
         Socket cliente = null;
@@ -252,6 +259,10 @@ public class ModificarPerfilActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Método para obtener la imágen de perfil del usuario
+     * @param usuarios Objeto usuarios con la imágen del usuario cifrado
+     */
     public void obtenerImagenPerfil(Usuarios usuarios) {
         try {
             if (usuarios.getImagen().equals("null") || usuarios.getImagen().length() == 0) {

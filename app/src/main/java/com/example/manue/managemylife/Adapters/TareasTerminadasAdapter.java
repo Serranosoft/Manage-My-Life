@@ -15,11 +15,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import vo.Tarea;
-
+/**
+ * Clase Adapter encargada de gestionar la información para mostrarla en el RecyclerView
+ */
 public class TareasTerminadasAdapter extends RecyclerView.Adapter<TareasTerminadasAdapter.ViewHolder> {
     private List<Tarea> tareas = new ArrayList<>();
     private Context context;
 
+    /**
+     * Constructor del adaptador de las tareas terminadas
+     * @param tareas Lista de tareas en estado de terminado
+     * @param context Activity o fragment al que hace referencia
+     */
     public TareasTerminadasAdapter(List<Tarea> tareas, Context context) {
         this.tareas = tareas;
         this.context = context;
@@ -50,7 +57,9 @@ public class TareasTerminadasAdapter extends RecyclerView.Adapter<TareasTerminad
     public int getItemCount() {
         return tareas.size();
     }
-
+    /**
+     * Clase ViewHolder para obtener los distintos datos con los que se trabajará desde el adaptador
+     */
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView nombreTarea;

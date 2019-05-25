@@ -15,13 +15,21 @@ import com.example.manue.managemylife.R;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Clase Adapter encargada de gestionar la información para mostrarla en el RecyclerView
+ */
 public class TareasAdapter extends RecyclerView.Adapter<TareasAdapter.ViewHolder> {
 
     private List<Tarea> tareas = new ArrayList<>();
     private Context context;
     private OnItemClickListener listener;
 
+    /**
+     * Constructor del adaptador de tareas
+     * @param tareas Lista de tareas
+     * @param context Activity o Fragment al que hace referencia
+     * @param listener Objeto click listener
+     */
     public TareasAdapter(List<Tarea> tareas, Context context, OnItemClickListener listener) {
         this.tareas = tareas;
         this.context = context;
@@ -77,7 +85,9 @@ public class TareasAdapter extends RecyclerView.Adapter<TareasAdapter.ViewHolder
     public int getItemCount() {
         return tareas.size();
     }
-
+    /**
+     * Clase ViewHolder para obtener los distintos datos con los que se trabajará desde el adaptador
+     */
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView nombreTarea;
@@ -93,6 +103,10 @@ public class TareasAdapter extends RecyclerView.Adapter<TareasAdapter.ViewHolder
 
         }
     }
+
+    /**
+     * Interfaz Click Listener
+     */
     public interface OnItemClickListener {
         void onItemClick(Tarea tarea, int position);
     }

@@ -22,13 +22,17 @@ import vo.Subtarea;
 import vo.Tarea;
 
 /**
- *
+ * Operaciones referentes a los gastos
  * @author manue
  */
 public class GastosOP {
 
     DBConnection conn = new DBConnection();
-
+/**
+ * Método para obtener los gastos de la base de datos
+ * @param gastos Objeto gastos con los valores de gastos para la consulta
+ * @return Lista de gastos
+ */
     public ArrayList<Gasto> selectGastos(Gastos gastos) {
 
         ArrayList<Gasto> listado_gastos = new ArrayList<>();
@@ -67,7 +71,10 @@ public class GastosOP {
         return listado_gastos;
 
     }
-
+/**
+ * Método para insertar gasto
+ * @param gastos Objeto gasto con los valores del objeto gasto para insertar en base de datos
+ */
     public void insertarGasto(Gastos gastos) {
 
         Connection conexion = null;
@@ -92,7 +99,10 @@ public class GastosOP {
         }
 
     }
-
+/**
+ * Método para eliminar el gasto.
+ * @param gastos Objeto gasto con los valores del gasto a eliminar.
+ */
     public void eliminarGasto(Gastos gastos) {
 
         Connection conexion = null;
@@ -113,7 +123,11 @@ public class GastosOP {
         }
 
     }
-
+/**
+ * Método para obtener los productos del gasto pasado por parámetro
+ * @param gastos Objeto gastos con los valores del gasto
+ * @return Devuelve lista de productos del gasto pasado por parámetro
+ */
     public ArrayList obtenerProductos(Gastos gastos) {
         ArrayList<Producto> listado_productos = new ArrayList<>();
         ResultSet rs = null;
@@ -149,7 +163,10 @@ public class GastosOP {
         }
         return listado_productos;
     }
-
+/**
+ * Método para insertar productos
+ * @param productos Objeto productos con los datos del producto que se va a insertar
+ */
     public void insertarProducto(Productos productos) {
         Connection conexion = null;
         PreparedStatement ps = null;
@@ -170,7 +187,10 @@ public class GastosOP {
             e.printStackTrace();
         }
     }
-
+/**
+ * Método para eliminar productos
+ * @param productos Objeto productos con los valores del producto a eliminar
+ */
     public void eliminarProducto(Productos productos) {
         Connection conexion = null;
         PreparedStatement ps = null;
@@ -186,7 +206,10 @@ public class GastosOP {
             e.printStackTrace();
         }
     }
-    
+    /**
+     * Método para actualizar el precio del gasto sumando el precio de todos los productos relacionados a el
+     * @param gastos Objeto gastos con el precio del gasto actual
+     */
         public void actualizarGasto(Gastos gastos) {
         Connection conexion = null;
         PreparedStatement ps = null;

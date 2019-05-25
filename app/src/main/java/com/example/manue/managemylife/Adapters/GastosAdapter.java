@@ -19,12 +19,21 @@ import java.util.List;
 import vo.Gasto;
 import vo.Tarea;
 
+/**
+ * Clase Adapter encargada de gestionar la información para mostrarla en el RecyclerView
+ */
 public class GastosAdapter extends RecyclerView.Adapter<GastosAdapter.ViewHolder> {
 
     private List<Gasto> gastos = new ArrayList<>();
     private Context context;
     private OnItemClickListener listener;
 
+    /**
+     * Constructor del Adaptador de gastos
+     * @param gastos Lista de gastos pasado por parámetro
+     * @param context Fragment o Activity al que hace referencia
+     * @param listener Objeto listener de tipo click
+     */
     public GastosAdapter(List<Gasto> gastos, Context context, OnItemClickListener listener) {
         this.gastos = gastos;
         this.context = context;
@@ -66,6 +75,9 @@ public class GastosAdapter extends RecyclerView.Adapter<GastosAdapter.ViewHolder
         return gastos.size();
     }
 
+    /**
+     * Clase ViewHolder para obtener los distintos datos con los que se trabajará desde el adaptador
+     */
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView nombreGasto;
@@ -79,6 +91,10 @@ public class GastosAdapter extends RecyclerView.Adapter<GastosAdapter.ViewHolder
 
         }
     }
+
+    /**
+     * Interfaz Click Listener
+     */
     public interface OnItemClickListener {
         void onItemClick(Gasto gasto, int position);
     }

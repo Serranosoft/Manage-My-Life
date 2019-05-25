@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -25,11 +26,10 @@ import Compartir.Peticion;
 import Compartir.Usuarios;
 
 /**
- * A login screen that offers login via email/password.
+ * Activity que permite registrarse en el sistema
  */
 public class RegisterActivity extends AppCompatActivity{
 
-    //final String server = IP;
     SettingsClass settings = null;
     Usuarios usuarios = new Usuarios();
     Peticion peticion = new Peticion();
@@ -38,6 +38,7 @@ public class RegisterActivity extends AppCompatActivity{
     EditText nombre = null;
     EditText salario = null;
     Button registrar_usuario = null;
+    TextView registrar_iniciar_sesion = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,15 +58,24 @@ public class RegisterActivity extends AppCompatActivity{
                 startActivity(intent);
             }
         });
+        registrar_iniciar_sesion = (TextView) findViewById(R.id.register_iniciar_sesion);
+        registrar_iniciar_sesion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
-    public void registrar() {
-
+    private void registrar() {
         registerTask registerTask = new registerTask();
         registerTask.execute();
-
     }
 
+    /**
+     * Clase AsyncTask que permite registrar un usuario en el sistema
+     */
     public class registerTask extends AsyncTask<String, Void, Void> {
 
         Socket cliente = null;
@@ -75,16 +85,14 @@ public class RegisterActivity extends AppCompatActivity{
         @Override
         protected Void doInBackground(String... strings) {
             try {
-                System.out.println("AAA");
                 cliente = new Socket(settings.obtenerSettings().get(0).getAddress(), settings.obtenerSettings().get(0).getPort());
-                System.out.println("BBB");
                 salida = new ObjectOutputStream(cliente.getOutputStream());
                 entrada = new ObjectInputStream(cliente.getInputStream());
 
                 peticion.setConsulta(1);
                 salida.writeObject(peticion);
 
-                MessageDigest digest = MessageDigest.getInstance("MD5");
+                MessageDigest digest = MessageDigest.getInstance("SHA-256");
                 byte[] hash = digest.digest(contraseña.getText().toString().getBytes(StandardCharsets.UTF_8));
                 StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < hash.length; i++) {
@@ -96,7 +104,6 @@ public class RegisterActivity extends AppCompatActivity{
                 usuarios.setNombre(nombre.getText().toString());
                 usuarios.setSalario(Integer.valueOf(salario.getText().toString()));
 
-                System.out.println("Envio el objeto usuarios con la información del usuario para registrarlo");
                 salida.writeObject(usuarios);
             } catch (IOException ex) {
                 ex.printStackTrace();

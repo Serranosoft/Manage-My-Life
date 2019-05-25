@@ -170,22 +170,26 @@ public class SubtareasActivity extends AppCompatActivity {
 
         rList.addOnItemTouchListener(swipeTouchListener);
     }
-    public void executeMostrarSubtareasTask() {
+    private void executeMostrarSubtareasTask() {
         mostrarSubtareasTask mostrarSubtareasTask = new mostrarSubtareasTask();
         mostrarSubtareasTask.execute();
     }
-    public void executeInsertarSubtareasTask() {
+    private void executeInsertarSubtareasTask() {
         insertarSubtareasTask insertarSubtareasTask = new insertarSubtareasTask();
         insertarSubtareasTask.execute();
     }
-    public void executeDeleteSubtareasTask() {
+    private void executeDeleteSubtareasTask() {
         eliminarSubtareasTask eliminarSubtareasTask = new eliminarSubtareasTask();
         eliminarSubtareasTask.execute();
     }
-    public void executeStatusSubtareasTask() {
+    private void executeStatusSubtareasTask() {
         actualizarEstadoSubtarea actualizarEstadoSubtarea = new actualizarEstadoSubtarea();
         actualizarEstadoSubtarea.execute();
     }
+
+    /**
+     * Clase AsyncTask que devuelve las subtareas relacionadas a una tarea
+     */
     public class mostrarSubtareasTask extends AsyncTask<ArrayList<Subtarea>, Void, ArrayList<Subtarea>> {
 
         Socket cliente = null;
@@ -201,7 +205,6 @@ public class SubtareasActivity extends AppCompatActivity {
 
                 peticion.setConsulta(8);
                 salida.writeObject(peticion);
-                System.out.println("id tarea que mando :"+tareas.getId());
 
                 salida.writeObject(tareas);
 
@@ -227,6 +230,9 @@ public class SubtareasActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Clase AsyncTask que permite insertar subtareas en el sistema
+     */
     public class insertarSubtareasTask extends AsyncTask<String, Void, Void> {
 
         Socket cliente = null;
@@ -252,6 +258,10 @@ public class SubtareasActivity extends AppCompatActivity {
             return null;
         }
     }
+
+    /**
+     * Clase AsyncTask que permite eliminar subtareas del sistema
+     */
     public class eliminarSubtareasTask extends AsyncTask<String, Void, Void> {
 
         Socket cliente = null;
@@ -276,6 +286,10 @@ public class SubtareasActivity extends AppCompatActivity {
             return null;
         }
     }
+
+    /**
+     * Clase AsyncTask que permite actualizar el estado de Pendiente/Terminado o viceversa de una subtarea
+     */
     public class actualizarEstadoSubtarea extends AsyncTask<String, Void, Void> {
 
         Socket cliente = null;

@@ -28,18 +28,22 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 /**
- *
+ * Operaciones referentes a los informes
  * @author manue
  */
 public class InformesOP {
     
     DBConnection conn = new DBConnection();
-    
+    /**
+     * Método para generar un informe dependiendo del tipo de informe que reciba
+     * @param informes Objeto informes con los valores del informe a generar
+     * @return Devuelve conjunto de bytes cifrado en encode64
+     */
     public String GenerarInforme(Informes informes) {
         byte[] pdf = "".getBytes();
         String pdf_encoded = "";
         try {
-            JasperReport informe = (JasperReport) JRLoader.loadObject(informes.getTipo()+".jasper");
+            JasperReport informe = (JasperReport) JRLoader.loadObject("jasper/"+informes.getTipo()+".jasper");
             Map<String, Integer> parametros = new HashMap<String, Integer>();
             parametros.put("ID_Usuario", informes.getId_usuario());
             

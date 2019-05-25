@@ -47,7 +47,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment encargado de cargar la pantalla de tareas
  */
 public class fragmentTareas extends Fragment {
 
@@ -340,30 +340,32 @@ public class fragmentTareas extends Fragment {
         return view;
     }
 
-    public void executeTareasTask() {
+    private void executeTareasTask() {
         mostrarTareasTask mostrarTareasTask = new mostrarTareasTask();
         mostrarTareasTask.execute();
     }
 
-    public void executeInsertarTareasTask() {
+    private void executeInsertarTareasTask() {
         insertarTareasTask insertarTareasTask = new insertarTareasTask();
         insertarTareasTask.execute();
     }
-    public void executeDeleteTareasTask() {
+    private void executeDeleteTareasTask() {
         eliminarTareasTask eliminarTareasTask = new eliminarTareasTask();
         eliminarTareasTask.execute();
     }
-    public void executeUpdateTareasTask() {
+    private void executeUpdateTareasTask() {
         modificarTareasTask modificarTareasTask = new modificarTareasTask();
         modificarTareasTask.execute();
     }
-    public void executeStatusTareasTask() {
+    private void executeStatusTareasTask() {
 
         actualizarEstadoTarea actualizarEstadoTarea = new actualizarEstadoTarea();
         actualizarEstadoTarea.execute();
     }
 
-
+    /**
+     * Clase AsyncTask para obtener las listas de las tareas y configurar adapter con clic listener
+     */
     public class mostrarTareasTask extends AsyncTask<ArrayList<Tarea>, Void, ArrayList<Tarea>> {
 
         Socket cliente = null;
@@ -501,7 +503,7 @@ public class fragmentTareas extends Fragment {
                                         public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                                             //fecha_textview.setText(dayOfMonth + "-" + month + 1 + "-" + year);
                                             month++;
-                                            fecha_textview.setText(year + "-" + month +1 +"-" +dayOfMonth);
+                                            fecha_textview.setText(year + "-" + month +"-" +dayOfMonth);
                                         }
                                     }, year, month, day);
                                     dpd.show();
@@ -636,6 +638,9 @@ public class fragmentTareas extends Fragment {
         }
     }
 
+    /**
+     * Clase AsyncTask para insertar tareas
+     */
     public class insertarTareasTask extends AsyncTask<String, Void, Void> {
 
         Socket cliente = null;
@@ -662,6 +667,10 @@ public class fragmentTareas extends Fragment {
             return null;
         }
     }
+
+    /**
+     * Clase AsyncTask para eliminar tareas
+     */
     public class eliminarTareasTask extends AsyncTask<String, Void, Void> {
 
         Socket cliente = null;
@@ -687,6 +696,9 @@ public class fragmentTareas extends Fragment {
         }
     }
 
+    /**
+     * Clase AsyncTask para modificar tareas
+     */
     public class modificarTareasTask extends AsyncTask<String, Void, Void> {
 
         Socket cliente = null;
@@ -713,6 +725,10 @@ public class fragmentTareas extends Fragment {
             return null;
         }
     }
+
+    /**
+     * Clase AsyncTask para actualizar el estado de Pendiente/Terminado o viceversa a la tarea
+     */
     public class actualizarEstadoTarea extends AsyncTask<String, Void, Void> {
 
         Socket cliente = null;

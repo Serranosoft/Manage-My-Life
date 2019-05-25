@@ -21,13 +21,16 @@ import javax.imageio.ImageIO;
 import java.util.Base64;
 
 /**
- *
+ * Operaciones referente a los usuarios
  * @author manue
  */
 public class UsuariosOP {
 
     DBConnection conn = new DBConnection();
-
+/**
+ * Método para insertar un usuario en el sistema
+ * @param usuario Objeto usuarios con los valores del usuario a insertar
+ */
     public void insertarUsuario(Usuarios usuario) {
 
         Connection conexion = null;
@@ -52,7 +55,11 @@ public class UsuariosOP {
         }
 
     }
-
+/**
+ * Método para comprobar si un usuario existe, si existe devuelve sus datos
+ * @param usuario Objeto usuarios con los valores del usuario que intenta acceder al sistema
+ * @return Devuelve si existe o no, si existe devuelve sus datos.
+ */
     public Usuarios comprobarUsuario(Usuarios usuario) {
         Connection conexion = null;
         PreparedStatement ps = null;
@@ -108,7 +115,10 @@ public class UsuariosOP {
         }
         return usuario;
     }
-
+/**
+ * Método para modificar los datos del usuario
+ * @param usuario Objeto usuarios con los datos a actualizar
+ */
     public void modificarUsuario(Usuarios usuario) {
 
         Connection conexion = null;
@@ -150,7 +160,11 @@ public class UsuariosOP {
         }
 
     }
-
+/**
+ * Método para comprobar si existe un usuario
+ * @param usuario Objeto usuario con los valores del usuario que intenta acceder al sistema
+ * @return Devuelve si existe o no
+ */
     public Usuarios comprobarExisteUsuario(Usuarios usuario) {
         Connection conexion = null;
         PreparedStatement ps = null;
@@ -174,7 +188,10 @@ public class UsuariosOP {
 
         return usuario;
     }
-
+/**
+ * Método para actualizar el salario del usuario
+ * @param usuario Objeto usuarios con el usuario que hay que actualizar el salario
+ */
     public void actualizarSalario(Usuarios usuario) {
         Connection conexion = null;
         PreparedStatement ps = null;
@@ -195,7 +212,11 @@ public class UsuariosOP {
 
         System.out.println("Salario actualizado");
     }
-
+/**
+ * Método para obtener toda la información referente a un usuario
+ * @param usuario Objeto usuario con los valores del usuario que se quiere extraer los datos
+ * @return Devuelve toda la información del usuario
+ */
     public Usuarios obtenerInformacion(Usuarios usuario) {
         Connection conexion = null;
         PreparedStatement ps = null;

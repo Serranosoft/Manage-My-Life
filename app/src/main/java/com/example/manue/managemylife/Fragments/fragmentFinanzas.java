@@ -46,7 +46,7 @@ import vo.Gasto;
 import vo.Producto;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment encargado de cargar la pantalla de finanzas
  */
 public class fragmentFinanzas extends Fragment {
 
@@ -250,35 +250,40 @@ public class fragmentFinanzas extends Fragment {
         return view;
     }
 
-    public void executeFinanzasTask() {
+    private void executeFinanzasTask() {
         mostrarGastosTask mostrarGastosTask = new mostrarGastosTask();
         mostrarGastosTask.execute();
     }
 
-    public void executeDeleteFinanzasTask() {
+    private void executeDeleteFinanzasTask() {
         eliminarGastosTask eliminarGastosTask = new eliminarGastosTask();
         eliminarGastosTask.execute();
     }
 
-    public void executeInsertarGastosTask() {
+    private void executeInsertarGastosTask() {
         insertarGastosTask insertarGastosTask = new insertarGastosTask();
         insertarGastosTask.execute();
     }
 
-    public void executeObtenerInformacion() {
+    private void executeObtenerInformacion() {
         obtenerInformacionPerfil obtenerInformacionPerfil = new obtenerInformacionPerfil();
         obtenerInformacionPerfil.execute();
     }
 
-    public void executeUpdateSalario() {
+    private void executeUpdateSalario() {
         actualizarSalarioTask actualizarSalarioTask = new actualizarSalarioTask();
         actualizarSalarioTask.execute();
     }
 
-    public void executeObtenerProductos() {
+    private void executeObtenerProductos() {
         obtenerProductosTask obtenerProductosTask = new obtenerProductosTask();
         obtenerProductosTask.execute();
     }
+
+    /**
+     * Clase AsyncTask para obtener lista de gastos, imprimir cantidad de gastos en pantalla y configurar adapter
+     * para navegación y envio de gastos a clase encargada de mostrar productos relacionados a los gastos
+     */
     public class mostrarGastosTask extends AsyncTask<ArrayList<Gasto>, Void, ArrayList<Gasto>> {
 
         Socket cliente = null;
@@ -330,6 +335,9 @@ public class fragmentFinanzas extends Fragment {
         }
     }
 
+    /**
+     * Clase AsyncTask encargada de eliminar un gasto
+     */
     public class eliminarGastosTask extends AsyncTask<String, Void, Void> {
 
         Socket cliente = null;
@@ -355,6 +363,9 @@ public class fragmentFinanzas extends Fragment {
         }
     }
 
+    /**
+     * Clase AsyncTask encargada de insertar un gasto
+     */
     public class insertarGastosTask extends AsyncTask<String, Void, Void> {
 
         Socket cliente = null;
@@ -382,6 +393,9 @@ public class fragmentFinanzas extends Fragment {
         }
     }
 
+    /**
+     * Clase encargada de actualizar el salario del usuario con el precio total de todos los gastos
+     */
     public class actualizarSalarioTask extends AsyncTask<String, Void, Void> {
 
         Socket cliente = null;
@@ -409,6 +423,9 @@ public class fragmentFinanzas extends Fragment {
         }
     }
 
+    /**
+     * Clase AsyncTask encargada de obtener el salario actual del usuario y mostrarlo en pantalla
+     */
     public class obtenerInformacionPerfil extends AsyncTask<String, Void, Void> {
 
         Socket cliente = null;
@@ -445,6 +462,10 @@ public class fragmentFinanzas extends Fragment {
         }
     }
 
+    /**
+     * Clase AsyncTask encargada de obtener la lista de productos relacionados a un gasto y sumarlo al salario al eliminar un gasto
+     * con distintos productos en su interior.
+     */
     public class obtenerProductosTask extends AsyncTask<ArrayList<Producto>, Void, ArrayList<Producto>> {
 
         Socket cliente = null;
@@ -487,6 +508,10 @@ public class fragmentFinanzas extends Fragment {
         }
     }
 
+    /**
+     * Método para obtener la imágen de perfil del usuario
+     * @param usuarios Objeto usuario con la imágen cifrada
+     */
     public void obtenerImagenPerfil(Usuarios usuarios) {
         try {
             if (usuarios.getImagen().equals("null") || usuarios.getImagen().length() == 0) {

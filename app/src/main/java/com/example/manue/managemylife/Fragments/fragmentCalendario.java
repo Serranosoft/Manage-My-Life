@@ -34,11 +34,10 @@ import Compartir.Usuarios;
 import vo.Tarea;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment encargado de cargar la pantalla del calendario
  */
 public class fragmentCalendario extends Fragment{
 
-    //final String server = IP;
     SettingsClass settings = null;
     Usuarios usuarios = new Usuarios();
     Peticion peticion = new Peticion();
@@ -81,42 +80,38 @@ public class fragmentCalendario extends Fragment{
                     }
                 }
                 //String selectedDate = DateFormat.getDateInstance(DateFormat.FULL).format(date);
-                System.out.println("5");
                 Calendar calSelected = Calendar.getInstance();
                 calSelected.setTime(date);
-                System.out.println("6");
                 String month = calSelected.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
 
                 String selectedDate = "Día " + calSelected.get(Calendar.DAY_OF_MONTH)
                         + " de " + month;
 
-                System.out.println("7");
-                // showAlerter(selectedDate, "Tienes 5 tareas por entregar");
                 Alerter.create(getActivity())
                         .setTitle(selectedDate)
                         .setText("Tienes " +cont_tareas+" tareas por entregar")
                         .setIcon(R.drawable.alerter_ic_face)
                         .setBackgroundColorRes(R.color.alerter1)
                         .setDuration(2650)
-                        .enableSwipeToDismiss() //seems to not work well with OnClickListener
+                        .enableSwipeToDismiss()
                         .enableProgress(true)
                         .setProgressColorRes(R.color.black)
                         .setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                //do something when Alerter message was clicked
+
                             }
                         })
                         .setOnShowListener(new OnShowAlertListener() {
                             @Override
                             public void onShow() {
-                                //do something when Alerter message shows
+
                             }
                         })
                         .setOnHideListener(new OnHideAlertListener() {
                             @Override
                             public void onHide() {
-                                //do something when Alerter message hides
+
                             }
                         })
                         .show();
@@ -131,6 +126,10 @@ public class fragmentCalendario extends Fragment{
         return view;
     }
 
+    /**
+     * Clase AsyncTask para obtener la lista de tareas y posteriormente filtrar aquellas en estado Pendiente e imprimiendolas
+     * en el calendario
+     */
     public class obtenerTareasTask extends AsyncTask<ArrayList<Tarea>, Void, ArrayList<Tarea>> {
 
         Socket cliente = null;
@@ -149,7 +148,6 @@ public class fragmentCalendario extends Fragment{
                 salida.writeObject(peticion);
 
                 tareas.setIdUsuario(usuarios.getId());
-                System.out.println("CALENDARIO ENVIO OBJETO ");
                 salida.writeObject(tareas);
 
                 tareas = (Tareas) entrada.readObject();
@@ -173,7 +171,6 @@ public class fragmentCalendario extends Fragment{
             for (int i = 0; i < listaTarea.size(); i++) {
                 if(listaTarea.get(i).getEstado() == 0) {
                     dates.add(listaTarea.get(i).getFecha_realizar());
-                    System.out.println("Fechas de dates: "+listaTarea.get(i).getFecha_realizar());
                 }
 
             }
@@ -186,19 +183,10 @@ public class fragmentCalendario extends Fragment{
             datePicker.setOnInvalidDateSelectedListener(null);
             datePicker.selectDate(dMin, true);
             datePicker.highlightDates(dates);
-            /*datePicker.setDateSelectableFilter(new CalendarPickerView.DateSelectableFilter() {
-                @Override
-                public boolean isDateSelectable(Date date)
-                {
-                    System.out.println("4");
-                    return dates.indexOf(date) >= 0;
-                }
-            });*/
-
         }
     }
 
-    public void executeObtenerTareasTask() {
+    private void executeObtenerTareasTask() {
         obtenerTareasTask obtenerTareasTask = new obtenerTareasTask();
         obtenerTareasTask.execute();
     }

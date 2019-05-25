@@ -16,7 +16,9 @@ import android.widget.TextView;
 import com.example.manue.managemylife.Activities.LoginActivity;
 import com.example.manue.managemylife.Activities.SliderActivity;
 import com.example.manue.managemylife.R;
-
+/**
+ * Clase Adapter encargada de gestionar la información para mostrarla en el ViewPager
+ */
 public class SliderAdapter extends PagerAdapter {
 
     Context context;
@@ -25,7 +27,6 @@ public class SliderAdapter extends PagerAdapter {
 
     // Imagenes
 
-    int right_arrow = R.mipmap.right_arrow;
 
     public int[] imagenes = {
             R.mipmap.slider_1, R.mipmap.slider_2, R.mipmap.slider_3
@@ -44,6 +45,10 @@ public class SliderAdapter extends PagerAdapter {
 
     };
 
+    /**
+     * Getter del contexto (Activity o Fragment) que hace referencia
+     * @param context Contexto al que hace referencia
+     */
     public SliderAdapter(Context context) {
         this.context = context;
     }

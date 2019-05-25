@@ -10,6 +10,9 @@ import com.example.manue.managemylife.R;
 
 import java.util.Calendar;
 
+/**
+ * Fragment encargada de cargar el dialog del time picker
+ */
 public class TimePickerFragment extends DialogFragment{
 
     public TimePickerFragment() {

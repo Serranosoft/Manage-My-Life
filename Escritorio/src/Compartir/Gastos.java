@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Compartir;
 
 import java.io.Serializable;
@@ -12,7 +8,7 @@ import vo.Gasto;
 import vo.Producto;
 
 /**
- *
+ * Clase Objeto gasto para el envio/recibo de datos entre cliente y servidor
  * @author manue
  */
 public class Gastos implements Serializable {
@@ -24,11 +20,21 @@ public class Gastos implements Serializable {
     private int idUsuario;
     private ArrayList<Gasto> resultados_gastos;
     private ArrayList<Producto> productos;
-
+/**
+ * Constructor por defecto de gastos
+ */
     public Gastos() {
     }
 
-    
+    /**
+     * Constructor completo de gastos
+     * @param id Identificador del gasto
+     * @param nombre_gasto Nombre del gasto
+     * @param tipo_gasto Tipo de gasto
+     * @param idUsuario Identificador del usuario relacionado con el gasto
+     * @param resultados_gastos Lista de gastos
+     * @param productos Lista de productos relacionados con el gasto
+     */
     public Gastos(int id, String nombre_gasto, String tipo_gasto, int idUsuario, ArrayList<Gasto> resultados_gastos, ArrayList<Producto> productos) {
         this.id = id;
         this.nombre_gasto = nombre_gasto;
@@ -37,11 +43,17 @@ public class Gastos implements Serializable {
         this.resultados_gastos = resultados_gastos;
         this.productos = productos;
     }
-
+/**
+ * Getter del identificador del gasto
+ * @return Identificador del gasto
+ */
     public int getId() {
         return id;
     }
-
+/**
+ * Setter del identificador del gasto
+ * @param id Identificador del gasto
+ */
     public void setId(int id) {
         this.id = id;
     }

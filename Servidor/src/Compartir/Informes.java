@@ -1,17 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Compartir;
 
 import java.io.Serializable;
-import java.util.Map;
+
 
 
 
 /**
- *
+ * Clase Objeto informe para el envio/recibo de datos entre cliente y servidor
  * @author manue
  */
 public class Informes implements Serializable{
@@ -20,14 +16,22 @@ public class Informes implements Serializable{
     private String informe;
     private int id_usuario;
 
-
+/**
+ * Constructor por defecto de Informes
+ */
     public Informes() {
     }
-
+/**
+ * Getter del tipo de informe
+ * @return tipo de informe
+ */
     public String getTipo() {
         return tipo;
     }
-
+/**
+ * Setter del tipo de informe
+ * @param tipo 
+ */
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }

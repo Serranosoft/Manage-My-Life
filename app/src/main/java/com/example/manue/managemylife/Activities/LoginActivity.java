@@ -40,7 +40,7 @@ import Compartir.Usuarios;
 
 
 /**
- * A login screen that offers login via email/password.
+ * Activity que permite iniciar sesión en el sistema
  */
 public class LoginActivity extends AppCompatActivity {
 
@@ -94,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 builder_tarea = new AlertDialog.Builder(new ContextThemeWrapper(LoginActivity.this, R.style.myDialog));
-                View view_popup = LayoutInflater.from(getApplicationContext()).inflate(R.layout.popup_settings, null);
+                final View view_popup = LayoutInflater.from(getApplicationContext()).inflate(R.layout.popup_settings, null);
 
                 builder_tarea.setView(view_popup);
 
@@ -119,12 +119,14 @@ public class LoginActivity extends AppCompatActivity {
                             settings1.setAddress(direccionIP);
                             settings1.setPort(puerto);
                             addSettings();
+                            dialog_tarea.dismiss();
                         }else {
                             direccionIP = direccionIP_editText.getText().toString();
                             puerto = Integer.valueOf(puerto_editText.getText().toString());
                             settings1.setAddress(direccionIP);
                             settings1.setPort(puerto);
                             editarSettings();
+                            dialog_tarea.dismiss();
                         }
                         Alerter.create(LoginActivity.this)
                                 .setTitle("Conexion establecida!")
@@ -166,25 +168,28 @@ public class LoginActivity extends AppCompatActivity {
         contraseña = (EditText) findViewById(R.id.login_pass);
     }
 
-    public void login() {
+    private void login() {
 
         loginTask loginTask = new loginTask();
         loginTask.execute();
 
     }
-    public void addSettings() {
+    private void addSettings() {
         insertarSettingsTask insertarSettingsTask = new insertarSettingsTask();
         insertarSettingsTask.execute();
     }
-    public void obtenerSettings() {
+    private void obtenerSettings() {
         obtenerSettingsTask obtenerSettingsTask = new obtenerSettingsTask();
         obtenerSettingsTask.execute();
     }
-    public void editarSettings() {
+    private void editarSettings() {
         updateSettingsTask updateSettingsTask = new updateSettingsTask();
         updateSettingsTask.execute();
     }
 
+    /**
+     * Clase AsyncTask para mandar petición de comprobación de usuario y posterior acceso al sistema
+     */
     public class loginTask extends AsyncTask<String, Void, Void> {
 
         Socket cliente = null;
@@ -204,7 +209,7 @@ public class LoginActivity extends AppCompatActivity {
                 peticion.setConsulta(2);
                 salida.writeObject(peticion);
 
-                MessageDigest digest = MessageDigest.getInstance("MD5");
+                MessageDigest digest = MessageDigest.getInstance("SHA-256");
                 byte[] hash = digest.digest(contraseña.getText().toString().getBytes(StandardCharsets.UTF_8));
                 StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < hash.length; i++) {
@@ -251,6 +256,9 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Clase AsyncTask para insertar en Room la configuración del servidor (Dirección IP y Puerto).
+     */
     public class insertarSettingsTask extends AsyncTask<String, Void, Long> {
 
         @Override
@@ -258,13 +266,13 @@ public class LoginActivity extends AppCompatActivity {
             long id = 0;
 
             id = db.settingsDAO().insertSettings(settings1);
-
-
-            System.out.println("RESULTADO INSERT: "+id);
             return id;
         }
     }
 
+    /**
+     * Clase AsyncTask para obtener la configuración del servidor a través de Room
+     */
     public class obtenerSettingsTask extends AsyncTask<String, Void, Void> {
 
         @Override
@@ -277,6 +285,10 @@ public class LoginActivity extends AppCompatActivity {
             return null;
         }
     }
+
+    /**
+     * Clase AsyncTask para actualizar la dirección IP y puerto del servidor a través de Room
+     */
     public class updateSettingsTask extends AsyncTask<String, Void, Long> {
 
         @Override
@@ -284,7 +296,6 @@ public class LoginActivity extends AppCompatActivity {
             long id = 0;
 
             id = db.settingsDAO().updateSettings(settings1);
-            System.out.println("RESULTADO UPDATE: "+id);
             return id;
         }
     }

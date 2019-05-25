@@ -1,28 +1,44 @@
 package Compartir;
 
 import java.io.Serializable;
-
+/**
+ * Clase Objeto de productos para el envio/recibo de datos entre cliente/servidor
+ */
 public class Productos implements Serializable {
 
     private int ID;
     private String Nombre_Producto;
     private int Precio_Producto;
     private int ID_Gasto;
-
+    /**
+     * Constructor de productos por defecto
+     */
     public Productos() {
     }
-
+    /**
+     * Constructor de productos completo
+     * @param ID Identificador del producto
+     * @param Nombre_Producto Nombre del producto
+     * @param Precio_Producto Precio del producto
+     * @param ID_Gasto Identificador del gasto al que hace referencia
+     */
     public Productos(int ID, String Nombre_Producto, int Precio_Producto, int ID_Gasto) {
         this.ID = ID;
         this.Nombre_Producto = Nombre_Producto;
         this.Precio_Producto = Precio_Producto;
         this.ID_Gasto = ID_Gasto;
     }
-
+    /**
+     * Getter del identificador del producto
+     * @return  Identificador del producto
+     */
     public int getID() {
         return ID;
     }
-
+    /**
+     * Setter del identificador del producto
+     * @param ID Identificador del producto
+     */
     public void setID(int ID) {
         this.ID = ID;
     }

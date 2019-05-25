@@ -101,7 +101,6 @@ public class CalendarioUI extends javax.swing.JFrame {
         public void selectionChanged(CalendarSelectionEvent cse) {
             Date date = java.sql.Date.valueOf(cse.getNewDate());
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            System.out.println(date);
             for (int i = 0; i < tareas.getResultados_tareas().size(); i++) {
                 if (sdf.format(date).equals(sdf.format(tareas.getResultados_tareas().get(i).getFecha_realizar()))) {
                     if(tareas.getResultados_tareas().get(i).getEstado() == 0) {

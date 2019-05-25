@@ -14,7 +14,7 @@ import java.util.logging.Logger;
  * MySQL
  *
  * @version 1.0
- * @author marodal
+ * @author manuel
  */
 public class DBConnection {
 
@@ -25,7 +25,8 @@ public class DBConnection {
     static String bd = "";
     static String login = "";
     static String password = "";
-    static String url = "jdbc:mysql://localhost/";
+    static String url = "";
+    static String server = "";
 
     Connection connection = null;
 
@@ -37,7 +38,7 @@ public class DBConnection {
         try {
             BufferedReader br = new BufferedReader(new FileReader("config.txt"));
 
-            String[] configuracion = new String[4];
+            String[] configuracion = new String[5];
             String line = "";
             while ((line = br.readLine()) != null) {
                 String[] palabra = line.split(":");
@@ -49,6 +50,8 @@ public class DBConnection {
                     configuracion[2] = palabra[1];
                 }else if(palabra[0].equals("contrasena_base_datos")) {
                     configuracion[3] = palabra[1];
+                }else if(palabra[0].equals("servidor")) {
+                    configuracion[4] = palabra[1];
                 }
 
             }
@@ -57,7 +60,10 @@ public class DBConnection {
             bd = configuracion[1];
             login = configuracion[2];
             password = configuracion[3];
+            server = configuracion[4];
+            url = "jdbc:mysql://"+server +"/";
             connection = DriverManager.getConnection(url + bd +"?serverTimezone=UTC", login, password);
+            
             /*puerto = br.readLine();
             bd = br.readLine();
             login = br.readLine();
@@ -84,7 +90,10 @@ public class DBConnection {
     public void desconectar() {
         connection = null;
     }
-
+/**
+ * Getter del puerto del servidor
+ * @return puerto del servidor
+ */
     public int getPuerto() {
         return Integer.valueOf(puerto);
     }

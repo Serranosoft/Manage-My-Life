@@ -14,6 +14,9 @@ import com.example.manue.managemylife.Activities.LoginActivity;
 
 import com.example.manue.managemylife.R;
 
+/**
+ * Clase AlarmReceiver encargada de gestionar las notificaciones del sistema
+ */
 public class AlarmReceiver extends BroadcastReceiver {
     String mensaje = "¿Tienes alguna tarea que registrar?";
 

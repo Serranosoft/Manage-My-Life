@@ -22,15 +22,27 @@ public class Tarea implements Serializable {
     private String descripcion;
     private int estado = 0;
     private int prioritario = 0;
- 
-  
 
+    /**
+     * Constructor por defecto de la tarea
+     */
     public Tarea() {
     }
 
+    /**
+     * Getter del identificador de la tarea
+     *
+     * @return Identificador de la tarea
+     */
     public int getId() {
         return id;
     }
+
+    /**
+     * Setter del identificador de la tarea
+     *
+     * @param id Identificador de la tarea
+     */
 
     public void setId(int id) {
         this.id = id;
@@ -91,6 +103,5 @@ public class Tarea implements Serializable {
     public void setPrioritario(int prioritario) {
         this.prioritario = prioritario;
     }
-    
 
 }

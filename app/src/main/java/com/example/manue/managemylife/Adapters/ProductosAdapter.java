@@ -17,12 +17,19 @@ import java.util.List;
 
 import vo.Producto;
 import vo.Subtarea;
-
+/**
+ * Clase Adapter encargada de gestionar la información para mostrarla en el RecyclerView
+ */
 public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.ViewHolder> {
 
     private List<Producto> productos = new ArrayList<>();
     private Context context;
 
+    /**
+     * Constructor del adaptador de productos
+     * @param productos Lista de productos pasado por parámetro
+     * @param context Activity o Fragment al que hace referencia
+     */
     public ProductosAdapter(List<Producto> productos, Context context) {
         this.productos = productos;
         this.context = context;
@@ -55,7 +62,9 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.View
     public int getItemCount() {
         return productos.size();
     }
-
+    /**
+     * Clase ViewHolder para obtener los distintos datos con los que se trabajará desde el adaptador
+     */
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView nombreProducto;

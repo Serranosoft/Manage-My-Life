@@ -18,7 +18,7 @@ import java.net.Socket;
 public class insertarSubtarea extends javax.swing.JDialog {
 
     /**
-     * Creates new form insertarTarea
+     * Variables
      */
     final Conexion conexion = new Conexion();
     final String server = conexion.getServer();

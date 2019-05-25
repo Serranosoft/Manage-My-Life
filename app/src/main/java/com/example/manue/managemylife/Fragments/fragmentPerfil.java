@@ -34,7 +34,7 @@ import Compartir.Usuarios;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment encargado de cargar la pantalla del perfil
  */
 public class fragmentPerfil extends Fragment{
 
@@ -63,7 +63,7 @@ public class fragmentPerfil extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View view = inflater.inflate(R.layout.fragment_perfil, container, false);
         instance = this;
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.Perfil);
@@ -131,16 +131,19 @@ public class fragmentPerfil extends Fragment{
 
     }
 
-    public void executeTareasTask() {
+    private void executeTareasTask() {
         informacionTareasTask informacionTareasTask = new informacionTareasTask();
         informacionTareasTask.execute();
     }
 
-    public void executeObtenerInfo() {
+    private void executeObtenerInfo() {
         obtenerInformacionPerfil obtenerInformacionPerfil = new obtenerInformacionPerfil();
         obtenerInformacionPerfil.execute();
     }
 
+    /**
+     * Clase AsyncTask para obtener la lista de tareas y obtener la cantidad de tareas terminadas y tareas pendientes
+     */
     public class informacionTareasTask extends AsyncTask<Tareas, Integer, Tareas> {
 
         Socket cliente = null;
@@ -188,6 +191,9 @@ public class fragmentPerfil extends Fragment{
         }
     }
 
+    /**
+     * Clase AsyncTask para obtener la información del usuario y lo muestra en pantalla
+     */
     public class obtenerInformacionPerfil extends AsyncTask<String, Void, Void> {
 
         Socket cliente = null;
@@ -227,14 +233,26 @@ public class fragmentPerfil extends Fragment{
         }
     }
 
+    /**
+     * Getter de objeto usuarios con la información del usuario actual
+     * @return Devuelve objeto usuarios
+     */
     public Usuarios getUsuarios() {
         return usuarios;
     }
 
+    /**
+     * Clase static para obtener una instancia abierta del fragment perfil para acceder a sus métodos desde otro fragment
+     * @return Devuelve instancia abierta del fragment perfil
+     */
     public static fragmentPerfil getInstance() {
         return instance;
     }
 
+    /**
+     * Método para obtener la imágen de perfil del usuario
+     * @param usuarios Devuelve el objeto usuarios con la imágen cifrada
+     */
     public void obtenerImagenPerfil(Usuarios usuarios) {
         try {
             if (usuarios.getImagen().equals("null") || usuarios.getImagen().length() == 0) {

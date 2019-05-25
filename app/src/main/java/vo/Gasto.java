@@ -2,6 +2,9 @@ package vo;
 
 import java.io.Serializable;
 
+/**
+ * Clase Gasto encargada de mantener los distintos atributos del objeto compartido Gastos
+ */
 public class Gasto implements Serializable {
 
     private int id;
@@ -9,20 +12,36 @@ public class Gasto implements Serializable {
     private String tipo_gasto;
     private int precio_gasto = 0;
 
+    /**
+     * Constructor por defecto de la clase Gasto
+     */
     public Gasto() {
     }
 
-
+    /**
+     * Constructor completo de la clase gasto
+     * @param id Identificador del gasto
+     * @param nombre_gasto Nombre del gasto
+     * @param tipo_gasto Tipo del gasto
+     */
     public Gasto(int id, String nombre_gasto, String tipo_gasto) {
         this.id = id;
         this.nombre_gasto = nombre_gasto;
         this.tipo_gasto = tipo_gasto;
     }
 
+    /**
+     * Getter del identificador del gasto
+     * @return Identificador del gasto
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Setter del identificador del gasto
+     * @param id Identificador del gasto
+     */
     public void setId(int id) {
         this.id = id;
     }

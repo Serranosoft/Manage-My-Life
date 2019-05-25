@@ -21,13 +21,17 @@ import vo.Subtarea;
 import vo.Tarea;
 
 /**
- *
+ * Operaciones referente a las tareas
  * @author manue
  */
 public class TareasOP {
 
     DBConnection conn = new DBConnection();
-
+/**
+ * Método para obtener todas las tareas
+ * @param tareas Objeto tareas con el identificador del usuario relacionado con sus tareas
+ * @return Lista de tareas
+ */
     public ArrayList<Tarea> selectTareas(Tareas tareas) {
 
         ArrayList<Tarea> listado_tareas = new ArrayList<>();
@@ -69,7 +73,11 @@ public class TareasOP {
         return listado_tareas;
 
     }
-
+/**
+ * Método para obtener los datos de una tarea en concreto
+ * @param tareas Objeto tareas con el identificador de la tarea
+ * @return Devuelve un objeto tareas con sus distintos datos
+ */
     public Tareas selectTarea(Tareas tareas) {
 
         ResultSet rs = null;
@@ -106,7 +114,10 @@ public class TareasOP {
         return tareas;
 
     }
-
+/**
+ * Método para insertar tarea con los valores del objeto tareas pasado por parámetro
+ * @param tareas Objeto tareas con los valores de tareas
+ */
     public void insertarTarea(Tareas tareas) {
 
         Connection conexion = null;
@@ -135,7 +146,10 @@ public class TareasOP {
         }
 
     }
-
+/**
+ * Método para eliminar tareas
+ * @param tareas Objeto tareas con el identificador de la tarea a eliminar.
+ */
     public void eliminarTarea(Tareas tareas) {
 
         Connection conexion = null;
@@ -157,6 +171,10 @@ public class TareasOP {
 
     }
 
+    /**
+     * Método para actualizar una tarea
+     * @param tareas Objeto tareas con los datos actualizados de la tarea pasada por parámetro
+     */
     public void actualizarTarea(Tareas tareas) {
         Connection conexion = null;
         PreparedStatement ps = null;
@@ -183,7 +201,11 @@ public class TareasOP {
         }
 
     }
-
+/**
+ * Método para obtener las subtareas de una tarea
+ * @param tareas Objeto tareas con el identificador para obtener sus subtareas relacionadas
+ * @return Listado de subtareas
+ */
     public ArrayList obtenerSubtareas(Tareas tareas) {
         ArrayList<Subtarea> listado_subtareas = new ArrayList<>();
         ResultSet rs = null;
@@ -218,7 +240,10 @@ public class TareasOP {
         }
         return listado_subtareas;
     }
-
+/**
+ * Método para insertar subtareas
+ * @param subtareas Objeto subtareas con los valores de la subtarea a insertar
+ */
     public void insertarSubtarea(Subtareas subtareas) {
         Connection conexion = null;
         PreparedStatement ps = null;
@@ -237,7 +262,10 @@ public class TareasOP {
         }
 
     }
-
+/**
+ * Método para eliminar subtareas
+ * @param subtareas Objeto subtareas con los datos de la subtarea a eliminar
+ */
     public void eliminarSubtarea(Subtareas subtareas) {
         Connection conexion = null;
         PreparedStatement ps = null;
@@ -253,6 +281,11 @@ public class TareasOP {
             e.printStackTrace();
         }
     }
+    
+    /**
+     * Método para actualizar el estado de una tarea
+     * @param tareas Objeto tareas con el identificador de la tarea a actualizar su estado (Pendiente - Terminado)
+     */
     public void actualizarEstadoTarea(Tareas tareas) {
         Connection conexion = null;
         PreparedStatement ps = null;
@@ -273,7 +306,10 @@ public class TareasOP {
         }
 
     }
-
+/**
+ * Método para actualizar el estado de una subtarea
+ * @param subtareas Objeto subtareas con su identificador a actualizar su estado (Pendiente - Terminado)
+ */
     public void actualizarEstadoSubtarea(Subtareas subtareas) {
         Connection conexion = null;
         PreparedStatement ps = null;

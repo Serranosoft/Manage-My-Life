@@ -3,18 +3,12 @@ package UI;
 import Compartir.Gastos;
 import Compartir.Peticion;
 import Compartir.Productos;
-import Compartir.Subtareas;
-import Compartir.Tareas;
 import Compartir.Usuarios;
 import Conexion.Conexion;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**

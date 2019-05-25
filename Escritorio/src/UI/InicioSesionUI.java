@@ -214,7 +214,7 @@ public class InicioSesionUI extends javax.swing.JFrame {
             String usuario = inicio_email_field.getText();
             String password = inicio_password_field.getText();
             // Cifrado de contrasena a MD5
-            MessageDigest digest = MessageDigest.getInstance("MD5");
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
             StringBuilder sb = new StringBuilder();
 

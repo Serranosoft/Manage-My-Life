@@ -15,12 +15,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import vo.Subtarea;
-
+/**
+ * Clase Adapter encargada de gestionar la información para mostrarla en el RecyclerView
+ */
 public class SubtareasAdapter extends RecyclerView.Adapter<SubtareasAdapter.ViewHolder> {
 
     private List<Subtarea> subtareas = new ArrayList<>();
     private Context context;
 
+    /**
+     * Constructor del adaptador de subtareas
+     * @param subtareas Lista de subtareas
+     * @param context Activity o Fragment al que hace referencia
+     */
     public SubtareasAdapter(List<Subtarea> subtareas, Context context) {
         this.subtareas = subtareas;
         this.context = context;
@@ -58,7 +65,9 @@ public class SubtareasAdapter extends RecyclerView.Adapter<SubtareasAdapter.View
     public int getItemCount() {
         return subtareas.size();
     }
-
+    /**
+     * Clase ViewHolder para obtener los distintos datos con los que se trabajará desde el adaptador
+     */
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView nombreSubtarea;

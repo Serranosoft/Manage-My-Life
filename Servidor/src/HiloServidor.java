@@ -56,7 +56,9 @@ class HiloServidor extends Thread {
             e.printStackTrace();
         }
     }
-
+/**
+ * Método del hilo encargado de obtener la petición del cliente y ejecutar distintos métodos para el acceso de datos (DAO) y encargado de enviar los datos a los clientes
+ */
     public void run() {
 
         try {

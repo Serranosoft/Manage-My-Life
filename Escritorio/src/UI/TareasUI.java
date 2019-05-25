@@ -662,7 +662,7 @@ public class TareasUI extends javax.swing.JFrame {
     /**
      * Método que permite acciones dinámicas en los distintos valores para abrir la información de las tareas.
      */
-    private void informacionTareas() {
+    public void informacionTareas() {
 
         tabla_tareas.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -726,9 +726,7 @@ public class TareasUI extends javax.swing.JFrame {
         });
     }
 
-    /**
-     * @param args the command line arguments
-     */
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

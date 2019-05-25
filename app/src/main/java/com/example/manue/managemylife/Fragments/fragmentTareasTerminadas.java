@@ -30,7 +30,7 @@ import Compartir.Usuarios;
 import vo.Tarea;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment encargado de cargar la pantalla de tareas terminadas
  */
 public class fragmentTareasTerminadas extends Fragment {
 
@@ -72,11 +72,14 @@ public class fragmentTareasTerminadas extends Fragment {
         executeTareasTerminadasTask();
         return view;
     }
-    public void executeTareasTerminadasTask() {
+    private void executeTareasTerminadasTask() {
         mostrarTareasTerminadasTask mostrarTareasTask = new mostrarTareasTerminadasTask();
         mostrarTareasTask.execute();
     }
 
+    /**
+     * Clase AsyncTask para obtener la lista de tareas y mostrar aquellas que están en estado terminado
+     */
     public class mostrarTareasTerminadasTask extends AsyncTask<ArrayList<Tarea>, Void, ArrayList<Tarea>> {
 
         Socket cliente = null;
