@@ -1,6 +1,8 @@
 package com.example.manue.managemylife.Activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.AsyncTask;
@@ -53,9 +55,26 @@ public class RegisterActivity extends AppCompatActivity{
         registrar_usuario.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                registrar();
-                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                startActivity(intent);
+                if(usuario.getText().toString().isEmpty() || contraseña.getText().toString().isEmpty()
+                        || nombre.getText().toString().isEmpty() || salario.getText().toString().isEmpty()) {
+                    final AlertDialog.Builder alert = new AlertDialog.Builder(RegisterActivity.this, R.style.AlertDialog);
+
+                    alert.setTitle("Aviso");
+                    alert.setMessage("Rellena todos los campos! ");
+                    alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    });
+
+                    alert.create().show();
+                }else {
+                    registrar();
+                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
+
             }
         });
         registrar_iniciar_sesion = (TextView) findViewById(R.id.register_iniciar_sesion);

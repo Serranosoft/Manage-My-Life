@@ -200,7 +200,6 @@ public class LoginActivity extends AppCompatActivity {
         protected Void doInBackground(String... strings) {
             try {
 
-                System.out.println("Settings configurado ;:" +settings.obtenerSettings().get(0).getAddress()+" "+settings.obtenerSettings().get(0).getPort());
                 cliente = new Socket(settings.obtenerSettings().get(0).getAddress(), settings.obtenerSettings().get(0).getPort());
 
                 salida = new ObjectOutputStream(cliente.getOutputStream());

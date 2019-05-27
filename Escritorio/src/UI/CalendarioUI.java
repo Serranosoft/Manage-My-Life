@@ -20,9 +20,9 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import javax.swing.JOptionPane;
 
-
 /**
  * Página que carga componente del calendario con los días de tareas pendientes.
+ *
  * @author manue
  */
 public class CalendarioUI extends javax.swing.JFrame {
@@ -59,10 +59,10 @@ public class CalendarioUI extends javax.swing.JFrame {
         settings.setHighlightPolicy(new SampleHighlightPolicy());
         YearMonth yearMonth = YearMonth.now();
         calendarPanel1.setDisplayedYearMonth(yearMonth);
-        calendarPanel1.getNextMonthButton().setEnabled(false);
-        calendarPanel1.getNextYearButton().setEnabled(false);
-        calendarPanel1.getPreviousMonthButton().setEnabled(false);
-        calendarPanel1.getPreviousYearButton().setEnabled(false);
+        //calendarPanel1.getNextMonthButton().setEnabled(false);
+        //calendarPanel1.getNextYearButton().setEnabled(false);
+        //calendarPanel1.getPreviousMonthButton().setEnabled(false);
+        //calendarPanel1.getPreviousYearButton().setEnabled(false);
         calendarPanel1.addCalendarSelectionListener(new SampleCalendarListener());
         int newHeight = (int) (settings.getSizeDatePanelMinimumHeight() * 3.1);
         int newWidth = (int) (settings.getSizeDatePanelMinimumWidth() * 3.3);
@@ -73,7 +73,8 @@ public class CalendarioUI extends javax.swing.JFrame {
     }
 
     /**
-     * Clase representativa del componente del calendario el cual se encarga de pintar los días de las tareas pendientes
+     * Clase representativa del componente del calendario el cual se encarga de
+     * pintar los días de las tareas pendientes
      */
     private class SampleHighlightPolicy implements DateHighlightPolicy {
 
@@ -81,10 +82,15 @@ public class CalendarioUI extends javax.swing.JFrame {
         public HighlightInformation getHighlightInformationOrNull(LocalDate date) {
             for (int i = 0; i < tareas.getResultados_tareas().size(); i++) {
                 if (date.getDayOfMonth() == tareas.getResultados_tareas().get(i).getFecha_realizar().toLocalDate().getDayOfMonth()) {
-                    if(tareas.getResultados_tareas().get(i).getEstado() == 0){
-                        return new HighlightInformation(Color.CYAN, null, "null");
+                    if (date.getMonth() == tareas.getResultados_tareas().get(i).getFecha_realizar().toLocalDate().getMonth()) {
+                        if (date.getYear() == tareas.getResultados_tareas().get(i).getFecha_realizar().toLocalDate().getYear()) {
+                            if (tareas.getResultados_tareas().get(i).getEstado() == 0) {
+                                return new HighlightInformation(Color.CYAN, null, "null");
+                            }
+                        }
+
                     }
-                    
+
                 }
             }
 
@@ -93,7 +99,9 @@ public class CalendarioUI extends javax.swing.JFrame {
     }
 
     /**
-     * Clase representativa del componente del calendario el cual se encarga de añadir un listener a los distintos días para mostrar la cantidad de tareas pendientes.
+     * Clase representativa del componente del calendario el cual se encarga de
+     * añadir un listener a los distintos días para mostrar la cantidad de
+     * tareas pendientes.
      */
     public class SampleCalendarListener implements CalendarSelectionListener {
 
@@ -103,27 +111,30 @@ public class CalendarioUI extends javax.swing.JFrame {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             for (int i = 0; i < tareas.getResultados_tareas().size(); i++) {
                 if (sdf.format(date).equals(sdf.format(tareas.getResultados_tareas().get(i).getFecha_realizar()))) {
-                    if(tareas.getResultados_tareas().get(i).getEstado() == 0) {
+                    if (tareas.getResultados_tareas().get(i).getEstado() == 0) {
                         cont_tareas++;
                     }
-                    
+
                 }
             }
-            JOptionPane.showMessageDialog(null, "Día: " + cse.getNewDate() + " tienes: " + cont_tareas +" tareas");
+            JOptionPane.showMessageDialog(null, "Día: " + cse.getNewDate() + " tienes: " + cont_tareas + " tareas");
             cont_tareas = 0;
 
         }
 
     }
-/**
- * Método para cerrar el calendario
- */
+
+    /**
+     * Método para cerrar el calendario
+     */
     public void closeCalendar() {
         this.setVisible(false);
     }
 
     /**
-     * Método para obtener una lista de tareas para obtener la cantidad de tareas.
+     * Método para obtener una lista de tareas para obtener la cantidad de
+     * tareas.
+     *
      * @param usuarios Objeto usuarios con los datos del usuario actual
      */
     public void obtenerTareas(Usuarios usuarios) {
@@ -149,7 +160,6 @@ public class CalendarioUI extends javax.swing.JFrame {
         }
 
     }
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

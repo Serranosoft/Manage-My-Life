@@ -416,7 +416,7 @@ public class InformesUI extends javax.swing.JFrame {
         informes_nombre.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
         informes_nombre.setForeground(new java.awt.Color(255, 255, 255));
         informes_nombre.setText("xxxxxxxx");
-        jPanel4.add(informes_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 170, -1, 30));
+        jPanel4.add(informes_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 170, -1, 30));
 
         perfil_imagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/user.png"))); // NOI18N
         jPanel4.add(perfil_imagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 20, 150, 140));

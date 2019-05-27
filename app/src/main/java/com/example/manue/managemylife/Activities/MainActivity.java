@@ -65,8 +65,6 @@ public class MainActivity extends AppCompatActivity
 
         usuarios = (Usuarios) getIntent().getSerializableExtra("login");
 
-        Toast.makeText(this, "NOMBRE DEL USUARIO: "+usuarios.getNombre(),
-                Toast.LENGTH_LONG).show();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);

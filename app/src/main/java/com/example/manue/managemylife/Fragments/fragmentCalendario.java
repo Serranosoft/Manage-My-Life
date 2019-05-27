@@ -175,14 +175,20 @@ public class fragmentCalendario extends Fragment{
 
             }
 
-            Date dMin = Collections.min(dates);
-            Date dMax = Collections.max(dates);
-            nextYear.setTime(dMax);
-            nextYear.add(Calendar.DATE, 1);
-            datePicker.init(dMin, nextYear.getTime());
-            datePicker.setOnInvalidDateSelectedListener(null);
-            datePicker.selectDate(dMin, true);
-            datePicker.highlightDates(dates);
+            if(dates.isEmpty()) {
+
+            }else {
+                Date dMin = Collections.min(dates);
+                Date dMax = Collections.max(dates);
+                nextYear.setTime(dMax);
+                nextYear.add(Calendar.DATE, 1);
+                datePicker.init(dMin, nextYear.getTime());
+                datePicker.setOnInvalidDateSelectedListener(null);
+                datePicker.selectDate(dMin, true);
+                datePicker.highlightDates(dates);
+            }
+
+
         }
     }
 

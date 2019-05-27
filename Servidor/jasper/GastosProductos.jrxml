@@ -68,14 +68,14 @@ INNER JOIN Producto ON Gasto.ID = Producto.ID_Gasto WHERE Usuario.ID = $P{ID_Usu
 				<text><![CDATA[Usuario]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="194" y="16" width="89" height="16"/>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{Nombre_Gasto}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="194" y="0" width="89" height="16"/>
+				<reportElement x="194" y="0" width="123" height="16"/>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{Usuario}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="194" y="16" width="123" height="16"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Nombre}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -114,7 +114,7 @@ INNER JOIN Producto ON Gasto.ID = Producto.ID_Gasto WHERE Usuario.ID = $P{ID_Usu
 	<detail>
 		<band height="33" splitType="Stretch">
 			<textField>
-				<reportElement x="39" y="0" width="95" height="20"/>
+				<reportElement x="0" y="0" width="145" height="20"/>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{Nombre_Gasto}]]></textFieldExpression>
 			</textField>
