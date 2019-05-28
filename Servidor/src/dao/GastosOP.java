@@ -51,7 +51,7 @@ public class GastosOP {
                 gasto.setId(Integer.valueOf(rs.getString("ID")));
                 gasto.setNombre_gasto(rs.getString("Nombre_Gasto"));
                 gasto.setTipo_gasto(rs.getString("Tipo_Gasto"));
-                gasto.setPrecio_gasto(Integer.valueOf(rs.getString("Precio_Gasto")));
+                gasto.setPrecio_gasto(Double.valueOf(rs.getString("Precio_Gasto")));
 
                 listado_gastos.add(gasto);
 
@@ -88,7 +88,7 @@ public class GastosOP {
 
             ps.setString(1, gastos.getNombre_gasto());
             ps.setString(2, gastos.getTipo_gasto());
-            ps.setInt(3, gastos.getPrecio_gasto());
+            ps.setDouble(3, gastos.getPrecio_gasto());
             ps.setInt(4, gastos.getIdUsuario());
 
             ps.executeUpdate();
@@ -145,7 +145,7 @@ public class GastosOP {
                 Producto producto = new Producto();
                 producto.setId(Integer.valueOf(rs.getString("ID")));
                 producto.setNombre_producto(rs.getString("Nombre_Prod"));
-                producto.setPrecio_producto(Integer.valueOf(rs.getString("Precio_Prod")));
+                producto.setPrecio_producto(Double.valueOf(rs.getString("Precio_Prod")));
 
                 listado_productos.add(producto);
             }
@@ -177,7 +177,7 @@ public class GastosOP {
             ps = conexion.prepareStatement(sql);
 
             ps.setString(1, productos.getNombre_Producto());
-            ps.setInt(2, productos.getPrecio_Producto());
+            ps.setDouble(2, productos.getPrecio_Producto());
             ps.setInt(3, productos.getID_Gasto());
 
             ps.executeUpdate();
@@ -219,7 +219,7 @@ public class GastosOP {
             conexion = conn.getConnection();
             ps = conexion.prepareStatement(sql);
 
-            ps.setInt(1, gastos.getPrecio_gasto());
+            ps.setDouble(1, gastos.getPrecio_gasto());
             ps.setInt(2, gastos.getId());
 
             ps.executeUpdate();

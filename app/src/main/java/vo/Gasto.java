@@ -3,14 +3,16 @@ package vo;
 import java.io.Serializable;
 
 /**
- * Clase Gasto encargada de mantener los distintos atributos del objeto compartido Gastos
+ * Configuración de la clase gasto
+ *
+ * @author manue
  */
 public class Gasto implements Serializable {
 
     private int id;
     private String nombre_gasto;
     private String tipo_gasto;
-    private int precio_gasto = 0;
+    private double precio_gasto = 0.0;
 
     /**
      * Constructor por defecto de la clase Gasto
@@ -20,9 +22,10 @@ public class Gasto implements Serializable {
 
     /**
      * Constructor completo de la clase gasto
+     *
      * @param id Identificador del gasto
      * @param nombre_gasto Nombre del gasto
-     * @param tipo_gasto Tipo del gasto
+     * @param tipo_gasto Tipo de gasto
      */
     public Gasto(int id, String nombre_gasto, String tipo_gasto) {
         this.id = id;
@@ -31,8 +34,9 @@ public class Gasto implements Serializable {
     }
 
     /**
-     * Getter del identificador del gasto
-     * @return Identificador del gasto
+     * Getter de identificador del gasto
+     *
+     * @return identificador del gasto
      */
     public int getId() {
         return id;
@@ -40,36 +44,65 @@ public class Gasto implements Serializable {
 
     /**
      * Setter del identificador del gasto
-     * @param id Identificador del gasto
+     *
+     * @param id identificador del gasto
      */
     public void setId(int id) {
         this.id = id;
     }
 
+    /**
+     * Getter del nombre del gasto
+     *
+     * @return nombre del gasto
+     */
     public String getNombre_gasto() {
         return nombre_gasto;
     }
 
+    /**
+     * Setter del nombre del gasto
+     *
+     * @param nombre_gasto nombre del gasto
+     */
     public void setNombre_gasto(String nombre_gasto) {
         this.nombre_gasto = nombre_gasto;
     }
 
+    /**
+     * Getter del tipo de gasto
+     *
+     * @return tipo de gasto
+     */
     public String getTipo_gasto() {
         return tipo_gasto;
     }
 
+    /**
+     * Setter del tipo de gasto
+     *
+     * @param tipo_gasto Tipo de gasto
+     */
     public void setTipo_gasto(String tipo_gasto) {
         this.tipo_gasto = tipo_gasto;
     }
 
-    public int getPrecio_gasto() {
+    /**
+     * Getter del precio del gasto
+     *
+     * @return precio del gasto
+     */
+    public double getPrecio_gasto() {
         return precio_gasto;
     }
 
-    public void setPrecio_gasto(int precio_gasto) {
+    /**
+     * Setter del precio del gasto
+     *
+     * @param precio_gasto precio del gasto
+     */
+    public void setPrecio_gasto(double precio_gasto) {
         this.precio_gasto = precio_gasto;
     }
-
-
 
 }

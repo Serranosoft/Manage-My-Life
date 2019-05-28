@@ -3,7 +3,8 @@ package Compartir;
 import java.io.Serializable;
 
 /**
- * Clase Objeto de usuarios para el envio/recibo de datos entre cliente/servidor
+ * Clase Objeto usuario para el envio/recibo de datos entre cliente y servidor
+ * @author manue
  */
 public class Usuarios implements Serializable {
 
@@ -11,7 +12,7 @@ public class Usuarios implements Serializable {
     private String usuario;
     private String nombre;
     private String contraseña;
-    private int salario;
+    private double salario;
     private String imagen;
     private boolean existe;
     /**
@@ -29,7 +30,7 @@ public class Usuarios implements Serializable {
      * @param imagen imagen codificada del usuario
      * @param existe boolean para indicar si existe un usuario
      */
-    public Usuarios(int id, String usuario, String nombre, String contraseña, int salario, String imagen, boolean existe) {
+    public Usuarios(int id, String usuario, String nombre, String contraseña, double salario, String imagen, boolean existe) {
         this.id = id;
         this.usuario = usuario;
         this.nombre = nombre;
@@ -77,13 +78,14 @@ public class Usuarios implements Serializable {
         this.contraseña = contraseña;
     }
 
-    public int getSalario() {
+    public double getSalario() {
         return salario;
     }
 
-    public void setSalario(int salario) {
+    public void setSalario(double salario) {
         this.salario = salario;
     }
+
 
     public boolean isExiste() {
         return existe;

@@ -121,7 +121,7 @@ public class RegisterActivity extends AppCompatActivity{
                 usuarios.setContraseña(sb.toString());
 
                 usuarios.setNombre(nombre.getText().toString());
-                usuarios.setSalario(Integer.valueOf(salario.getText().toString()));
+                usuarios.setSalario(Double.valueOf(salario.getText().toString()));
 
                 salida.writeObject(usuarios);
             } catch (IOException ex) {

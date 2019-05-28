@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="informe_tareasPendientes" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-	<property name="ireport.zoom" value="1.9487171000000014"/>
+	<property name="ireport.zoom" value="2.3579476910000023"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="ID_Usuario" class="java.lang.Integer"/>
@@ -40,7 +40,7 @@
 					<text><![CDATA[TAREAS PENDIENTES]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="302" y="59" width="253" height="20" forecolor="#FFFFFF"/>
+					<reportElement x="302" y="59" width="246" height="20" forecolor="#FFFFFF"/>
 					<textElement textAlignment="Right">
 						<font size="10" isBold="false"/>
 					</textElement>
@@ -78,30 +78,30 @@
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="35" splitType="Stretch">
+		<band height="49" splitType="Stretch">
 			<staticText>
-				<reportElement mode="Opaque" x="153" y="19" width="130" height="16" forecolor="#006699" backcolor="#E6E6E6"/>
+				<reportElement mode="Opaque" x="153" y="27" width="130" height="16" forecolor="#006699" backcolor="#E6E6E6"/>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Categoría]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="14" y="19" width="139" height="16" forecolor="#006699" backcolor="#E6E6E6"/>
+				<reportElement mode="Opaque" x="0" y="27" width="153" height="16" forecolor="#006699" backcolor="#E6E6E6"/>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Nombre de la Tarea]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="283" y="19" width="134" height="16" forecolor="#006699" backcolor="#E6E6E6"/>
+				<reportElement mode="Opaque" x="283" y="27" width="134" height="16" forecolor="#006699" backcolor="#E6E6E6"/>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Fecha a Realizar]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="417" y="19" width="131" height="16" forecolor="#006699" backcolor="#E6E6E6"/>
+				<reportElement mode="Opaque" x="417" y="27" width="131" height="16" forecolor="#006699" backcolor="#E6E6E6"/>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
@@ -112,7 +112,7 @@
 	<detail>
 		<band height="27" splitType="Stretch">
 			<textField>
-				<reportElement x="53" y="0" width="100" height="20"/>
+				<reportElement x="4" y="0" width="179" height="20"/>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{Nombre_tarea}]]></textFieldExpression>
 			</textField>
@@ -122,7 +122,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{Categoria}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="330" y="0" width="38" height="20"/>
+				<reportElement x="330" y="0" width="40" height="20"/>
 				<textElement/>
 				<textFieldExpression class="java.util.Date"><![CDATA[$F{Fecha_Realizar}]]></textFieldExpression>
 			</textField>

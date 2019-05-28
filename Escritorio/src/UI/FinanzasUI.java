@@ -488,12 +488,11 @@ public class FinanzasUI extends javax.swing.JFrame {
                 .addComponent(perfil_imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(100, 100, 100)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addGap(103, 103, 103))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addComponent(usuario_balance, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(89, 89, 89))))
+                    .addComponent(jLabel5)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addComponent(usuario_balance, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(19, 19, 19))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(añadirGasto_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -743,7 +742,7 @@ public class FinanzasUI extends javax.swing.JFrame {
             salida.flush();
             usuarios = (Usuarios) entrada.readObject();
 
-            usuario_balance.setText(usuarios.getSalario() + "€");
+            usuario_balance.setText(usuarios.getSalario() + " €");
 
         } catch (IOException ex) {
             ex.printStackTrace();

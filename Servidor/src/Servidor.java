@@ -13,13 +13,12 @@ import java.util.logging.Logger;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author manue
  */
 public class Servidor {
-    
+
     /**
      * @param args the command line arguments
      */
@@ -28,15 +27,15 @@ public class Servidor {
         ObjectOutputStream salida;
         Socket usuario = null;
         DBConnection conexion = new DBConnection();
-        
+
         try {
             servidor = new ServerSocket(conexion.getPuerto());
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
         while(true){
-            
+
             try {
                 usuario = servidor.accept();
 
@@ -45,10 +44,10 @@ public class Servidor {
                 hilo.start();
             } catch (IOException ex) {
                 //Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
-            }     
-            
-        }   
-        
-    }   
-    
+            }
+
+        }
+
+    }
+
 }

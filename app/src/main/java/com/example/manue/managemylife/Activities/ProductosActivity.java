@@ -63,7 +63,7 @@ public class ProductosActivity extends AppCompatActivity {
     TextView productos_cantidad = null;
     TextView productos_balance = null;
     CircleImageView imagen_perfil = null;
-    int balance = 0;
+    double balance = 0.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,13 +122,13 @@ public class ProductosActivity extends AppCompatActivity {
 
                         try{
                             productos.setNombre_Producto(nombre_producto.getText().toString());
-                            productos.setPrecio_Producto(Integer.valueOf(precio_producto.getText().toString()));
+                            productos.setPrecio_Producto(Double.valueOf(precio_producto.getText().toString()));
                             productos.setID_Gasto(gastos.getId());
                             gastos.setPrecio_gasto(gastos.getPrecio_gasto() + productos.getPrecio_Producto());
                             executeInsertarProductos();
                             dialog_producto.dismiss();
                             adapter.notifyDataSetChanged();
-                            balance-=Integer.valueOf(precio_producto.getText().toString());
+                            balance-=Double.valueOf(precio_producto.getText().toString());
                             usuarios.setSalario(balance);
                             executeUpdateSalario();
                             executeActualizarProductos();
@@ -187,7 +187,7 @@ public class ProductosActivity extends AppCompatActivity {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
                                             int idProducto = listaProducto.get(position).getId();
-                                            int precio = listaProducto.get(position).getPrecio_producto();
+                                            double precio = listaProducto.get(position).getPrecio_producto();
                                             productos.setID(idProducto);
                                             System.out.println("PRECIO DEL GASTO ACTUAL: "+gastos.getPrecio_gasto());
                                             System.out.println("PRECIO A RESTAR: "+precio);

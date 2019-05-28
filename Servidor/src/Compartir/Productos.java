@@ -11,7 +11,7 @@ public class Productos implements Serializable{
     
     private int ID;
     private String Nombre_Producto;
-    private int Precio_Producto;
+    private double Precio_Producto;
     private int ID_Gasto;
 /**
  * Constructor de productos por defecto
@@ -25,7 +25,7 @@ public class Productos implements Serializable{
  * @param Precio_Producto Precio del producto
  * @param ID_Gasto Identificador del gasto al que hace referencia
  */
-    public Productos(int ID, String Nombre_Producto, int Precio_Producto, int ID_Gasto) {
+    public Productos(int ID, String Nombre_Producto, double Precio_Producto, int ID_Gasto) {
         this.ID = ID;
         this.Nombre_Producto = Nombre_Producto;
         this.Precio_Producto = Precio_Producto;
@@ -54,13 +54,14 @@ public class Productos implements Serializable{
         this.Nombre_Producto = Nombre_Producto;
     }
 
-    public int getPrecio_Producto() {
+    public double getPrecio_Producto() {
         return Precio_Producto;
     }
 
-    public void setPrecio_Producto(int Precio_Producto) {
+    public void setPrecio_Producto(double Precio_Producto) {
         this.Precio_Producto = Precio_Producto;
     }
+
 
     public int getID_Gasto() {
         return ID_Gasto;

@@ -53,10 +53,10 @@ public class informacionGasto extends javax.swing.JDialog {
     Productos productos = new Productos();
     boolean edicion = false;
     int id = 0;
-    int sumaProductos = 0;
+    double sumaProductos = 0;
     int cant_productos = 0;
-    int precio_eliminado = 0;
-    int precio_gasto = 0;
+    double precio_eliminado = 0.0;
+    double precio_gasto = 0;
 
     /**
      * Constructor para cargar distintos métodos iniciales.
@@ -235,17 +235,18 @@ public class informacionGasto extends javax.swing.JDialog {
                                 .addComponent(cantidad_productos)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(perfil_imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(68, 68, 68)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel5)
-                            .addComponent(usuario_balance, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(37, 37, 37)))
+                        .addGap(238, 238, 238)))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(añadir_producto, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(eliminar_producto, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(usuario_balance, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel5)
+                            .addComponent(añadir_producto, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(eliminar_producto, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(14, 14, 14))
         );
         layout.setVerticalGroup(
@@ -285,7 +286,8 @@ public class informacionGasto extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 /**
      * Método para eliminar productos seleccionando de la tabla y obteniendo su
-     * identificador, actualizamos la tabla con los nuevos valores y actualiza el salario del usuario
+     * identificador, actualizamos la tabla con los nuevos valores y actualiza
+     * el salario del usuario
      *
      * @param evt Evento clic
      */
@@ -295,6 +297,41 @@ public class informacionGasto extends javax.swing.JDialog {
         } else if (tabla_productos.getRowCount() == 0) {
             JOptionPane.showMessageDialog(null, "No hay productos!!");
         } else {
+            precio_gasto = 0.0;
+
+            try {
+                cliente = new Socket(server, puerto);
+                salida = new ObjectOutputStream(cliente.getOutputStream());
+                entrada = new ObjectInputStream(cliente.getInputStream());
+
+                peticion.setConsulta(17);
+                salida.writeObject(peticion);
+                salida.flush();
+                gastos.setId(id);
+                salida.writeObject(gastos);
+                salida.flush();
+                gastos = (Gastos) entrada.readObject();
+
+                ArrayList<Producto> listado_productos = gastos.getProductos();
+                for (int i = 0; i < listado_productos.size(); i++) {
+                    Producto producto = listado_productos.get(i);
+                    Object[] array = {producto.getNombre_producto(), producto.getPrecio_producto() + " €"};
+                    cant_productos++;
+                    precio_gasto += producto.getPrecio_producto();
+                    m.addRow(array);
+
+                }
+                gastos.setPrecio_gasto(precio_gasto);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
             try {
                 cliente = new Socket(server, puerto);
                 salida = new ObjectOutputStream(cliente.getOutputStream());
@@ -319,40 +356,12 @@ public class informacionGasto extends javax.swing.JDialog {
             m = (DefaultTableModel) tabla_productos.getModel();
             m.setRowCount(0);
 
-            try {
-                cliente = new Socket(server, puerto);
-                salida = new ObjectOutputStream(cliente.getOutputStream());
-                entrada = new ObjectInputStream(cliente.getInputStream());
-
-                peticion.setConsulta(17);
-                salida.writeObject(peticion);
-                salida.flush();
-                gastos.setId(id);
-                salida.writeObject(gastos);
-                salida.flush();
-                gastos = (Gastos) entrada.readObject();
-
-                ArrayList<Producto> listado_productos = gastos.getProductos();
-                for (int i = 0; i < listado_productos.size(); i++) {
-                    Producto producto = listado_productos.get(i);
-                    Object[] array = {producto.getNombre_producto(), producto.getPrecio_producto() + " €"};
-                    cant_productos++;
-
-                    m.addRow(array);
-
-                }
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            } catch (ClassNotFoundException ex) {
-                ex.printStackTrace();
-            }
-
             // Configuro salario actualizado (tras la eliminación de un producto)
-            int salario_actual = usuarios.getSalario();
+            double salario_actual = usuarios.getSalario();
             usuarios.setSalario(salario_actual + precio_eliminado);
 
             cantidad_productos.setText(cant_productos + "");
-            usuario_balance.setText(usuarios.getSalario() + "€");
+            usuario_balance.setText(usuarios.getSalario() + " €");
             cant_productos = 0;
 
             // Configuración de parámetros para la actualización del salario al usuario '?'
@@ -402,14 +411,42 @@ public class informacionGasto extends javax.swing.JDialog {
                     ex.printStackTrace();
                 }
             }
+            
+             try {
+                cliente = new Socket(server, puerto);
+                salida = new ObjectOutputStream(cliente.getOutputStream());
+                entrada = new ObjectInputStream(cliente.getInputStream());
+
+                peticion.setConsulta(17);
+                salida.writeObject(peticion);
+                salida.flush();
+                gastos.setId(id);
+                salida.writeObject(gastos);
+                salida.flush();
+                gastos = (Gastos) entrada.readObject();
+
+                ArrayList<Producto> listado_productos = gastos.getProductos();
+                for (int i = 0; i < listado_productos.size(); i++) {
+                    Producto producto = listado_productos.get(i);
+                    Object[] array = {producto.getNombre_producto(), producto.getPrecio_producto() + " €"};
+                    cant_productos++;
+                    m.addRow(array);
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
 
         }
 
     }//GEN-LAST:event_eliminar_productoMouseClicked
-/**
- * Método para eliminar gasto, actualización de tablas y actualización del salario
- * @param evt Evento clic
- */
+    /**
+     * Método para eliminar gasto, actualización de tablas y actualización del
+     * salario
+     *
+     * @param evt Evento clic
+     */
     private void eliminar_GastobtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_eliminar_GastobtnMouseClicked
 
         try {
@@ -511,9 +548,12 @@ public class informacionGasto extends javax.swing.JDialog {
 
     }//GEN-LAST:event_eliminar_GastobtnMouseClicked
     boolean insercion = false;
+
     /**
-     * Método para añadir producto, actualizando lista y actualizando el salario.
-     * @param evt 
+     * Método para añadir producto, actualizando lista y actualizando el
+     * salario.
+     *
+     * @param evt
      */
     private void añadir_productoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_añadir_productoMouseClicked
         insertarProducto inProducto = new insertarProducto(this, true, gastos);
@@ -562,11 +602,11 @@ public class informacionGasto extends javax.swing.JDialog {
             }
 
             // Configuro salario actualizado (tras la inserción de un producto)
-            int salario_actual = usuarios.getSalario();
+            double salario_actual = usuarios.getSalario();
             usuarios.setSalario(salario_actual - listado_productos.get(listado_productos.size() - 1).getPrecio_producto());
 
             cantidad_productos.setText(cant_productos + "");
-            usuario_balance.setText(usuarios.getSalario() + "");
+            usuario_balance.setText(usuarios.getSalario() + " €");
             cant_productos = 0;
             // Configuración de parámetros para la actualización del salario al usuario '?'
             try {
@@ -618,17 +658,19 @@ public class informacionGasto extends javax.swing.JDialog {
 
         }
     }//GEN-LAST:event_añadir_productoMouseClicked
-/**
- * Método para guardar cambios
- * @param evt Evento clic
- */
+    /**
+     * Método para guardar cambios
+     *
+     * @param evt Evento clic
+     */
     private void guardar_cambiosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_guardar_cambiosMouseClicked
         cerrarDialog();
     }//GEN-LAST:event_guardar_cambiosMouseClicked
-/**
- * Método para cerrar el JDialog
- * @return boolean indicando si se ha cerrado o no el JDialog
- */
+    /**
+     * Método para cerrar el JDialog
+     *
+     * @return boolean indicando si se ha cerrado o no el JDialog
+     */
     public boolean cerrarDialog() {
         this.setVisible(false);
         return true;
@@ -637,6 +679,7 @@ public class informacionGasto extends javax.swing.JDialog {
 
     /**
      * Método para obtener todos los productos al iniciar el JDialog
+     *
      * @param id Identificador de la tarea
      */
     public void obtenerProductos(int id) {

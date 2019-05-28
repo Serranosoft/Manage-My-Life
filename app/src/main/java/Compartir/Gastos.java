@@ -7,17 +7,18 @@ import vo.Gasto;
 import vo.Producto;
 
 /**
- * Clase Objeto de gastos para el envio/recibo de datos entre cliente/servidor
+ * Clase Objeto gasto para el envio/recibo de datos entre cliente y servidor
+ * @author manue
  */
 public class Gastos implements Serializable {
+
     private int id;
     private String nombre_gasto;
     private String tipo_gasto;
-    private int precio_gasto = 0;
+    private double precio_gasto = 0.0;
     private int idUsuario;
     private ArrayList<Gasto> resultados_gastos;
     private ArrayList<Producto> productos;
-
     /**
      * Constructor por defecto de gastos
      */
@@ -72,13 +73,14 @@ public class Gastos implements Serializable {
         this.tipo_gasto = tipo_gasto;
     }
 
-    public int getPrecio_gasto() {
+    public double getPrecio_gasto() {
         return precio_gasto;
     }
 
-    public void setPrecio_gasto(int precio_gasto) {
+    public void setPrecio_gasto(double precio_gasto) {
         this.precio_gasto = precio_gasto;
     }
+
 
     public int getIdUsuario() {
         return idUsuario;

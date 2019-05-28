@@ -141,7 +141,7 @@ public class insertarProducto extends javax.swing.JDialog {
             salida.writeObject(peticion);
             salida.flush();
             productos.setNombre_Producto(producto_nombre.getText());
-            productos.setPrecio_Producto(Integer.valueOf(producto_precio.getText()));
+            productos.setPrecio_Producto(Double.valueOf(producto_precio.getText()));
             productos.setID_Gasto(gastos.getId());
 
             salida.writeObject(productos);

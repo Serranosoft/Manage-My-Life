@@ -44,7 +44,7 @@ public class UsuariosOP {
 
             ps.setString(1, usuario.getUsuario());
             ps.setString(2, usuario.getNombre());
-            ps.setInt(3, usuario.getSalario());
+            ps.setDouble(3, usuario.getSalario());
             ps.setString(4, usuario.getContraseña());
 
             ps.executeUpdate();
@@ -81,7 +81,7 @@ public class UsuariosOP {
                 usuario.setId(Integer.valueOf(rs.getString("ID")));
                 usuario.setUsuario(rs.getString("Usuario"));
                 usuario.setNombre(rs.getString("Nombre"));
-                usuario.setSalario(Integer.valueOf(rs.getString("Salario")));
+                usuario.setSalario(Double.valueOf(rs.getString("Salario")));
                 usuario.setImagen(rs.getString("Imagen"));
                 try {
                     if (usuario.getImagen().isEmpty()) {
@@ -201,7 +201,7 @@ public class UsuariosOP {
             conexion = conn.getConnection();
             ps = conexion.prepareStatement(sql);
 
-            ps.setInt(1, usuario.getSalario());
+            ps.setDouble(1, usuario.getSalario());
             ps.setInt(2, usuario.getId());
 
             ps.executeUpdate();
@@ -232,7 +232,7 @@ public class UsuariosOP {
                 usuario.setId(Integer.valueOf(rs.getString("ID")));
                 usuario.setUsuario(rs.getString("Usuario"));
                 usuario.setNombre(rs.getString("Nombre"));
-                usuario.setSalario(Integer.valueOf(rs.getString("Salario")));
+                usuario.setSalario(Double.valueOf(rs.getString("Salario")));
             }
 
         } catch (Exception e) {

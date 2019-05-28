@@ -68,7 +68,7 @@ public class fragmentFinanzas extends Fragment {
     TextView finanzas_balance = null;
     CircleImageView imagen_perfil = null;
 
-    int suma_productos_gasto = 0;
+    double suma_productos_gasto = 0.0;
     private RadioGroup radio_categoria;
 
     private AlertDialog.Builder builder_insertar_categoria;
@@ -179,7 +179,7 @@ public class fragmentFinanzas extends Fragment {
                     public void onClick(View v) {
                         gastos.setNombre_gasto(nombre_gasto.getText().toString());
                         gastos.setTipo_gasto(categoria_textview.getText().toString());
-                        gastos.setPrecio_gasto(0);
+                        gastos.setPrecio_gasto(0.0);
                         executeInsertarGastosTask();
                         dialog_gasto.dismiss();
                         adapter.notifyDataSetChanged();
@@ -229,7 +229,7 @@ public class fragmentFinanzas extends Fragment {
                                             listaGasto.remove(position);
                                             adapter.notifyItemRemoved(position);
 
-                                            suma_productos_gasto = 0;
+                                            suma_productos_gasto = 0.0;
                                         }
                                     });
                                     alert.setNegativeButton("No", new DialogInterface.OnClickListener() {

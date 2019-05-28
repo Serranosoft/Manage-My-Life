@@ -16,7 +16,7 @@ public class Producto implements Serializable {
 
     private int id;
     private String nombre_producto;
-    private int precio_producto = 0;
+    private double precio_producto = 0;
 
     /**
      * Constructor completo de producto
@@ -57,16 +57,16 @@ public class Producto implements Serializable {
         return nombre_producto;
     }
 
-    public void setNombre_producto(String nombre_producto) {
-        this.nombre_producto = nombre_producto;
-    }
-
-    public int getPrecio_producto() {
+    public double getPrecio_producto() {
         return precio_producto;
     }
 
-    public void setPrecio_producto(int precio_producto) {
+    public void setPrecio_producto(double precio_producto) {
         this.precio_producto = precio_producto;
+    }
+
+    public void setNombre_producto(String nombre_producto) {
+        this.nombre_producto = nombre_producto;
     }
 
 }

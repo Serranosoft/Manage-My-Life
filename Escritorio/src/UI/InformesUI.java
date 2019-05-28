@@ -26,7 +26,9 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 /**
- * Página con distintos botones para enviar al servidor distintos datos a una petición para obtener distintos informes
+ * Página con distintos botones para enviar al servidor distintos datos a una
+ * petición para obtener distintos informes
+ *
  * @author manue
  */
 public class InformesUI extends javax.swing.JFrame {
@@ -54,7 +56,6 @@ public class InformesUI extends javax.swing.JFrame {
         System.out.println("Nombre: " + usuarios.getNombre() + " ID: " + usuarios.getId());
         btn_6.setBackground(Color.CYAN);
     }
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -977,7 +978,6 @@ public class InformesUI extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }
-
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

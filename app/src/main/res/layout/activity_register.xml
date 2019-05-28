@@ -67,7 +67,7 @@
         <EditText android:id="@+id/register_salario"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:hint="@string/salario"
             android:textColorHint="@color/black"
             android:textColor="@color/black"/>
