@@ -139,14 +139,14 @@ public class UsuariosOP {
                     imageByte = Base64.getDecoder().decode(usuario.getImagen());
                     ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
                     image = ImageIO.read(bis);
-                    ImageIO.write(image, "jpg", new File("media/" + usuario.getUsuario() + "_profile.jpg"));
+                    ImageIO.write(image, "jpg", new File("media/" + usuario.getId() + "_profile.jpg"));
                     bis.close();
                 }
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            usuario.setImagen("media/" + usuario.getUsuario() + "_profile.jpg");
+            usuario.setImagen("media/" + usuario.getId() + "_profile.jpg");
             ps.setString(1, usuario.getUsuario());
             ps.setString(2, usuario.getNombre());
             ps.setString(3, usuario.getImagen());

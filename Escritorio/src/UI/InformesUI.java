@@ -417,7 +417,7 @@ public class InformesUI extends javax.swing.JFrame {
         informes_nombre.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
         informes_nombre.setForeground(new java.awt.Color(255, 255, 255));
         informes_nombre.setText("xxxxxxxx");
-        jPanel4.add(informes_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 170, -1, 30));
+        jPanel4.add(informes_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, -1, 30));
 
         perfil_imagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/user.png"))); // NOI18N
         jPanel4.add(perfil_imagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 20, 150, 140));
@@ -578,7 +578,7 @@ public class InformesUI extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(side_pane, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(side_pane, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -964,8 +964,8 @@ public class InformesUI extends javax.swing.JFrame {
         try {
             System.out.println(usuarios.getImagen().length());
             if (usuarios.getImagen().equals("null") || usuarios.getImagen().length() == 0) {
-                ImageIcon image_perfil = new ImageIcon("src/imagenes/user.png");
-                perfil_imagen.setIcon(image_perfil);
+                /*ImageIcon image_perfil = new ImageIcon("src/imagenes/user.png");
+                perfil_imagen.setIcon(image_perfil);*/
             } else {
                 byte[] imageByte = Base64.getDecoder().decode(usuarios.getImagen());
                 ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
