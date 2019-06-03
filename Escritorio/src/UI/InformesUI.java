@@ -964,8 +964,7 @@ public class InformesUI extends javax.swing.JFrame {
         try {
             System.out.println(usuarios.getImagen().length());
             if (usuarios.getImagen().equals("null") || usuarios.getImagen().length() == 0) {
-                /*ImageIcon image_perfil = new ImageIcon("src/imagenes/user.png");
-                perfil_imagen.setIcon(image_perfil);*/
+
             } else {
                 byte[] imageByte = Base64.getDecoder().decode(usuarios.getImagen());
                 ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);

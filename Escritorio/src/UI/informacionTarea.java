@@ -14,18 +14,14 @@ import java.net.Socket;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import vo.Subtarea;
 
 /**
  * Interfaz con la información de la tarea, donde se puede agregar subtareas,
- * eliminar subtareas, modificar informacion de la tarea
- *
+ * eliminar subtareas, modificar informacion de la tarea y actualizar estado de las subtareas
  * @author manue
  */
 public class informacionTarea extends javax.swing.JDialog {

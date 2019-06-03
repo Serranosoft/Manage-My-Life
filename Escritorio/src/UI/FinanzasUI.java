@@ -50,7 +50,6 @@ public class FinanzasUI extends javax.swing.JFrame {
         rellenarGastos(usuarios);
         btn_5.setBackground(Color.CYAN);
         text_btn5.setForeground(Color.BLACK);
-        //usuario_balance.setText(usuarios.getSalario() + "€");
         obtenerGastos(usuarios);
         informacionGastos();
         obtenerImagenPerfil(usuarios);
@@ -489,10 +488,8 @@ public class FinanzasUI extends javax.swing.JFrame {
                 .addGap(100, 100, 100)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addComponent(usuario_balance, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(19, 19, 19))
+                    .addComponent(usuario_balance, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(28, 28, 28))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(añadirGasto_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -827,8 +824,7 @@ public class FinanzasUI extends javax.swing.JFrame {
     public void obtenerImagenPerfil(Usuarios usuarios) {
         try {
             if (usuarios.getImagen().equals("null") || usuarios.getImagen().length() == 0) {
-                /*ImageIcon image_perfil = new ImageIcon("src/imagenes/user.png");
-                perfil_imagen.setIcon(image_perfil);*/
+
             } else {
                 byte[] imageByte = Base64.getDecoder().decode(usuarios.getImagen());
                 ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);

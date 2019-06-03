@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
 
 
 /**
- * Página que permite el registro de usuarios
+ * Página que permite el registro de usuarios en el sistema a través de un formulario
  * @author manue
  */
 public class RegistroUI extends javax.swing.JFrame {

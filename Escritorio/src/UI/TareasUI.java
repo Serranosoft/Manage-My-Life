@@ -18,7 +18,7 @@ import javax.swing.table.DefaultTableModel;
 import vo.Tarea;
 
 /**
- * Página para mostrar las distintas tareas (pendientes y terminadas)
+ * Página para mostrar las distintas tareas (pendientes y terminadas) en tabla
  *
  * @author manue
  */

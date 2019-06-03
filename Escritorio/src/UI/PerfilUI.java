@@ -429,7 +429,7 @@ public class PerfilUI extends javax.swing.JFrame {
         perfil_nombre.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         perfil_nombre.setForeground(new java.awt.Color(255, 255, 255));
         perfil_nombre.setText("xxxxxxxx");
-        jPanel4.add(perfil_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 170, 240, 30));
+        jPanel4.add(perfil_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 170, 240, 30));
 
         perfil_imagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/user.png"))); // NOI18N
         jPanel4.add(perfil_imagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 20, 140, 140));
@@ -479,29 +479,27 @@ public class PerfilUI extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(30, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 702, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(37, 37, 37))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+            .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(51, 51, 51)
+                        .addGap(44, 44, 44)
                         .addComponent(jLabel1)
-                        .addGap(65, 65, 65)
-                        .addComponent(jLabel3))
+                        .addGap(62, 62, 62)
+                        .addComponent(jLabel3)
+                        .addGap(73, 73, 73))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(141, 141, 141)
+                        .addGap(135, 135, 135)
                         .addComponent(perfil_tareas_pendientes)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(perfil_tareas_terminadas)
-                        .addGap(145, 145, 145)))
-                .addGap(22, 22, 22)
+                        .addGap(166, 166, 166)))
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(perfil_balance, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jLabel4)))
-                .addContainerGap())
+                    .addComponent(jLabel4))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -510,10 +508,13 @@ public class PerfilUI extends javax.swing.JFrame {
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(perfil_tareas_terminadas)
-                            .addComponent(perfil_tareas_pendientes))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(26, 26, 26)
+                                .addComponent(perfil_tareas_pendientes))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(perfil_tareas_terminadas)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
@@ -532,7 +533,7 @@ public class PerfilUI extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 165, Short.MAX_VALUE)
+                .addGap(0, 177, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -673,8 +674,7 @@ public class PerfilUI extends javax.swing.JFrame {
     public void obtenerImagenPerfil(Usuarios usuarios) {
         try {
             if (usuarios.getImagen().equals("null") || usuarios.getImagen().length() == 0) {
-                /*ImageIcon image_perfil = new ImageIcon("src/imagenes/user.png");
-                perfil_imagen.setIcon(image_perfil);*/
+
             } else {
                 byte[] imageByte = Base64.getDecoder().decode(usuarios.getImagen());
                 ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
