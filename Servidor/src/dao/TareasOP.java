@@ -22,16 +22,20 @@ import vo.Tarea;
 
 /**
  * Operaciones referente a las tareas
+ *
  * @author manue
  */
 public class TareasOP {
 
     DBConnection conn = new DBConnection();
-/**
- * Método para obtener todas las tareas
- * @param tareas Objeto tareas con el identificador del usuario relacionado con sus tareas
- * @return Lista de tareas
- */
+
+    /**
+     * Método para obtener todas las tareas
+     *
+     * @param tareas Objeto tareas con el identificador del usuario relacionado
+     * con sus tareas
+     * @return Lista de tareas
+     */
     public ArrayList<Tarea> selectTareas(Tareas tareas) {
 
         ArrayList<Tarea> listado_tareas = new ArrayList<>();
@@ -73,11 +77,13 @@ public class TareasOP {
         return listado_tareas;
 
     }
-/**
- * Método para obtener los datos de una tarea en concreto
- * @param tareas Objeto tareas con el identificador de la tarea
- * @return Devuelve un objeto tareas con sus distintos datos
- */
+
+    /**
+     * Método para obtener los datos de una tarea en concreto
+     *
+     * @param tareas Objeto tareas con el identificador de la tarea
+     * @return Devuelve un objeto tareas con sus distintos datos
+     */
     public Tareas selectTarea(Tareas tareas) {
 
         ResultSet rs = null;
@@ -114,10 +120,13 @@ public class TareasOP {
         return tareas;
 
     }
-/**
- * Método para insertar tarea con los valores del objeto tareas pasado por parámetro
- * @param tareas Objeto tareas con los valores de tareas
- */
+
+    /**
+     * Método para insertar tarea con los valores del objeto tareas pasado por
+     * parámetro
+     *
+     * @param tareas Objeto tareas con los valores de tareas
+     */
     public void insertarTarea(Tareas tareas) {
 
         Connection conexion = null;
@@ -146,10 +155,12 @@ public class TareasOP {
         }
 
     }
-/**
- * Método para eliminar tareas
- * @param tareas Objeto tareas con el identificador de la tarea a eliminar.
- */
+
+    /**
+     * Método para eliminar tareas
+     *
+     * @param tareas Objeto tareas con el identificador de la tarea a eliminar.
+     */
     public void eliminarTarea(Tareas tareas) {
 
         Connection conexion = null;
@@ -173,7 +184,9 @@ public class TareasOP {
 
     /**
      * Método para actualizar una tarea
-     * @param tareas Objeto tareas con los datos actualizados de la tarea pasada por parámetro
+     *
+     * @param tareas Objeto tareas con los datos actualizados de la tarea pasada
+     * por parámetro
      */
     public void actualizarTarea(Tareas tareas) {
         Connection conexion = null;
@@ -201,11 +214,14 @@ public class TareasOP {
         }
 
     }
-/**
- * Método para obtener las subtareas de una tarea
- * @param tareas Objeto tareas con el identificador para obtener sus subtareas relacionadas
- * @return Listado de subtareas
- */
+
+    /**
+     * Método para obtener las subtareas de una tarea
+     *
+     * @param tareas Objeto tareas con el identificador para obtener sus
+     * subtareas relacionadas
+     * @return Listado de subtareas
+     */
     public ArrayList obtenerSubtareas(Tareas tareas) {
         ArrayList<Subtarea> listado_subtareas = new ArrayList<>();
         ResultSet rs = null;
@@ -240,10 +256,13 @@ public class TareasOP {
         }
         return listado_subtareas;
     }
-/**
- * Método para insertar subtareas
- * @param subtareas Objeto subtareas con los valores de la subtarea a insertar
- */
+
+    /**
+     * Método para insertar subtareas
+     *
+     * @param subtareas Objeto subtareas con los valores de la subtarea a
+     * insertar
+     */
     public void insertarSubtarea(Subtareas subtareas) {
         Connection conexion = null;
         PreparedStatement ps = null;
@@ -262,10 +281,12 @@ public class TareasOP {
         }
 
     }
-/**
- * Método para eliminar subtareas
- * @param subtareas Objeto subtareas con los datos de la subtarea a eliminar
- */
+
+    /**
+     * Método para eliminar subtareas
+     *
+     * @param subtareas Objeto subtareas con los datos de la subtarea a eliminar
+     */
     public void eliminarSubtarea(Subtareas subtareas) {
         Connection conexion = null;
         PreparedStatement ps = null;
@@ -281,10 +302,12 @@ public class TareasOP {
             e.printStackTrace();
         }
     }
-    
+
     /**
      * Método para actualizar el estado de una tarea
-     * @param tareas Objeto tareas con el identificador de la tarea a actualizar su estado (Pendiente - Terminado)
+     *
+     * @param tareas Objeto tareas con el identificador de la tarea a actualizar
+     * su estado (Pendiente - Terminado)
      */
     public void actualizarEstadoTarea(Tareas tareas) {
         Connection conexion = null;
@@ -306,10 +329,13 @@ public class TareasOP {
         }
 
     }
-/**
- * Método para actualizar el estado de una subtarea
- * @param subtareas Objeto subtareas con su identificador a actualizar su estado (Pendiente - Terminado)
- */
+
+    /**
+     * Método para actualizar el estado de una subtarea
+     *
+     * @param subtareas Objeto subtareas con su identificador a actualizar su
+     * estado (Pendiente - Terminado)
+     */
     public void actualizarEstadoSubtarea(Subtareas subtareas) {
         Connection conexion = null;
         PreparedStatement ps = null;
@@ -325,6 +351,26 @@ public class TareasOP {
             ps.executeUpdate();
 
             System.out.println("Estado de la subtarea " + subtareas.getId() + subtareas.getNombre() + " actualizado");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void actualizarEstadoTodasSubtareas(Subtareas subtareas) {
+        Connection conexion = null;
+        PreparedStatement ps = null;
+
+        String sql = "UPDATE Subtarea SET Estado = ? WHERE ID_Tarea = ?";
+
+        try {
+            conexion = conn.getConnection();
+            ps = conexion.prepareStatement(sql);
+
+            ps.setInt(1, subtareas.getEstado());
+            ps.setInt(2, subtareas.getID_Tarea());
+            ps.executeUpdate();
+            System.out.println("SUBTAREAS DE LA TAREA: "+subtareas.getID_Tarea() +" actualizadas a estado: "+subtareas.getEstado());
         } catch (Exception e) {
             e.printStackTrace();
         }

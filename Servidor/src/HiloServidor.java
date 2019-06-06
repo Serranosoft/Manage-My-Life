@@ -56,9 +56,12 @@ class HiloServidor extends Thread {
             e.printStackTrace();
         }
     }
-/**
- * Método del hilo encargado de obtener la petición del cliente y ejecutar distintos métodos para el acceso de datos (DAO) y encargado de enviar los datos a los clientes
- */
+
+    /**
+     * Método del hilo encargado de obtener la petición del cliente y ejecutar
+     * distintos métodos para el acceso de datos (DAO) y encargado de enviar los
+     * datos a los clientes
+     */
     public void run() {
 
         try {
@@ -171,7 +174,10 @@ class HiloServidor extends Thread {
                     generarInformes(informes);
                     salida.writeObject(informes);
                     break;
-                    
+                case 25:
+                    subtareas = (Subtareas) entrada.readObject();
+                    actualizarEstadoTodasSubtareas(subtareas);
+                    break;
 
             }
         } catch (IOException ex) {
@@ -385,7 +391,7 @@ class HiloServidor extends Thread {
         try {
             UsuariosOP uop = new UsuariosOP();
             uop.obtenerInformacion(usuarios);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -407,7 +413,16 @@ class HiloServidor extends Thread {
             InformesOP iop = new InformesOP();
             pdf_encoded = iop.GenerarInforme(informes);
             informes.setInforme(pdf_encoded);
-        } catch(Exception e) {
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void actualizarEstadoTodasSubtareas(Subtareas subtareas) {
+        try {
+            TareasOP top = new TareasOP();
+            top.actualizarEstadoTodasSubtareas(subtareas);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

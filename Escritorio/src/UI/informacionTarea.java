@@ -21,7 +21,9 @@ import vo.Subtarea;
 
 /**
  * Interfaz con la información de la tarea, donde se puede agregar subtareas,
- * eliminar subtareas, modificar informacion de la tarea y actualizar estado de las subtareas
+ * eliminar subtareas, modificar informacion de la tarea y actualizar estado de
+ * las subtareas
+ *
  * @author manue
  */
 public class informacionTarea extends javax.swing.JDialog {
@@ -426,8 +428,6 @@ public class informacionTarea extends javax.swing.JDialog {
             estado_tarea.setEnabled(true);
             prioritaria_tarea.setEnabled(true);
             fecha_realizar_tarea.setEnabled(true);
-            //fecha_realizar_tarea.setText(tareas.getFecha_realizar().toString());
-            //fecha_realizar_tarea.setDateToToday();
             LocalDate localDate = LocalDate.parse(new SimpleDateFormat("yyyy-MM-dd").format(tareas.getFecha_realizar()));
             fecha_realizar_tarea.setDate(localDate);
 
@@ -461,8 +461,11 @@ public class informacionTarea extends javax.swing.JDialog {
 
                 if (estado_tarea.isSelected()) {
                     tareas.setEstado(1);
+                    subtareas.setEstado(1);
+
                 } else {
                     tareas.setEstado(0);
+                    subtareas.setEstado(0);
                 }
                 if (prioritaria_tarea.isSelected()) {
                     tareas.setPrioritario(1);
@@ -481,6 +484,15 @@ public class informacionTarea extends javax.swing.JDialog {
                     peticion.setConsulta(7);
                     salida.writeObject(peticion);
                     salida.writeObject(tareas);
+
+                    cliente = new Socket(server, puerto);
+                    salida = new ObjectOutputStream(cliente.getOutputStream());
+                    entrada = new ObjectInputStream(cliente.getInputStream());
+
+                    peticion.setConsulta(25);
+                    salida.writeObject(peticion);
+                    subtareas.setID_Tarea(tareas.getId());
+                    salida.writeObject(subtareas);
                     this.setVisible(false);
                 }
 
@@ -840,10 +852,12 @@ public class informacionTarea extends javax.swing.JDialog {
         }
 
     }
-/**
- * Método para cerrar dialog
- * @return Devuelve True/False dependiendo si se ha cerrado el dialog o no.
- */
+
+    /**
+     * Método para cerrar dialog
+     *
+     * @return Devuelve True/False dependiendo si se ha cerrado el dialog o no.
+     */
     public boolean cerrarDialog() {
         this.setVisible(false);
         return true;

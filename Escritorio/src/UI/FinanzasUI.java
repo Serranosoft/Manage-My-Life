@@ -57,7 +57,6 @@ public class FinanzasUI extends javax.swing.JFrame {
 
     }
 
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -93,6 +92,7 @@ public class FinanzasUI extends javax.swing.JFrame {
         usuario_balance = new javax.swing.JLabel();
         añadirGasto_btn = new javax.swing.JButton();
         perfil_imagen = new javax.swing.JLabel();
+        añadirFondos = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -467,6 +467,14 @@ public class FinanzasUI extends javax.swing.JFrame {
 
         perfil_imagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/user.png"))); // NOI18N
 
+        añadirFondos.setForeground(new java.awt.Color(0, 0, 0));
+        añadirFondos.setText("AÑADIR FONDOS");
+        añadirFondos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                añadirFondosMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -485,15 +493,17 @@ public class FinanzasUI extends javax.swing.JFrame {
                         .addComponent(usuarios_gastos)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(perfil_imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(100, 100, 100)
+                .addGap(106, 106, 106)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
                     .addComponent(usuario_balance, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(118, 118, 118)
                 .addComponent(añadirGasto_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(270, 270, 270))
+                .addGap(60, 60, 60)
+                .addComponent(añadirFondos, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -501,20 +511,23 @@ public class FinanzasUI extends javax.swing.JFrame {
                 .addContainerGap(23, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addComponent(usuarios_gastos)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel4)
-                        .addGap(37, 37, 37))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                         .addComponent(usuario_balance)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel5)
-                        .addGap(37, 37, 37))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addComponent(perfil_imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(75, 75, 75))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                                .addComponent(usuarios_gastos)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel4)
+                                .addGap(37, 37, 37))
+                            .addComponent(perfil_imagen, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(añadirGasto_btn)
+                            .addComponent(añadirFondos))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addComponent(añadirGasto_btn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -645,6 +658,33 @@ public class FinanzasUI extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_añadirGasto_btnMouseClicked
+
+    private void añadirFondosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_añadirFondosMouseClicked
+        añadirFondos af = new añadirFondos(FinanzasUI.this, true, usuarios);
+        af.setVisible(true);
+        dialog = af.cerrarDialog();
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+        if (dialog) {
+            try {
+                cliente = new Socket(server, puerto);
+                salida = new ObjectOutputStream(cliente.getOutputStream());
+                entrada = new ObjectInputStream(cliente.getInputStream());
+                
+                peticion.setConsulta(22);
+                salida.writeObject(peticion);
+                salida.writeObject(usuarios);
+                usuarios = (Usuarios) entrada.readObject();
+                
+                usuario_balance.setText(usuarios.getSalario()+" €");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_añadirFondosMouseClicked
     DefaultTableModel m;
 
     /**
@@ -805,7 +845,7 @@ public class FinanzasUI extends javax.swing.JFrame {
 
                             }
                             usuarios_gastos.setText(listado_gastos.size() + "");
-                            usuario_balance.setText(usuarios.getSalario() + "€");
+                            usuario_balance.setText(usuarios.getSalario() + " €");
                         }
                     }
 
@@ -837,7 +877,6 @@ public class FinanzasUI extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }
-
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -872,6 +911,7 @@ public class FinanzasUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton añadirFondos;
     private javax.swing.JButton añadirGasto_btn;
     private javax.swing.JPanel btn_1;
     private javax.swing.JPanel btn_2;

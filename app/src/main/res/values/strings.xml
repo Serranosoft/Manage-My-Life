@@ -49,6 +49,8 @@
     <string name="Finanzas">Finanzas</string>
     <string name="ControlGastos">Control de Gastos</string>
     <string name="crearTarea">Crear Tarea</string>
+    <string name="fondos">Fondo...</string>
+    <string name="agregarFondo">Agregar fondos</string>
 
 
 </resources>

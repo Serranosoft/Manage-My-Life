@@ -121,6 +121,18 @@ public class ProductosActivity extends AppCompatActivity {
                     public void onClick(View v) {
 
                         try{
+                            if(Double.valueOf(precio_producto.getText().toString()) < 0) {
+                                final AlertDialog.Builder alert = new AlertDialog.Builder(ProductosActivity.this, R.style.AlertDialog);
+                                alert.setTitle("Aviso");
+                                alert.setMessage("Introduce un numero positivo!");
+                                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                });
+                                alert.create().show();
+                            }
                             productos.setNombre_Producto(nombre_producto.getText().toString());
                             productos.setPrecio_Producto(Double.valueOf(precio_producto.getText().toString()));
                             productos.setID_Gasto(gastos.getId());
@@ -189,8 +201,6 @@ public class ProductosActivity extends AppCompatActivity {
                                             int idProducto = listaProducto.get(position).getId();
                                             double precio = listaProducto.get(position).getPrecio_producto();
                                             productos.setID(idProducto);
-                                            System.out.println("PRECIO DEL GASTO ACTUAL: "+gastos.getPrecio_gasto());
-                                            System.out.println("PRECIO A RESTAR: "+precio);
                                             gastos.setPrecio_gasto(gastos.getPrecio_gasto() - precio);
                                             // llamo al metodo eliminar
                                             executeDeleteProductos();
@@ -198,6 +208,12 @@ public class ProductosActivity extends AppCompatActivity {
                                             adapter.notifyItemRemoved(position);
                                             balance += precio;
                                             usuarios.setSalario(balance);
+                                            try {
+                                                Thread.sleep(200);
+
+                                            } catch (InterruptedException e) {
+                                                e.printStackTrace();
+                                            }
                                             executeUpdateSalario();
                                             executeActualizarProductos();
                                             executeActualizarGasto();

@@ -115,4 +115,14 @@
         android:src="@drawable/add"
         app:backgroundTint="@color/colorElements" />
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fondos_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@mipmap/coins"
+        app:backgroundTint="@color/colorElements" />
+
 </RelativeLayout>

@@ -428,14 +428,14 @@ public class TareasUI extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nombre", "Estado"
+                "Nombre", "Estado", "Prioritario"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -456,6 +456,7 @@ public class TareasUI extends javax.swing.JFrame {
             tabla_tareas.getColumnModel().getColumn(0).setPreferredWidth(500);
             tabla_tareas.getColumnModel().getColumn(1).setResizable(false);
             tabla_tareas.getColumnModel().getColumn(1).setPreferredWidth(20);
+            tabla_tareas.getColumnModel().getColumn(2).setPreferredWidth(20);
         }
 
         añadirTarea_btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/add.png"))); // NOI18N
@@ -588,6 +589,7 @@ public class TareasUI extends javax.swing.JFrame {
                 ex.printStackTrace();
             }
             String estado = "Pendiente";
+            String prioritario = "Si";
             ArrayList<Tarea> listado_tareas = tareas.getResultados_tareas();
             for (int i = 0; i < listado_tareas.size(); i++) {
                 Tarea tarea = listado_tareas.get(i);
@@ -597,10 +599,14 @@ public class TareasUI extends javax.swing.JFrame {
                 } else {
                     estado = "Pendiente";
                 }
-                Object[] array = {tarea.getNombre(), estado};
+                if (tarea.getPrioritario() == 1) {
+                    prioritario = "Si";
+                } else {
+                    prioritario = "No";
+                }
+                Object[] array = {tarea.getNombre(), estado, prioritario};
                 m.addRow(array);
             }
-            System.out.println("J");
         }
     }//GEN-LAST:event_añadirTarea_btnMouseClicked
 
@@ -637,6 +643,7 @@ public class TareasUI extends javax.swing.JFrame {
             tareas = (Tareas) entrada.readObject();
 
             String estado = "Pendiente";
+            String prioritario = "Si";
             ArrayList<Tarea> listado_tareas = tareas.getResultados_tareas();
             for (int i = 0; i < listado_tareas.size(); i++) {
                 Tarea tarea = listado_tareas.get(i);
@@ -646,7 +653,12 @@ public class TareasUI extends javax.swing.JFrame {
                 } else {
                     estado = "Pendiente";
                 }
-                Object[] array = {tarea.getNombre(), estado};
+                if (tarea.getPrioritario() == 1) {
+                    prioritario = "Si";
+                } else {
+                    prioritario = "No";
+                }
+                Object[] array = {tarea.getNombre(), estado, prioritario};
                 m.addRow(array);
 
             }
@@ -660,7 +672,8 @@ public class TareasUI extends javax.swing.JFrame {
     }
 
     /**
-     * Método que permite acciones dinámicas en los distintos valores para abrir la información de las tareas.
+     * Método que permite acciones dinámicas en los distintos valores para abrir
+     * la información de las tareas.
      */
     public void informacionTareas() {
 
@@ -705,6 +718,7 @@ public class TareasUI extends javax.swing.JFrame {
                                 ex.printStackTrace();
                             }
                             String estado = "Pendiente";
+                            String prioritario = "Si";
                             ArrayList<Tarea> listado_tareas = tareas.getResultados_tareas();
                             for (int i = 0; i < listado_tareas.size(); i++) {
                                 Tarea tarea = listado_tareas.get(i);
@@ -714,7 +728,12 @@ public class TareasUI extends javax.swing.JFrame {
                                 } else {
                                     estado = "Pendiente";
                                 }
-                                Object[] array = {tarea.getNombre(), estado};
+                                if (tarea.getPrioritario() == 1) {
+                                    prioritario = "Si";
+                                } else {
+                                    prioritario = "No";
+                                }
+                                Object[] array = {tarea.getNombre(), estado, prioritario};
                                 m.addRow(array);
                             }
                         }
@@ -725,7 +744,6 @@ public class TareasUI extends javax.swing.JFrame {
             }
         });
     }
-
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

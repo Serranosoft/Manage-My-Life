@@ -98,6 +98,12 @@ public class SubtareasActivity extends AppCompatActivity {
 
                                 executeInsertarSubtareasTask();
                                 dialog_tarea.dismiss();
+                                try {
+                                    Thread.sleep(200);
+
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
                                 executeMostrarSubtareasTask();
                             }
                     }

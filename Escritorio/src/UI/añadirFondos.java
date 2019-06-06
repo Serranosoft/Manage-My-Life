@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
  *
  * @author manue
  */
-public class insertarProducto extends javax.swing.JDialog {
+public class añadirFondos extends javax.swing.JDialog {
 
     /**
      * Variables
@@ -31,11 +31,12 @@ public class insertarProducto extends javax.swing.JDialog {
     Peticion peticion = new Peticion();
     Usuarios usuarios = new Usuarios();
     Productos productos = new Productos();
+    double salario = 0.0;
 
-    public insertarProducto(java.awt.Dialog parent, boolean modal, Gastos gastos) {
+    public añadirFondos(java.awt.Frame parent, boolean modal, Usuarios usuarios) {
         super(parent, modal);
         initComponents();
-        this.gastos = gastos;
+        this.usuarios = usuarios;
         this.setLocationRelativeTo(null);
     }
 
@@ -46,17 +47,15 @@ public class insertarProducto extends javax.swing.JDialog {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        producto_nombre = new javax.swing.JTextField();
+        fondos = new javax.swing.JTextField();
         producto_insertar = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
-        producto_precio = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel2.setBackground(new java.awt.Color(0, 102, 153));
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 20)); // NOI18N
-        jLabel1.setText("INSERTAR PRODUCTO");
+        jLabel1.setText("AGREGAR FONDOS");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -65,18 +64,18 @@ public class insertarProducto extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(93, 93, 93))
+                .addGap(96, 96, 96))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel2.setText("Nombre Producto");
+        jLabel2.setText("Fondos");
 
         producto_insertar.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         producto_insertar.setText("OK");
@@ -86,9 +85,6 @@ public class insertarProducto extends javax.swing.JDialog {
             }
         });
 
-        jLabel3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel3.setText("Precio Producto");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -97,9 +93,7 @@ public class insertarProducto extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(producto_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
-                    .addComponent(producto_precio, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fondos, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addContainerGap(61, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -114,46 +108,38 @@ public class insertarProducto extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(producto_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3)
+                .addComponent(fondos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(producto_precio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(producto_insertar)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 /**
-     * Método para insertar el producto
+     * Método para agregar fondos al balance
      *
      * @param evt Evento clic
      */
     private void producto_insertarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_producto_insertarMouseClicked
 
         try {
-            if (Double.valueOf(producto_precio.getText()) < 0) {
+
+            if (Double.valueOf(fondos.getText()) < 0) {
                 JOptionPane.showMessageDialog(null, "Introduce un numero positivo!");
-            } else if (producto_nombre.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Rellena todos los campos!");
             } else {
                 cliente = new Socket(server, puerto);
                 salida = new ObjectOutputStream(cliente.getOutputStream());
                 entrada = new ObjectInputStream(cliente.getInputStream());
-                peticion.setConsulta(19);
+                peticion.setConsulta(21);
                 salida.writeObject(peticion);
                 salida.flush();
-                productos.setNombre_Producto(producto_nombre.getText());
-                productos.setPrecio_Producto(Double.valueOf(producto_precio.getText()));
-                productos.setID_Gasto(gastos.getId());
-
-                salida.writeObject(productos);
+                salario = usuarios.getSalario();
+                usuarios.setSalario(salario + Double.valueOf(fondos.getText()));
+                salida.writeObject(usuarios);
                 salida.flush();
                 cerrarDialog();
             }
-
         } catch (IOException ex) {
             ex.printStackTrace();
         } catch (NumberFormatException nfe) {
@@ -184,14 +170,18 @@ public class insertarProducto extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(insertarProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(añadirFondos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(insertarProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(añadirFondos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(insertarProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(añadirFondos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(insertarProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(añadirFondos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -200,7 +190,7 @@ public class insertarProducto extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                insertarProducto dialog = new insertarProducto(new javax.swing.JDialog(), true, new Gastos());
+                añadirFondos dialog = new añadirFondos(new javax.swing.JFrame(), true, new Usuarios());
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -213,12 +203,10 @@ public class insertarProducto extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField fondos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JButton producto_insertar;
-    private javax.swing.JTextField producto_nombre;
-    private javax.swing.JTextField producto_precio;
     // End of variables declaration//GEN-END:variables
 }

@@ -25,6 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.example.manue.managemylife.Activities.LoginActivity;
 import com.example.manue.managemylife.Activities.ProductosActivity;
 import com.example.manue.managemylife.Adapters.GastosAdapter;
 import com.example.manue.managemylife.R;
@@ -63,6 +64,9 @@ public class fragmentFinanzas extends Fragment {
 
     private AlertDialog.Builder builder_gasto;
     private AlertDialog dialog_gasto;
+
+    private AlertDialog.Builder builder_fondos;
+    private AlertDialog dialog_fondos;
 
     TextView finanzas_gastos = null;
     TextView finanzas_balance = null;
@@ -177,18 +181,94 @@ public class fragmentFinanzas extends Fragment {
                 aceptar_gasto.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        gastos.setNombre_gasto(nombre_gasto.getText().toString());
-                        gastos.setTipo_gasto(categoria_textview.getText().toString());
-                        gastos.setPrecio_gasto(0.0);
-                        executeInsertarGastosTask();
-                        dialog_gasto.dismiss();
-                        adapter.notifyDataSetChanged();
-                        executeFinanzasTask();
+                        if(nombre_gasto.getText().toString().isEmpty()) {
+                            final AlertDialog.Builder alert = new AlertDialog.Builder(getContext(), R.style.AlertDialog);
+
+                            alert.setTitle("Aviso");
+                            alert.setMessage("Rellena todos los campos! ");
+                            alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            });
+
+                            alert.create().show();
+                        } else {
+                            gastos.setNombre_gasto(nombre_gasto.getText().toString());
+                            gastos.setTipo_gasto(categoria_textview.getText().toString());
+                            gastos.setPrecio_gasto(0.0);
+                            executeInsertarGastosTask();
+                            dialog_gasto.dismiss();
+                            adapter.notifyDataSetChanged();
+                            try {
+                                Thread.sleep(200);
+
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            executeFinanzasTask();
+                        }
+
                     }
                 });
             }
         });
 
+        FloatingActionButton fab_fondos = view.findViewById(R.id.fondos_add);
+        fab_fondos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                builder_fondos = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.myDialog));
+                View view_popup_fondos = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.popup_agregar_fondos, null);
+
+                builder_fondos.setView(view_popup_fondos);
+
+                dialog_fondos = builder_fondos.create();
+                dialog_fondos.show();
+
+                final EditText fondos_text = view_popup_fondos.findViewById(R.id.insertar_fondos);
+                final ImageView fondos_aceptar = view_popup_fondos.findViewById(R.id.insertar_aceptar_fondos);
+                fondos_aceptar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        try {
+                            if(Double.valueOf(fondos_text.getText().toString()) < 0) {
+                                final AlertDialog.Builder alert = new AlertDialog.Builder(getContext(), R.style.AlertDialog);
+                                alert.setTitle("Aviso");
+                                alert.setMessage("Introduce un numero positivo!");
+                                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                });
+                                alert.create().show();
+                            }
+                            System.out.println(Double.valueOf(fondos_text.getText().toString()));
+                            usuarios.setSalario(usuarios.getSalario()+Double.valueOf(fondos_text.getText().toString()));
+                            executeUpdateSalario();
+                            finanzas_balance.setText(usuarios.getSalario()+"€");
+                            dialog_fondos.dismiss();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            final AlertDialog.Builder alert = new AlertDialog.Builder(getContext(), R.style.AlertDialog);
+                            alert.setTitle("Aviso");
+                            alert.setMessage("¡Introduce campos válidos!");
+                            alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            });
+                            alert.create().show();
+                        }
+
+                    }
+                });
+
+            }
+        });
         // Método que permite eliminar deslizando cada elemento del CardView
         SwipeableRecyclerViewTouchListener swipeTouchListener =
                 new SwipeableRecyclerViewTouchListener(rList,

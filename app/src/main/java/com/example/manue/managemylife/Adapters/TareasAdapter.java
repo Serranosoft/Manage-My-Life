@@ -66,6 +66,11 @@ public class TareasAdapter extends RecyclerView.Adapter<TareasAdapter.ViewHolder
             viewHolder.imagenTarea.setImageResource(R.mipmap.clock);
         }
 
+        if(tarea.getPrioritario() == 1) {
+            viewHolder.imagenPrioritario.setImageResource(R.mipmap.prioritario);
+        } else {
+
+        }
         if(tarea.getEstado() == 1){
             viewHolder.checkBox.setChecked(true);
             viewHolder.imagenTarea.setImageResource(R.mipmap.checked);
@@ -93,6 +98,7 @@ public class TareasAdapter extends RecyclerView.Adapter<TareasAdapter.ViewHolder
         public TextView nombreTarea;
         public CheckBox checkBox;
         public ImageView imagenTarea;
+        public ImageView imagenPrioritario;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -100,6 +106,7 @@ public class TareasAdapter extends RecyclerView.Adapter<TareasAdapter.ViewHolder
             checkBox = (CheckBox) itemView.findViewById(R.id.checkboxTarea);
             nombreTarea = itemView.findViewById(R.id.nombreTarea);
             imagenTarea = itemView.findViewById(R.id.imagenTarea);
+            imagenPrioritario = itemView.findViewById(R.id.imagen_prioritario);
 
         }
     }

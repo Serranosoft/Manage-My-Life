@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="informe_tareasPendientes" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="2.3579476910000023"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.x" value="118"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="ID_Usuario" class="java.lang.Integer"/>
 	<queryString>
-		<![CDATA[SELECT Usuario.Nombre, Usuario.Usuario, Tarea.Nombre AS Nombre_tarea, Categoria, Fecha_Realizar, Prioritario FROM Tarea INNER JOIN Usuario ON Tarea.Id_Usuario = Usuario.ID WHERE Estado = 0 AND Usuario.ID = $P{ID_Usuario}]]>
+		<![CDATA[SELECT Usuario.Nombre, Usuario.Usuario,Tarea.Nombre AS Nombre_tarea, Categoria, Fecha_Realizar, Prioritario FROM Tarea INNER JOIN Usuario ON Tarea.Id_Usuario = Usuario.ID WHERE Estado = 0 AND Usuario.ID = $P{ID_Usuario}]]>
 	</queryString>
 	<field name="Nombre" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -44,7 +44,7 @@
 					<textElement textAlignment="Right">
 						<font size="10" isBold="false"/>
 					</textElement>
-					<text><![CDATA[Informe/Gráfico de tareas pendientes]]></text>
+					<text><![CDATA[Informe/Gráfico de Tareas Pendientes]]></text>
 				</staticText>
 			</frame>
 		</band>
@@ -98,7 +98,7 @@
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Fecha a Realizar]]></text>
+				<text><![CDATA[Terminar]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="417" y="27" width="131" height="16" forecolor="#006699" backcolor="#E6E6E6"/>
@@ -112,7 +112,7 @@
 	<detail>
 		<band height="27" splitType="Stretch">
 			<textField>
-				<reportElement x="4" y="0" width="179" height="20"/>
+				<reportElement x="11" y="0" width="172" height="20"/>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{Nombre_tarea}]]></textFieldExpression>
 			</textField>
@@ -127,19 +127,19 @@
 				<textFieldExpression class="java.util.Date"><![CDATA[$F{Fecha_Realizar}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="469" y="0" width="67" height="20"/>
+				<reportElement x="431" y="0" width="124" height="20"/>
 				<textElement/>
-				<textFieldExpression class="java.lang.Boolean"><![CDATA[$F{Prioritario}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[($F{Prioritario}.toString().equals("true") ? ("Prioritario"):("No Prioritario"))]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
-	<pageFooter>
-		<band height="33" splitType="Stretch">
+	<summary>
+		<band height="32">
 			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement x="0" y="20" width="100" height="13"/>
+				<reportElement x="0" y="10" width="100" height="13"/>
 				<textElement/>
 				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 		</band>
-	</pageFooter>
+	</summary>
 </jasperReport>

@@ -38,7 +38,7 @@
 					<textElement textAlignment="Right">
 						<font size="10" isBold="false"/>
 					</textElement>
-					<text><![CDATA[Informe/Gráfico de tareas junto con numero de subtareas]]></text>
+					<text><![CDATA[Informe/Gráfico de tareas junto con número de subtareas]]></text>
 				</staticText>
 			</frame>
 		</band>
@@ -85,14 +85,14 @@
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Numero de Subtareas]]></text>
+				<text><![CDATA[Número de Subtareas]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="22" splitType="Stretch">
 			<textField>
-				<reportElement x="122" y="0" width="127" height="20"/>
+				<reportElement x="110" y="0" width="139" height="20"/>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{Nombre_tarea}]]></textFieldExpression>
 			</textField>
@@ -103,13 +103,13 @@
 			</textField>
 		</band>
 	</detail>
-	<pageFooter>
-		<band height="26" splitType="Stretch">
+	<summary>
+		<band height="50">
 			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement x="10" y="13" width="100" height="13"/>
+				<reportElement x="0" y="11" width="100" height="13"/>
 				<textElement/>
 				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 		</band>
-	</pageFooter>
+	</summary>
 </jasperReport>

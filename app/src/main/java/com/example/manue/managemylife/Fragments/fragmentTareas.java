@@ -33,6 +33,7 @@ import com.example.manue.managemylife.Util.SwipeableRecyclerViewTouchListener;
 import com.example.manue.managemylife.vo.SettingsClass;
 
 import Compartir.Peticion;
+import Compartir.Subtareas;
 import Compartir.Tareas;
 import Compartir.Usuarios;
 import vo.Tarea;
@@ -56,6 +57,7 @@ public class fragmentTareas extends Fragment {
     Usuarios usuarios = new Usuarios();
     Peticion peticion = new Peticion();
     Tareas tareas = new Tareas();
+    Subtareas subtareas = new Subtareas();
 
     private RecyclerView rList;
     private ArrayList<Tarea> listaTarea;
@@ -248,6 +250,13 @@ public class fragmentTareas extends Fragment {
                                 executeInsertarTareasTask();
                                 dialog_tarea.dismiss();
                                 adapter.notifyDataSetChanged();
+
+                                try {
+                                    Thread.sleep(200);
+
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
                                 executeTareasTask();
                             }
 
@@ -293,12 +302,16 @@ public class fragmentTareas extends Fragment {
                                     if(listaTarea.get(position).getEstado() == 1){
                                         tareas.setId(idTarea);
                                         tareas.setEstado(0);
+                                        subtareas.setEstado(0);
+
                                     }else{
                                         tareas.setId(idTarea);
                                         tareas.setEstado(1);
+                                        subtareas.setEstado(1);
                                     }
                                     executeStatusTareasTask();
                                     executeTareasTask();
+                                    executeStatusSubtareasTask();
 
                                 }
                                 adapter.notifyDataSetChanged();
@@ -361,6 +374,11 @@ public class fragmentTareas extends Fragment {
 
         actualizarEstadoTarea actualizarEstadoTarea = new actualizarEstadoTarea();
         actualizarEstadoTarea.execute();
+    }
+    private void executeStatusSubtareasTask() {
+
+        actualizarEstadoTodasSubtareas actualizarEstadoTodasSubtareas = new actualizarEstadoTodasSubtareas();
+        actualizarEstadoTodasSubtareas.execute();
     }
 
     /**
@@ -455,6 +473,7 @@ public class fragmentTareas extends Fragment {
                     modificar_tarea.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+
                             builder_modificar_tarea = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.myDialog));
                             View view_modificar_tarea_popup = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.popup_modificar_tarea, null);
 
@@ -591,7 +610,11 @@ public class fragmentTareas extends Fragment {
                                             tareas.setNombre(nombre_tarea.getText().toString());
                                             tareas.setDescripcion(descripcion_tarea.getText().toString());
                                             tareas.setCategoria(categoria_textview.getText().toString());
-                                            tareas.setEstado(0);
+                                            if(tarea.getEstado() == 1){
+                                                tareas.setEstado(1);
+                                            } else {
+                                                tareas.setEstado(0);
+                                            }
                                             tareas.setPrioritario(prioritario);
                                             java.sql.Date inscrita = new java.sql.Date(Calendar.getInstance().getTime().getTime());
                                             tareas.setFecha_inscrita(inscrita);
@@ -745,6 +768,34 @@ public class fragmentTareas extends Fragment {
                 peticion.setConsulta(12);
                 salida.writeObject(peticion);
                 salida.writeObject(tareas);
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
+            return null;
+        }
+    }
+
+    public class actualizarEstadoTodasSubtareas extends AsyncTask<String, Void, Void> {
+
+        Socket cliente = null;
+        ObjectOutputStream salida = null;
+        ObjectInputStream entrada = null;
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            try {
+                cliente = new Socket(settings.obtenerSettings().get(0).getAddress(), settings.obtenerSettings().get(0).getPort());
+                salida = new ObjectOutputStream(cliente.getOutputStream());
+                entrada = new ObjectInputStream(cliente.getInputStream());
+
+
+
+                peticion.setConsulta(25);
+                salida.writeObject(peticion);
+                subtareas.setID_Tarea(tareas.getId());
+                salida.writeObject(subtareas);
 
             } catch (IOException ex) {
                 ex.printStackTrace();

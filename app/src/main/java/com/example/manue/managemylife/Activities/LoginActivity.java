@@ -250,6 +250,8 @@ public class LoginActivity extends AppCompatActivity {
                 e.printStackTrace();
             } catch (NoSuchAlgorithmException e) {
                 e.printStackTrace();
+            } catch (IndexOutOfBoundsException e) {
+                e.printStackTrace();
             }
             return null;
         }
