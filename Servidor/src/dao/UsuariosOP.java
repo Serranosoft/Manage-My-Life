@@ -133,20 +133,21 @@ public class UsuariosOP {
             byte[] imageByte;
             BufferedImage image = null;
             try {
-                if (usuario.getImagen() == null) {
-
+                if (usuario.getImagen() == null || usuario.getImagen().equals("null")) {
+                    usuario.setImagen("");
                 } else {
                     imageByte = Base64.getDecoder().decode(usuario.getImagen());
                     ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
                     image = ImageIO.read(bis);
                     ImageIO.write(image, "jpg", new File("media/" + usuario.getId() + "_profile.jpg"));
                     bis.close();
+                    usuario.setImagen("media/" + usuario.getId() + "_profile.jpg");
                 }
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            usuario.setImagen("media/" + usuario.getId() + "_profile.jpg");
+            
             ps.setString(1, usuario.getUsuario());
             ps.setString(2, usuario.getNombre());
             ps.setString(3, usuario.getImagen());

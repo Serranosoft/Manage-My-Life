@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
  *
  * @author manue
  */
-public class añadirFondos extends javax.swing.JDialog {
+public class insertarFondos extends javax.swing.JDialog {
 
     /**
      * Variables
@@ -32,8 +32,8 @@ public class añadirFondos extends javax.swing.JDialog {
     Usuarios usuarios = new Usuarios();
     Productos productos = new Productos();
     double salario = 0.0;
-
-    public añadirFondos(java.awt.Frame parent, boolean modal, Usuarios usuarios) {
+    boolean añadido = false;
+    public insertarFondos(java.awt.Frame parent, boolean modal, Usuarios usuarios) {
         super(parent, modal);
         initComponents();
         this.usuarios = usuarios;
@@ -128,6 +128,7 @@ public class añadirFondos extends javax.swing.JDialog {
             if (Double.valueOf(fondos.getText()) < 0) {
                 JOptionPane.showMessageDialog(null, "Introduce un numero positivo!");
             } else {
+                obtenerInformacionPerfil(usuarios);
                 cliente = new Socket(server, puerto);
                 salida = new ObjectOutputStream(cliente.getOutputStream());
                 entrada = new ObjectInputStream(cliente.getInputStream());
@@ -138,6 +139,7 @@ public class añadirFondos extends javax.swing.JDialog {
                 usuarios.setSalario(salario + Double.valueOf(fondos.getText()));
                 salida.writeObject(usuarios);
                 salida.flush();
+                añadido = true;
                 cerrarDialog();
             }
         } catch (IOException ex) {
@@ -155,7 +157,35 @@ public class añadirFondos extends javax.swing.JDialog {
         this.setVisible(false);
         return true;
     }
+    /**
+     * Método para obtener los valores del usuario actual para rellenar el
+     * balance actual en la página.
+     *
+     * @param usuarios Objeto usuarios con los valores del usuario actual
+     */
+    public void obtenerInformacionPerfil(Usuarios usuarios) {
 
+        try {
+
+            cliente = new Socket(server, puerto);
+            salida = new ObjectOutputStream(cliente.getOutputStream());
+            entrada = new ObjectInputStream(cliente.getInputStream());
+
+            peticion.setConsulta(22);
+            salida.writeObject(peticion);
+            salida.flush();
+
+            salida.writeObject(usuarios);
+            salida.flush();
+            this.usuarios = (Usuarios) entrada.readObject();
+            
+            
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
+    }
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -170,14 +200,22 @@ public class añadirFondos extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(añadirFondos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(insertarFondos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(añadirFondos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(insertarFondos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(añadirFondos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(insertarFondos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(añadirFondos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(insertarFondos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -190,7 +228,7 @@ public class añadirFondos extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                añadirFondos dialog = new añadirFondos(new javax.swing.JFrame(), true, new Usuarios());
+                insertarFondos dialog = new insertarFondos(new javax.swing.JFrame(), true, new Usuarios());
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

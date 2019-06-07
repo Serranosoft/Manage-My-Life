@@ -90,44 +90,82 @@ public class ModificarPerfilActivity extends AppCompatActivity {
         modificar_perfil_aceptar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                usuarios.setNombre(modificar_nombre.getText().toString());
-                usuarios.setUsuario(modificar_usuario.getText().toString());
+                if(modificar_nombre.getText().toString().isEmpty() || modificar_usuario.getText().toString().isEmpty()) {
+                    final AlertDialog.Builder alert = new AlertDialog.Builder(ModificarPerfilActivity.this, R.style.AlertDialog);
 
-                executeUpdateUsuario();
+                    alert.setTitle("Aviso");
+                    alert.setMessage("Rellena todos los campos! ");
+                    alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    });
 
-                Alerter.create(ModificarPerfilActivity.this)
-                        .setTitle("Aplicando cambios...")
-                        .setText("Inicia sesión de nuevo para aplicar los cambios!")
-                        .setIcon(R.drawable.alerter_ic_face)
-                        .setBackgroundColorRes(R.color.alerter_login)
-                        .setDuration(1550)
-                        .enableSwipeToDismiss() //seems to not work well with OnClickListener
-                        .enableProgress(true)
-                        .setProgressColorRes(R.color.black)
-                        .setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                //do something when Alerter message was clicked
+                    alert.create().show();
+                } else if(modificar_nombre.getText().toString().length() > 20) {
+                    final AlertDialog.Builder alert = new AlertDialog.Builder(ModificarPerfilActivity.this, R.style.AlertDialog);
 
-                            }
-                        })
-                        .setOnShowListener(new OnShowAlertListener() {
-                            @Override
-                            public void onShow() {
-                                //do something when Alerter message shows
-                            }
-                        })
-                        .setOnHideListener(new OnHideAlertListener() {
-                            @Override
-                            public void onHide() {
-                                Intent intent = new Intent(ModificarPerfilActivity.this, LoginActivity.class);
-                                startActivity(intent);
-                            }
-                        })
-                        .show();
+                    alert.setTitle("Aviso");
+                    alert.setMessage("Escribe un nombre mas breve! ");
+                    alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    });
 
+                    alert.create().show();
+                } else if(modificar_usuario.getText().toString().length() > 20) {
+                    final AlertDialog.Builder alert = new AlertDialog.Builder(ModificarPerfilActivity.this, R.style.AlertDialog);
 
+                    alert.setTitle("Aviso");
+                    alert.setMessage("Escribe un usuario mas breve! ");
+                    alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    });
 
+                    alert.create().show();
+                } else {
+                    usuarios.setNombre(modificar_nombre.getText().toString());
+                    usuarios.setUsuario(modificar_usuario.getText().toString());
+
+                    executeUpdateUsuario();
+
+                    Alerter.create(ModificarPerfilActivity.this)
+                            .setTitle("Aplicando cambios...")
+                            .setText("Inicia sesión de nuevo para aplicar los cambios!")
+                            .setIcon(R.drawable.alerter_ic_face)
+                            .setBackgroundColorRes(R.color.alerter_login)
+                            .setDuration(1550)
+                            .enableSwipeToDismiss() //seems to not work well with OnClickListener
+                            .enableProgress(true)
+                            .setProgressColorRes(R.color.black)
+                            .setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    //do something when Alerter message was clicked
+
+                                }
+                            })
+                            .setOnShowListener(new OnShowAlertListener() {
+                                @Override
+                                public void onShow() {
+                                    //do something when Alerter message shows
+                                }
+                            })
+                            .setOnHideListener(new OnHideAlertListener() {
+                                @Override
+                                public void onHide() {
+                                    Intent intent = new Intent(ModificarPerfilActivity.this, LoginActivity.class);
+                                    startActivity(intent);
+                                }
+                            })
+                            .show();
+                }
             }
         });
 

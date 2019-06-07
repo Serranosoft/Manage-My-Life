@@ -69,11 +69,38 @@ public class RegisterActivity extends AppCompatActivity{
                     });
 
                     alert.create().show();
-                }else {
-                    registrar();
-                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                    startActivity(intent);
+                } else if(usuario.getText().toString().length() > 20) {
+                    final AlertDialog.Builder alert = new AlertDialog.Builder(RegisterActivity.this, R.style.AlertDialog);
+
+                    alert.setTitle("Aviso");
+                    alert.setMessage("Escribe un usuario mas breve! ");
+                    alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    });
+
+                    alert.create().show();
+                } else if(nombre.getText().toString().length() > 20) {
+                    final AlertDialog.Builder alert = new AlertDialog.Builder(RegisterActivity.this, R.style.AlertDialog);
+
+                    alert.setTitle("Aviso");
+                    alert.setMessage("Escribe un nombre mas breve! ");
+                    alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    });
+
+                    alert.create().show();
+                } else {
+                    comprobarUsuario();
+
                 }
+
+
 
             }
         });
@@ -90,6 +117,10 @@ public class RegisterActivity extends AppCompatActivity{
     private void registrar() {
         registerTask registerTask = new registerTask();
         registerTask.execute();
+    }
+    private void comprobarUsuario() {
+        comprobarUsuarioTask comprobarUsuarioTask = new comprobarUsuarioTask();
+        comprobarUsuarioTask.execute();
     }
 
     /**
@@ -130,6 +161,59 @@ public class RegisterActivity extends AppCompatActivity{
                 e.printStackTrace();
             }
             return null;
+        }
+    }
+
+    public class comprobarUsuarioTask extends AsyncTask<String, Void, Void> {
+
+        Socket cliente = null;
+        ObjectOutputStream salida = null;
+        ObjectInputStream entrada = null;
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            try {
+                cliente = new Socket(settings.obtenerSettings().get(0).getAddress(), settings.obtenerSettings().get(0).getPort());
+                salida = new ObjectOutputStream(cliente.getOutputStream());
+                entrada = new ObjectInputStream(cliente.getInputStream());
+
+                peticion.setConsulta(18);
+                salida.writeObject(peticion);
+                usuarios.setUsuario(usuario.getText().toString());
+
+                salida.writeObject(usuarios);
+
+                usuarios = (Usuarios) entrada.readObject();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+            if(!usuarios.isExiste()) {
+                registrar();
+                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                startActivity(intent);
+            } else {
+                final AlertDialog.Builder alert = new AlertDialog.Builder(RegisterActivity.this, R.style.AlertDialog);
+
+                alert.setTitle("Aviso");
+                alert.setMessage("Ese usuario ya existe! ");
+                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+
+                alert.create().show();
+            }
         }
     }
 

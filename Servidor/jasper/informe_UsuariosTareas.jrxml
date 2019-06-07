@@ -53,14 +53,14 @@
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Numero de Tareas Terminadas]]></text>
+				<text><![CDATA[Número de Tareas Terminadas]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="28" splitType="Stretch">
 			<textField>
-				<reportElement x="152" y="3" width="100" height="20"/>
+				<reportElement x="141" y="3" width="111" height="20"/>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{Nombre}]]></textFieldExpression>
 			</textField>
@@ -71,13 +71,13 @@
 			</textField>
 		</band>
 	</detail>
-	<pageFooter>
-		<band height="18" splitType="Stretch">
+	<summary>
+		<band height="33">
 			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement x="0" y="0" width="100" height="13"/>
+				<reportElement x="0" y="11" width="100" height="13"/>
 				<textElement/>
 				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 		</band>
-	</pageFooter>
+	</summary>
 </jasperReport>

@@ -31,7 +31,7 @@ public class insertarProducto extends javax.swing.JDialog {
     Peticion peticion = new Peticion();
     Usuarios usuarios = new Usuarios();
     Productos productos = new Productos();
-
+    boolean insertado = false;
     public insertarProducto(java.awt.Dialog parent, boolean modal, Gastos gastos) {
         super(parent, modal);
         initComponents();
@@ -138,7 +138,9 @@ public class insertarProducto extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(null, "Introduce un numero positivo!");
             } else if (producto_nombre.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Rellena todos los campos!");
-            } else {
+            //} else if(Double.valueOf(producto_precio)) {
+            }
+            else{
                 cliente = new Socket(server, puerto);
                 salida = new ObjectOutputStream(cliente.getOutputStream());
                 entrada = new ObjectInputStream(cliente.getInputStream());
@@ -151,6 +153,7 @@ public class insertarProducto extends javax.swing.JDialog {
 
                 salida.writeObject(productos);
                 salida.flush();
+                insertado = true;
                 cerrarDialog();
             }
 

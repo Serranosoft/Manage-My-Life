@@ -81,11 +81,11 @@ public class InicioSesionUI extends javax.swing.JFrame {
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel7.setText("usuario / email");
+        jLabel7.setText("usuario");
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel8.setText("password");
+        jLabel8.setText("contraseña");
 
         inicio_password_field.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         inicio_password_field.setForeground(new java.awt.Color(102, 102, 102));

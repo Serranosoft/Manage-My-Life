@@ -90,7 +90,6 @@ public class modificarPerfil extends javax.swing.JDialog {
         });
     }
 
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -226,11 +225,16 @@ public class modificarPerfil extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void modificar_perfilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_modificar_perfilMouseClicked
-        try {
 
-            if (usuario_nombre.getText().isEmpty() || usuario_usuario.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Rellena todos los campos!");
-            } else {
+        if (usuario_nombre.getText().isEmpty() || usuario_usuario.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Rellena todos los campos!");
+        } else if (usuario_nombre.getText().length() > 20) {
+            JOptionPane.showMessageDialog(null, "Escribe un nombre mas breve!");
+        } else if (usuario_usuario.getText().length() > 20) {
+            JOptionPane.showMessageDialog(null, "Escribe un usuario mas breve!");
+
+        } else {
+            try {
 
                 cliente = new Socket(server, puerto);
                 salida = new ObjectOutputStream(cliente.getOutputStream());
@@ -241,13 +245,14 @@ public class modificarPerfil extends javax.swing.JDialog {
 
                 try {
                     if (path.isEmpty()) {
-
+                        System.out.println("No metas imagen");
                     } else {
                         byte[] imageBytes = Files.readAllBytes(new File(path).toPath());
                         System.out.println("TAMAÑO DEL ARRAY DE BYTES: " + imageBytes.length);
                         imageString = Base64.getEncoder().encodeToString(imageBytes);
                         System.out.println("IMAGESTRING LENGTH: " + imageString.length());
                         bos.close();
+                        usuarios.setImagen(imageString);
                     }
 
                 } catch (IOException e) {
@@ -256,7 +261,6 @@ public class modificarPerfil extends javax.swing.JDialog {
 
                 usuarios.setNombre(usuario_nombre.getText());
                 usuarios.setUsuario(usuario_usuario.getText());
-                usuarios.setImagen(imageString);
                 peticion.setConsulta(11);
                 salida.writeObject(peticion);
                 salida.flush();
@@ -267,28 +271,29 @@ public class modificarPerfil extends javax.swing.JDialog {
                 inicioSesionUI.setVisible(true);
                 this.setVisible(false);
 
-            }
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        } catch (NumberFormatException nfe) {
-            JOptionPane.showMessageDialog(null, "Introduce carácteres válidos!");
-        } finally {
-            try {
-                cliente.close();
-                salida.close();
-                entrada.close();
             } catch (IOException ex) {
                 ex.printStackTrace();
+            } catch (NumberFormatException nfe) {
+                JOptionPane.showMessageDialog(null, "Introduce carácteres válidos!");
+            } finally {
+                try {
+                    cliente.close();
+                    salida.close();
+                    entrada.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             }
         }
+
     }//GEN-LAST:event_modificar_perfilMouseClicked
 
     /**
-     * Método para cargar la imágen del usuario (carga una imagen user si no ha
-     * indicado ninguna imágen de perfil)
-     * @param usuarios Objeto usuarios con los datos del usuario actual
-     */
+         * Método para cargar la imágen del usuario (carga una imagen user si no
+         * ha indicado ninguna imágen de perfil)
+         *
+         * @param usuarios Objeto usuarios con los datos del usuario actual
+         */
     public void obtenerImagenPerfil(Usuarios usuarios) {
         try {
             System.out.println(usuarios.getImagen().length());
@@ -306,18 +311,22 @@ public class modificarPerfil extends javax.swing.JDialog {
             ex.printStackTrace();
         }
     }
-/**
- * Método para cargar los distintos datos en pantalla (nombre del usuario y usuario de acceso del usuario)
- */
+
+    /**
+     * Método para cargar los distintos datos en pantalla (nombre del usuario y
+     * usuario de acceso del usuario)
+     */
     public void cargaDatos() {
         usuario_nombre.setText(usuarios.getNombre());
         usuario_usuario.setText(usuarios.getUsuario());
     }
-/**
- * Método para convertir imagen y adaptarlo al label de la pantalla
- * @param ImagePath ruta de la imágen
- * @return Imagen del perfil
- */
+
+    /**
+     * Método para convertir imagen y adaptarlo al label de la pantalla
+     *
+     * @param ImagePath ruta de la imágen
+     * @return Imagen del perfil
+     */
     public Image ResizeImage(String ImagePath) {
         ImageIcon MyImage = new ImageIcon(ImagePath);
         Image img = MyImage.getImage();
@@ -325,10 +334,12 @@ public class modificarPerfil extends javax.swing.JDialog {
         ImageIcon image = new ImageIcon(newImg);
         return newImg;
     }
-/**
- * Método para obtener la imagen del perfil en icono y cargarlo en pantalla
- * @param ruta ruta de la imagen
- */
+
+    /**
+     * Método para obtener la imagen del perfil en icono y cargarlo en pantalla
+     *
+     * @param ruta ruta de la imagen
+     */
     public void obtenerImagenPerfil(File ruta) {
         try {
             byte[] imageByte = Files.readAllBytes(ruta.toPath());

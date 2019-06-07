@@ -276,6 +276,7 @@ public class TareasOP {
             ps.setInt(3, subtareas.getID_Tarea());
 
             ps.executeUpdate();
+            System.out.println("Subtarea insertada");
         } catch (Exception e) {
             e.printStackTrace();
         }

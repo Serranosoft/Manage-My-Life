@@ -205,7 +205,7 @@ public class insertarTarea extends javax.swing.JDialog {
                 salida.flush();
 
             } catch (IOException ex) {
-                Logger.getLogger(insertarTarea.class.getName()).log(Level.SEVERE, null, ex);
+                ex.printStackTrace();
             } finally {
                 try {
                     cliente.close();
@@ -213,7 +213,7 @@ public class insertarTarea extends javax.swing.JDialog {
                     entrada.close();
                     cerrarDialog();
                 } catch (IOException ex) {
-                    Logger.getLogger(insertarTarea.class.getName()).log(Level.SEVERE, null, ex);
+                    ex.printStackTrace();
                 }
             }
 

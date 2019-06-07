@@ -85,7 +85,7 @@
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Numero de Productos]]></text>
+				<text><![CDATA[Número de Productos]]></text>
 			</staticText>
 		</band>
 	</columnHeader>

@@ -14,9 +14,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
-
 /**
- * Página que permite el registro de usuarios en el sistema a través de un formulario
+ * Página que permite el registro de usuarios en el sistema a través de un
+ * formulario
+ *
  * @author manue
  */
 public class RegistroUI extends javax.swing.JFrame {
@@ -92,11 +93,11 @@ public class RegistroUI extends javax.swing.JFrame {
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel5.setText("usuario / email");
+        jLabel5.setText("usuario");
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel6.setText("salario");
+        jLabel6.setText("fondos");
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(102, 102, 102));
@@ -221,74 +222,84 @@ public class RegistroUI extends javax.swing.JFrame {
         inicio_panel.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_registrar_inicioSesion_btnMouseClicked
-/**
- * Método que envía un objeto usuarios con los datos que ha escrito para registrarlo
- * @param evt Evento clic
- */
+    /**
+     * Método que envía un objeto usuarios con los datos que ha escrito para
+     * registrarlo
+     *
+     * @param evt Evento clic
+     */
     private void registrar_botonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registrar_botonMouseClicked
-        try {
 
-            cliente = new Socket(server, puerto);
-            salida = new ObjectOutputStream(cliente.getOutputStream());
-            entrada = new ObjectInputStream(cliente.getInputStream());
+        if (registro_email_field.getText().isEmpty() || registro_nombre_field.getText().isEmpty() || registro_salario_field.getText().isEmpty() || registro_password_field.getPassword().toString().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Rellena todos los campos!");
+        } else if (registro_nombre_field.getText().length() > 20) {
+            JOptionPane.showMessageDialog(null, "Escribe un nombre mas breve!");
+        } else if (registro_email_field.getText().length() > 20) {
+            JOptionPane.showMessageDialog(null, "Escribe un usuario mas breve!");
+        } else {
+            try {
 
-            usuarios.setUsuario(registro_email_field.getText());
-            usuarios.setNombre(registro_nombre_field.getText());
-            usuarios.setSalario(Double.valueOf(registro_salario_field.getText()));
-
-            String contraseña = new String(registro_password_field.getPassword());
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(contraseña.getBytes(StandardCharsets.UTF_8));
-
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < hash.length; i++) {
-                sb.append(Integer.toString((hash[i] & 0xff) + 0x100, 16).substring(1));
-            }
-
-            usuarios.setContraseña(sb.toString());
-
-            // comprobar si existe el usuario
-            peticion.setConsulta(18);
-            salida.writeObject(peticion);
-            salida.flush();
-            salida.writeObject(usuarios);
-            salida.flush();
-
-            usuarios = (Usuarios) entrada.readObject();
-            if (usuarios.isExiste()) {
-                JOptionPane.showMessageDialog(this, "Ese usuario ya existe!");
-                cliente.close();
-                salida.close();
-                entrada.close();
-            } else {
                 cliente = new Socket(server, puerto);
                 salida = new ObjectOutputStream(cliente.getOutputStream());
                 entrada = new ObjectInputStream(cliente.getInputStream());
-                // Le envio la consulta al servidor
-                peticion.setConsulta(1);
+
+                usuarios.setUsuario(registro_email_field.getText());
+                usuarios.setNombre(registro_nombre_field.getText());
+                usuarios.setSalario(Double.valueOf(registro_salario_field.getText()));
+
+                String contraseña = new String(registro_password_field.getPassword());
+                MessageDigest digest = MessageDigest.getInstance("SHA-256");
+                byte[] hash = digest.digest(contraseña.getBytes(StandardCharsets.UTF_8));
+
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < hash.length; i++) {
+                    sb.append(Integer.toString((hash[i] & 0xff) + 0x100, 16).substring(1));
+                }
+
+                usuarios.setContraseña(sb.toString());
+
+                // comprobar si existe el usuario
+                peticion.setConsulta(18);
                 salida.writeObject(peticion);
-                // Le envio el objeto usuarios con los datos al servidor
+                salida.flush();
                 salida.writeObject(usuarios);
+                salida.flush();
 
-                // Envio al usuario a la pantalla de inicio de sesión
-                InicioSesionUI inicio_panel = new InicioSesionUI();
-                inicio_panel.setVisible(true);
-                this.setVisible(false);
+                usuarios = (Usuarios) entrada.readObject();
+                if (usuarios.isExiste()) {
+                    JOptionPane.showMessageDialog(this, "Ese usuario ya existe!");
+                    cliente.close();
+                    salida.close();
+                    entrada.close();
+                } else {
+                    cliente = new Socket(server, puerto);
+                    salida = new ObjectOutputStream(cliente.getOutputStream());
+                    entrada = new ObjectInputStream(cliente.getInputStream());
+                    // Le envio la consulta al servidor
+                    peticion.setConsulta(1);
+                    salida.writeObject(peticion);
+                    // Le envio el objeto usuarios con los datos al servidor
+                    salida.writeObject(usuarios);
+
+                    // Envio al usuario a la pantalla de inicio de sesión
+                    InicioSesionUI inicio_panel = new InicioSesionUI();
+                    inicio_panel.setVisible(true);
+                    this.setVisible(false);
+                }
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (NoSuchAlgorithmException ex) {
+                Logger.getLogger(RegistroUI.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(RegistroUI.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (NumberFormatException nfe) {
+                JOptionPane.showMessageDialog(null, "Introduce carácteres válidos!");
             }
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(RegistroUI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(RegistroUI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch(NumberFormatException nfe){
-            JOptionPane.showMessageDialog(null, "Introduce carácteres válidos!");
         }
     }//GEN-LAST:event_registrar_botonMouseClicked
 
-
-    public static void main(String args[]) {
+public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -299,16 +310,40 @@ public class RegistroUI extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-                }
+                
+
+
+
+}
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(RegistroUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(RegistroUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(RegistroUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(RegistroUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegistroUI.class
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        
+
+
+
+} catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(RegistroUI.class
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        
+
+
+
+} catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(RegistroUI.class
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        
+
+
+
+} catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(RegistroUI.class
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>

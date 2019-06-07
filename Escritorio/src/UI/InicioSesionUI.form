@@ -169,7 +169,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="66" red="66" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="usuario / email"/>
+                <Property name="text" type="java.lang.String" value="usuario"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel8">
@@ -180,7 +180,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="66" red="66" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="password"/>
+                <Property name="text" type="java.lang.String" value="contrase&#xf1;a"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JPasswordField" name="inicio_password_field">

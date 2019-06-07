@@ -50,7 +50,7 @@ public class TareasAdapter extends RecyclerView.Adapter<TareasAdapter.ViewHolder
         final Tarea tarea = tareas.get(i);
 
         if(tarea.getNombre().length() > 30){
-            viewHolder.nombreTarea.setText(tarea.getNombre().substring(0,30)+"...");
+            viewHolder.nombreTarea.setText(tarea.getNombre().substring(0,25)+"...");
         }else{
             viewHolder.nombreTarea.setText(tarea.getNombre());
         }

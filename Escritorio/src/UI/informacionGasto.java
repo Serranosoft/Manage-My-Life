@@ -73,7 +73,8 @@ public class informacionGasto extends javax.swing.JDialog {
         obtenerProductos(id);
         this.id = id;
         this.usuarios = usuarios;
-        usuario_balance.setText(usuarios.getSalario() + " €");
+        obtenerInformacionPerfil(usuarios);
+        //usuario_balance.setText(usuarios.getSalario() + " €");
         obtenerImagenPerfil(usuarios);
     }
 
@@ -295,6 +296,7 @@ public class informacionGasto extends javax.swing.JDialog {
         } else if (tabla_productos.getRowCount() == 0) {
             JOptionPane.showMessageDialog(null, "No hay productos!!");
         } else {
+            obtenerInformacionPerfil(usuarios);
             precio_gasto = 0.0;
 
             try {
@@ -386,6 +388,7 @@ public class informacionGasto extends javax.swing.JDialog {
             }
 
             // Actualización del gasto
+           
             gastos.setPrecio_gasto(gastos.getPrecio_gasto() - precio_eliminado);
             precio_eliminado = 0;
             try {
@@ -447,8 +450,9 @@ public class informacionGasto extends javax.swing.JDialog {
      */
     private void eliminar_GastobtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_eliminar_GastobtnMouseClicked
 
+        
         try {
-
+            obtenerInformacionPerfil(usuarios);
             cliente = new Socket(server, puerto);
             salida = new ObjectOutputStream(cliente.getOutputStream());
             entrada = new ObjectInputStream(cliente.getInputStream());
@@ -556,14 +560,15 @@ public class informacionGasto extends javax.swing.JDialog {
     private void añadir_productoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_añadir_productoMouseClicked
         insertarProducto inProducto = new insertarProducto(this, true, gastos);
         inProducto.setVisible(true);
-        insercion = inProducto.cerrarDialog();
+        insercion = inProducto.insertado;
         // En cuanto se realiza la inserción se realiza una espera de 100ms
         try {
             Thread.sleep(100);
         } catch (InterruptedException ex) {
             ex.printStackTrace();
-        }
+        }    
         if (insercion) {
+            obtenerInformacionPerfil(usuarios);
             m.setRowCount(0);
             // Configuración de parámetros y envió de solicitud para obtener productos actualizados
             try {
@@ -723,6 +728,30 @@ public class informacionGasto extends javax.swing.JDialog {
         }
     }
 
+        public void obtenerInformacionPerfil(Usuarios usuarios) {
+
+        try {
+
+            cliente = new Socket(server, puerto);
+            salida = new ObjectOutputStream(cliente.getOutputStream());
+            entrada = new ObjectInputStream(cliente.getInputStream());
+
+            peticion.setConsulta(22);
+            salida.writeObject(peticion);
+            salida.flush();
+
+            salida.writeObject(usuarios);
+            salida.flush();
+            this.usuarios = (Usuarios) entrada.readObject();
+            usuario_balance.setText(this.usuarios.getSalario() + " €");
+            
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
+    }
+        
     // Método para obtener la información del usuario y configuración de la imágen de perfil
     public void obtenerImagenPerfil(Usuarios usuarios) {
         try {
