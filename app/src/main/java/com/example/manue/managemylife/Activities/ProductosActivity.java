@@ -332,7 +332,8 @@ public class ProductosActivity extends AppCompatActivity {
             super.onPostExecute(listaProducto);
 
             productos_cantidad.setText(listaProducto.size()+"");
-            productos_balance.setText(balance+"€");
+            double res = Math.round(balance*100.0)/100.0;
+            productos_balance.setText(res+"€");
             adapter = new ProductosAdapter(listaProducto, getApplicationContext());
             rList.setAdapter(adapter);
 

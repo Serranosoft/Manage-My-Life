@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="informe_tareasPendientes" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="2.3579476910000023"/>
-	<property name="ireport.x" value="118"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="ID_Usuario" class="java.lang.Integer"/>
 	<queryString>
-		<![CDATA[SELECT Usuario.Nombre, Usuario.Usuario,Tarea.Nombre AS Nombre_tarea, Categoria, Fecha_Realizar, Prioritario FROM Tarea INNER JOIN Usuario ON Tarea.Id_Usuario = Usuario.ID WHERE Estado = 0 AND Usuario.ID = $P{ID_Usuario}]]>
+		<![CDATA[SELECT Usuario.Nombre, Usuario.Usuario,Tarea.Nombre AS Nombre_tarea, Categoria, Fecha_Realizar, Prioritario, Fecha_Inscrita FROM Tarea INNER JOIN Usuario ON Tarea.Id_Usuario = Usuario.ID WHERE Estado = 0 AND Usuario.ID = $P{ID_Usuario}]]>
 	</queryString>
 	<field name="Nombre" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -23,6 +23,9 @@
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="Prioritario" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Fecha_Inscrita" class="java.sql.Date">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<background>
@@ -78,7 +81,7 @@
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="49" splitType="Stretch">
+		<band height="52" splitType="Stretch">
 			<staticText>
 				<reportElement mode="Opaque" x="153" y="27" width="130" height="16" forecolor="#006699" backcolor="#E6E6E6"/>
 				<textElement textAlignment="Center">
@@ -94,18 +97,25 @@
 				<text><![CDATA[Nombre de la Tarea]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="283" y="27" width="134" height="16" forecolor="#006699" backcolor="#E6E6E6"/>
+				<reportElement mode="Opaque" x="370" y="27" width="84" height="16" forecolor="#006699" backcolor="#E6E6E6"/>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Terminar]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="417" y="27" width="131" height="16" forecolor="#006699" backcolor="#E6E6E6"/>
+				<reportElement mode="Opaque" x="454" y="27" width="94" height="16" forecolor="#006699" backcolor="#E6E6E6"/>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Prioritaria]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="283" y="27" width="87" height="16" forecolor="#006699" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Inscrita]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -117,19 +127,24 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{Nombre_tarea}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="202" y="0" width="100" height="20"/>
+				<reportElement x="204" y="0" width="82" height="20"/>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{Categoria}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="330" y="0" width="40" height="20"/>
+				<reportElement x="391" y="0" width="40" height="20"/>
 				<textElement/>
 				<textFieldExpression class="java.util.Date"><![CDATA[$F{Fecha_Realizar}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="431" y="0" width="124" height="20"/>
+				<reportElement x="465" y="0" width="113" height="20"/>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[($F{Prioritario}.toString().equals("true") ? ("Prioritario"):("No Prioritario"))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="312" y="0" width="39" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{Fecha_Inscrita}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

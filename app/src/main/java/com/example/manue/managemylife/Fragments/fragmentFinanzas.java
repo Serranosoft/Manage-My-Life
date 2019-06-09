@@ -102,7 +102,9 @@ public class fragmentFinanzas extends Fragment {
         finanzas_gastos = view.findViewById(R.id.finanzas_gastos);
         finanzas_balance = view.findViewById(R.id.finanzas_balance);
         imagen_perfil = view.findViewById(R.id.imagenPerfil);
-        finanzas_balance.setText(usuarios.getSalario()+"€");
+        double res = Math.round(usuarios.getSalario()*100.0)/100.0;
+        finanzas_balance.setText(res+"€");
+
 
         rList = view.findViewById(R.id.listaGastos);
         rList.setHasFixedSize(true);
@@ -248,7 +250,9 @@ public class fragmentFinanzas extends Fragment {
                             System.out.println(Double.valueOf(fondos_text.getText().toString()));
                             usuarios.setSalario(usuarios.getSalario()+Double.valueOf(fondos_text.getText().toString()));
                             executeUpdateSalario();
-                            finanzas_balance.setText(usuarios.getSalario()+"€");
+                            double res = Math.round(usuarios.getSalario()*100.0)/100.0;
+                            finanzas_balance.setText(res+"€");
+
                             dialog_fondos.dismiss();
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -537,8 +541,8 @@ public class fragmentFinanzas extends Fragment {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-
-            finanzas_balance.setText(usuarios.getSalario()+"€");
+            double res = Math.round(usuarios.getSalario()*100.0)/100.0;
+            finanzas_balance.setText(res+"€");
         }
     }
 
@@ -581,7 +585,8 @@ public class fragmentFinanzas extends Fragment {
                 suma_productos_gasto += productos.get(i).getPrecio_producto();
             }
             usuarios.setSalario(usuarios.getSalario() + suma_productos_gasto);
-            finanzas_balance.setText(usuarios.getSalario()+"€");
+            double res = Math.round(usuarios.getSalario()*100.0)/100.0;
+            finanzas_balance.setText(res+"€");
             finanzas_gastos.setText(listaGasto.size()+"");
             executeUpdateSalario();
 

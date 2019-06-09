@@ -53,8 +53,8 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.View
         }else{
             viewHolder.nombreProducto.setText(producto.getNombre_producto());
         }
-
-        viewHolder.precioProducto.setText(producto.getPrecio_producto()+"€");
+        double res = Math.round(producto.getPrecio_producto()*100.0)/100.0;
+        viewHolder.precioProducto.setText(res+"€");
 
     }
 

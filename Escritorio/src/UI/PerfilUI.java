@@ -15,9 +15,10 @@ import java.util.Base64;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
-
 /**
- * Calcula la información de la pantalla del Perfil y carga de distintos componentes swing de la aplicación
+ * Calcula la información de la pantalla del Perfil y carga de distintos
+ * componentes swing de la aplicación
+ *
  * @author manue
  */
 public class PerfilUI extends javax.swing.JFrame {
@@ -34,10 +35,12 @@ public class PerfilUI extends javax.swing.JFrame {
     Usuarios usuarios = new Usuarios();
     Peticion peticion = new Peticion();
     Tareas tareas = new Tareas();
-/**
- * Constructor administrando la interfaz, llamadas de métodos.
- * @param usuario Objeto usuarios con los datos del usuario actual
- */
+
+    /**
+     * Constructor administrando la interfaz, llamadas de métodos.
+     *
+     * @param usuario Objeto usuarios con los datos del usuario actual
+     */
     public PerfilUI(Usuarios usuario) {
         initComponents();
         try {
@@ -55,7 +58,6 @@ public class PerfilUI extends javax.swing.JFrame {
         btn_1.setBackground(Color.CYAN);
         text_btn1.setForeground(Color.BLACK);
     }
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -605,10 +607,11 @@ public class PerfilUI extends javax.swing.JFrame {
         informesUI.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btn_6MouseClicked
-/**
- * Método para rellenar distintos campos con los datos del usuario.
- * @param idUsuario Identificador del Usuario
- */
+    /**
+     * Método para rellenar distintos campos con los datos del usuario.
+     *
+     * @param idUsuario Identificador del Usuario
+     */
     private void rellenarDatos(int idUsuario) {
 
         int tareas_pendientes = 0;
@@ -638,8 +641,10 @@ public class PerfilUI extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }
+
     /**
      * Método para cargar el balance actual del usuario en pantalla.
+     *
      * @param usuarios Objeto usuarios con los datos del usuario actual
      */
     public void obtenerInformacionPerfil(Usuarios usuarios) {
@@ -657,8 +662,9 @@ public class PerfilUI extends javax.swing.JFrame {
             salida.writeObject(usuarios);
             salida.flush();
             usuarios = (Usuarios) entrada.readObject();
-
-            perfil_balance.setText(usuarios.getSalario() + "€");
+            double res = Math.round(usuarios.getSalario() * 100.0) / 100.0;
+            perfil_balance.setText(res + " €");
+            //perfil_balance.setText(usuarios.getSalario() + "€");
 
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -668,7 +674,9 @@ public class PerfilUI extends javax.swing.JFrame {
     }
 
     /**
-     * Método para cargar la imágen del usuario (carga una imagen user si no ha indicado ninguna imágen de perfil)
+     * Método para cargar la imágen del usuario (carga una imagen user si no ha
+     * indicado ninguna imágen de perfil)
+     *
      * @param usuarios Objeto usuarios con los datos del usuario actual
      */
     public void obtenerImagenPerfil(Usuarios usuarios) {

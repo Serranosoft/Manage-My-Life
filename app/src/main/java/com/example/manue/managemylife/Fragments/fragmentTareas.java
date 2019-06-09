@@ -635,6 +635,7 @@ public class fragmentTareas extends Fragment {
                                                 dialog_modificar_tarea.dismiss();
                                                 dialog_tarea.dismiss();
                                                 executeTareasTask();
+                                                prioritario = 0;
                                             }
 
 

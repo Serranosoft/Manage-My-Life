@@ -311,11 +311,12 @@ public class informacionGasto extends javax.swing.JDialog {
                 salida.writeObject(gastos);
                 salida.flush();
                 gastos = (Gastos) entrada.readObject();
-
+                double precio_prod = 0.0;
                 ArrayList<Producto> listado_productos = gastos.getProductos();
                 for (int i = 0; i < listado_productos.size(); i++) {
                     Producto producto = listado_productos.get(i);
-                    Object[] array = {producto.getNombre_producto(), producto.getPrecio_producto() + " €"};
+                    precio_prod = Math.round(producto.getPrecio_producto() * 100.0)/100.0;
+                    Object[] array = {producto.getNombre_producto(), precio_prod + " €"};
                     cant_productos++;
                     precio_gasto += producto.getPrecio_producto();
                     m.addRow(array);
@@ -359,9 +360,9 @@ public class informacionGasto extends javax.swing.JDialog {
             // Configuro salario actualizado (tras la eliminación de un producto)
             double salario_actual = usuarios.getSalario();
             usuarios.setSalario(salario_actual + precio_eliminado);
-
-            cantidad_productos.setText(cant_productos + "");
-            usuario_balance.setText(usuarios.getSalario() + " €");
+            double res = Math.round(usuarios.getSalario() * 100.0) / 100.0;
+            usuario_balance.setText(res + " €");
+            //usuario_balance.setText(usuarios.getSalario() + " €");
             cant_productos = 0;
 
             // Configuración de parámetros para la actualización del salario al usuario '?'
@@ -388,7 +389,6 @@ public class informacionGasto extends javax.swing.JDialog {
             }
 
             // Actualización del gasto
-           
             gastos.setPrecio_gasto(gastos.getPrecio_gasto() - precio_eliminado);
             precio_eliminado = 0;
             try {
@@ -412,8 +412,8 @@ public class informacionGasto extends javax.swing.JDialog {
                     ex.printStackTrace();
                 }
             }
-            
-             try {
+
+            try {
                 cliente = new Socket(server, puerto);
                 salida = new ObjectOutputStream(cliente.getOutputStream());
                 entrada = new ObjectInputStream(cliente.getInputStream());
@@ -425,14 +425,16 @@ public class informacionGasto extends javax.swing.JDialog {
                 salida.writeObject(gastos);
                 salida.flush();
                 gastos = (Gastos) entrada.readObject();
-
+                double precio_prod = 0.0;
                 ArrayList<Producto> listado_productos = gastos.getProductos();
                 for (int i = 0; i < listado_productos.size(); i++) {
                     Producto producto = listado_productos.get(i);
-                    Object[] array = {producto.getNombre_producto(), producto.getPrecio_producto() + " €"};
+                    precio_prod = Math.round(producto.getPrecio_producto() * 100.0) / 100.0;
+                    Object[] array = {producto.getNombre_producto(), precio_prod + " €"};
                     cant_productos++;
                     m.addRow(array);
                 }
+                cantidad_productos.setText(cant_productos + "");
             } catch (IOException ex) {
                 ex.printStackTrace();
             } catch (ClassNotFoundException ex) {
@@ -450,7 +452,6 @@ public class informacionGasto extends javax.swing.JDialog {
      */
     private void eliminar_GastobtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_eliminar_GastobtnMouseClicked
 
-        
         try {
             obtenerInformacionPerfil(usuarios);
             cliente = new Socket(server, puerto);
@@ -566,7 +567,7 @@ public class informacionGasto extends javax.swing.JDialog {
             Thread.sleep(100);
         } catch (InterruptedException ex) {
             ex.printStackTrace();
-        }    
+        }
         if (insercion) {
             obtenerInformacionPerfil(usuarios);
             m.setRowCount(0);
@@ -594,10 +595,12 @@ public class informacionGasto extends javax.swing.JDialog {
                     ex.printStackTrace();
                 }
             }
+            double precio_prod = 0.0;
             ArrayList<Producto> listado_productos = gastos.getProductos();
             for (int i = 0; i < listado_productos.size(); i++) {
                 Producto producto = listado_productos.get(i);
-                Object[] array = {producto.getNombre_producto(), producto.getPrecio_producto() + " €"};
+                precio_prod = Math.round(producto.getPrecio_producto() * 100.0) / 100.0;
+                Object[] array = {producto.getNombre_producto(), precio_prod + " €"};
                 cant_productos++;
                 precio_gasto += producto.getPrecio_producto();
                 m.addRow(array);
@@ -609,7 +612,9 @@ public class informacionGasto extends javax.swing.JDialog {
             usuarios.setSalario(salario_actual - listado_productos.get(listado_productos.size() - 1).getPrecio_producto());
 
             cantidad_productos.setText(cant_productos + "");
-            usuario_balance.setText(usuarios.getSalario() + " €");
+            double res = Math.round(usuarios.getSalario() * 100.0) / 100.0;
+            usuario_balance.setText(res + " €");
+            //usuario_balance.setText(usuarios.getSalario() + " €");
             cant_productos = 0;
             // Configuración de parámetros para la actualización del salario al usuario '?'
             try {
@@ -701,11 +706,12 @@ public class informacionGasto extends javax.swing.JDialog {
             salida.writeObject(gastos);
             salida.flush();
             gastos = (Gastos) entrada.readObject();
-
+            double precio_prod = 0.0;
             ArrayList<Producto> listado_productos = gastos.getProductos();
             for (int i = 0; i < listado_productos.size(); i++) {
                 Producto producto = listado_productos.get(i);
-                Object[] array = {producto.getNombre_producto(), producto.getPrecio_producto() + " €"};
+                precio_prod = Math.round(producto.getPrecio_producto() * 100.0) / 100.0;
+                Object[] array = {producto.getNombre_producto(), precio_prod + " €"};
                 cant_productos++;
                 m.addRow(array);
 
@@ -728,7 +734,7 @@ public class informacionGasto extends javax.swing.JDialog {
         }
     }
 
-        public void obtenerInformacionPerfil(Usuarios usuarios) {
+    public void obtenerInformacionPerfil(Usuarios usuarios) {
 
         try {
 
@@ -743,15 +749,17 @@ public class informacionGasto extends javax.swing.JDialog {
             salida.writeObject(usuarios);
             salida.flush();
             this.usuarios = (Usuarios) entrada.readObject();
-            usuario_balance.setText(this.usuarios.getSalario() + " €");
-            
+            double res = Math.round(this.usuarios.getSalario() * 100.0) / 100.0;
+            usuario_balance.setText(res + " €");
+            //usuario_balance.setText(this.usuarios.getSalario() + " €");
+
         } catch (IOException ex) {
             ex.printStackTrace();
         } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
         }
     }
-        
+
     // Método para obtener la información del usuario y configuración de la imágen de perfil
     public void obtenerImagenPerfil(Usuarios usuarios) {
         try {

@@ -54,7 +54,6 @@ public class FinanzasUI extends javax.swing.JFrame {
         obtenerInformacionPerfil(usuarios);
         informacionGastos();
         obtenerImagenPerfil(usuarios);
-        
 
     }
 
@@ -481,30 +480,35 @@ public class FinanzasUI extends javax.swing.JFrame {
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 782, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(90, 90, 90)
-                        .addComponent(jLabel4))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(125, 125, 125)
-                        .addComponent(usuarios_gastos)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(perfil_imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(106, 106, 106)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
-                    .addComponent(usuario_balance, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28))
-            .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(118, 118, 118)
                 .addComponent(añadirGasto_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(60, 60, 60)
                 .addComponent(insertarFondos, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 782, Short.MAX_VALUE))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addGap(90, 90, 90)
+                                .addComponent(jLabel4))
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addGap(125, 125, 125)
+                                .addComponent(usuarios_gastos)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(perfil_imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addGap(106, 106, 106)
+                                .addComponent(jLabel5)
+                                .addGap(97, 97, 97))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(usuario_balance, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -674,12 +678,14 @@ public class FinanzasUI extends javax.swing.JFrame {
                 cliente = new Socket(server, puerto);
                 salida = new ObjectOutputStream(cliente.getOutputStream());
                 entrada = new ObjectInputStream(cliente.getInputStream());
-                
+
                 peticion.setConsulta(22);
                 salida.writeObject(peticion);
                 salida.writeObject(usuarios);
                 usuarios = (Usuarios) entrada.readObject();
-                usuario_balance.setText(usuarios.getSalario()+" €");
+
+                double res = Math.round(usuarios.getSalario() * 100.0) / 100.0;
+                usuario_balance.setText(res + " €");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -709,12 +715,12 @@ public class FinanzasUI extends javax.swing.JFrame {
             salida.writeObject(gastos);
             salida.flush();
             gastos = (Gastos) entrada.readObject();
-
+            double precio_gasto = 0.0;
             ArrayList<Gasto> listado_gastos = gastos.getResultados_gastos();
             for (int i = 0; i < listado_gastos.size(); i++) {
                 Gasto gasto = listado_gastos.get(i);
-
-                Object[] array = {gasto.getNombre_gasto(), gasto.getPrecio_gasto() + " €"};
+                precio_gasto = Math.round(gasto.getPrecio_gasto() * 100.0) / 100.0;
+                Object[] array = {gasto.getNombre_gasto(), precio_gasto + " €"};
                 m.addRow(array);
 
             }
@@ -779,8 +785,9 @@ public class FinanzasUI extends javax.swing.JFrame {
             salida.writeObject(usuarios);
             salida.flush();
             usuarios = (Usuarios) entrada.readObject();
-            usuario_balance.setText(usuarios.getSalario() + " €");
-            
+            double res = Math.round(usuarios.getSalario() * 100.0) / 100.0;
+            usuario_balance.setText(res + " €");
+
         } catch (IOException ex) {
             ex.printStackTrace();
         } catch (ClassNotFoundException ex) {
@@ -801,7 +808,7 @@ public class FinanzasUI extends javax.swing.JFrame {
                     if (tabla_gastos.getSelectedRow() == -1) {
                         return;
                     } else {
-                        
+
                         informacionGasto informacionGasto = new informacionGasto(FinanzasUI.this, true, gastos.getResultados_gastos().get(tabla_gastos.getSelectedRow()).getId(), usuarios);
                         tabla_gastos.getSelectionModel().setSelectionInterval(-1, -1);
                         informacionGasto.setVisible(true);
@@ -834,11 +841,12 @@ public class FinanzasUI extends javax.swing.JFrame {
                             } catch (ClassNotFoundException ex) {
                                 ex.printStackTrace();
                             }
+                            double precio_gasto = 0.0;
                             ArrayList<Gasto> listado_gastos = gastos.getResultados_gastos();
                             for (int i = 0; i < listado_gastos.size(); i++) {
                                 Gasto gasto = listado_gastos.get(i);
-
-                                Object[] array = {gasto.getNombre_gasto(), gasto.getPrecio_gasto() + " €"};
+                                precio_gasto = Math.round(gasto.getPrecio_gasto() * 100.0) / 100.0;
+                                Object[] array = {gasto.getNombre_gasto(), precio_gasto + " €"};
                                 m.addRow(array);
 
                             }

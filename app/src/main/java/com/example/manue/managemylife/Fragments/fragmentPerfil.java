@@ -225,8 +225,8 @@ public class fragmentPerfil extends Fragment{
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-
-            perfil_balance.setText(usuarios.getSalario()+"€");
+            double res = Math.round(usuarios.getSalario()*100.0)/100.0;
+            perfil_balance.setText(res+"€");
             perfil_nombre.setText(usuarios.getNombre());
             perfil_usuario.setText(usuarios.getUsuario());
 
