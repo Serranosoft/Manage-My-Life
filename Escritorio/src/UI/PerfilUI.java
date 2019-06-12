@@ -452,7 +452,7 @@ public class PerfilUI extends javax.swing.JFrame {
         });
         jPanel4.add(perfil_cerrar_sesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 120, -1, -1));
 
-        perfil_balance.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        perfil_balance.setFont(new java.awt.Font("Segoe UI", 0, 35)); // NOI18N
         perfil_balance.setForeground(new java.awt.Color(0, 0, 0));
         perfil_balance.setText("x");
 
@@ -499,9 +499,8 @@ public class PerfilUI extends javax.swing.JFrame {
                         .addComponent(perfil_tareas_terminadas)
                         .addGap(166, 166, 166)))
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(perfil_balance, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel4)
+                    .addComponent(perfil_balance, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -546,7 +545,7 @@ public class PerfilUI extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 46, Short.MAX_VALUE)
+                .addGap(0, 47, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()

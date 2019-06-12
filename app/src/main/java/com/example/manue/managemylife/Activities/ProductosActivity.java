@@ -132,21 +132,23 @@ public class ProductosActivity extends AppCompatActivity {
                                     }
                                 });
                                 alert.create().show();
-                            }
-                            productos.setNombre_Producto(nombre_producto.getText().toString());
-                            productos.setPrecio_Producto(Double.valueOf(precio_producto.getText().toString()));
-                            productos.setID_Gasto(gastos.getId());
-                            gastos.setPrecio_gasto(gastos.getPrecio_gasto() + productos.getPrecio_Producto());
-                            executeInsertarProductos();
-                            dialog_producto.dismiss();
-                            adapter.notifyDataSetChanged();
-                            balance-=Double.valueOf(precio_producto.getText().toString());
-                            usuarios.setSalario(balance);
-                            executeUpdateSalario();
-                            executeActualizarProductos();
-                            executeActualizarGasto();
+                            } else {
+                                productos.setNombre_Producto(nombre_producto.getText().toString());
+                                productos.setPrecio_Producto(Double.valueOf(precio_producto.getText().toString()));
+                                productos.setID_Gasto(gastos.getId());
+                                gastos.setPrecio_gasto(gastos.getPrecio_gasto() + productos.getPrecio_Producto());
+                                executeInsertarProductos();
+                                dialog_producto.dismiss();
+                                adapter.notifyDataSetChanged();
+                                balance-=Double.valueOf(precio_producto.getText().toString());
+                                usuarios.setSalario(balance);
+                                executeUpdateSalario();
+                                executeActualizarProductos();
+                                executeActualizarGasto();
 
-                            executeObtenerInformacion();
+                                executeObtenerInformacion();
+                            }
+
 
                         }catch (NumberFormatException nfe) {
 

@@ -246,14 +246,16 @@ public class fragmentFinanzas extends Fragment {
                                     }
                                 });
                                 alert.create().show();
-                            }
-                            System.out.println(Double.valueOf(fondos_text.getText().toString()));
-                            usuarios.setSalario(usuarios.getSalario()+Double.valueOf(fondos_text.getText().toString()));
-                            executeUpdateSalario();
-                            double res = Math.round(usuarios.getSalario()*100.0)/100.0;
-                            finanzas_balance.setText(res+"€");
+                            } else {
+                                System.out.println(Double.valueOf(fondos_text.getText().toString()));
+                                usuarios.setSalario(usuarios.getSalario()+Double.valueOf(fondos_text.getText().toString()));
+                                executeUpdateSalario();
+                                double res = Math.round(usuarios.getSalario()*100.0)/100.0;
+                                finanzas_balance.setText(res+"€");
 
-                            dialog_fondos.dismiss();
+                                dialog_fondos.dismiss();
+                            }
+
                         } catch (Exception e) {
                             e.printStackTrace();
                             final AlertDialog.Builder alert = new AlertDialog.Builder(getContext(), R.style.AlertDialog);

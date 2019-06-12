@@ -100,7 +100,6 @@ public class InformesUI extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -482,14 +481,6 @@ public class InformesUI extends javax.swing.JFrame {
             }
         });
 
-        jButton7.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jButton7.setText("Informe de Gastos");
-        jButton7.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton7MouseClicked(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -513,8 +504,7 @@ public class InformesUI extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -536,17 +526,15 @@ public class InformesUI extends javax.swing.JFrame {
                 .addComponent(jLabel3)
                 .addGap(12, 12, 12)
                 .addComponent(jButton6)
-                .addGap(13, 13, 13)
-                .addComponent(jButton7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(29, 29, 29)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel4)
                 .addGap(18, 18, 18)
                 .addComponent(jButton3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                 .addComponent(jButton5)
-                .addGap(18, 18, 18)
+                .addGap(31, 31, 31)
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -913,53 +901,6 @@ public class InformesUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton6MouseClicked
 
-    private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked
-        try {
-            cliente = new Socket(server, puerto);
-            salida = new ObjectOutputStream(cliente.getOutputStream());
-            entrada = new ObjectInputStream(cliente.getInputStream());
-
-            peticion.setConsulta(24);
-            salida.writeObject(peticion);
-
-            informes.setId_usuario(usuarios.getId());
-            informes.setTipo("GastosProductos");
-            salida.writeObject(informes);
-            informes = (Informes) entrada.readObject();
-            System.out.println("TAMAÑO DE ENCODE: " + informes.getInforme().length());
-            byte[] prueba = Base64.getDecoder().decode(informes.getInforme());
-
-            OutputStream out = new FileOutputStream("informes_generados/" + informes.getTipo() + "_out.pdf");
-            out.write(prueba);
-            out.close();
-
-            try {
-
-                File pdfFile = new File("informes_generados/" + informes.getTipo() + "_out.pdf");
-                if (pdfFile.exists()) {
-
-                    if (Desktop.isDesktopSupported()) {
-                        Desktop.getDesktop().open(pdfFile);
-                    } else {
-                        System.out.println("Awt Desktop is not supported!");
-                    }
-
-                } else {
-                    System.out.println("File is not exists!");
-                }
-
-                System.out.println("Done");
-
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
-        }
-    }//GEN-LAST:event_jButton7MouseClicked
-
     public void obtenerImagenPerfil(Usuarios usuarios) {
         try {
             System.out.println(usuarios.getImagen().length());
@@ -1030,7 +971,6 @@ public class InformesUI extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

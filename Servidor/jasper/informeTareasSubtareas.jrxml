@@ -34,9 +34,9 @@
 					<text><![CDATA[TAREAS Y SUBTAREAS]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="262" y="59" width="281" height="20" forecolor="#FFFFFF"/>
-					<textElement textAlignment="Right">
-						<font size="10" isBold="false"/>
+					<reportElement x="249" y="59" width="306" height="20" forecolor="#FFFFFF"/>
+					<textElement textAlignment="Center">
+						<font size="9" isBold="false"/>
 					</textElement>
 					<text><![CDATA[Informe/Gráfico de tareas junto con número de subtareas]]></text>
 				</staticText>

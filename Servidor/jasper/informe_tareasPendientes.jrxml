@@ -43,8 +43,8 @@
 					<text><![CDATA[TAREAS PENDIENTES]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="302" y="59" width="246" height="20" forecolor="#FFFFFF"/>
-					<textElement textAlignment="Right">
+					<reportElement x="261" y="59" width="287" height="20" forecolor="#FFFFFF"/>
+					<textElement textAlignment="Center">
 						<font size="10" isBold="false"/>
 					</textElement>
 					<text><![CDATA[Informe/Gráfico de Tareas Pendientes]]></text>
@@ -132,7 +132,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{Categoria}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="391" y="0" width="40" height="20"/>
+				<reportElement x="391" y="0" width="43" height="20"/>
 				<textElement/>
 				<textFieldExpression class="java.util.Date"><![CDATA[$F{Fecha_Realizar}]]></textFieldExpression>
 			</textField>
@@ -142,7 +142,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[($F{Prioritario}.toString().equals("true") ? ("Prioritario"):("No Prioritario"))]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="312" y="0" width="39" height="20"/>
+				<reportElement x="312" y="0" width="42" height="20"/>
 				<textElement/>
 				<textFieldExpression class="java.util.Date"><![CDATA[$F{Fecha_Inscrita}]]></textFieldExpression>
 			</textField>

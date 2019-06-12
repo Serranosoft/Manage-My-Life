@@ -125,7 +125,7 @@ public class RegistroUI extends javax.swing.JFrame {
         registrar_boton.add(jLabel10);
         jLabel10.setBounds(90, 0, 180, 40);
 
-        registrar_inicioSesion_btn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        registrar_inicioSesion_btn.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         registrar_inicioSesion_btn.setForeground(new java.awt.Color(102, 102, 102));
         registrar_inicioSesion_btn.setText("¿Tienes una cuenta ya creada? ¡Inicia Sesión aqui!");
         registrar_inicioSesion_btn.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -180,7 +180,7 @@ public class RegistroUI extends javax.swing.JFrame {
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(registro_salario_field, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addComponent(registrar_boton, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(registrar_inicioSesion_btn)

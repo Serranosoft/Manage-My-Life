@@ -27,8 +27,8 @@
 					<text><![CDATA[USUARIOS Y GASTOS]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="317" y="59" width="228" height="20" forecolor="#FFFFFF"/>
-					<textElement textAlignment="Right">
+					<reportElement x="254" y="59" width="291" height="20" forecolor="#FFFFFF"/>
+					<textElement textAlignment="Center">
 						<font size="10" isBold="false"/>
 					</textElement>
 					<text><![CDATA[Informe con los usuarios y su cantidad de gastos]]></text>
@@ -42,7 +42,7 @@
 	<columnHeader>
 		<band height="58" splitType="Stretch">
 			<staticText>
-				<reportElement mode="Opaque" x="274" y="29" width="187" height="16" forecolor="#006699" backcolor="#E6E6E6"/>
+				<reportElement mode="Opaque" x="274" y="29" width="201" height="16" forecolor="#006699" backcolor="#E6E6E6"/>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
