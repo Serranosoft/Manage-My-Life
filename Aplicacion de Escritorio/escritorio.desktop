@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Terminal=false
+Name=Manage My Life
+Path=/opt/ManageMyLife/Escritorio/
+Exec=/opt/ManageMyLife/Escritorio/ejecutar.sh
