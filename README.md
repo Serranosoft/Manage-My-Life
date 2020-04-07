@@ -12,7 +12,7 @@ personalización de cada tarea.
 lista de productos en base a un balance que debe introducir el usuario en el formulario de registro.
 
 
-  #Aplicación Android
+  # Aplicación Android
   
   • Distintos tipos de eventos e interaccón en cada tarea y en cada lista de gastos : slides, modals, botones flotantes...
   • Gestión de notificaciones donde el usuario indicara una hora creando recordatorios para motivar al usuario a usar la aplicación
@@ -23,7 +23,7 @@ lista de productos en base a un balance que debe introducir el usuario en el for
   • Aplicación traducida automaticamente al inglés y en español
   
   
-  #Aplicación Para Ordenador
+  # Aplicación Para Ordenador
   
   • Uso de la libreria Swing para desarrollo de interfaz: Jdialog, Jtables...
   • Uso de librerias como KGradientPanel para crear paneles de colores con efectos gradientes para el diseño del background
